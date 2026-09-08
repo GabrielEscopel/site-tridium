@@ -1,0 +1,14 @@
+# Normaliza quebras de linha: LF no repositorio, nativo no disco de cada
+# maquina. Sem isso o Windows grava CRLF e um colaborador em Mac/Linux ve o
+# arquivo inteiro como alterado.
+* text=auto eol=lf
+
+# Binarios: nunca converter
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.zip binary
