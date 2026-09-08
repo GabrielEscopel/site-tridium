@@ -1,0 +1,20 @@
+# Dependências — reinstaladas com `npm install`
+node_modules
+
+# Saída de build — regenerada por `npm run build`
+.next
+.next-build
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# Pacotes de implantação — gerados sob demanda
+tridium-deploy.zip
+_envio/
+
+# Variáveis de ambiente com segredos
+.env*.local
+
+# Lixo de sistema operacional
+Thumbs.db
+.DS_Store

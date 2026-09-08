@@ -1,0 +1,291 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   TRIDIUM — SISTEMA DE DESIGN
+   -------------------------------------------------------------------------
+   TODAS as cores da marca vivem neste bloco. Para aplicar o manual de marca
+   oficial, altere apenas os valores em :root abaixo — nenhum componente tem
+   cor hard-coded.
+
+   Os 4 valores da marca foram extraídos diretamente dos arquivos de logo
+   entregues pelo cliente (pasta /Logos):
+     #1B3F1C  verde mata   (fundo escuro institucional)
+     #02B030  verde sinal  (acento — o verde do símbolo)
+     #57604F  cinza musgo  (neutro médio quente)
+     #EAEDE6  osso         (fundo claro institucional)
+   ========================================================================= */
+
+:root {
+  /* --- Marca (oficial, extraída dos logos) --- */
+  --tri-forest: #1b3f1c;
+  --tri-green: #02b030;
+  --tri-moss: #57604f;
+  --tri-bone: #eaede6;
+
+  /* --- Escala neutra derivada do verde mata. Não é cinza puro: carrega o
+         mesmo matiz da marca, o que mantém a coesão entre as 3 frentes. --- */
+  --tri-void: #0b170c;
+  --tri-ink: #101f11;
+  --tri-slate: #1b2a1c;
+  --tri-graphite: #2c3d2d;
+  --tri-fog: #d6dbd2;
+  --tri-paper: #f3f5f0;
+
+  /* --- Acentos por frente de negócio ---
+         Imobiliária e Lar Digno derivam do verde da marca por rotação dos
+         próprios canais RGB (02/B0/30 -> B0/8A/02), preservando saturação e
+         peso óptico do verde original. */
+  --accent-engenharia: #02b030;
+  --accent-imobiliaria: #b08a02;
+  --accent-lar-digno: #c4522c;
+
+  /* --- Tokens semânticos (padrão = tema institucional escuro) --- */
+  --surface: var(--tri-ink);
+  --surface-raised: var(--tri-slate);
+  --surface-inset: var(--tri-void);
+  --ink: var(--tri-bone);
+  --ink-muted: #9aa895;
+  --ink-faint: #859381;
+  --line: rgba(234, 237, 230, 0.14);
+  --line-strong: rgba(234, 237, 230, 0.28);
+  --accent: var(--tri-green);
+  /* Versao legivel do acento, para TEXTO pequeno. O --accent puro e a cor de
+     marca e vive em preenchimentos, fios e areas grandes; em corpo de texto
+     sobre fundo claro ele nao alcanca 4.5:1, entao existe este par. */
+  --accent-texto: var(--tri-green);
+  --accent-ink: var(--tri-void);
+
+  /* --- Ritmo e forma --- */
+  --gutter: 1.25rem;
+  --radius: 2px;
+  --rule: 1px;
+
+  /* --- Movimento --- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 220ms;
+  --dur: 480ms;
+  --dur-slow: 900ms;
+}
+
+@media (min-width: 48rem) {
+  :root { --gutter: 2.5rem; }
+}
+@media (min-width: 80rem) {
+  :root { --gutter: 4rem; }
+}
+
+/* =========================================================================
+   TEMAS POR FRENTE DE NEGÓCIO
+   Aplicados via [data-front] em qualquer wrapper: um único atributo troca
+   superfície, tinta e acento de toda a árvore abaixo dele.
+   ========================================================================= */
+
+[data-front="engenharia"] {
+  --accent: var(--accent-engenharia);
+  --accent-texto: var(--accent-engenharia); /* 5.92:1 sobre o fundo escuro */
+  --accent-ink: var(--tri-void);
+  --surface: var(--tri-ink);
+  --surface-raised: var(--tri-slate);
+  --surface-inset: var(--tri-void);
+  --ink: var(--tri-bone);
+  --ink-muted: #9aa895;
+  --ink-faint: #859381; /* 4.65:1 — passa AA tambem sobre --surface-raised */
+  --line: rgba(234, 237, 230, 0.14);
+  --line-strong: rgba(234, 237, 230, 0.28);
+}
+
+[data-front="imobiliaria"] {
+  --accent: var(--accent-imobiliaria);
+  --accent-texto: #826601; /* 4.61:1 sobre os tres fundos claros */
+  --accent-ink: #2a2100;   /* tinta escura sobre o ouro: 4.93:1 */
+  --surface: var(--tri-paper);
+  --surface-raised: #ffffff;
+  --surface-inset: var(--tri-bone);
+  --ink: #17241a;
+  --ink-muted: #5c665a;
+  --ink-faint: #646b5e; /* 4.66:1 */
+  --line: rgba(23, 36, 26, 0.16);
+  --line-strong: rgba(23, 36, 26, 0.32);
+}
+
+[data-front="lar-digno"] {
+  --accent: var(--accent-lar-digno);
+  --accent-texto: #a94726; /* 4.65:1 sobre os tres fundos claros */
+  --accent-ink: #ffffff;   /* 4.57:1 sobre a terracota */
+  --surface: #f7f3ee;
+  --surface-raised: #ffffff;
+  --surface-inset: #ece5dc;
+  --ink: #21170f;
+  --ink-muted: #64564a;
+  --ink-faint: #706357; /* 4.65:1 */
+  --line: rgba(33, 23, 15, 0.16);
+  --line-strong: rgba(33, 23, 15, 0.32);
+}
+
+/* Inversão pontual: um bloco escuro dentro de uma página clara */
+[data-invert="true"] {
+  --accent-texto: var(--accent-engenharia);
+  --accent-ink: var(--tri-void);
+  --surface: var(--tri-ink);
+  --surface-raised: var(--tri-slate);
+  --surface-inset: var(--tri-void);
+  --ink: var(--tri-bone);
+  --ink-muted: #9aa895;
+  --ink-faint: #859381;
+  --line: rgba(234, 237, 230, 0.14);
+  --line-strong: rgba(234, 237, 230, 0.28);
+}
+
+/* =========================================================================
+   PONTE PARA O TAILWIND
+   `inline` faz as utilidades resolverem a variável no ponto de uso, e não na
+   :root — é o que permite [data-front] trocar o tema em cascata.
+   ========================================================================= */
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-raised: var(--surface-raised);
+  --color-inset: var(--surface-inset);
+  --color-ink: var(--ink);
+  --color-muted: var(--ink-muted);
+  --color-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-texto: var(--accent-texto);
+  --color-accent-ink: var(--accent-ink);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-forest: var(--tri-forest);
+  --color-green: var(--tri-green);
+  --color-moss: var(--tri-moss);
+  --color-bone: var(--tri-bone);
+  --color-void: var(--tri-void);
+
+  --font-display: var(--font-archivo), "Arial Black", system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/* =========================================================================
+   BASE
+   ========================================================================= */
+
+@layer base {
+  * { min-width: 0; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img, video { max-width: 100%; height: auto; }
+}
+
+@layer components {
+  /* Tipografia display: Archivo em largura expandida. A largura ampla é a
+     referência direta ao lettering do wordmark Tridium. */
+  .t-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 125%;
+    line-height: 0.86;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+
+  .t-display-tight {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 110%;
+    line-height: 0.98;
+    letter-spacing: -0.018em;
+  }
+
+  /* Mono utilitária: ecoa o "ENGENHARIA E CONSTRUÇÃO" travado do logo */
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .t-lead {
+    font-size: clamp(1.0625rem, 0.95rem + 0.6vw, 1.375rem);
+    line-height: 1.5;
+    letter-spacing: -0.011em;
+  }
+
+  .t-body {
+    font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+    line-height: 1.65;
+  }
+
+  .wrap {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    max-width: 90rem;
+  }
+
+  .wrap-narrow {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    max-width: 58rem;
+  }
+
+  /* Grade técnica de fundo — papel milimetrado de projeto, não ornamento */
+  .blueprint {
+    background-image:
+      linear-gradient(to right, var(--line) var(--rule), transparent var(--rule)),
+      linear-gradient(to bottom, var(--line) var(--rule), transparent var(--rule));
+    background-size: 5rem 5rem;
+  }
+}
+
+@layer utilities {
+  /* Enquanto o painel de menu está aberto, o CTA flutuante sai de cena:
+     o próprio painel já oferece o WhatsApp, e sobreposto ele cobria o
+     rodapé do menu. */
+  [data-menu-aberto="true"] [data-fab-whatsapp] {
+    display: none;
+  }
+
+}
+
+/* =========================================================================
+   ACESSIBILIDADE — respeito total à preferência de movimento reduzido
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

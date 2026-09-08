@@ -1,0 +1,30 @@
+{
+  "name": "grupo-tridium",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "build:local": "node -e \"process.env.TRIDIUM_DIST_DIR='.next-build';require('child_process').execSync('npx next build',{stdio:'inherit'})\""
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "22.10.7",
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3",
+    "@types/three": "0.172.0",
+    "gsap": "3.12.7",
+    "lenis": "1.1.18",
+    "next": "15.5.25",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "tailwindcss": "^4.3.3",
+    "three": "0.172.0",
+    "typescript": "5.7.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
