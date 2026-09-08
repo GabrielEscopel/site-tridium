@@ -67,12 +67,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* À esquerda: a direita pertence ao botão flutuante do WhatsApp. */}
+        {/* À esquerda: a direita pertence ao botão flutuante do WhatsApp.
+            Sem o rótulo, a classe t-label sai junto: o espaçamento de 0.22em
+            dela é entreletras, e numa seta sozinha viraria só um recuo à
+            direita, tirando a seta do alinhamento da margem. */}
         <span
           aria-hidden="true"
-          className="t-label absolute bottom-7 left-[var(--gutter)] hidden text-faint md:block"
+          className="absolute bottom-7 left-[var(--gutter)] hidden font-mono text-base leading-none text-faint md:block"
         >
-          Role para escolher ↓
+          ↓
         </span>
       </section>
 
