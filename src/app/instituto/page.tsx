@@ -5,27 +5,27 @@ import { JornadaCapitulos } from "@/components/JornadaCapitulos";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Numeros, Pendente, Rotulo, TituloSecao } from "@/components/ui";
-import { larDigno } from "@/content/larDigno";
+import { instituto } from "@/content/instituto";
 import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
-import { metadadosRota, schemaLarDigno, schemaMigalhas } from "@/lib/seo";
+import { metadadosRota, schemaInstituto, schemaMigalhas } from "@/lib/seo";
 
 export const metadata: Metadata = metadadosRota({
-  titulo: "Lar Digno — Projeto social de reforma de moradias do Grupo Tridium",
+  titulo: "Instituto Tridium — Projeto social de reforma de moradias",
   descricao:
-    "O Lar Digno leva projeto técnico, material e mão de obra a moradias que perderam a segurança em Florianópolis. Doe, seja voluntário, seja parceiro ou indique uma família.",
-  caminho: "/lar-digno",
-  imagem: "/og/lar-digno.png",
+    "O Instituto Tridium leva projeto técnico, material e mão de obra a moradias que perderam a segurança em Florianópolis. Doe, seja voluntário, seja parceiro ou indique uma família.",
+  caminho: "/instituto",
+  imagem: "/og/instituto.png",
 });
 
 export default function LarDignoPage() {
   return (
-    <div data-front="lar-digno" className="bg-surface">
+    <div data-front="instituto" className="bg-surface">
       <JsonLd
         dados={[
-          schemaLarDigno,
+          schemaInstituto,
           schemaMigalhas([
             { nome: "Grupo Tridium", caminho: "/" },
-            { nome: "Lar Digno", caminho: "/lar-digno" },
+            { nome: "Instituto", caminho: "/instituto" },
           ]),
         ]}
       />
@@ -38,11 +38,11 @@ export default function LarDignoPage() {
           <div className="py-12 md:py-20">
             <div className="flex items-center gap-4">
               <span className="h-px w-8 bg-accent" aria-hidden="true" />
-              <Rotulo>{larDigno.hero.eyebrow}</Rotulo>
+              <Rotulo>{instituto.hero.eyebrow}</Rotulo>
             </div>
 
             <h1 className="t-display mt-8 max-w-[14ch] text-[clamp(2.5rem,1.3rem+6vw,6.5rem)] text-ink">
-              {larDigno.hero.titulo.map((linha, i) => (
+              {instituto.hero.titulo.map((linha, i) => (
                 <span
                   key={linha}
                   className={`block ${i === 2 ? "text-accent-texto" : ""}`}
@@ -54,13 +54,13 @@ export default function LarDignoPage() {
 
             <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-end lg:gap-16">
               <p className="t-lead max-w-[52ch] text-muted">
-                {larDigno.hero.lead}
+                {instituto.hero.lead}
               </p>
               <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Botao
-                  href={whatsappLink(mensagensWhatsapp.larDigno)}
+                  href={whatsappLink(mensagensWhatsapp.instituto)}
                   externo
-                  ariaLabel={`Falar sobre o Lar Digno no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
+                  ariaLabel={`Falar sobre o Instituto no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
                 >
                   Quero ajudar
                 </Botao>
@@ -74,14 +74,14 @@ export default function LarDignoPage() {
 
         <figure className="relative mt-4 aspect-[16/9] w-full overflow-hidden bg-inset md:aspect-[21/9]">
           <Image
-            src={larDigno.hero.imagem}
-            alt={larDigno.hero.imagemAlt}
+            src={instituto.hero.imagem}
+            alt={instituto.hero.imagemAlt}
             fill
             priority
             sizes="100vw"
             className="object-cover"
           />
-          {larDigno.hero.imagemProvisoria && (
+          {instituto.hero.imagemProvisoria && (
             <figcaption className="absolute bottom-4 left-[var(--gutter)]">
               <span className="inline-flex items-center gap-2 border border-dashed border-white/70 bg-black/55 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-white">
                 ◇ Foto provisória
@@ -103,12 +103,9 @@ export default function LarDignoPage() {
               estimados — em projeto social, número errado custa confiança.
             </p>
             <p className="mt-5 flex flex-wrap gap-3">
-              <Pendente titulo="src/content/larDigno.ts">Histórias reais</Pendente>
-              <Pendente titulo="src/content/larDigno.ts">Números de impacto</Pendente>
-              <Pendente titulo="src/content/larDigno.ts">Dados de doação e Pix</Pendente>
-              <Pendente titulo='Briefing diz "Lar Digno"; a pasta de assets diz "Morada Digna"'>
-                Nome oficial a confirmar
-              </Pendente>
+              <Pendente titulo="src/content/instituto.ts">Histórias reais</Pendente>
+              <Pendente titulo="src/content/instituto.ts">Números de impacto</Pendente>
+              <Pendente titulo="src/content/instituto.ts">Dados de doação e Pix</Pendente>
             </p>
           </div>
         </div>
@@ -119,7 +116,7 @@ export default function LarDignoPage() {
         <div className="wrap">
           <Reveal>
             <p className="t-display-tight mx-auto max-w-[24ch] text-center text-[clamp(1.75rem,1.1rem+3.2vw,3.75rem)] text-ink">
-              {larDigno.missao}
+              {instituto.missao}
             </p>
           </Reveal>
         </div>
@@ -145,7 +142,7 @@ export default function LarDignoPage() {
         </div>
 
         <div className="wrap pb-16 md:pb-20">
-          <JornadaCapitulos capitulos={larDigno.capitulos} />
+          <JornadaCapitulos capitulos={instituto.capitulos} />
         </div>
       </section>
 
@@ -161,7 +158,7 @@ export default function LarDignoPage() {
             </Pendente>
           </div>
           <Reveal className="mt-10">
-            <Numeros itens={larDigno.impacto} />
+            <Numeros itens={instituto.impacto} />
           </Reveal>
         </div>
       </section>
@@ -184,7 +181,7 @@ export default function LarDignoPage() {
           </Reveal>
 
           <Reveal as="ul" className="mt-14 grid gap-px bg-line md:mt-20 md:grid-cols-2" stagger>
-            {larDigno.comoAjudar.map((forma) => (
+            {instituto.comoAjudar.map((forma) => (
               <li key={forma.chave} className="flex flex-col bg-surface p-8 md:p-12">
                 <h3 className="t-display-tight text-[clamp(1.5rem,1.2rem+1.2vw,2.125rem)] text-ink">
                   {forma.titulo}
@@ -201,7 +198,7 @@ export default function LarDignoPage() {
                 <div className="mt-8 border-t border-line pt-6">
                   <Botao
                     href={whatsappLink(
-                      `Olá! Vim pelo site do Grupo Tridium e ${forma.acao.toLowerCase()} apoiar o projeto ${larDigno.nome}.`
+                      `Olá! Vim pelo site do Grupo Tridium e ${forma.acao.toLowerCase()} apoiar o projeto ${instituto.nome}.`
                     )}
                     externo
                     variante="contorno"
@@ -221,10 +218,10 @@ export default function LarDignoPage() {
         <div className="wrap">
           <Reveal className="border-t border-line pt-10">
             <h2 className="t-display-tight max-w-[16ch] text-[clamp(1.5rem,1.2rem+1.6vw,2.5rem)] text-ink">
-              {larDigno.transparencia.titulo}
+              {instituto.transparencia.titulo}
             </h2>
             <p className="t-body mt-6 max-w-[62ch] text-muted">
-              {larDigno.transparencia.texto}
+              {instituto.transparencia.texto}
             </p>
           </Reveal>
         </div>
@@ -237,17 +234,17 @@ export default function LarDignoPage() {
             <div>
               <Rotulo>Contato</Rotulo>
               <h2 className="t-display-tight mt-6 max-w-[18ch] text-[clamp(1.75rem,1.2rem+2.6vw,3.5rem)] text-ink">
-                {larDigno.cta.titulo}
+                {instituto.cta.titulo}
               </h2>
               <p className="t-lead mt-6 max-w-[46ch] text-muted">
-                {larDigno.cta.texto}
+                {instituto.cta.texto}
               </p>
             </div>
             <Botao
-              href={whatsappLink(mensagensWhatsapp.larDigno)}
+              href={whatsappLink(mensagensWhatsapp.instituto)}
               externo
               className="shrink-0"
-              ariaLabel={`Falar sobre o Lar Digno no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
+              ariaLabel={`Falar sobre o Instituto no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
             >
               WhatsApp {contato.whatsappExibicao}
             </Botao>

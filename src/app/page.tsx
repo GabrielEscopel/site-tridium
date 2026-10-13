@@ -9,7 +9,7 @@ import { metadadosRota } from "@/lib/seo";
 export const metadata: Metadata = metadadosRota({
   titulo: `${grupo.nome} — Engenharia, imóveis e impacto social em Florianópolis`,
   descricao:
-    "Grupo de Florianópolis com três frentes: engenharia e arquitetura, mercado imobiliário e o projeto social Lar Digno. Construção, reforma e projetos especiais com responsabilidade técnica única.",
+    "Grupo de Florianópolis com três frentes: engenharia e arquitetura, mercado imobiliário e o Instituto Tridium. Construção, reforma e projetos especiais com responsabilidade técnica única.",
   caminho: "/",
 });
 
@@ -111,7 +111,7 @@ export default function Home() {
               <p className="t-body text-muted">
                 A engenharia é a frente ativa e mais antiga do grupo — é dela
                 que vem o time técnico que avalia os imóveis da imobiliária e
-                que assina os projetos das casas atendidas pelo Lar Digno. Não
+                que assina os projetos das casas atendidas pelo Instituto. Não
                 são três empresas que dividem uma marca. São três aplicações da
                 mesma competência.
               </p>

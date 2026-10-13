@@ -30,11 +30,11 @@ export function Header() {
      escuro da :root e some por cima das páginas claras (Imobiliária e Lar
      Digno): links, botão de orçamento e o ícone do menu ficam osso sobre
      osso. */
-  const frenteDaRota: "engenharia" | "imobiliaria" | "lar-digno" =
+  const frenteDaRota: "engenharia" | "imobiliaria" | "instituto" =
     pathname.startsWith("/imobiliaria")
       ? "imobiliaria"
-      : pathname.startsWith("/lar-digno")
-        ? "lar-digno"
+      : pathname.startsWith("/instituto")
+        ? "instituto"
         : "engenharia";
 
   const temaEscuro = frenteDaRota === "engenharia";

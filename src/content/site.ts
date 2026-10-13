@@ -67,8 +67,8 @@ export const mensagensWhatsapp = {
     "Olá! Vim pelo site da Tridium Engenharia e gostaria de fazer um orçamento sem compromisso para o meu projeto.",
   imobiliaria:
     "Olá! Vim pelo site do Grupo Tridium e gostaria de falar com a Imobiliária sobre um imóvel.",
-  larDigno:
-    "Olá! Vim pelo site do Grupo Tridium e gostaria de apoiar o projeto Lar Digno.",
+  instituto:
+    "Olá! Vim pelo site do Grupo Tridium e gostaria de apoiar o Instituto Tridium.",
   orcamento:
     "Olá! Gostaria de solicitar um orçamento sem compromisso com a Tridium Engenharia.",
 } as const;
@@ -81,7 +81,7 @@ export const CTA_PRINCIPAL = "Faça seu orçamento sem compromisso.";
    cada frente é uma relação diferente com o mesmo edifício.
    ----------------------------------------------------------------------------- */
 
-export type FrontId = "engenharia" | "imobiliaria" | "lar-digno";
+export type FrontId = "engenharia" | "imobiliaria" | "instituto";
 
 export interface Front {
   id: FrontId;
@@ -130,15 +130,15 @@ export const frentes: Front[] = [
     status: "em-estruturacao",
   },
   {
-    id: "lar-digno",
+    id: "instituto",
     verbo: "Acolher",
-    nome: "Lar Digno",
-    marca: "Projeto Lar Digno",
-    href: "/lar-digno",
+    nome: "Instituto Tridium",
+    marca: "Instituto Tridium",
+    href: "/instituto",
     resumo: "Reforma e reconstrução de moradias para famílias em vulnerabilidade.",
     descricao:
       "O braço social do grupo. Mão de obra, material e projeto técnico direcionados a casas que precisam voltar a ser seguras.",
-    imagem: "/img/lar-digno/hero.webp",
+    imagem: "/img/instituto/hero.webp",
     imagemAlt:
       "Moradora e voluntário levantando a estrutura do telhado de uma casa",
     accent: "#c4522c",
@@ -164,7 +164,7 @@ export const navegacao = [
   { rotulo: "Grupo", href: "/", verbo: "Início" },
   { rotulo: "Engenharia", href: "/engenharia", verbo: "Construir" },
   { rotulo: "Imobiliária", href: "/imobiliaria", verbo: "Morar" },
-  { rotulo: "Lar Digno", href: "/lar-digno", verbo: "Acolher" },
+  { rotulo: "Instituto", href: "/instituto", verbo: "Acolher" },
 ];
 
 /* -----------------------------------------------------------------------------

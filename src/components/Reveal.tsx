@@ -4,7 +4,7 @@
    REVEAL — entrada de conteúdo por scroll
    -----------------------------------------------------------------------------
    Discreto de propósito: 24px e opacidade. O movimento marcante do site está
-   reservado para o símbolo no hub e para os capítulos do Lar Digno; se cada
+   reservado para o símbolo no hub e para os capítulos do Instituto; se cada
    bloco também dançasse, nenhum dos dois se destacaria.
    ============================================================================= */
 

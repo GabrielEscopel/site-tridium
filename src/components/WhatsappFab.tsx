@@ -4,7 +4,7 @@
    CTA FLUTUANTE DE WHATSAPP
    -----------------------------------------------------------------------------
    Presente em todas as rotas, sempre visível. A mensagem pré-preenchida muda
-   conforme a frente que o usuário está lendo — quem chega pelo Lar Digno não
+   conforme a frente que o usuário está lendo — quem chega pelo Instituto não
    deve abrir o WhatsApp pedindo orçamento de obra.
 
    Mantém-se verde da marca em todas as páginas de propósito: é a cor que o
@@ -17,7 +17,7 @@ import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 function mensagemPorRota(pathname: string): string {
   if (pathname.startsWith("/engenharia")) return mensagensWhatsapp.engenharia;
   if (pathname.startsWith("/imobiliaria")) return mensagensWhatsapp.imobiliaria;
-  if (pathname.startsWith("/lar-digno")) return mensagensWhatsapp.larDigno;
+  if (pathname.startsWith("/instituto")) return mensagensWhatsapp.instituto;
   return mensagensWhatsapp.padrao;
 }
 

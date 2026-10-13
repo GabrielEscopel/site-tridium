@@ -1,29 +1,29 @@
 /* =============================================================================
-   PROJETO LAR DIGNO — conteúdo
+   INSTITUTO TRIDIUM — conteúdo
    -----------------------------------------------------------------------------
    ⚠ FRENTE EM ESTRUTURAÇÃO.
    Todo o conteúdo é PROVISÓRIO e existe para sustentar o layout.
 
-   ATENÇÃO — DIVERGÊNCIA DE NOME:
-   O briefing chama o projeto de "Lar Digno"; a pasta de assets entregue pelo
-   cliente chama de "Morada Digna". O nome está isolado na constante `nome`
-   abaixo: trocar ali propaga para o site inteiro (a rota /lar-digno também
-   deve ser renomeada se o nome oficial for outro).
+   O nome está isolado nas constantes abaixo: `nome` é a forma completa, usada
+   em títulos, SEO e dados estruturados; `nomeCurto` é a forma de prosa corrida
+   e do menu. Trocar aqui propaga para o site inteiro (a rota /instituto e a
+   pasta public/img/instituto também precisariam ser renomeadas).
 
    Marcador usado: [CONTEÚDO PENDENTE]
    ============================================================================= */
 
-export const larDigno = {
-  nome: "Lar Digno", // ⚠ confirmar: "Lar Digno" ou "Morada Digna"?
+export const instituto = {
+  nome: "Instituto Tridium",
+  nomeCurto: "Instituto",
   tipo: "Projeto social do Grupo Tridium",
   missao: "Toda família merece uma casa que não ameace quem mora nela.",
 
   hero: {
     eyebrow: "Projeto social · Florianópolis",
     titulo: ["Uma casa", "não deveria", "ser um risco."],
-    lead: "O Lar Digno leva projeto técnico, material e mão de obra a moradias que perderam a segurança. É a engenharia do grupo aplicada onde não existe orçamento para contratá-la.",
+    lead: "O Instituto Tridium leva projeto técnico, material e mão de obra a moradias que perderam a segurança. É a engenharia do grupo aplicada onde não existe orçamento para contratá-la.",
     /* [FOTO PENDENTE] imagem provisória de banco de imagens */
-    imagem: "/img/lar-digno/hero.webp",
+    imagem: "/img/instituto/hero.webp",
     imagemAlt: "Moradora e voluntário levantando a estrutura do telhado",
     imagemProvisoria: true,
   },
@@ -39,7 +39,7 @@ export const larDigno = {
       texto:
         "Infiltração que virou mofo, telhado que cede, instalação elétrica improvisada, piso de chão batido. Problemas que começam construtivos e terminam no posto de saúde.",
       nota: "[CONTEÚDO PENDENTE] substituir por relato real de diagnóstico.",
-      imagem: "/img/lar-digno/capitulo-01.webp",
+      imagem: "/img/instituto/capitulo-01.webp",
       imagemAlt: "Casa popular em obra, com moradores pintando a fachada",
       imagemProvisoria: true,
     },
@@ -50,7 +50,7 @@ export const larDigno = {
       texto:
         "Cada casa recebe um levantamento e um projeto de intervenção assinado. A prioridade é sempre a mesma ordem: estrutura, cobertura, instalação elétrica, água e esgoto, e só então acabamento.",
       nota: "[CONTEÚDO PENDENTE] detalhar critério técnico de priorização.",
-      imagem: "/img/lar-digno/capitulo-02.webp",
+      imagem: "/img/instituto/capitulo-02.webp",
       imagemAlt: "Equipe executando a cobertura de uma casa popular",
       imagemProvisoria: true,
     },
@@ -61,7 +61,7 @@ export const larDigno = {
       texto:
         "Equipe técnica da Tridium, voluntários e a própria família trabalhando na mesma obra. Quem mora participa das decisões — é a casa dela, não um presente.",
       nota: "[CONTEÚDO PENDENTE] descrever a dinâmica real do mutirão.",
-      imagem: "/img/lar-digno/capitulo-03.webp",
+      imagem: "/img/instituto/capitulo-03.webp",
       imagemAlt: "Moradora e voluntário trabalhando juntos na obra da casa",
       imagemProvisoria: true,
     },

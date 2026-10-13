@@ -1,7 +1,7 @@
 "use client";
 
 /* =============================================================================
-   JORNADA EM CAPÍTULOS — scrollytelling do Lar Digno
+   JORNADA EM CAPÍTULOS — scrollytelling do Instituto
    -----------------------------------------------------------------------------
    Uma casa não é reformada de uma vez: é diagnóstico, projeto, mutirão e
    entrega, nessa ordem. A página conta isso na ordem em que acontece — a

@@ -2,7 +2,7 @@
    SEO — metadados e dados estruturados
    -----------------------------------------------------------------------------
    Cada rota declara o seu schema.org: LocalBusiness (engenharia),
-   RealEstateAgent (imobiliária) e NGO (Lar Digno). Os campos que dependem de
+   RealEstateAgent (imobiliária) e NGO (Instituto). Os campos que dependem de
    dado ainda não confirmado são omitidos em vez de preenchidos com placeholder
    — publicar "[CNPJ PENDENTE]" dentro de um schema é pior do que não declarar.
    ============================================================================= */
@@ -140,17 +140,17 @@ export const schemaImobiliaria = {
   parentOrganization: { "@id": `${SITE_URL}/#organizacao` },
 };
 
-export const schemaLarDigno = {
+export const schemaInstituto = {
   "@context": "https://schema.org",
   "@type": "NGO",
-  "@id": `${SITE_URL}/lar-digno#organizacao`,
-  name: "Lar Digno",
-  alternateName: "Projeto Lar Digno — Grupo Tridium",
+  "@id": `${SITE_URL}/instituto#organizacao`,
+  name: "Instituto Tridium",
+  alternateName: "Instituto Tridium — projeto social do Grupo Tridium",
   description:
     "Projeto social do Grupo Tridium para reforma e reconstrução de moradias de famílias em situação de vulnerabilidade em Florianópolis.",
-  url: `${SITE_URL}/lar-digno`,
+  url: `${SITE_URL}/instituto`,
   telephone: TELEFONE,
-  image: `${SITE_URL}/img/lar-digno/hero.webp`,
+  image: `${SITE_URL}/img/instituto/hero.webp`,
   address: ENDERECO,
   areaServed: { "@type": "City", name: "Florianópolis" },
   parentOrganization: { "@id": `${SITE_URL}/#organizacao` },

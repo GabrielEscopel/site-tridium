@@ -32,12 +32,12 @@
   --tri-paper: #f3f5f0;
 
   /* --- Acentos por frente de negócio ---
-         Imobiliária e Lar Digno derivam do verde da marca por rotação dos
+         Imobiliária e Instituto derivam do verde da marca por rotação dos
          próprios canais RGB (02/B0/30 -> B0/8A/02), preservando saturação e
          peso óptico do verde original. */
   --accent-engenharia: #02b030;
   --accent-imobiliaria: #b08a02;
-  --accent-lar-digno: #c4522c;
+  --accent-instituto: #c4522c;
 
   /* --- Tokens semânticos (padrão = tema institucional escuro) --- */
   --surface: var(--tri-ink);
@@ -109,8 +109,8 @@
   --line-strong: rgba(23, 36, 26, 0.32);
 }
 
-[data-front="lar-digno"] {
-  --accent: var(--accent-lar-digno);
+[data-front="instituto"] {
+  --accent: var(--accent-instituto);
   --accent-texto: #a94726; /* 4.65:1 sobre os tres fundos claros */
   --accent-ink: #ffffff;   /* 4.57:1 sobre a terracota */
   --surface: #f7f3ee;
