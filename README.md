@@ -1,7 +1,7 @@
 # Grupo Tridium — site institucional
 
 Site do Grupo Tridium (Florianópolis/SC) com as três frentes do grupo:
-**Engenharia & Arquitetura**, **Imobiliária** e o projeto social **Lar Digno**.
+**Engenharia & Arquitetura**, **Imobiliária** e o **Instituto Tridium**.
 
 Next.js 15 (App Router) · Tailwind CSS 4 · GSAP + ScrollTrigger · Three.js · Lenis · pt-BR.
 
@@ -44,7 +44,7 @@ npm start
 | `/` | Hub do grupo, com o portal para as três frentes | escuro institucional |
 | `/engenharia` | Tridium Engenharia | escuro / verde de marca |
 | `/imobiliaria` | Imobiliária | claro / ouro |
-| `/lar-digno` | Projeto Lar Digno | claro quente / terracota |
+| `/instituto` | Instituto Tridium | claro quente / terracota |
 
 `/sitemap.xml` e `/robots.txt` são gerados pelo próprio Next.
 
@@ -68,7 +68,7 @@ próprios canais RGB (`02/B0/30` → `B0/8A/02`), o que mantém saturação e pe
 
 - Engenharia — `#02B030` (verde sinal)
 - Imobiliária — `#B08A02` (ouro)
-- Lar Digno — `#C4522C` (terracota)
+- Instituto — `#C4522C` (terracota)
 
 **Tipografia**
 
@@ -119,7 +119,7 @@ endereço ou texto institucional direto.
 | `src/content/site.ts` | dados do grupo, contato, WhatsApp, endereço, as 3 frentes, navegação, logos |
 | `src/content/engenharia.ts` | posicionamento, serviços, cases, processo, números |
 | `src/content/imobiliaria.ts` | textos, diferenciais, carteira de imóveis, serviços |
-| `src/content/larDigno.ts` | missão, capítulos da jornada, impacto, como ajudar |
+| `src/content/instituto.ts` | missão, capítulos da jornada, impacto, como ajudar |
 
 ### Imagens
 
@@ -158,18 +158,13 @@ grep -rn "PENDENTE" src/content/
 
 ### Decisões que precisam do cliente
 
-1. **Nome do projeto social.** O briefing diz **“Lar Digno”**; a pasta de assets
-   entregue diz **“Morada Digna”**. O site usa “Lar Digno” (rota `/lar-digno`).
-   O nome está isolado em `larDigno.nome` — trocar ali propaga para tudo, mas a
-   rota e o `sitemap` precisam ser renomeados junto se o oficial for outro.
-
-2. **Fotos dos cases de Engenharia.** Rhinno Skatepark, Marquise Floripa,
+1. **Fotos dos cases de Engenharia.** Rhinno Skatepark, Marquise Floripa,
    Brincademia e Totens estão **sem foto de propósito**. As imagens disponíveis
    eram banco de imagens genérico (mesas de projeto, renders): publicadas sob a
    legenda “Rhinno Skatepark” elas passariam por registro do projeto. Cada card
    mostra um painel dizendo qual foto produzir.
 
-3. **Números.** Nenhum número de obra ou de impacto social é real — todos estão
+2. **Números.** Nenhum número de obra ou de impacto social é real — todos estão
    como `[N]`. Número estimado em projeto social custa confiança; melhor a
    seção entrar depois do que entrar errada.
 
@@ -213,14 +208,14 @@ src/
 │  ├─ page.tsx             hub do grupo
 │  ├─ engenharia/          /engenharia
 │  ├─ imobiliaria/         /imobiliaria
-│  ├─ lar-digno/           /lar-digno
+│  ├─ instituto/           /instituto
 │  ├─ sitemap.ts robots.ts
 ├─ components/
 │  ├─ MarcaTridium.tsx     símbolo em SVG, traçado do logo oficial
 │  ├─ CenaMarca.tsx        símbolo em 3D (Three.js) + fallback
 │  ├─ PortaisFrentes.tsx   as três faixas do hub
 │  ├─ GaleriaCases.tsx     portfólio em percurso horizontal
-│  ├─ JornadaCapitulos.tsx scrollytelling do Lar Digno
+│  ├─ JornadaCapitulos.tsx scrollytelling do Instituto
 │  ├─ FotoPendente.tsx     placeholder desenhado de foto
 │  ├─ Header / Footer / WhatsappFab / Reveal / SmoothScroll / ui / JsonLd
 ├─ content/                ⭐ TODO o texto editável
