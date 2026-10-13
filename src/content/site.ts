@@ -8,7 +8,13 @@
    [PENDENTE]    aguardando envio do cliente
    ============================================================================= */
 
-export const SITE_URL = "https://www.grupotridium.com.br"; // [PENDENTE] domínio definitivo
+/* Endereço canônico do site. Alimenta metadataBase (URLs canônicas e imagens
+   de Open Graph), robots.txt, sitemap.xml e todos os @id de schema.org.
+
+   Sem "www": é a forma registrada na Hostinger e a única que existe no DNS.
+   Se um dia o www for criado, ele deve REDIRECIONAR para esta — e não servir
+   o site em paralelo, o que dividiria a autoridade do domínio na busca. */
+export const SITE_URL = "https://grupotridium.com.br";
 
 export const grupo = {
   nome: "Grupo Tridium",
