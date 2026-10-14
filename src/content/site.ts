@@ -100,9 +100,7 @@ export const ctaContato = {
   padrao: { curto: "Orçamento", longo: "Fazer orçamento" },
   engenharia: { curto: "Orçamento", longo: "Fazer orçamento" },
   imobiliaria: { curto: "Corretor", longo: "Falar com corretor" },
-  // [A DEFINIR] No Instituto "Orçamento" não descreve a ação — quem chega ali
-  // quer doar, ser voluntário ou indicar uma família. Aguardando definição.
-  instituto: { curto: "Orçamento", longo: "Fazer orçamento" },
+  instituto: { curto: "Apoiar", longo: "Apoiar o Instituto" },
 } as const;
 
 export function ctaPorRota(pathname: string): { curto: string; longo: string } {
