@@ -81,6 +81,37 @@ export const mensagensWhatsapp = {
 
 export const CTA_PRINCIPAL = "Faça seu orçamento sem compromisso.";
 
+/** Mensagem do WhatsApp adequada à rota em que o usuário está. */
+export function mensagemPorRota(pathname: string): string {
+  if (pathname.startsWith("/engenharia")) return mensagensWhatsapp.engenharia;
+  if (pathname.startsWith("/imobiliaria")) return mensagensWhatsapp.imobiliaria;
+  if (pathname.startsWith("/instituto")) return mensagensWhatsapp.instituto;
+  return mensagensWhatsapp.padrao;
+}
+
+/* Rótulo do botão de contato, por frente.
+   O verbo muda com o negócio: quem procura a Engenharia quer um orçamento de
+   obra; quem procura a Imobiliária quer falar com um corretor. Um rótulo único
+   para as três faria o botão prometer a coisa errada em duas delas.
+
+   `curto` é o botão do cabeçalho; `longo`, o rótulo do botão flutuante, que
+   tem mais espaço. */
+export const ctaContato = {
+  padrao: { curto: "Orçamento", longo: "Fazer orçamento" },
+  engenharia: { curto: "Orçamento", longo: "Fazer orçamento" },
+  imobiliaria: { curto: "Corretor", longo: "Falar com corretor" },
+  // [A DEFINIR] No Instituto "Orçamento" não descreve a ação — quem chega ali
+  // quer doar, ser voluntário ou indicar uma família. Aguardando definição.
+  instituto: { curto: "Orçamento", longo: "Fazer orçamento" },
+} as const;
+
+export function ctaPorRota(pathname: string): { curto: string; longo: string } {
+  if (pathname.startsWith("/engenharia")) return ctaContato.engenharia;
+  if (pathname.startsWith("/imobiliaria")) return ctaContato.imobiliaria;
+  if (pathname.startsWith("/instituto")) return ctaContato.instituto;
+  return ctaContato.padrao;
+}
+
 /* -----------------------------------------------------------------------------
    AS TRÊS FRENTES
    Os verbos (Construir / Morar / Acolher) são a chave de leitura do grupo:

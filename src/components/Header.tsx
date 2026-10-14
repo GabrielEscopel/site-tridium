@@ -13,8 +13,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   contato,
+  ctaPorRota,
   grupo,
   logos,
+  mensagemPorRota,
   navegacao,
   whatsappLink,
 } from "@/content/site";
@@ -160,13 +162,16 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            {/* Rótulo e mensagem seguem a rota: na Imobiliária o botão chama
+                um corretor, e a conversa no WhatsApp precisa abrir falando de
+                imóvel — não de orçamento de obra. */}
             <a
-              href={whatsappLink()}
+              href={whatsappLink(mensagemPorRota(pathname))}
               target="_blank"
               rel="noopener noreferrer"
               className="t-label hidden bg-accent px-5 py-3 text-accent-ink transition-[filter] duration-200 hover:brightness-110 lg:inline-block"
             >
-              Orçamento
+              {ctaPorRota(pathname).curto}
             </a>
 
             <button

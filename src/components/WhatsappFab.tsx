@@ -12,14 +12,12 @@
    ============================================================================= */
 
 import { usePathname } from "next/navigation";
-import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
-
-function mensagemPorRota(pathname: string): string {
-  if (pathname.startsWith("/engenharia")) return mensagensWhatsapp.engenharia;
-  if (pathname.startsWith("/imobiliaria")) return mensagensWhatsapp.imobiliaria;
-  if (pathname.startsWith("/instituto")) return mensagensWhatsapp.instituto;
-  return mensagensWhatsapp.padrao;
-}
+import {
+  contato,
+  ctaPorRota,
+  mensagemPorRota,
+  whatsappLink,
+} from "@/content/site";
 
 export function WhatsappFab() {
   const pathname = usePathname();
@@ -49,7 +47,7 @@ export function WhatsappFab() {
 
       {/* O rótulo só aparece onde há espaço; no mobile o ícone basta. */}
       <span className="t-label ml-0 hidden max-w-0 whitespace-nowrap opacity-0 transition-all duration-300 ease-out group-hover:ml-3 group-hover:max-w-[16rem] group-hover:opacity-100 group-focus-visible:ml-3 group-focus-visible:max-w-[16rem] group-focus-visible:opacity-100 md:inline-block">
-        Fazer orçamento
+        {ctaPorRota(pathname).longo}
       </span>
     </a>
   );
