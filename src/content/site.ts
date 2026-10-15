@@ -130,6 +130,10 @@ export interface Front {
   imagemAlt: string;
   /** Espelha --accent-{id} em globals.css. Usado pelo canvas WebGL. */
   accent: string;
+  /* Descreve a maturidade da frente. Deixou de ser exibido como selo nas
+     faixas do portal, mas segue aqui porque continua verdadeiro e porque as
+     páginas de Imóveis e Instituto ainda trazem o aviso de conteúdo
+     provisório. Para voltar a mostrar o selo, basta ler este campo. */
   status: "ativa" | "em-estruturacao";
 }
 

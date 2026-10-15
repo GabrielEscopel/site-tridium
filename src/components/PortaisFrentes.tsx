@@ -95,11 +95,6 @@ export function PortaisFrentes() {
                           frente aparece no galão, no fio e na borda — onde é
                           gráfica, e não texto. */}
                       <span className="t-label text-bone">{frente.nome}</span>
-                      {frente.status === "em-estruturacao" && (
-                        <span className="t-label text-bone/70">
-                          · em estruturação
-                        </span>
-                      )}
                     </div>
 
                     {/* A faixa tem altura fixa, então a palavra grande precisa
