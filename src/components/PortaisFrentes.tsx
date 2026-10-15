@@ -102,7 +102,24 @@ export function PortaisFrentes() {
                       )}
                     </div>
 
-                    <span className="t-display mt-4 block text-[clamp(2.75rem,1.4rem+6.4vw,7.5rem)] text-bone">
+                    {/* A faixa tem altura fixa, então a palavra grande precisa
+                        caber em UMA linha. Rótulos curtos ("Construir") usam a
+                        escala cheia; os longos ("Instituto Tridium") entram numa
+                        escala menor — do contrário quebram em duas linhas, comem
+                        a altura da faixa e empurram o rótulo do topo para fora. */}
+                    <span
+                      className="t-display mt-4 block text-bone"
+                      style={{
+                        /* Os espaços em volta do `+` são obrigatórios: em CSS,
+                           `1.4rem+6.4vw` é inválido e derruba o clamp inteiro
+                           para o tamanho padrão. O Tailwind insere esses
+                           espaços sozinho nas classes arbitrárias; aqui, não. */
+                        fontSize:
+                          frente.verbo.length > 10
+                            ? "clamp(1.75rem, 0.9rem + 4.2vw, 5rem)"
+                            : "clamp(2.75rem, 1.4rem + 6.4vw, 7.5rem)",
+                      }}
+                    >
                       {frente.verbo}
                     </span>
 

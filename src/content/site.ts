@@ -112,8 +112,8 @@ export function ctaPorRota(pathname: string): { curto: string; longo: string } {
 
 /* -----------------------------------------------------------------------------
    AS TRÊS FRENTES
-   Os verbos (Construir / Morar / Acolher) são a chave de leitura do grupo:
-   cada frente é uma relação diferente com o mesmo edifício.
+   `verbo` é a palavra grande de cada faixa do portal na home e o rótulo
+   secundário do menu.
    ----------------------------------------------------------------------------- */
 
 export type FrontId = "engenharia" | "imobiliaria" | "instituto";
@@ -151,7 +151,7 @@ export const frentes: Front[] = [
   },
   {
     id: "imobiliaria",
-    verbo: "Morar",
+    verbo: "Imóveis",
     nome: "Imobiliária",
     marca: "Tridium Imobiliária",
     href: "/imobiliaria",
@@ -166,7 +166,7 @@ export const frentes: Front[] = [
   },
   {
     id: "instituto",
-    verbo: "Acolher",
+    verbo: "Instituto Tridium",
     nome: "Instituto Tridium",
     marca: "Instituto Tridium",
     href: "/instituto",
@@ -191,15 +191,14 @@ export function getFront(id: FrontId): Front {
    NAVEGAÇÃO
    ----------------------------------------------------------------------------- */
 
-/* `verbo` é o rótulo secundário do menu. Não é enfeite: repete a chave de
-   leitura do site (construir / morar / acolher), que é o que diferencia uma
-   frente da outra. Uma numeração 01–04 no lugar não diria nada — a navegação
-   não é uma sequência. */
+/* `verbo` é o rótulo secundário do menu, e repete a palavra grande que a
+   frente usa no portal da home. Uma numeração 01–04 no lugar não diria nada:
+   a navegação não é uma sequência. */
 export const navegacao = [
   { rotulo: "Grupo", href: "/", verbo: "Início" },
   { rotulo: "Engenharia", href: "/engenharia", verbo: "Construir" },
-  { rotulo: "Imobiliária", href: "/imobiliaria", verbo: "Morar" },
-  { rotulo: "Instituto", href: "/instituto", verbo: "Acolher" },
+  { rotulo: "Imobiliária", href: "/imobiliaria", verbo: "Imóveis" },
+  { rotulo: "Instituto", href: "/instituto", verbo: "Instituto Tridium" },
 ];
 
 /* -----------------------------------------------------------------------------
