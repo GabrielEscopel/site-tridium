@@ -124,7 +124,7 @@ export const schemaImobiliaria = {
   "@context": "https://schema.org",
   "@type": "RealEstateAgent",
   "@id": `${SITE_URL}/imobiliaria#negocio`,
-  name: "Tridium Imobiliária",
+  name: "Tridium Imóveis",
   description:
     "Imóveis e empreendimentos em Florianópolis avaliados pela engenharia do Grupo Tridium.",
   url: `${SITE_URL}/imobiliaria`,

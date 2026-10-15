@@ -9,7 +9,7 @@ import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaImobiliaria, schemaMigalhas } from "@/lib/seo";
 
 export const metadata: Metadata = metadadosRota({
-  titulo: "Tridium Imobiliária — Imóveis em Florianópolis avaliados por engenheiros",
+  titulo: "Tridium Imóveis — Imóveis em Florianópolis avaliados por engenheiros",
   descricao:
     "Imóveis e empreendimentos em Florianópolis com laudo técnico da engenharia do Grupo Tridium antes do anúncio. Compra, venda e regularização com um só interlocutor.",
   caminho: "/imobiliaria",
@@ -27,7 +27,7 @@ export default function ImobiliariaPage() {
           schemaImobiliaria,
           schemaMigalhas([
             { nome: "Grupo Tridium", caminho: "/" },
-            { nome: "Imobiliária", caminho: "/imobiliaria" },
+            { nome: "Imóveis", caminho: "/imobiliaria" },
           ]),
         ]}
       />

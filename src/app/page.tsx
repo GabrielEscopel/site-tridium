@@ -110,8 +110,8 @@ export default function Home() {
               </p>
               <p className="t-body text-muted">
                 A engenharia é a frente ativa e mais antiga do grupo — é dela
-                que vem o time técnico que avalia os imóveis da imobiliária e
-                que assina os projetos das casas atendidas pelo Instituto. Não
+                que vem o time técnico que avalia a carteira da Tridium Imóveis
+                e que assina os projetos das casas atendidas pelo Instituto. Não
                 são três empresas que dividem uma marca. São três aplicações da
                 mesma competência.
               </p>

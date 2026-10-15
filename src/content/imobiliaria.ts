@@ -10,7 +10,7 @@
    ============================================================================= */
 
 export const imobiliaria = {
-  marca: "Tridium Imobiliária", // [CONTEÚDO IMOBILIÁRIA PENDENTE] nome oficial
+  marca: "Tridium Imóveis", // [CONTEÚDO IMOBILIÁRIA PENDENTE] confirmar nome oficial
   creci: "[CRECI PENDENTE]",
   posicionamento: "Quem vende conhece a estrutura por dentro.",
 

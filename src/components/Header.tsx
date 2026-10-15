@@ -29,7 +29,7 @@ export function Header() {
   const gatilhoRef = useRef<HTMLButtonElement>(null);
 
   /* O cabeçalho adota o tema da rota em que está. Sem isso ele herda o tema
-     escuro da :root e some por cima das páginas claras (Imobiliária e Lar
+     escuro da :root e some por cima das páginas claras (Imóveis e
      Digno): links, botão de orçamento e o ícone do menu ficam osso sobre
      osso. */
   const frenteDaRota: "engenharia" | "imobiliaria" | "instituto" =
@@ -162,7 +162,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* Rótulo e mensagem seguem a rota: na Imobiliária o botão chama
+            {/* Rótulo e mensagem seguem a rota: em Imóveis o botão chama
                 um corretor, e a conversa no WhatsApp precisa abrir falando de
                 imóvel — não de orçamento de obra. */}
             <a

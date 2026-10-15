@@ -72,7 +72,7 @@ export const mensagensWhatsapp = {
   engenharia:
     "Olá! Vim pelo site da Tridium Engenharia e gostaria de fazer um orçamento sem compromisso para o meu projeto.",
   imobiliaria:
-    "Olá! Vim pelo site do Grupo Tridium e gostaria de falar com a Imobiliária sobre um imóvel.",
+    "Olá! Vim pelo site do Grupo Tridium e gostaria de falar com a Tridium Imóveis sobre um imóvel.",
   instituto:
     "Olá! Vim pelo site do Grupo Tridium e gostaria de apoiar o Instituto Tridium.",
   orcamento:
@@ -91,7 +91,7 @@ export function mensagemPorRota(pathname: string): string {
 
 /* Rótulo do botão de contato, por frente.
    O verbo muda com o negócio: quem procura a Engenharia quer um orçamento de
-   obra; quem procura a Imobiliária quer falar com um corretor. Um rótulo único
+   obra; quem procura a Tridium Imóveis quer falar com um corretor. Um rótulo
    para as três faria o botão prometer a coisa errada em duas delas.
 
    `curto` é o botão do cabeçalho; `longo`, o rótulo do botão flutuante, que
@@ -152,8 +152,8 @@ export const frentes: Front[] = [
   {
     id: "imobiliaria",
     verbo: "Imóveis",
-    nome: "Imobiliária",
-    marca: "Tridium Imobiliária",
+    nome: "Imóveis",
+    marca: "Tridium Imóveis",
     href: "/imobiliaria",
     resumo: "Empreendimentos e imóveis com a engenharia do grupo por trás.",
     descricao:
@@ -197,7 +197,7 @@ export function getFront(id: FrontId): Front {
 export const navegacao = [
   { rotulo: "Grupo", href: "/", verbo: "Início" },
   { rotulo: "Engenharia", href: "/engenharia", verbo: "Construir" },
-  { rotulo: "Imóveis", href: "/imobiliaria", verbo: "Imobiliária" },
+  { rotulo: "Imóveis", href: "/imobiliaria", verbo: "Tridium Imóveis" },
   { rotulo: "Instituto", href: "/instituto", verbo: "Instituto Tridium" },
 ];
 
