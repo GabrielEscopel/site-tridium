@@ -197,7 +197,7 @@ export function getFront(id: FrontId): Front {
 export const navegacao = [
   { rotulo: "Grupo", href: "/", verbo: "Início" },
   { rotulo: "Engenharia", href: "/engenharia", verbo: "Construir" },
-  { rotulo: "Imobiliária", href: "/imobiliaria", verbo: "Imóveis" },
+  { rotulo: "Imóveis", href: "/imobiliaria", verbo: "Imobiliária" },
   { rotulo: "Instituto", href: "/instituto", verbo: "Instituto Tridium" },
 ];
 
