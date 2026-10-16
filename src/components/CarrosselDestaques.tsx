@@ -128,6 +128,11 @@ export function CarrosselDestaques({ itens }: { itens: readonly Destaque[] }) {
                     className="object-cover"
                   />
                 )}
+                {item.midia.provisoria && (
+                  <span className="absolute bottom-6 right-[var(--gutter)] z-10 inline-flex items-center gap-2 border border-dashed border-white/70 bg-black/60 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-white">
+                    ◇ Foto provisória
+                  </span>
+                )}
                 {!item.midia.pendente && (
                   <div
                     aria-hidden="true"

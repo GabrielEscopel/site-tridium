@@ -40,6 +40,9 @@ export interface Midia {
   /** object-position do recorte, ex: "center 38%". Use quando o assunto não
       estiver no centro e a foto for cortada por um contêiner largo. */
   posicao?: string;
+  /** Foto de banco de imagens ocupando o lugar do registro real. Mostra o
+      selo "◇ Foto provisória" na tela — ela não é da Tridium. */
+  provisoria?: boolean;
 }
 
 export interface FormaDeApoio {
@@ -123,11 +126,17 @@ export const destaques: Destaque[] = [
     texto:
       "[CONTEÚDO PENDENTE] Uma frase sobre as aulas: quem participa, onde acontece e o que muda para essas crianças e jovens.",
     acao: { rotulo: "Conhecer o projeto", href: "#capoeira" },
+    /* Os capoeiristas ocupam o centro e a direita do quadro; o texto fica à
+       esquerda, sobre o fundo da praça. */
     midia: {
       tipo: "foto",
-      pendente: true,
-      descricao:
-        "Roda de capoeira em movimento. Foto horizontal, aberta, que mostre o grupo inteiro.",
+      src: "/img/instituto/capoeira-roda.webp",
+      alt: "Roda de capoeira na rua: um capoeirista no ar em meia-lua enquanto o grupo toca berimbau e pandeiro",
+      descricao: "Roda de capoeira",
+      /* ⚠ FOTO PROVISÓRIA — banco de imagens, roda de rua em Salvador. Não é
+         o núcleo da Tridium. Substituir pelo registro real. */
+      provisoria: true,
+      posicao: "center 42%",
     },
   },
   {
@@ -338,10 +347,18 @@ export const projetos: Projeto[] = [
     registro: [
       {
         tipo: "foto",
+        destaque: true,
+        src: "/img/instituto/capoeira-ginga.webp",
+        alt: "Dois capoeiristas em jogo na rua, acompanhados por berimbau e atabaques",
+        descricao: "O jogo acontece na roda, com o ritmo ditando o movimento.",
+        provisoria: true,
+      },
+      {
+        tipo: "foto",
         pendente: true,
         destaque: true,
         descricao:
-          "Roda de capoeira em andamento, com os alunos. Foto aberta, que mostre o grupo e o espaço.",
+          "A roda do núcleo da Tridium, com os alunos. Foto aberta, que mostre o grupo e o espaço onde as aulas acontecem.",
       },
       {
         tipo: "video",
