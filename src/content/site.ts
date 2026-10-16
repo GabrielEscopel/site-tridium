@@ -174,9 +174,10 @@ export const frentes: Front[] = [
     nome: "Instituto Tridium",
     marca: "Instituto Tridium",
     href: "/instituto",
-    resumo: "Os projetos sociais do grupo: moradia, esporte e cultura.",
+    resumo:
+      "Os projetos sociais do grupo: moradia, capoeira, esporte, cultura e formação técnica.",
     descricao:
-      "O braço social da Tridium, e a casa de mais de um projeto: o Moradia Digna, que devolve segurança a casas em risco, e o núcleo de capoeira. Outras frentes entram conforme o Instituto cresce.",
+      "O braço social da Tridium, e a casa de mais de um projeto: o Moradia Digna, que devolve segurança a casas em risco, o núcleo de capoeira e a formação técnica em ofícios da construção. Outras frentes entram conforme o Instituto cresce.",
     imagem: "/img/instituto/hero.webp",
     imagemAlt:
       "Moradora e voluntário levantando a estrutura do telhado de uma casa",
