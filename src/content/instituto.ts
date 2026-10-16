@@ -37,6 +37,9 @@ export interface Midia {
   alt?: string;
   /** Ocupa duas colunas na grade. Use para a foto mais forte do conjunto. */
   destaque?: boolean;
+  /** object-position do recorte, ex: "center 38%". Use quando o assunto não
+      estiver no centro e a foto for cortada por um contêiner largo. */
+  posicao?: string;
 }
 
 export interface FormaDeApoio {
@@ -89,6 +92,9 @@ export interface Destaque {
   acao: { rotulo: string; href: string; externo?: boolean };
   /** Foto de fundo. Enquanto pendente, entra o painel de foto pendente. */
   midia: Midia;
+  /** Lado do texto. Escolha o oposto de onde estão as pessoas na foto —
+      senão o painel cobre justamente o assunto. Padrão: esquerda. */
+  textoEm?: "esquerda" | "direita";
 }
 
 export const destaques: Destaque[] = [
@@ -99,11 +105,15 @@ export const destaques: Destaque[] = [
     texto:
       "[CONTEÚDO PENDENTE] Uma frase sobre a casa dela — o que estava em risco e o que mudou. Esta é a chamada mais forte que o Instituto tem.",
     acao: { rotulo: "Conhecer o projeto", href: "#moradia-digna" },
+    /* Dona Tereza e o engenheiro estão à esquerda do quadro: o texto vai para
+       a direita, sobre a parede de tábuas. */
+    textoEm: "direita",
     midia: {
       tipo: "foto",
-      pendente: true,
-      descricao:
-        "Dona Tereza na casa reformada. Foto horizontal, ampla, com ela em primeiro plano — é a imagem de abertura do Instituto.",
+      src: "/img/instituto/tereza-visita.webp",
+      alt: "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
+      descricao: "A visita técnica à casa da dona Tereza",
+      posicao: "center 45%",
     },
   },
   {
@@ -133,9 +143,10 @@ export const destaques: Destaque[] = [
     },
     midia: {
       tipo: "foto",
-      pendente: true,
-      descricao:
-        "Mutirão com voluntários e equipe técnica trabalhando juntos. Foto horizontal, de gente em ação.",
+      src: "/img/instituto/tereza-equipe.webp",
+      alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
+      descricao: "A equipe com a dona Tereza",
+      posicao: "center 38%",
     },
   },
 ];
@@ -216,18 +227,33 @@ export const projetos: Projeto[] = [
         "[CONTEÚDO PENDENTE] A história da dona Tereza: como a casa chegou até o projeto, o que foi encontrado na visita técnica, o que foi feito e como ela vive hoje. Este é o relato mais importante da página — é ele que mostra o que o Instituto faz, com nome e rosto, em vez de explicar em tese.",
       midia: {
         tipo: "foto",
-        pendente: true,
-        descricao:
-          "Dona Tereza na casa reformada. Retrato dela, de frente, dentro de casa ou na porta — pessoa em primeiro plano, não a fachada.",
+        src: "/img/instituto/tereza-retrato.webp",
+        alt: "Dona Tereza de pé na porta de casa, olhando para a câmera",
+        descricao: "Dona Tereza na porta de casa",
       },
     },
     registro: [
       {
         tipo: "foto",
-        pendente: true,
         destaque: true,
+        src: "/img/instituto/tereza-diagnostico.webp",
+        alt: "Seis registros do interior da casa: piso apodrecido, armário deteriorado, infiltração e umidade",
         descricao:
-          "A casa da dona Tereza antes e depois. Se possível, o mesmo enquadramento nas duas fotos.",
+          "O que a visita técnica encontrou: piso apodrecido, armário deteriorado, umidade e improviso elétrico.",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/tereza-equipe.webp",
+        alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
+        descricao: "A equipe na casa da dona Tereza, no dia da visita.",
+        posicao: "center 38%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/tereza-visita.webp",
+        alt: "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
+        descricao: "A conversa que abre todo atendimento: ouvir quem mora ali.",
+        posicao: "center 45%",
       },
       {
         tipo: "video",
@@ -238,7 +264,8 @@ export const projetos: Projeto[] = [
       {
         tipo: "foto",
         pendente: true,
-        descricao: "Mutirão em andamento — equipe técnica e voluntários na obra.",
+        descricao:
+          "A casa depois da reforma — de preferência no mesmo enquadramento das fotos do diagnóstico.",
       },
       {
         tipo: "foto",
@@ -409,9 +436,10 @@ export const instituto = {
       texto:
         "Infiltração que virou mofo, telhado que cede, instalação elétrica improvisada, piso de chão batido. Problemas que começam construtivos e terminam no posto de saúde.",
       nota: "[CONTEÚDO PENDENTE] substituir por relato real de diagnóstico.",
-      imagem: "/img/instituto/capitulo-01.webp",
-      imagemAlt: "[FOTO PENDENTE] Registro do diagnóstico de uma moradia",
-      imagemProvisoria: true,
+      imagem: "/img/instituto/tereza-diagnostico.webp",
+      imagemAlt:
+        "Seis registros do interior da casa da dona Tereza mostrando piso apodrecido, umidade e improviso",
+      imagemProvisoria: false,
     },
     {
       chave: "projeto",

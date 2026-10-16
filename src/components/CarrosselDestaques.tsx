@@ -124,20 +124,29 @@ export function CarrosselDestaques({ itens }: { itens: readonly Destaque[] }) {
                     fill
                     priority={i === 0}
                     sizes="100vw"
+                    style={{ objectPosition: item.midia.posicao ?? "center" }}
                     className="object-cover"
                   />
                 )}
                 {!item.midia.pendente && (
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent"
+                    className={`absolute inset-0 ${
+                      item.textoEm === "direita"
+                        ? "bg-gradient-to-l from-black/85 via-black/50 to-transparent"
+                        : "bg-gradient-to-r from-black/85 via-black/50 to-transparent"
+                    }`}
                   />
                 )}
               </div>
 
               {/* texto */}
               <div className="relative">
-                <div className="wrap flex min-h-[26rem] flex-col justify-end py-16 md:min-h-[34rem] md:py-24">
+                <div
+                  className={`wrap flex min-h-[26rem] flex-col justify-end py-16 md:min-h-[34rem] md:py-24 ${
+                    item.textoEm === "direita" ? "md:items-end md:text-left" : ""
+                  }`}
+                >
                   <div
                     className={`max-w-[46ch] ${
                       item.midia.pendente

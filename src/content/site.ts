@@ -178,9 +178,9 @@ export const frentes: Front[] = [
       "Os projetos sociais do grupo: moradia, capoeira, esporte, cultura e formação técnica.",
     descricao:
       "O braço social da Tridium, e a casa de mais de um projeto: o Moradia Digna, que devolve segurança a casas em risco, o núcleo de capoeira e a formação técnica em ofícios da construção. Outras frentes entram conforme o Instituto cresce.",
-    imagem: "/img/instituto/hero.webp",
+    imagem: "/img/instituto/tereza-visita.webp",
     imagemAlt:
-      "Moradora e voluntário levantando a estrutura do telhado de uma casa",
+      "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
     accent: "#c4522c",
     status: "em-estruturacao",
   },

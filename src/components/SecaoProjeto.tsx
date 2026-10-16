@@ -103,6 +103,7 @@ export function SecaoProjeto({
                       alt={destaque.midia.alt ?? destaque.midia.descricao}
                       fill
                       sizes="(min-width: 1024px) 40vw, 100vw"
+                      style={{ objectPosition: destaque.midia.posicao ?? "center" }}
                       className="object-cover"
                     />
                   </div>

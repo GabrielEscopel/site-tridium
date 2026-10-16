@@ -124,6 +124,7 @@ export function RegistroMidia({
                         ? "(min-width: 1024px) 60vw, 100vw"
                         : "(min-width: 640px) 40vw, 100vw"
                     }
+                    style={{ objectPosition: item.posicao ?? "center" }}
                     className="object-cover"
                   />
                 </div>
