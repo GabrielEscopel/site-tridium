@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
+import { Atualizacoes } from "@/components/Atualizacoes";
+import { CarrosselDestaques } from "@/components/CarrosselDestaques";
 import { JornadaCapitulos } from "@/components/JornadaCapitulos";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { SecaoProjeto } from "@/components/SecaoProjeto";
 import { Botao, Pendente, Rotulo, TituloSecao } from "@/components/ui";
-import { instituto, projetos } from "@/content/instituto";
+import {
+  atualizacoes,
+  destaques,
+  instituto,
+  projetos,
+} from "@/content/instituto";
 import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaInstituto, schemaMigalhas } from "@/lib/seo";
 
@@ -70,24 +76,13 @@ export default function InstitutoPage() {
           </div>
         </div>
 
-        <figure className="relative mt-4 aspect-[16/9] w-full overflow-hidden bg-inset md:aspect-[21/9]">
-          <Image
-            src={instituto.hero.imagem}
-            alt={instituto.hero.imagemAlt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          {instituto.hero.imagemProvisoria && (
-            <figcaption className="absolute bottom-4 left-[var(--gutter)]">
-              <span className="inline-flex items-center gap-2 border border-dashed border-white/70 bg-black/55 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-white">
-                ◇ Foto provisória
-              </span>
-            </figcaption>
-          )}
-        </figure>
       </section>
+
+      {/* ================= DESTAQUES =================
+          No lugar da foto de capa única: o que está acontecendo agora, um
+          slide por chamada. Substitui a imagem estática porque o Instituto
+          tem mais de um projeto, e cada um merece a própria abertura. */}
+      <CarrosselDestaques itens={destaques} />
 
       {/* ================= MISSÃO ================= */}
       <section className="py-20 md:py-28">
@@ -165,6 +160,13 @@ export default function InstitutoPage() {
           )}
         </SecaoProjeto>
       ))}
+
+      {/* ================= ATUALIZAÇÕES ================= */}
+      <Atualizacoes
+        itens={atualizacoes}
+        titulo={instituto.atualizacoesIntro.titulo}
+        texto={instituto.atualizacoesIntro.texto}
+      />
 
       {/* ================= TRANSPARÊNCIA ================= */}
       <section className="border-t border-line py-20 md:py-28">

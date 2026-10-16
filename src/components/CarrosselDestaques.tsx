@@ -1,0 +1,255 @@
+"use client";
+
+/* =============================================================================
+   CARROSSEL DE DESTAQUES
+   -----------------------------------------------------------------------------
+   Inspirado na abertura do Greenpeace: uma foto forte, uma frase e uma ação,
+   trocando de slide.
+
+   Cuidados que um carrossel costuma errar e que foram tratados aqui:
+
+   - Avanço automático PARA no hover, no foco do teclado e quando a aba sai de
+     vista. Texto que some enquanto a pessoa está lendo é o defeito clássico
+     do padrão.
+   - Com `prefers-reduced-motion`, não avança sozinho em momento nenhum.
+   - Setas e marcadores são botões de verdade, alcançáveis por Tab, e o slide
+     visível é anunciado por uma região live.
+   - Os slides fora de vista ficam com `inert`, senão o Tab entra em links
+     invisíveis e o foco "desaparece" para quem navega por teclado.
+   - Arrasto funciona no toque sem bloquear a rolagem vertical da página.
+   ============================================================================= */
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import type { Destaque } from "@/content/instituto";
+import { prefereMovimentoReduzido } from "@/lib/motion";
+import { FotoPendente } from "./FotoPendente";
+import { Rotulo } from "./ui";
+
+const INTERVALO = 7000;
+
+export function CarrosselDestaques({ itens }: { itens: readonly Destaque[] }) {
+  const [atual, setAtual] = useState(0);
+  const [pausado, setPausado] = useState(false);
+  const raizRef = useRef<HTMLElement>(null);
+  const toqueX = useRef<number | null>(null);
+
+  const total = itens.length;
+  const ir = useCallback(
+    (i: number) => setAtual(((i % total) + total) % total),
+    [total]
+  );
+
+  /* --- avanço automático --- */
+  useEffect(() => {
+    if (total <= 1 || pausado || prefereMovimentoReduzido()) return;
+
+    const id = window.setInterval(() => {
+      if (!document.hidden) setAtual((i) => (i + 1) % total);
+    }, INTERVALO);
+
+    return () => window.clearInterval(id);
+  }, [total, pausado]);
+
+  /* --- setas do teclado quando o carrossel tem foco --- */
+  useEffect(() => {
+    const el = raizRef.current;
+    if (!el) return;
+
+    const aoTeclar = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        ir(atual - 1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        ir(atual + 1);
+      }
+    };
+
+    el.addEventListener("keydown", aoTeclar);
+    return () => el.removeEventListener("keydown", aoTeclar);
+  }, [atual, ir]);
+
+  if (!total) return null;
+
+  return (
+    <section
+      ref={raizRef}
+      aria-roledescription="carrossel"
+      aria-label="Destaques do Instituto"
+      className="relative overflow-hidden bg-inset"
+      onMouseEnter={() => setPausado(true)}
+      onMouseLeave={() => setPausado(false)}
+      onFocusCapture={() => setPausado(true)}
+      onBlurCapture={() => setPausado(false)}
+      onTouchStart={(e) => {
+        toqueX.current = e.touches[0].clientX;
+      }}
+      onTouchEnd={(e) => {
+        if (toqueX.current === null) return;
+        const dx = e.changedTouches[0].clientX - toqueX.current;
+        if (Math.abs(dx) > 50) ir(atual + (dx < 0 ? 1 : -1));
+        toqueX.current = null;
+      }}
+    >
+      {/* --- trilho --- */}
+      <div
+        className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+        style={{ transform: `translateX(-${atual * 100}%)` }}
+      >
+        {itens.map((item, i) => {
+          const visivel = i === atual;
+          return (
+            <div
+              key={item.chave}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} de ${total}: ${item.eyebrow}`}
+              aria-hidden={!visivel}
+              inert={!visivel}
+              className="relative w-full shrink-0"
+            >
+              {/* fundo */}
+              <div className="absolute inset-0">
+                {item.midia.pendente ? (
+                  <FotoPendente
+                    descricao={item.midia.descricao}
+                    className="h-full w-full"
+                  />
+                ) : (
+                  <Image
+                    src={item.midia.src!}
+                    alt=""
+                    fill
+                    priority={i === 0}
+                    sizes="100vw"
+                    className="object-cover"
+                  />
+                )}
+                {!item.midia.pendente && (
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent"
+                  />
+                )}
+              </div>
+
+              {/* texto */}
+              <div className="relative">
+                <div className="wrap flex min-h-[26rem] flex-col justify-end py-16 md:min-h-[34rem] md:py-24">
+                  <div
+                    className={`max-w-[46ch] ${
+                      item.midia.pendente
+                        ? "bg-surface/90 p-6 backdrop-blur-sm md:p-8"
+                        : ""
+                    }`}
+                  >
+                    <Rotulo>{item.eyebrow}</Rotulo>
+                    <h3
+                      className={`t-display-tight fs-secao mt-4 ${
+                        item.midia.pendente ? "text-ink" : "text-white"
+                      }`}
+                    >
+                      {item.titulo}
+                    </h3>
+                    <p
+                      className={`t-body mt-4 ${
+                        item.midia.pendente ? "text-muted" : "text-white/90"
+                      }`}
+                    >
+                      {item.texto}
+                    </p>
+
+                    {item.acao.externo ? (
+                      <a
+                        href={item.acao.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="t-label mt-7 inline-flex items-center gap-3 bg-accent px-6 py-4 text-accent-ink transition-[filter] duration-200 hover:brightness-110"
+                      >
+                        {item.acao.rotulo}
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    ) : (
+                      <Link
+                        href={item.acao.href}
+                        className="t-label mt-7 inline-flex items-center gap-3 bg-accent px-6 py-4 text-accent-ink transition-[filter] duration-200 hover:brightness-110"
+                      >
+                        {item.acao.rotulo}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* --- controles --- */}
+      {total > 1 && (
+        <div className="wrap pointer-events-none absolute inset-x-0 bottom-6 md:bottom-8">
+          <div className="pointer-events-auto flex items-center gap-5">
+            <div className="flex gap-2">
+              <Controle rotulo="Destaque anterior" aoClicar={() => ir(atual - 1)}>
+                ←
+              </Controle>
+              <Controle rotulo="Próximo destaque" aoClicar={() => ir(atual + 1)}>
+                →
+              </Controle>
+            </div>
+
+            <ul className="flex items-center gap-2">
+              {itens.map((item, i) => (
+                <li key={item.chave}>
+                  <button
+                    type="button"
+                    onClick={() => ir(i)}
+                    aria-current={i === atual ? "true" : undefined}
+                    className={`block h-1.5 rounded-full transition-all duration-300 ${
+                      i === atual
+                        ? "w-8 bg-accent"
+                        : "w-1.5 bg-white/55 hover:bg-white/85"
+                    }`}
+                  >
+                    <span className="sr-only">
+                      Ir para o destaque {i + 1}: {item.eyebrow}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+
+      {/* Anuncia a troca para leitores de tela sem roubar o foco */}
+      <p aria-live="polite" className="sr-only">
+        Destaque {atual + 1} de {total}: {itens[atual].eyebrow}
+      </p>
+    </section>
+  );
+}
+
+function Controle({
+  children,
+  rotulo,
+  aoClicar,
+}: {
+  children: React.ReactNode;
+  rotulo: string;
+  aoClicar: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={aoClicar}
+      className="grid h-11 w-11 place-items-center border border-white/35 bg-black/35 text-white transition-colors duration-200 hover:border-accent hover:bg-accent hover:text-accent-ink"
+    >
+      <span aria-hidden="true">{children}</span>
+      <span className="sr-only">{rotulo}</span>
+    </button>
+  );
+}

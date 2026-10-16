@@ -74,6 +74,121 @@ export interface Projeto {
 }
 
 /* -----------------------------------------------------------------------------
+   DESTAQUES — o carrossel do topo
+   Cada slide é uma chamada: uma foto forte, uma frase e uma ação. É o lugar
+   de colocar o que está acontecendo AGORA — a obra em andamento, a turma que
+   abriu, a campanha do mês. A ordem do array é a ordem dos slides.
+   ----------------------------------------------------------------------------- */
+
+export interface Destaque {
+  chave: string;
+  /** Categoria acima do título. Normalmente o nome do projeto. */
+  eyebrow: string;
+  titulo: string;
+  texto: string;
+  acao: { rotulo: string; href: string; externo?: boolean };
+  /** Foto de fundo. Enquanto pendente, entra o painel de foto pendente. */
+  midia: Midia;
+}
+
+export const destaques: Destaque[] = [
+  {
+    chave: "dona-tereza",
+    eyebrow: "Moradia Digna",
+    titulo: "A primeira casa foi a da dona Tereza.",
+    texto:
+      "[CONTEÚDO PENDENTE] Uma frase sobre a casa dela — o que estava em risco e o que mudou. Esta é a chamada mais forte que o Instituto tem.",
+    acao: { rotulo: "Conhecer o projeto", href: "#moradia-digna" },
+    midia: {
+      tipo: "foto",
+      pendente: true,
+      descricao:
+        "Dona Tereza na casa reformada. Foto horizontal, ampla, com ela em primeiro plano — é a imagem de abertura do Instituto.",
+    },
+  },
+  {
+    chave: "capoeira",
+    eyebrow: "Capoeira",
+    titulo: "[CONTEÚDO PENDENTE] A chamada do núcleo de capoeira.",
+    texto:
+      "[CONTEÚDO PENDENTE] Uma frase sobre as aulas: quem participa, onde acontece e o que muda para essas crianças e jovens.",
+    acao: { rotulo: "Conhecer o projeto", href: "#capoeira" },
+    midia: {
+      tipo: "foto",
+      pendente: true,
+      descricao:
+        "Roda de capoeira em movimento. Foto horizontal, aberta, que mostre o grupo inteiro.",
+    },
+  },
+  {
+    chave: "apoiar",
+    eyebrow: "Como entrar",
+    titulo: "Nem todo apoio é dinheiro.",
+    texto:
+      "Tempo, material, equipamento, um espaço emprestado, uma indicação. Há uma forma de ajudar que cabe no que você tem.",
+    acao: {
+      rotulo: "Falar com a gente",
+      href: "https://wa.me/5548991149253",
+      externo: true,
+    },
+    midia: {
+      tipo: "foto",
+      pendente: true,
+      descricao:
+        "Mutirão com voluntários e equipe técnica trabalhando juntos. Foto horizontal, de gente em ação.",
+    },
+  },
+];
+
+/* -----------------------------------------------------------------------------
+   ATUALIZAÇÕES — o que está acontecendo
+   É o que mantém o Instituto vivo entre uma obra e outra: mutirão realizado,
+   turma nova, família atendida, parceria fechada. Item novo entra no topo.
+   ----------------------------------------------------------------------------- */
+
+export interface Atualizacao {
+  chave: string;
+  /** Nome do projeto, ou "Instituto" para avisos gerais. */
+  categoria: string;
+  titulo: string;
+  resumo: string;
+  /** Data em ISO (AAAA-MM-DD). Usada para ordenar e para o <time>. */
+  data: string;
+  /** Link opcional: post no Instagram, matéria, formulário. */
+  href?: string;
+}
+
+/* [CONTEÚDO PENDENTE] Nenhuma atualização real ainda. Os itens abaixo são
+   exemplos do formato e devem ser substituídos — ou removidos, deixando o
+   array vazio, caso a seção não vá ao ar na primeira versão. */
+export const atualizacoes: Atualizacao[] = [
+  {
+    chave: "exemplo-1",
+    categoria: "Moradia Digna",
+    titulo: "[CONTEÚDO PENDENTE] Título da atualização",
+    resumo:
+      "Duas ou três linhas sobre o que aconteceu. Exemplo: mutirão concluído na casa da família X, com tantos voluntários, e o que foi feito.",
+    data: "[PENDENTE]",
+  },
+  {
+    chave: "exemplo-2",
+    categoria: "Capoeira",
+    titulo: "[CONTEÚDO PENDENTE] Título da atualização",
+    resumo:
+      "Exemplo: turma nova aberta, quantas vagas, onde e quando acontecem as aulas.",
+    data: "[PENDENTE]",
+  },
+  {
+    chave: "exemplo-3",
+    categoria: "Instituto",
+    titulo: "[CONTEÚDO PENDENTE] Título da atualização",
+    resumo:
+      "Exemplo: parceria firmada com uma empresa fornecedora, e o que ela viabiliza.",
+    data: "[PENDENTE]",
+  },
+];
+
+/* -----------------------------------------------------------------------------
    OS PROJETOS
    ----------------------------------------------------------------------------- */
 
@@ -260,6 +375,13 @@ export const instituto = {
     imagem: "/img/instituto/hero.webp",
     imagemAlt: "Moradora e voluntário levantando a estrutura do telhado",
     imagemProvisoria: true,
+  },
+
+  /* Abre a seção de atualizações. */
+  atualizacoesIntro: {
+    titulo: "O Instituto não para entre uma obra e outra.",
+    texto:
+      "Mutirão concluído, turma nova, família atendida, parceria fechada. O que acontece no dia a dia dos projetos aparece aqui.",
   },
 
   /* Abre a lista de projetos. */
