@@ -147,7 +147,7 @@ export const schemaInstituto = {
   name: "Instituto Tridium",
   alternateName: "Instituto Tridium — projeto social do Grupo Tridium",
   description:
-    "Projeto social do Grupo Tridium para reforma e reconstrução de moradias de famílias em situação de vulnerabilidade em Florianópolis.",
+    "Braço social do Grupo Tridium em Florianópolis. Reúne projetos de moradia digna, capoeira, esporte, lazer, cultura e formação técnica em ofícios da construção.",
   url: `${SITE_URL}/instituto`,
   telephone: TELEFONE,
   image: `${SITE_URL}/img/instituto/hero.webp`,

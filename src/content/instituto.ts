@@ -16,12 +16,12 @@ export const instituto = {
   nome: "Instituto Tridium",
   nomeCurto: "Instituto",
   tipo: "Projeto social do Grupo Tridium",
-  missao: "Toda família merece uma casa que não ameace quem mora nela.",
+  missao: "Ninguém transforma a própria vida sozinho — e quase sempre falta estrutura, não vontade.",
 
   hero: {
-    eyebrow: "Projeto social · Florianópolis",
-    titulo: ["Uma casa", "não deveria", "ser um risco."],
-    lead: "O Instituto Tridium leva projeto técnico, material e mão de obra a moradias que perderam a segurança. É a engenharia do grupo aplicada onde não existe orçamento para contratá-la.",
+    eyebrow: "Projetos sociais · Florianópolis",
+    titulo: ["Transformar", "vidas também", "é construir."],
+    lead: "O Instituto Tridium leva projetos sociais a quem não tem como contratá-los: moradia digna, capoeira, esporte, lazer, cultura e formação técnica em ofícios da construção. É a competência do grupo aplicada fora da obra.",
     /* [FOTO PENDENTE] imagem provisória de banco de imagens */
     imagem: "/img/instituto/hero.webp",
     imagemAlt: "Moradora e voluntário levantando a estrutura do telhado",

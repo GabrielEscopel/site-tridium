@@ -10,9 +10,9 @@ import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaInstituto, schemaMigalhas } from "@/lib/seo";
 
 export const metadata: Metadata = metadadosRota({
-  titulo: "Instituto Tridium — Projeto social de reforma de moradias",
+  titulo: "Instituto Tridium — Projetos sociais em Florianópolis",
   descricao:
-    "O Instituto Tridium leva projeto técnico, material e mão de obra a moradias que perderam a segurança em Florianópolis. Doe, seja voluntário, seja parceiro ou indique uma família.",
+    "O braço social do Grupo Tridium em Florianópolis: moradia digna, capoeira, esporte, lazer, cultura e formação técnica em ofícios da construção. Doe, seja voluntário ou torne-se parceiro.",
   caminho: "/instituto",
   imagem: "/og/instituto.png",
 });
