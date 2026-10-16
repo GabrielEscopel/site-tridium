@@ -106,7 +106,7 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
           </p>
         </div>
 
-        <h2 className="t-display-tight mt-5 max-w-[18ch] text-[clamp(1.75rem,1.2rem+2.4vw,2.875rem)] text-ink">
+        <h2 className="t-display-tight mt-5 max-w-[18ch] fs-secao text-ink">
           Obras que quase ninguém aceita executar.
         </h2>
       </div>
@@ -155,7 +155,7 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
                   <span className="t-label text-faint">{item.local}</span>
                 </div>
 
-                <h3 className="t-display-tight mt-4 text-[clamp(1.5rem,1.2rem+1.2vw,2.25rem)] text-ink">
+                <h3 className="t-display-tight mt-4 fs-bloco text-ink">
                   {item.nome}
                 </h3>
 

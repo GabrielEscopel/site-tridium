@@ -41,7 +41,7 @@ export default function LarDignoPage() {
               <Rotulo>{instituto.hero.eyebrow}</Rotulo>
             </div>
 
-            <h1 className="t-display mt-8 max-w-[14ch] text-[clamp(2.5rem,1.3rem+6vw,6.5rem)] text-ink">
+            <h1 className="t-display mt-8 max-w-[14ch] fs-hero text-ink">
               {instituto.hero.titulo.map((linha, i) => (
                 <span
                   key={linha}
@@ -115,7 +115,7 @@ export default function LarDignoPage() {
       <section className="py-20 md:py-28">
         <div className="wrap">
           <Reveal>
-            <p className="t-display-tight mx-auto max-w-[24ch] text-center text-[clamp(1.75rem,1.1rem+3.2vw,3.75rem)] text-ink">
+            <p className="t-display-tight mx-auto max-w-[24ch] text-center fs-secao text-ink">
               {instituto.missao}
             </p>
           </Reveal>
@@ -183,7 +183,7 @@ export default function LarDignoPage() {
           <Reveal as="ul" className="mt-14 grid gap-px bg-line md:mt-20 md:grid-cols-2" stagger>
             {instituto.comoAjudar.map((forma) => (
               <li key={forma.chave} className="flex flex-col bg-surface p-8 md:p-12">
-                <h3 className="t-display-tight text-[clamp(1.5rem,1.2rem+1.2vw,2.125rem)] text-ink">
+                <h3 className="t-display-tight fs-bloco text-ink">
                   {forma.titulo}
                 </h3>
                 <p className="t-label mt-3 text-accent-texto">{forma.resumo}</p>
@@ -217,7 +217,7 @@ export default function LarDignoPage() {
       <section className="py-20 md:py-28">
         <div className="wrap">
           <Reveal className="border-t border-line pt-10">
-            <h2 className="t-display-tight max-w-[16ch] text-[clamp(1.5rem,1.2rem+1.6vw,2.5rem)] text-ink">
+            <h2 className="t-display-tight max-w-[16ch] fs-bloco text-ink">
               {instituto.transparencia.titulo}
             </h2>
             <p className="t-body mt-6 max-w-[62ch] text-muted">
@@ -233,7 +233,7 @@ export default function LarDignoPage() {
           <Reveal className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
             <div>
               <Rotulo>Contato</Rotulo>
-              <h2 className="t-display-tight mt-6 max-w-[18ch] text-[clamp(1.75rem,1.2rem+2.6vw,3.5rem)] text-ink">
+              <h2 className="t-display-tight mt-6 max-w-[18ch] fs-secao text-ink">
                 {instituto.cta.titulo}
               </h2>
               <p className="t-lead mt-6 max-w-[46ch] text-muted">

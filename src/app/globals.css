@@ -223,6 +223,24 @@
     letter-spacing: -0.018em;
   }
 
+  /* --- ESCALA TIPOGRÁFICA DOS TÍTULOS ---------------------------------
+     Quatro degraus, um por papel. Antes havia 16 tamanhos arbitrários
+     espalhados pelas páginas, nenhum derivado do outro: mexer em um
+     desalinhava os demais e a hierarquia achatava.
+
+     Nos extremos (375px / 1440px):
+       fs-hero   28 → 48px   título da página
+       fs-secao  24 → 38px   título de seção
+       fs-bloco  20 → 30px   capítulo, card grande, número
+       fs-card   18 → 24px   card de serviço
+
+     Para reduzir ou aumentar todos os títulos de uma vez, mexa só aqui. */
+
+  .fs-hero  { font-size: clamp(1.75rem, 0.9rem + 2.4vw, 3rem); }
+  .fs-secao { font-size: clamp(1.5rem, 0.95rem + 1.9vw, 2.375rem); }
+  .fs-bloco { font-size: clamp(1.25rem, 0.95rem + 1.1vw, 1.875rem); }
+  .fs-card  { font-size: clamp(1.125rem, 0.9rem + 0.7vw, 1.5rem); }
+
   /* Mono utilitária: ecoa o "ENGENHARIA E CONSTRUÇÃO" travado do logo */
   .t-label {
     font-family: var(--font-mono);

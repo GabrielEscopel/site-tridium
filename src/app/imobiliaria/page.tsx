@@ -47,7 +47,7 @@ export default function ImobiliariaPage() {
 
               {/* Limitado pela linha mais larga ("quem constrói.") dentro da
                   coluna de texto — acima disso ela invade a fotografia. */}
-              <h1 className="t-display mt-8 text-[clamp(2.25rem,1.1rem+4.6vw,4.75rem)] text-ink">
+              <h1 className="t-display mt-8 fs-hero text-ink">
                 {imobiliaria.hero.titulo.map((linha, i) => (
                   <span
                     key={linha}
@@ -139,7 +139,7 @@ export default function ImobiliariaPage() {
           <Reveal className="mt-14 grid gap-px bg-line md:mt-20 md:grid-cols-2" stagger>
             {imobiliaria.diferenciais.map((item) => (
               <article key={item.titulo} className="bg-surface p-8 md:p-12">
-                <h3 className="t-display-tight text-[clamp(1.375rem,1.1rem+1.1vw,1.875rem)] text-ink">
+                <h3 className="t-display-tight fs-card text-ink">
                   {item.titulo}
                 </h3>
                 <p className="t-body mt-5 max-w-[46ch] text-muted">{item.texto}</p>
@@ -183,7 +183,7 @@ export default function ImobiliariaPage() {
                     <p className="t-label text-accent-texto">
                       {destaque.tipo} · {destaque.bairro}, {destaque.cidade}
                     </p>
-                    <h3 className="t-display-tight mt-5 text-[clamp(1.5rem,1.2rem+1.4vw,2.25rem)] text-ink">
+                    <h3 className="t-display-tight mt-5 fs-bloco text-ink">
                       {destaque.nome}
                     </h3>
                     <p className="t-body mt-5 max-w-[44ch] text-muted">
@@ -284,7 +284,7 @@ export default function ImobiliariaPage() {
           <Reveal className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
             <div>
               <Rotulo>Contato</Rotulo>
-              <h2 className="t-display-tight mt-6 max-w-[16ch] text-[clamp(1.75rem,1.2rem+2.6vw,3.5rem)] text-ink">
+              <h2 className="t-display-tight mt-6 max-w-[16ch] fs-secao text-ink">
                 {imobiliaria.cta.titulo}
               </h2>
               <p className="t-lead mt-6 max-w-[46ch] text-muted">

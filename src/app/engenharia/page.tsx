@@ -64,7 +64,7 @@ export default function EngenhariaPage() {
             <Rotulo>{engenharia.hero.eyebrow}</Rotulo>
           </div>
 
-          <h1 className="t-display mt-8 text-[clamp(2.25rem,1.1rem+5.2vw,6rem)] text-ink">
+          <h1 className="t-display mt-8 fs-hero text-ink">
             {engenharia.hero.titulo.map((linha, i) => (
               <span key={linha} className={`block ${i === 1 ? "text-accent-texto" : ""}`}>
                 {linha}
@@ -122,7 +122,7 @@ export default function EngenhariaPage() {
                 key={servico.chave}
                 className="group bg-surface p-8 transition-colors duration-300 hover:bg-raised md:p-12"
               >
-                <h3 className="t-display-tight text-[clamp(1.5rem,1.2rem+1.2vw,2.125rem)] text-ink">
+                <h3 className="t-display-tight fs-bloco text-ink">
                   {servico.titulo}
                 </h3>
                 <p className="t-label mt-3 text-accent-texto">{servico.resumo}</p>
@@ -220,7 +220,7 @@ export default function EngenhariaPage() {
           <Reveal className="grid gap-12 lg:grid-cols-2 lg:gap-24">
             <div>
               <Rotulo>Contato</Rotulo>
-              <h2 className="t-display-tight mt-6 max-w-[14ch] text-[clamp(2rem,1.3rem+3.4vw,4rem)] text-ink">
+              <h2 className="t-display-tight mt-6 max-w-[14ch] fs-secao text-ink">
                 {engenharia.cta.titulo}
               </h2>
               <p className="t-lead mt-8 max-w-[44ch] text-muted">

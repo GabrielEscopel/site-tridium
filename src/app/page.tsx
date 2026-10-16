@@ -42,7 +42,7 @@ export default function Home() {
 
             {/* O tamanho é limitado pela linha mais larga ("fundação.") dentro
                 da coluna de texto: acima disso ela invade o símbolo 3D. */}
-            <h1 className="t-display mt-6 text-[clamp(2.5rem,1.2rem+5vw,5rem)] text-ink md:mt-8">
+            <h1 className="t-display mt-6 fs-hero text-ink md:mt-8">
               <span className="block">Três</span>
               <span className="block text-accent-texto">frentes.</span>
               <span className="block">Uma</span>
@@ -164,7 +164,7 @@ export default function Home() {
           <Reveal className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
             <div>
               <Rotulo>Orçamento</Rotulo>
-              <p className="t-display-tight mt-6 max-w-[18ch] text-[clamp(1.75rem,1.2rem+2.6vw,3.5rem)] text-ink">
+              <p className="t-display-tight mt-6 max-w-[18ch] fs-secao text-ink">
                 {CTA_PRINCIPAL}
               </p>
             </div>

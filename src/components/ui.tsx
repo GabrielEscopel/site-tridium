@@ -41,7 +41,7 @@ export function TituloSecao({
         <span className="h-px w-8 shrink-0 bg-accent" aria-hidden="true" />
         <Rotulo>{rotulo}</Rotulo>
       </div>
-      <h2 className="t-display-tight mt-6 text-[clamp(2rem,1.3rem+3.4vw,4rem)] text-ink">
+      <h2 className="t-display-tight mt-6 fs-secao text-ink">
         {titulo}
       </h2>
       {texto && (
@@ -155,7 +155,7 @@ export function Numeros({
         <div key={item.rotulo} className="bg-surface px-6 py-8 sm:px-8 sm:py-10">
           <dt className="sr-only">{item.rotulo}</dt>
           <dd>
-            <span className="t-display-tight block text-[clamp(1.75rem,1.2rem+2vw,2.75rem)] text-accent-texto">
+            <span className="t-display-tight block fs-bloco text-accent-texto">
               {item.valor}
             </span>
             <span className="mt-3 block text-sm leading-snug text-muted">

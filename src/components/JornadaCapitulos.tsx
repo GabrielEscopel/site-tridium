@@ -165,7 +165,7 @@ export function JornadaCapitulos({
                 <span className="t-label text-accent-texto">{cap.indice}</span>
               </div>
 
-              <h3 className="t-display-tight mt-6 text-[clamp(1.75rem,1.2rem+2.4vw,3.25rem)] text-ink">
+              <h3 className="t-display-tight mt-6 fs-bloco text-ink">
                 {cap.titulo}
               </h3>
 

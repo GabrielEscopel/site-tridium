@@ -111,8 +111,8 @@ export function PortaisFrentes() {
                            espaços sozinho nas classes arbitrárias; aqui, não. */
                         fontSize:
                           frente.verbo.length > 10
-                            ? "clamp(1.75rem, 0.9rem + 4.2vw, 5rem)"
-                            : "clamp(2.75rem, 1.4rem + 6.4vw, 7.5rem)",
+                            ? "clamp(1.5rem, 0.8rem + 2.6vw, 3rem)"
+                            : "clamp(2rem, 1rem + 3.9vw, 4.5rem)",
                       }}
                     >
                       {frente.verbo}
