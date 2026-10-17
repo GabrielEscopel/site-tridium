@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
+import { CarrosselObras } from "@/components/CarrosselObras";
 import { GaleriaCases } from "@/components/GaleriaCases";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
@@ -30,74 +30,61 @@ export default function EngenhariaPage() {
         ]}
       />
 
-      {/* ================= HERO ================= */}
-      <section className="relative flex min-h-[100svh] items-end overflow-hidden pb-14 pt-32 sm:pb-20">
-        <Image
-          src={engenharia.hero.imagem}
-          alt={engenharia.hero.imagemAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        {/* Três camadas de véu, e não uma: a foto de fundo é clara e cheia de
-            detalhe, e o título precisa de terreno escuro em toda a altura —
-            inclusive no topo, onde o gradiente sozinho deixava o olho-mágico
-            verde quase ilegível. */}
-        <div aria-hidden="true" className="absolute inset-0 bg-surface/72" />
+      {/* ================= HERO =================
+          Abertura curta, de texto, igual à do Instituto e à dos Imóveis. A
+          capa de tela inteira saiu: era uma foto de prancheta e compasso, que
+          fala de escritório. Quem procura construtora quer ver obra — e obra
+          é o que vem logo abaixo, no carrossel.
+
+          A textura de blueprint fica, bem fraca: é o que distingue o registro
+          da engenharia das outras duas frentes. */}
+      <section className="relative overflow-hidden pt-24 md:pt-28">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-surface via-surface/88 to-surface/60"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-surface via-surface/55 to-transparent"
-        />
-        <div
-          aria-hidden="true"
-          className="blueprint pointer-events-none absolute inset-0 opacity-25"
+          className="blueprint pointer-events-none absolute inset-0 opacity-30"
         />
 
         <div className="wrap relative">
-          <div className="flex items-center gap-4">
-            <span className="h-px w-8 bg-accent" aria-hidden="true" />
-            <Rotulo>{engenharia.hero.eyebrow}</Rotulo>
+          <div className="py-10 md:py-14">
+            <div className="flex items-center gap-4">
+              <span className="h-px w-8 bg-accent" aria-hidden="true" />
+              <Rotulo>{engenharia.hero.eyebrow}</Rotulo>
+            </div>
+
+            <h1 className="t-display mt-7 max-w-[16ch] fs-secao text-ink">
+              {engenharia.hero.titulo.map((linha, i) => (
+                <span key={linha} className={`block ${i === 1 ? "text-accent-texto" : ""}`}>
+                  {linha}
+                </span>
+              ))}
+            </h1>
+
+            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
+              <p className="t-lead max-w-[52ch] text-muted">
+                {engenharia.hero.lead}
+              </p>
+
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Botao
+                  href={whatsappLink(mensagensWhatsapp.orcamento)}
+                  externo
+                  ariaLabel={`Fazer orçamento no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
+                >
+                  Fazer orçamento
+                </Botao>
+                <Botao href="#portfolio" variante="texto">
+                  Ver o portfólio
+                </Botao>
+              </div>
+            </div>
           </div>
-
-          <h1 className="t-display mt-8 fs-hero text-ink">
-            {engenharia.hero.titulo.map((linha, i) => (
-              <span key={linha} className={`block ${i === 1 ? "text-accent-texto" : ""}`}>
-                {linha}
-              </span>
-            ))}
-          </h1>
-
-          <p className="t-lead mt-8 max-w-[48ch] text-muted">
-            {engenharia.hero.lead}
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <Botao
-              href={whatsappLink(mensagensWhatsapp.orcamento)}
-              externo
-              ariaLabel={`Fazer orçamento no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
-            >
-              Fazer orçamento
-            </Botao>
-            <Botao href="#portfolio" variante="texto">
-              Ver o portfólio
-            </Botao>
-          </div>
-
-          {engenharia.hero.imagemProvisoria && (
-            <p className="mt-10">
-              <Pendente titulo="Substituir por fotografia de obra própria da Tridium">
-                Foto de capa provisória
-              </Pendente>
-            </p>
-          )}
         </div>
       </section>
+
+      {/* ================= OBRAS EM DESTAQUE =================
+          As principais obras, uma por slide. Saem do mesmo `cases` que
+          alimenta o portfólio logo abaixo — nada para manter em paralelo. */}
+      <CarrosselObras itens={engenharia.cases} />
 
       {/* ================= SERVIÇOS ================= */}
       <section id="servicos" className="py-20 md:py-32">

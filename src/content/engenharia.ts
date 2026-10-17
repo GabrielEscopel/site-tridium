@@ -13,12 +13,9 @@ export const engenharia = {
     eyebrow: "Florianópolis · SC",
     titulo: ["Engenharia", "que assume", "a obra inteira."],
     lead: "Projeto, execução e reforma sob uma mesma responsabilidade técnica. Sem repasse de culpa entre projetista e construtor — a Tridium responde pelas duas pontas.",
-    /* [FOTO PENDENTE] substituir por foto real de obra própria da Tridium.
-       Imagem atual é provisória, de banco de imagens. */
-    imagem: "/img/engenharia/hero.webp",
-    imagemAlt:
-      "Estrutura de concreto aparente em obra, com escadaria e vãos amplos",
-    imagemProvisoria: true,
+    /* A capa de tela inteira saiu: quem abre a página vê obra no carrossel,
+       não uma foto de prancheta. `/img/engenharia/hero.webp` continua em uso
+       como imagem de compartilhamento (site.ts e lib/seo.ts). */
   },
 
   /* --- Serviços --------------------------------------------------------- */
@@ -78,10 +75,20 @@ export const engenharia = {
   ],
 
   /* --- Portfólio --------------------------------------------------------
-     [FOTO PENDENTE] Nenhum case tem registro fotográfico real ainda. Em vez de
-     ilustrar com banco de imagens (que passaria por foto do projeto na hora de
-     publicar), cada card mostra um painel de foto pendente com a descrição do
-     que precisa ser produzido. Basta preencher `imagem` para o painel sumir. */
+     [FOTO PENDENTE] Nenhum case tem registro fotográfico real da Tridium.
+
+     As imagens abaixo são de BANCO e não mostram as obras da Tridium: são
+     um skatepark, uma treliça metálica, um playground e um totem quaisquer,
+     escolhidos só porque o tipo de estrutura bate. Entraram a pedido do
+     cliente, para o carrossel ficar navegável antes das fotos reais.
+
+     Por isso `imagemProvisoria: true` em todas: o selo aparece na tela em
+     cima da foto, no carrossel e na galeria. É o que impede que uma foto
+     genérica passe despercebida na revisão e vá ao ar como se fosse o
+     projeto. Ao trocar pela foto real, apague a linha do selo.
+
+     `descricaoFoto` continua valendo: é a pauta do que precisa ser
+     fotografado em cada obra. */
   cases: [
     {
       chave: "rhinno",
@@ -95,7 +102,12 @@ export const engenharia = {
       descricao:
         "Estrutura que não aceita junta aparente nem tolerância de acabamento comum: cada transição foi conferida em gabarito antes da concretagem. O piso é a peça técnica principal do projeto.",
       escopo: ["Projeto executivo", "Cálculo estrutural", "Execução", "Acabamento"],
-      imagem: null,
+      imagem: "/img/engenharia/obra-rhinno.webp",
+      imagemAlt: "Bowl de concreto de uma pista de skate, com ponte ao fundo",
+      imagemProvisoria: true,
+      /* A foto é vertical e o bowl está no terço de baixo: centralizada, o
+         slide mostraria só céu. */
+      imagemPosicao: "center 72%",
       descricaoFoto:
         "Pista concluída em uso: transições, bowl e corrimãos. Horizontal, luz do fim da tarde.",
     },
@@ -111,7 +123,11 @@ export const engenharia = {
       descricao:
         "Projetos de cobertura em que o vão livre é o requisito e a carga de vento litorânea é o limite. Cálculo, fabricação e montagem acompanhados pela mesma equipe.",
       escopo: ["Cálculo estrutural", "Fabricação", "Montagem", "Tratamento anticorrosivo"],
-      imagem: null,
+      imagem: "/img/engenharia/obra-marquise.webp",
+      imagemAlt:
+        "Treliça metálica vista de baixo contra o céu, no fim da tarde",
+      imagemProvisoria: true,
+      imagemPosicao: "center 62%",
       descricaoFoto:
         "Marquise instalada vista de baixo, mostrando o vão livre e a estrutura metálica.",
     },
@@ -127,7 +143,10 @@ export const engenharia = {
       descricao:
         "Espaço em que a norma de segurança define a geometria antes da estética. Materiais, quinas, alturas de queda e superfície de impacto verificados item a item.",
       escopo: ["Projeto", "Adequação normativa", "Execução", "Mobiliário"],
-      imagem: null,
+      imagem: "/img/engenharia/obra-brincademia.webp",
+      imagemAlt:
+        "Playground com escorregador e painéis coloridos sobre piso amortecedor",
+      imagemProvisoria: true,
       descricaoFoto:
         "Playground montado com crianças em uso, e um detalhe do piso amortecedor.",
     },
@@ -143,7 +162,12 @@ export const engenharia = {
       descricao:
         "Peça que parece design gráfico e é, na prática, estrutura: fundação dimensionada, perfil calculado e acabamento que precisa durar ao tempo.",
       escopo: ["Projeto", "Fundação", "Fabricação", "Instalação"],
-      imagem: null,
+      imagem: "/img/engenharia/obra-totens.webp",
+      imagemAlt: "Totem de sinalização instalado em caminho de parque",
+      imagemProvisoria: true,
+      /* Enquadra o topo da peça: no centro, a placa é tomada por texto em
+         tailandês, que numa página brasileira salta aos olhos. */
+      imagemPosicao: "center 6%",
       descricaoFoto:
         "Totem instalado no local, de corpo inteiro, com a fundação e o entorno visíveis.",
     },
