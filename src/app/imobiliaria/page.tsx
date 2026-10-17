@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
+import { CarrosselImoveis } from "@/components/CarrosselImoveis";
 import { JsonLd } from "@/components/JsonLd";
 import { ListaImoveis } from "@/components/ListaImoveis";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Pendente, Rotulo, TituloSecao } from "@/components/ui";
-import { imobiliaria, imoveis } from "@/content/imobiliaria";
+import { imobiliaria, imoveis, imoveisDestaque } from "@/content/imobiliaria";
 import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaImobiliaria, schemaMigalhas } from "@/lib/seo";
 
@@ -32,36 +32,34 @@ export default function ImobiliariaPage() {
       />
 
       {/* ================= HERO =================
-          Ao contrário da engenharia (escura, técnica), a imobiliária abre em
-          claro: a foto ocupa a metade da tela e o texto respira ao lado. É a
-          mesma grade, em outro registro. */}
+          Abertura curta, de texto, como a do Instituto. A foto decorativa de
+          antes ocupava uma tela inteira e não levava a lugar nenhum; o espaço
+          passou para o carrossel logo abaixo, que mostra imóveis de verdade. */}
       <section className="pt-24 md:pt-28">
         <div className="wrap">
-          <div className="grid items-end gap-10 py-12 md:py-16 lg:grid-cols-[1.12fr_0.88fr] lg:gap-14">
-            <div>
-              <div className="flex items-center gap-4">
-                <span className="h-px w-8 bg-accent" aria-hidden="true" />
-                <Rotulo>{imobiliaria.hero.eyebrow}</Rotulo>
-              </div>
+          <div className="py-10 md:py-14">
+            <div className="flex items-center gap-4">
+              <span className="h-px w-8 bg-accent" aria-hidden="true" />
+              <Rotulo>{imobiliaria.hero.eyebrow}</Rotulo>
+            </div>
 
-              {/* Limitado pela linha mais larga ("quem constrói.") dentro da
-                  coluna de texto — acima disso ela invade a fotografia. */}
-              <h1 className="t-display mt-8 fs-hero text-ink">
-                {imobiliaria.hero.titulo.map((linha, i) => (
-                  <span
-                    key={linha}
-                    className={`block ${i === 1 ? "text-accent-texto" : ""}`}
-                  >
-                    {linha}
-                  </span>
-                ))}
-              </h1>
+            <h1 className="t-display mt-7 max-w-[16ch] fs-secao text-ink">
+              {imobiliaria.hero.titulo.map((linha, i) => (
+                <span
+                  key={linha}
+                  className={`block ${i === 1 ? "text-accent-texto" : ""}`}
+                >
+                  {linha}
+                </span>
+              ))}
+            </h1>
 
-              <p className="t-lead mt-8 max-w-[46ch] text-muted">
+            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
+              <p className="t-lead max-w-[52ch] text-muted">
                 {imobiliaria.hero.lead}
               </p>
 
-              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Botao
                   href={whatsappLink(mensagensWhatsapp.imobiliaria)}
                   externo
@@ -74,29 +72,14 @@ export default function ImobiliariaPage() {
                 </Botao>
               </div>
             </div>
-
-            <figure className="relative">
-              <div className="relative aspect-[4/5] overflow-hidden bg-inset lg:aspect-[4/5]">
-                <Image
-                  src={imobiliaria.hero.imagem}
-                  alt={imobiliaria.hero.imagemAlt}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 46vw"
-                  className="object-cover"
-                />
-              </div>
-              {imobiliaria.hero.imagemProvisoria && (
-                <figcaption className="mt-4">
-                  <Pendente titulo="Substituir por fotografia própria de empreendimento">
-                    Foto provisória
-                  </Pendente>
-                </figcaption>
-              )}
-            </figure>
           </div>
         </div>
       </section>
+
+      {/* ================= DESTAQUES =================
+          O que interessa hoje, um imóvel por slide. Sai da própria carteira:
+          `destaque: true` no imóvel e ele aparece aqui. */}
+      <CarrosselImoveis itens={imoveisDestaque} />
 
       {/* ================= AVISO DE ESTRUTURAÇÃO ================= */}
       <section className="pb-4">
@@ -114,6 +97,34 @@ export default function ImobiliariaPage() {
               <Pendente titulo="src/content/imobiliaria.ts">CRECI</Pendente>
               <Pendente titulo="src/content/imobiliaria.ts">Fotografia própria</Pendente>
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= CARTEIRA =================
+          Vem antes do discurso institucional de propósito: quem chega aqui
+          quer ver imóvel. O "por que o grupo" fica abaixo, para quem gostou
+          de algum e quer saber com quem está falando.
+
+          Filtros em cima, contagem ao lado, grade embaixo. Cada card folheia
+          as próprias fotos sem sair da lista, e leva à página do imóvel, onde
+          a foto fica ao lado do mapa. */}
+      <section id="carteira" className="bg-inset py-16 md:py-24">
+        <div className="wrap">
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-6">
+              <TituloSecao
+                rotulo="Carteira"
+                titulo="Imóveis à venda em Florianópolis"
+              />
+              <Pendente titulo="Substituir pela carteira real em src/content/imobiliaria.ts">
+                Dados de exemplo
+              </Pendente>
+            </div>
+          </Reveal>
+
+          <div className="mt-12">
+            <ListaImoveis imoveis={imoveis} />
           </div>
         </div>
       </section>
@@ -145,30 +156,6 @@ export default function ImobiliariaPage() {
               </article>
             ))}
           </Reveal>
-        </div>
-      </section>
-
-      {/* ================= CARTEIRA =================
-          Filtros em cima, contagem ao lado, grade embaixo. Cada card folheia
-          as próprias fotos sem sair da lista, e leva à página do imóvel, onde
-          a foto fica ao lado do mapa. */}
-      <section id="carteira" className="bg-inset py-20 md:py-28">
-        <div className="wrap">
-          <Reveal>
-            <div className="flex flex-wrap items-end justify-between gap-6">
-              <TituloSecao
-                rotulo="Carteira"
-                titulo="Imóveis à venda em Florianópolis"
-              />
-              <Pendente titulo="Substituir pela carteira real em src/content/imobiliaria.ts">
-                Dados de exemplo
-              </Pendente>
-            </div>
-          </Reveal>
-
-          <div className="mt-12">
-            <ListaImoveis imoveis={imoveis} />
-          </div>
         </div>
       </section>
 

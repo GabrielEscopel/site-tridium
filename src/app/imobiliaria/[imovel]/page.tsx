@@ -32,7 +32,7 @@ export async function generateMetadata({
 
   return metadadosRota({
     titulo: `${imovel.tipo} no ${imovel.bairro}, ${imovel.cidade} — ${imovel.area} m²`,
-    descricao: `${resumirImovel(imovel)}. ${formatarPreco(imovel.preco)}. Avaliado pela engenharia do Grupo Tridium.`,
+    descricao: `${resumirImovel(imovel)}. ${formatarPreco(imovel.preco)}. Imóvel ${imovel.codigo}, avaliado pela engenharia do Grupo Tridium.`,
     caminho: `/imobiliaria/${imovel.chave}`,
     imagem: imovel.fotos[0]?.src ?? "/og/imobiliaria.png",
   });
@@ -47,7 +47,9 @@ export default async function ImovelPage({
   const imovel = buscarImovel(chave);
   if (!imovel) notFound();
 
-  const mensagem = `Olá! Vim pelo site do Grupo Tridium e tenho interesse no ${imovel.tipo.toLowerCase()} no bairro ${imovel.bairro} (${imovel.area} m²).`;
+  /* O código vai na mensagem: é por ele que o corretor acha o imóvel sem
+     precisar reconstruir a conversa. */
+  const mensagem = `Olá! Vim pelo site do Grupo Tridium e tenho interesse no imóvel ${imovel.codigo} — ${imovel.tipo.toLowerCase()} no bairro ${imovel.bairro} (${imovel.area} m²).`;
 
   return (
     <div data-front="imobiliaria" className="bg-surface">
@@ -58,6 +60,7 @@ export default async function ImovelPage({
             "@type": "RealEstateListing",
             name: `${imovel.tipo} no ${imovel.bairro}`,
             description: imovel.resumo,
+            identifier: imovel.codigo,
             url: `${SITE_URL}/imobiliaria/${imovel.chave}`,
             ...(imovel.preco !== null && {
               offers: {
@@ -102,9 +105,15 @@ export default async function ImovelPage({
 
           <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
             <div>
-              <Rotulo>
-                {imovel.tipo} · {imovel.situacao}
-              </Rotulo>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <span className="t-label bg-accent px-2.5 py-1 text-accent-ink">
+                  <span className="sr-only">Código </span>
+                  {imovel.codigo}
+                </span>
+                <Rotulo>
+                  {imovel.tipo} · {imovel.situacao}
+                </Rotulo>
+              </div>
               <h1 className="t-display fs-hero mt-5 text-ink">
                 {imovel.bairro}
               </h1>
@@ -198,6 +207,7 @@ export default async function ImovelPage({
             </Reveal>
 
             <Reveal as="dl" className="lg:w-72">
+              <Linha rotulo="Código" valor={imovel.codigo} />
               <Linha rotulo="Tipo" valor={imovel.tipo} />
               <Linha rotulo="Bairro" valor={imovel.bairro} />
               <Linha rotulo="Área privativa" valor={`${imovel.area} m²`} />

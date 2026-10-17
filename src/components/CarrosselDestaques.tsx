@@ -1,97 +1,41 @@
 "use client";
 
 /* =============================================================================
-   CARROSSEL DE DESTAQUES
+   CARROSSEL DE DESTAQUES — abertura do Instituto
    -----------------------------------------------------------------------------
    Inspirado na abertura do Greenpeace: uma foto forte, uma frase e uma ação,
    trocando de slide.
 
-   Cuidados que um carrossel costuma errar e que foram tratados aqui:
+   A mecânica — pausa no hover e no foco, teclado, arrasto, movimento reduzido
+   — vive em useCarrossel, compartilhada com o carrossel de imóveis. Aqui ficou
+   só a aparência.
 
-   - Avanço automático PARA no hover, no foco do teclado e quando a aba sai de
-     vista. Texto que some enquanto a pessoa está lendo é o defeito clássico
-     do padrão.
-   - Com `prefers-reduced-motion`, não avança sozinho em momento nenhum.
+   Cuidados que seguem sendo deste componente:
    - Setas e marcadores são botões de verdade, alcançáveis por Tab, e o slide
      visível é anunciado por uma região live.
    - Os slides fora de vista ficam com `inert`, senão o Tab entra em links
      invisíveis e o foco "desaparece" para quem navega por teclado.
-   - Arrasto funciona no toque sem bloquear a rolagem vertical da página.
    ============================================================================= */
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Destaque } from "@/content/instituto";
-import { prefereMovimentoReduzido } from "@/lib/motion";
+import { useCarrossel } from "@/lib/useCarrossel";
 import { FotoPendente } from "./FotoPendente";
 import { Rotulo } from "./ui";
 
-const INTERVALO = 7000;
-
 export function CarrosselDestaques({ itens }: { itens: readonly Destaque[] }) {
-  const [atual, setAtual] = useState(0);
-  const [pausado, setPausado] = useState(false);
-  const raizRef = useRef<HTMLElement>(null);
-  const toqueX = useRef<number | null>(null);
-
   const total = itens.length;
-  const ir = useCallback(
-    (i: number) => setAtual(((i % total) + total) % total),
-    [total]
-  );
-
-  /* --- avanço automático --- */
-  useEffect(() => {
-    if (total <= 1 || pausado || prefereMovimentoReduzido()) return;
-
-    const id = window.setInterval(() => {
-      if (!document.hidden) setAtual((i) => (i + 1) % total);
-    }, INTERVALO);
-
-    return () => window.clearInterval(id);
-  }, [total, pausado]);
-
-  /* --- setas do teclado quando o carrossel tem foco --- */
-  useEffect(() => {
-    const el = raizRef.current;
-    if (!el) return;
-
-    const aoTeclar = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        ir(atual - 1);
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        ir(atual + 1);
-      }
-    };
-
-    el.addEventListener("keydown", aoTeclar);
-    return () => el.removeEventListener("keydown", aoTeclar);
-  }, [atual, ir]);
+  const { atual, ir, propsRaiz } = useCarrossel(total);
 
   if (!total) return null;
 
   return (
     <section
-      ref={raizRef}
+      {...propsRaiz}
       aria-roledescription="carrossel"
       aria-label="Destaques do Instituto"
       className="relative overflow-hidden bg-inset"
-      onMouseEnter={() => setPausado(true)}
-      onMouseLeave={() => setPausado(false)}
-      onFocusCapture={() => setPausado(true)}
-      onBlurCapture={() => setPausado(false)}
-      onTouchStart={(e) => {
-        toqueX.current = e.touches[0].clientX;
-      }}
-      onTouchEnd={(e) => {
-        if (toqueX.current === null) return;
-        const dx = e.changedTouches[0].clientX - toqueX.current;
-        if (Math.abs(dx) > 50) ir(atual + (dx < 0 ? 1 : -1));
-        toqueX.current = null;
-      }}
     >
       {/* --- trilho --- */}
       <div

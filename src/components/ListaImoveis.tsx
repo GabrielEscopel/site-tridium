@@ -135,17 +135,19 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
         </div>
       </div>
 
-      {/* --- Grade --- */}
+      {/* --- Grade ---
+          Cards separados por espaço, não pela malha de fios de antes: cada
+          imóvel é um anúncio inteiro e precisa ler como uma peça fechada. */}
       {filtrados.length > 0 ? (
-        <ul className="mt-px grid gap-px bg-line md:grid-cols-2 xl:grid-cols-3">
+        <ul className="mt-10 grid gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-3">
           {filtrados.map((imovel, i) => (
-            <li key={imovel.chave}>
+            <li key={imovel.chave} className="h-full">
               <CardImovel imovel={imovel} prioridade={i < 3} />
             </li>
           ))}
         </ul>
       ) : (
-        <div className="border-b border-line py-20 text-center">
+        <div className="mt-10 border border-line bg-surface py-20 text-center">
           <p className="t-display-tight fs-bloco text-ink">
             Nenhum imóvel com esse filtro.
           </p>

@@ -24,6 +24,8 @@ export interface FotoImovel {
 
 export interface Imovel {
   chave: string;
+  /** Código do anúncio, o que o cliente diz no telefone: "quero ver o TRI1042". */
+  codigo: string;
   tipo: string;
   finalidade: "venda" | "aluguel";
   situacao: string;
@@ -41,6 +43,8 @@ export interface Imovel {
   condominio?: number;
   iptu?: number;
   selos?: string[];
+  /** Entra no carrossel de abertura. Ligue e desligue conforme o mês. */
+  destaque?: boolean;
   resumo: string;
   descricao: string[];
   diferenciais: string[];
@@ -78,15 +82,17 @@ export function resumirImovel(imovel: Imovel): string {
    navegável. Substituir pela carteira real.
 
    COMO ADICIONAR UM IMÓVEL
-   Copie um bloco e troque os valores. A lista, os filtros e a página de
-   cada imóvel se montam sozinhos — nenhum componente precisa mudar. Os
-   filtros derivam dos próprios dados: bairro novo vira opção nova.
+   Copie um bloco e troque os valores. A lista, os filtros, o carrossel de
+   abertura e a página de cada imóvel se montam sozinhos — nenhum componente
+   precisa mudar. Os filtros derivam dos próprios dados: bairro novo vira
+   opção nova. `destaque: true` coloca o imóvel no carrossel do topo.
 
    Quando a carteira crescer, este array é o ponto de troca para um CRM:
    basta que a fonte devolva objetos neste formato. */
 export const imoveis: Imovel[] = [
   {
     chave: "apartamento-centro-01",
+    codigo: "TRI1001",
     tipo: "Apartamento",
     finalidade: "venda",
     situacao: "Pronto para morar",
@@ -102,6 +108,7 @@ export const imoveis: Imovel[] = [
     condominio: 1180,
     iptu: 1065,
     selos: ["Mobiliado"],
+    destaque: true,
     resumo:
       "[CONTEÚDO PENDENTE] Uma linha sobre o imóvel, o que ele tem de melhor.",
     descricao: [
@@ -127,6 +134,7 @@ export const imoveis: Imovel[] = [
   },
   {
     chave: "casa-lagoa-01",
+    codigo: "TRI1002",
     tipo: "Casa",
     finalidade: "venda",
     situacao: "Pronto para morar",
@@ -139,6 +147,7 @@ export const imoveis: Imovel[] = [
     area: 180,
     preco: 2450000,
     selos: ["Exclusivo"],
+    destaque: true,
     resumo:
       "[CONTEÚDO PENDENTE] Uma linha sobre o imóvel, o que ele tem de melhor.",
     descricao: [
@@ -156,6 +165,7 @@ export const imoveis: Imovel[] = [
   },
   {
     chave: "terreno-rio-tavares-01",
+    codigo: "TRI1003",
     tipo: "Terreno",
     finalidade: "venda",
     situacao: "Disponível",
@@ -193,10 +203,8 @@ export const imobiliaria = {
     eyebrow: "Florianópolis · SC",
     titulo: ["Imóvel", "avaliado por", "quem constrói."],
     lead: "A mesma equipe técnica que executa obra avalia o que entra na carteira. É uma vantagem simples e difícil de copiar: sabemos o que procurar atrás do acabamento.",
-    /* [FOTO PENDENTE] imagem provisória de banco de imagens */
-    imagem: "/img/imobiliaria/hero.webp",
-    imagemAlt: "Fachada de edifício residencial contemporâneo ao entardecer",
-    imagemProvisoria: true,
+    /* A foto de capa saiu: quem abre a página agora vê imóveis de verdade no
+       carrossel, não uma imagem de banco. A abertura ficou mais curta também. */
   },
 
   /* --- Diferenciais ------------------------------------------------------ */
@@ -260,3 +268,19 @@ export const opcoesFiltro = {
 export function buscarImovel(chave: string): Imovel | undefined {
   return imoveis.find((i) => i.chave === chave);
 }
+
+/* -----------------------------------------------------------------------------
+   DESTAQUES DA ABERTURA
+   O carrossel do topo mostra o que interessa hoje. Marcar `destaque: true` no
+   imóvel basta — nada mais a editar.
+
+   Se ninguém marcar nada, entram os três primeiros: a abertura da página nunca
+   fica vazia por esquecimento. Teto de quatro porque além disso a pessoa não
+   espera o carrossel dar a volta.
+   ----------------------------------------------------------------------------- */
+const MAX_DESTAQUES = 4;
+
+export const imoveisDestaque: Imovel[] = (() => {
+  const marcados = imoveis.filter((i) => i.destaque);
+  return (marcados.length > 0 ? marcados : imoveis).slice(0, MAX_DESTAQUES);
+})();
