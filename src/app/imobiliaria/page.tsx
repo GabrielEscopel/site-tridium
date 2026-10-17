@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { JsonLd } from "@/components/JsonLd";
+import { ListaImoveis } from "@/components/ListaImoveis";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Pendente, Rotulo, TituloSecao } from "@/components/ui";
-import { imobiliaria } from "@/content/imobiliaria";
+import { imobiliaria, imoveis } from "@/content/imobiliaria";
 import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaImobiliaria, schemaMigalhas } from "@/lib/seo";
 
@@ -17,8 +18,6 @@ export const metadata: Metadata = metadadosRota({
 });
 
 export default function ImobiliariaPage() {
-  const destaque = imobiliaria.empreendimentos.find((e) => e.destaque);
-  const demais = imobiliaria.empreendimentos.filter((e) => !e.destaque);
 
   return (
     <div data-front="imobiliaria" className="bg-surface">
@@ -149,109 +148,27 @@ export default function ImobiliariaPage() {
         </div>
       </section>
 
-      {/* ================= CARTEIRA ================= */}
-      <section id="carteira" className="bg-inset py-20 md:py-32">
+      {/* ================= CARTEIRA =================
+          Filtros em cima, contagem ao lado, grade embaixo. Cada card folheia
+          as próprias fotos sem sair da lista, e leva à página do imóvel, onde
+          a foto fica ao lado do mapa. */}
+      <section id="carteira" className="bg-inset py-20 md:py-28">
         <div className="wrap">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-6">
-              <TituloSecao rotulo="Carteira" titulo="Em destaque" />
-              <Pendente titulo="Substituir pelos empreendimentos reais em src/content/imobiliaria.ts">
+              <TituloSecao
+                rotulo="Carteira"
+                titulo="Imóveis à venda em Florianópolis"
+              />
+              <Pendente titulo="Substituir pela carteira real em src/content/imobiliaria.ts">
                 Dados de exemplo
               </Pendente>
             </div>
           </Reveal>
 
-          {/* Destaque */}
-          {destaque && (
-            <Reveal className="mt-12 md:mt-16">
-              <article className="grid gap-8 bg-raised md:grid-cols-2 md:gap-0">
-                <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[26rem]">
-                  <Image
-                    src={destaque.imagem}
-                    alt={destaque.imagemAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 46vw"
-                    className="object-cover"
-                  />
-                  <span className="t-label absolute left-5 top-5 bg-accent px-3 py-2 text-accent-ink">
-                    {destaque.status}
-                  </span>
-                </div>
-
-                <div className="flex flex-col justify-between p-8 md:p-12">
-                  <div>
-                    <p className="t-label text-accent-texto">
-                      {destaque.tipo} · {destaque.bairro}, {destaque.cidade}
-                    </p>
-                    <h3 className="t-display-tight mt-5 fs-bloco text-ink">
-                      {destaque.nome}
-                    </h3>
-                    <p className="t-body mt-5 max-w-[44ch] text-muted">
-                      {destaque.resumo}
-                    </p>
-                  </div>
-
-                  <dl className="mt-10 grid grid-cols-1 gap-px bg-line sm:grid-cols-3">
-                    {[
-                      { r: "Dormitórios", v: destaque.dormitorios },
-                      { r: "Vagas", v: destaque.vagas },
-                      { r: "Área", v: destaque.area },
-                    ].map((d) => (
-                      <div key={d.r} className="flex items-baseline justify-between gap-4 bg-raised py-4 pr-4 sm:block">
-                        <dt className="t-label text-faint">{d.r}</dt>
-                        <dd className="text-lg text-ink sm:mt-2">{d.v}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </article>
-            </Reveal>
-          )}
-
-          {/* Grid */}
-          <Reveal
-            as="ul"
-            className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-            stagger
-          >
-            {demais.map((item) => (
-              <li key={item.chave}>
-                <article className="group flex h-full flex-col">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-raised">
-                    <Image
-                      src={item.imagem}
-                      alt={item.imagemAlt}
-                      fill
-                      loading="lazy"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 30vw"
-                      className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-                    />
-                    <span className="t-label absolute left-4 top-4 bg-surface/92 px-3 py-2 text-ink">
-                      {item.status}
-                    </span>
-                    {item.imagemProvisoria && (
-                      <span className="absolute bottom-4 left-4 border border-dashed border-bone/60 bg-void/70 px-2 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-bone">
-                        ◇ Foto pendente
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-1 flex-col border-t border-line pt-5">
-                    <p className="t-label text-accent-texto">
-                      {item.tipo} · {item.bairro}
-                    </p>
-                    <h3 className="t-display-tight mt-4 text-[1.25rem] text-ink">
-                      {item.nome}
-                    </h3>
-                    <p className="t-body mt-3 flex-1 text-muted">{item.resumo}</p>
-                    <p className="t-label mt-6 border-t border-line pt-4 text-ink">
-                      {item.preco}
-                    </p>
-                  </div>
-                </article>
-              </li>
-            ))}
-          </Reveal>
+          <div className="mt-12">
+            <ListaImoveis imoveis={imoveis} />
+          </div>
         </div>
       </section>
 
