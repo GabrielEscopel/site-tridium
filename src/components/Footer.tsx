@@ -94,7 +94,12 @@ export function Footer() {
                     E-mail pendente
                   </Pendente>
                 ) : (
-                  <a href={`mailto:${contato.email}`}>{contato.email}</a>
+                  <a
+                    href={`mailto:${contato.email}`}
+                    className="text-ink transition-colors duration-200 hover:text-accent-texto"
+                  >
+                    {contato.email}
+                  </a>
                 )}
               </li>
             </ul>
@@ -102,11 +107,13 @@ export function Footer() {
             <h2 className="t-label mt-10 text-faint">Onde estamos</h2>
             <address className="mt-6 not-italic text-muted">
               <p>{grupo.endereco.completo}</p>
-              <p className="mt-3">
-                <Pendente titulo="Endereço completo com número e CEP">
-                  Endereço completo pendente
-                </Pendente>
-              </p>
+              {grupo.endereco.cep.startsWith("[") && (
+                <p className="mt-3">
+                  <Pendente titulo="Único campo que falta no endereço">
+                    CEP pendente
+                  </Pendente>
+                </p>
+              )}
             </address>
           </div>
         </div>

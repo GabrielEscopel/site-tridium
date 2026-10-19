@@ -31,14 +31,16 @@ export const grupo = {
   estado: "SC",
   pais: "BR",
 
-  /* [PENDENTE] endereço completo com número e CEP */
   endereco: {
-    logradouro: "[ENDEREÇO PENDENTE]",
-    bairro: "[BAIRRO PENDENTE]",
+    logradouro: "Rua São Vicente de Paula, 161 — Loja 01",
+    bairro: "Agronômica",
     cidade: "Florianópolis",
     uf: "SC",
+    /* [PENDENTE] único campo que falta. Enquanto começar com "[", fica fora
+       do schema.org — `semPendentes`, em lib/seo.ts, remove o campo. */
     cep: "[CEP PENDENTE]",
-    completo: "Florianópolis, Santa Catarina",
+    completo:
+      "Rua São Vicente de Paula, 161 — Loja 01, Agronômica, Florianópolis · SC",
   },
 
   /* [PENDENTE] CNPJ do grupo e das empresas */
@@ -57,7 +59,7 @@ export const contato = {
   whatsappExibicao: "(48) 99114-9253",
   instagram: "https://www.instagram.com/tridium.engenharia/",
   instagramHandle: "@tridium.engenharia",
-  email: "[E-MAIL PENDENTE]",
+  email: "contato@grupotridium.com.br",
 } as const;
 
 /** Monta o link do WhatsApp com mensagem pré-preenchida por contexto. */

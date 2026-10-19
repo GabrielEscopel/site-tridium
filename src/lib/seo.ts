@@ -61,7 +61,9 @@ export function metadadosRota({
 
 const ENDERECO = semPendentes({
   "@type": "PostalAddress",
-  streetAddress: grupo.endereco.logradouro,
+  /* O bairro entra aqui: PostalAddress não tem campo próprio para ele, e
+     `addressLocality` é a cidade. Em busca local o bairro pesa. */
+  streetAddress: `${grupo.endereco.logradouro}, ${grupo.endereco.bairro}`,
   addressLocality: grupo.endereco.cidade,
   addressRegion: grupo.endereco.uf,
   postalCode: grupo.endereco.cep,
@@ -79,6 +81,7 @@ export const schemaOrganizacao = {
   description: grupo.descricao,
   logo: `${SITE_URL}/logos/LOGO-HORIZ_1.png`,
   address: ENDERECO,
+  email: contato.email,
   sameAs: [contato.instagram],
   areaServed: {
     "@type": "City",
@@ -95,6 +98,7 @@ export const schemaEngenharia = {
     "Engenharia, construção, arquitetura e reforma em Florianópolis, SC.",
   url: `${SITE_URL}/engenharia`,
   telephone: TELEFONE,
+  email: contato.email,
   image: `${SITE_URL}/img/engenharia/hero.webp`,
   logo: `${SITE_URL}/logos/LOGO-HORIZ_1.png`,
   address: ENDERECO,
@@ -129,6 +133,7 @@ export const schemaImobiliaria = {
     "Imóveis e empreendimentos em Florianópolis avaliados pela engenharia do Grupo Tridium.",
   url: `${SITE_URL}/imobiliaria`,
   telephone: TELEFONE,
+  email: contato.email,
   image: `${SITE_URL}/img/imobiliaria/hero.webp`,
   address: ENDERECO,
   geo: {
@@ -150,6 +155,7 @@ export const schemaInstituto = {
     "Braço social do Grupo Tridium em Florianópolis. Reúne projetos de moradia digna, capoeira, esporte, lazer, cultura e formação técnica em ofícios da construção.",
   url: `${SITE_URL}/instituto`,
   telephone: TELEFONE,
+  email: contato.email,
   image: `${SITE_URL}/img/instituto/hero.webp`,
   address: ENDERECO,
   areaServed: { "@type": "City", name: "Florianópolis" },
