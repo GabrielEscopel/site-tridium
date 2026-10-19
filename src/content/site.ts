@@ -99,7 +99,7 @@ export function mensagemPorRota(pathname: string): string {
 export const ctaContato = {
   padrao: { curto: "Orçamento", longo: "Fazer orçamento" },
   engenharia: { curto: "Orçamento", longo: "Fazer orçamento" },
-  imobiliaria: { curto: "Corretor", longo: "Falar com corretor" },
+  imobiliaria: { curto: "Agendar visita", longo: "Agendar visita" },
   instituto: { curto: "Apoiar", longo: "Apoiar o Instituto" },
 } as const;
 
