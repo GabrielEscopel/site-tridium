@@ -36,11 +36,9 @@ export const grupo = {
     bairro: "Agronômica",
     cidade: "Florianópolis",
     uf: "SC",
-    /* [PENDENTE] único campo que falta. Enquanto começar com "[", fica fora
-       do schema.org — `semPendentes`, em lib/seo.ts, remove o campo. */
-    cep: "[CEP PENDENTE]",
+    cep: "88025-330",
     completo:
-      "Rua São Vicente de Paula, 161 — Loja 01, Agronômica, Florianópolis · SC",
+      "Rua São Vicente de Paula, 161 — Loja 01, Agronômica, Florianópolis · SC, 88025-330",
   },
 
   /* [PENDENTE] CNPJ do grupo e das empresas */
