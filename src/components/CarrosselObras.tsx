@@ -1,144 +1,113 @@
 "use client";
 
 /* =============================================================================
-   CARROSSEL DE OBRAS — abertura da engenharia
+   CARROSSEL DE OBRAS — abertura da engenharia, em tela cheia
    -----------------------------------------------------------------------------
-   Terceira aplicação do mesmo padrão: foto grande, pouco texto, uma ação.
-   Instituto mostra projetos, Imóveis mostra imóveis, aqui são as obras.
+   Aqui o carrossel É a capa: ocupa a primeira dobra inteira e as obras passam
+   atrás do título.
 
-   Substituiu a capa de tela inteira que havia antes — uma foto de prancheta
-   que falava de escritório, não de obra. O portfólio completo continua logo
-   abaixo, com o percurso horizontal; isto aqui é a vitrine.
+   A diferença em relação aos carrosséis do Instituto e dos Imóveis: ali cada
+   slide traz o próprio texto e o próprio botão, porque cada slide leva a uma
+   página diferente. Aqui o texto é um só — é a chamada da empresa, não da
+   obra — e fica PARADO enquanto as fotos trocam. Título que pisca a cada sete
+   segundos cansa, e a frase de posicionamento precisa ficar legível o tempo
+   todo.
+
+   Quem está passando aparece na legenda embaixo, ao lado dos controles: é o
+   que impede a foto de virar enfeite anônimo.
 
    A mecânica (pausa, teclado, toque, movimento reduzido) vem de useCarrossel.
    ============================================================================= */
 
+import type { ReactNode } from "react";
 import Image from "next/image";
 import type { CaseItem } from "./GaleriaCases";
 import { useCarrossel } from "@/lib/useCarrossel";
 import { FotoPendente } from "./FotoPendente";
 
-export function CarrosselObras({ itens }: { itens: readonly CaseItem[] }) {
+export function CarrosselObras({
+  itens,
+  children,
+}: {
+  itens: readonly CaseItem[];
+  /** A chamada da página: rótulo, título e botões. Fica fixa sobre as fotos. */
+  children: ReactNode;
+}) {
   const total = itens.length;
   const { atual, ir, propsRaiz } = useCarrossel(total);
 
   if (!total) return null;
 
+  const obra = itens[atual];
+
   return (
     <section
       {...propsRaiz}
       aria-roledescription="carrossel"
-      aria-label="Obras em destaque"
-      className="relative overflow-hidden bg-inset"
+      aria-label="Obras da Tridium"
+      className="relative flex min-h-[86svh] flex-col justify-end overflow-hidden bg-inset pb-10 pt-32 md:min-h-[88svh] md:pb-12"
     >
-      {/* --- trilho --- */}
-      <div
-        className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
-        style={{ transform: `translateX(-${atual * 100}%)` }}
-      >
-        {itens.map((obra, i) => {
-          const visivel = i === atual;
-
-          return (
-            <div
-              key={obra.chave}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${i + 1} de ${total}: ${obra.nome}`}
-              aria-hidden={!visivel}
-              inert={!visivel}
-              className="relative w-full shrink-0"
-            >
-              {/* fundo */}
-              <div className="absolute inset-0">
-                {obra.imagem ? (
-                  <Image
-                    src={obra.imagem}
-                    alt=""
-                    fill
-                    priority={i === 0}
-                    sizes="100vw"
-                    style={{ objectPosition: obra.imagemPosicao ?? "center" }}
-                    className="object-cover"
-                  />
-                ) : (
-                  <FotoPendente
-                    descricao={obra.descricaoFoto ?? `Registro real de ${obra.nome}`}
-                    className="h-full w-full"
-                  />
-                )}
-
-                {obra.imagem && (
-                  <>
-                    {/* No celular o texto fica embaixo; no desktop, à
-                        esquerda. O degradê acompanha. */}
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/15 md:bg-gradient-to-r md:from-black/90 md:via-black/50 md:to-transparent"
-                    />
-                    {obra.imagemProvisoria && (
-                      <span className="absolute right-[var(--gutter)] top-6 z-10 inline-flex items-center gap-2 border border-dashed border-white/70 bg-black/60 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-white">
-                        ◇ Foto provisória
-                      </span>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {/* texto — o pb grande abre espaço para os controles embaixo */}
-              <div className="relative">
-                <div className="wrap flex min-h-[21rem] flex-col justify-end pb-24 pt-14 md:min-h-[27rem] md:pb-28 md:pt-20">
-                  <div
-                    className={`max-w-[44ch] ${
-                      obra.imagem ? "" : "bg-surface/90 p-6 backdrop-blur-sm md:p-8"
-                    }`}
-                  >
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                      <span className="t-label bg-accent px-2.5 py-1 text-accent-ink">
-                        {obra.categoria}
-                      </span>
-                      <span
-                        className={`t-label ${obra.imagem ? "text-white/80" : "text-faint"}`}
-                      >
-                        {obra.local}
-                      </span>
-                    </div>
-
-                    <h3
-                      className={`t-display-tight fs-bloco mt-5 ${
-                        obra.imagem ? "text-white" : "text-ink"
-                      }`}
-                    >
-                      {obra.nome}
-                    </h3>
-
-                    <p
-                      className={`t-body mt-3 ${
-                        obra.imagem ? "text-white/85" : "text-muted"
-                      }`}
-                    >
-                      {obra.resumo}
-                    </p>
-
-                    <a
-                      href="#portfolio"
-                      className="t-label mt-7 inline-flex items-center gap-3 bg-accent px-6 py-4 text-accent-ink no-underline transition-[filter] duration-200 hover:brightness-110"
-                    >
-                      Ver no portfólio
-                      <span aria-hidden="true">→</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+      {/* ---------- fotos ---------- */}
+      <div aria-hidden="true" className="absolute inset-0">
+        <div
+          className="flex h-full transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+          style={{ transform: `translateX(-${atual * 100}%)` }}
+        >
+          {itens.map((item, i) => (
+            <div key={item.chave} className="relative h-full w-full shrink-0">
+              {item.imagem ? (
+                <Image
+                  src={item.imagem}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  style={{ objectPosition: item.imagemPosicao ?? "center" }}
+                  className="object-cover"
+                />
+              ) : (
+                <FotoPendente
+                  descricao={item.descricaoFoto ?? `Registro real de ${item.nome}`}
+                  className="h-full w-full"
+                />
+              )}
             </div>
-          );
-        })}
+          ))}
+        </div>
+
+        {/* Véu + degradês. São três camadas porque as quatro fotos são muito
+            diferentes entre si — uma tem céu branco, outra é escura:
+            1. véu parelho, para nivelar o que vier;
+            2. de baixo para cima, onde fica o título;
+            3. uma faixa no topo, sob o menu. Sem ela, o menu claro cai em
+               cima do céu da foto do skatepark e some. */}
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/92 via-black/60 to-black/10" />
+        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/80 to-transparent" />
+        <div className="blueprint pointer-events-none absolute inset-0 opacity-15" />
       </div>
 
-      {/* --- controles --- */}
-      {total > 1 && (
-        <div className="wrap pointer-events-none absolute inset-x-0 bottom-6 md:bottom-8">
-          <div className="pointer-events-auto flex items-center gap-5">
+      {/* ---------- chamada fixa ---------- */}
+      <div className="wrap relative">{children}</div>
+
+      {/* ---------- legenda e controles ---------- */}
+      <div className="wrap relative mt-12 flex flex-wrap items-center justify-between gap-x-8 gap-y-5 md:mt-16">
+        <p aria-live="polite" className="t-label text-white/75">
+          <span className="text-accent-texto">
+            {String(atual + 1).padStart(2, "0")}
+          </span>
+          {" — "}
+          {obra.nome}
+          <span className="text-white/45"> · {obra.categoria}</span>{" "}
+          {obra.imagemProvisoria && (
+            <span className="ml-2 inline-flex items-center gap-2 border border-dashed border-white/60 px-2 py-0.5 text-white/70">
+              ◇ Foto provisória
+            </span>
+          )}
+        </p>
+
+        {total > 1 && (
+          <div className="flex items-center gap-5">
             <div className="flex gap-2">
               <Controle rotulo="Obra anterior" aoClicar={() => ir(atual - 1)}>
                 ←
@@ -149,8 +118,8 @@ export function CarrosselObras({ itens }: { itens: readonly CaseItem[] }) {
             </div>
 
             <ul className="flex items-center gap-2">
-              {itens.map((obra, i) => (
-                <li key={obra.chave}>
+              {itens.map((item, i) => (
+                <li key={item.chave}>
                   <button
                     type="button"
                     onClick={() => ir(i)}
@@ -162,20 +131,15 @@ export function CarrosselObras({ itens }: { itens: readonly CaseItem[] }) {
                     }`}
                   >
                     <span className="sr-only">
-                      Ir para a obra {i + 1}: {obra.nome}
+                      Ir para a obra {i + 1}: {item.nome}
                     </span>
                   </button>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
-      )}
-
-      {/* Anuncia a troca para leitores de tela sem roubar o foco */}
-      <p aria-live="polite" className="sr-only">
-        Obra {atual + 1} de {total}: {itens[atual].nome}
-      </p>
+        )}
+      </div>
     </section>
   );
 }
@@ -185,7 +149,7 @@ function Controle({
   rotulo,
   aoClicar,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   rotulo: string;
   aoClicar: () => void;
 }) {

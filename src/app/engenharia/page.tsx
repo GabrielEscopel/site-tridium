@@ -31,60 +31,56 @@ export default function EngenhariaPage() {
       />
 
       {/* ================= HERO =================
-          Abertura curta, de texto, igual à do Instituto e à dos Imóveis. A
-          capa de tela inteira saiu: era uma foto de prancheta e compasso, que
-          fala de escritório. Quem procura construtora quer ver obra — e obra
-          é o que vem logo abaixo, no carrossel.
+          O carrossel é a capa: ocupa a primeira dobra e as obras passam atrás
+          da chamada. Quem procura construtora quer ver obra, e vê obra antes
+          de ler qualquer coisa.
 
-          A textura de blueprint fica, bem fraca: é o que distingue o registro
-          da engenharia das outras duas frentes. */}
-      <section className="relative overflow-hidden pt-24 md:pt-28">
+          As fotos saem do mesmo `cases` que alimenta o portfólio mais abaixo —
+          nada para manter em paralelo. */}
+      <CarrosselObras itens={engenharia.cases}>
+        <div className="flex items-center gap-4">
+          <span className="h-px w-8 bg-accent" aria-hidden="true" />
+          <Rotulo>{engenharia.hero.eyebrow}</Rotulo>
+        </div>
+
+        <h1 className="t-display mt-7 max-w-[16ch] fs-hero text-white">
+          {engenharia.hero.titulo.map((linha, i) => (
+            <span key={linha} className={`block ${i === 1 ? "text-accent-texto" : ""}`}>
+              {linha}
+            </span>
+          ))}
+        </h1>
+
+        <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <Botao
+            href={whatsappLink(mensagensWhatsapp.orcamento)}
+            externo
+            ariaLabel={`Fazer orçamento no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
+          >
+            Fazer orçamento
+          </Botao>
+          {/* Sem cor própria: nesta frente o --ink já é claro, e duas classes
+              de cor no mesmo elemento brigam pela ordem do CSS. */}
+          <Botao href="#portfolio" variante="texto">
+            Ver o portfólio
+          </Botao>
+        </div>
+      </CarrosselObras>
+
+      {/* ================= POSICIONAMENTO =================
+          A frase que estava no hero desceu para cá. Sobre a foto ela disputava
+          espaço com o título; sozinha, numa faixa só dela, ela é lida. */}
+      <section className="relative overflow-hidden">
         <div
           aria-hidden="true"
           className="blueprint pointer-events-none absolute inset-0 opacity-30"
         />
-
         <div className="wrap relative">
-          <div className="py-10 md:py-14">
-            <div className="flex items-center gap-4">
-              <span className="h-px w-8 bg-accent" aria-hidden="true" />
-              <Rotulo>{engenharia.hero.eyebrow}</Rotulo>
-            </div>
-
-            <h1 className="t-display mt-7 max-w-[16ch] fs-secao text-ink">
-              {engenharia.hero.titulo.map((linha, i) => (
-                <span key={linha} className={`block ${i === 1 ? "text-accent-texto" : ""}`}>
-                  {linha}
-                </span>
-              ))}
-            </h1>
-
-            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
-              <p className="t-lead max-w-[52ch] text-muted">
-                {engenharia.hero.lead}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Botao
-                  href={whatsappLink(mensagensWhatsapp.orcamento)}
-                  externo
-                  ariaLabel={`Fazer orçamento no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
-                >
-                  Fazer orçamento
-                </Botao>
-                <Botao href="#portfolio" variante="texto">
-                  Ver o portfólio
-                </Botao>
-              </div>
-            </div>
-          </div>
+          <p className="t-lead max-w-[62ch] py-14 text-muted md:py-20">
+            {engenharia.hero.lead}
+          </p>
         </div>
       </section>
-
-      {/* ================= OBRAS EM DESTAQUE =================
-          As principais obras, uma por slide. Saem do mesmo `cases` que
-          alimenta o portfólio logo abaixo — nada para manter em paralelo. */}
-      <CarrosselObras itens={engenharia.cases} />
 
       {/* ================= SERVIÇOS ================= */}
       <section id="servicos" className="py-20 md:py-32">
