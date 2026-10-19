@@ -90,14 +90,11 @@ export interface Destaque {
   chave: string;
   /** Categoria acima do título. Normalmente o nome do projeto. */
   eyebrow: string;
+  /** A chamada do slide. Aparece na legenda da capa, embaixo da foto. */
   titulo: string;
-  texto: string;
   acao: { rotulo: string; href: string; externo?: boolean };
   /** Foto de fundo. Enquanto pendente, entra o painel de foto pendente. */
   midia: Midia;
-  /** Lado do texto. Escolha o oposto de onde estão as pessoas na foto —
-      senão o painel cobre justamente o assunto. Padrão: esquerda. */
-  textoEm?: "esquerda" | "direita";
 }
 
 export const destaques: Destaque[] = [
@@ -105,29 +102,24 @@ export const destaques: Destaque[] = [
     chave: "dona-tereza",
     eyebrow: "Moradia Digna",
     titulo: "A primeira casa foi a da dona Tereza.",
-    texto:
-      "[CONTEÚDO PENDENTE] Uma frase sobre a casa dela — o que estava em risco e o que mudou. Esta é a chamada mais forte que o Instituto tem.",
     acao: { rotulo: "Conhecer o projeto", href: "#moradia-digna" },
-    /* Dona Tereza e o engenheiro estão à esquerda do quadro: o texto vai para
-       a direita, sobre a parede de tábuas. */
-    textoEm: "direita",
+    /* Na capa o título fica fixo embaixo, à esquerda. A foto da visita tem a
+       dona Tereza e o engenheiro justamente ali, atrás do texto; a da equipe
+       tem o grupo no centro do quadro e sobra espaço para a chamada. Por isso
+       as duas trocaram de slide. */
     midia: {
       tipo: "foto",
-      src: "/img/instituto/tereza-visita.webp",
-      alt: "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
-      descricao: "A visita técnica à casa da dona Tereza",
-      posicao: "center 45%",
+      src: "/img/instituto/tereza-equipe.webp",
+      alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
+      descricao: "A equipe com a dona Tereza",
+      posicao: "center 60%",
     },
   },
   {
     chave: "capoeira",
     eyebrow: "Capoeira",
     titulo: "[CONTEÚDO PENDENTE] A chamada do núcleo de capoeira.",
-    texto:
-      "[CONTEÚDO PENDENTE] Uma frase sobre as aulas: quem participa, onde acontece e o que muda para essas crianças e jovens.",
     acao: { rotulo: "Conhecer o projeto", href: "#capoeira" },
-    /* Os capoeiristas ocupam o centro e a direita do quadro; o texto fica à
-       esquerda, sobre o fundo da praça. */
     midia: {
       tipo: "foto",
       src: "/img/instituto/capoeira-roda.webp",
@@ -143,8 +135,6 @@ export const destaques: Destaque[] = [
     chave: "apoiar",
     eyebrow: "Como entrar",
     titulo: "Nem todo apoio é dinheiro.",
-    texto:
-      "Tempo, material, equipamento, um espaço emprestado, uma indicação. Há uma forma de ajudar que cabe no que você tem.",
     acao: {
       rotulo: "Falar com a gente",
       href: "https://wa.me/5548991149253",
@@ -152,10 +142,10 @@ export const destaques: Destaque[] = [
     },
     midia: {
       tipo: "foto",
-      src: "/img/instituto/tereza-equipe.webp",
-      alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
-      descricao: "A equipe com a dona Tereza",
-      posicao: "center 38%",
+      src: "/img/instituto/tereza-visita.webp",
+      alt: "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
+      descricao: "A visita técnica à casa da dona Tereza",
+      posicao: "center 85%",
     },
   },
 ];

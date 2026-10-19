@@ -39,7 +39,13 @@ export function Header() {
         ? "instituto"
         : "engenharia";
 
-  const temaEscuro = frenteDaRota === "engenharia";
+  /* Enquanto está por cima da capa — carrossel de fotografia escurecida nas
+     três frentes — o cabeçalho usa a paleta clara, qualquer que seja a rota.
+     Com o tema da frente clara, o logo e os links caíam escuros sobre a foto
+     e sumiam. Ao descolar, ele ganha fundo e volta ao tema da rota.
+     Com o menu aberto não vale: ali o painel traz o próprio fundo claro. */
+  const sobreCapa = !descolado && !aberto;
+  const temaEscuro = sobreCapa || frenteDaRota === "engenharia";
 
   useEffect(() => {
     const aoRolar = () => setDescolado(window.scrollY > 24);
@@ -105,6 +111,8 @@ export function Header() {
         // text-ink reavalia --ink AQUI. Sem a classe, os filhos herdam a cor
         // ja calculada no <body> e o icone do menu fica osso sobre osso.
         className={`fixed inset-x-0 top-0 z-50 text-ink transition-colors duration-300 ${
+          sobreCapa ? "sobre-foto" : ""
+        } ${
           descolado && !aberto
             ? "bg-surface/85 backdrop-blur-md"
             : "bg-transparent"

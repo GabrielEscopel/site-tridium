@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { CarrosselObras } from "@/components/CarrosselObras";
+import { CarrosselCapa } from "@/components/CarrosselCapa";
 import { GaleriaCases } from "@/components/GaleriaCases";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
@@ -37,13 +37,26 @@ export default function EngenhariaPage() {
 
           As fotos saem do mesmo `cases` que alimenta o portfólio mais abaixo —
           nada para manter em paralelo. */}
-      <CarrosselObras itens={engenharia.cases}>
+      <CarrosselCapa
+        rotulo="Obras da Tridium"
+        itens={engenharia.cases.map((obra) => ({
+          chave: obra.chave,
+          imagem: obra.imagem,
+          posicao: obra.imagemPosicao,
+          provisoria: obra.imagemProvisoria,
+          descricaoPendente: obra.descricaoFoto,
+          titulo: obra.nome,
+          etiqueta: obra.categoria,
+          href: "#portfolio",
+          acao: "Ver no portfólio",
+        }))}
+      >
         <div className="flex items-center gap-4">
           <span className="h-px w-8 bg-accent" aria-hidden="true" />
           <Rotulo>{engenharia.hero.eyebrow}</Rotulo>
         </div>
 
-        <h1 className="t-display mt-7 max-w-[16ch] fs-hero text-white">
+        <h1 className="t-display mt-7 max-w-[16ch] fs-hero text-ink">
           {engenharia.hero.titulo.map((linha, i) => (
             <span key={linha} className={`block ${i === 1 ? "text-accent-texto" : ""}`}>
               {linha}
@@ -65,7 +78,7 @@ export default function EngenhariaPage() {
             Ver o portfólio
           </Botao>
         </div>
-      </CarrosselObras>
+      </CarrosselCapa>
 
       {/* ================= POSICIONAMENTO =================
           A frase que estava no hero desceu para cá. Sobre a foto ela disputava

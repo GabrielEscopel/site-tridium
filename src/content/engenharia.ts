@@ -147,6 +147,8 @@ export const engenharia = {
       imagemAlt:
         "Playground com escorregador e painéis coloridos sobre piso amortecedor",
       imagemProvisoria: true,
+      /* Única das quatro na horizontal: o centro já é o enquadramento certo. */
+      imagemPosicao: "center",
       descricaoFoto:
         "Playground montado com crianças em uso, e um detalhe do piso amortecedor.",
     },

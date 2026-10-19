@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { Atualizacoes } from "@/components/Atualizacoes";
-import { CarrosselDestaques } from "@/components/CarrosselDestaques";
+import { CarrosselCapa } from "@/components/CarrosselCapa";
 import { JornadaCapitulos } from "@/components/JornadaCapitulos";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
@@ -38,51 +38,61 @@ export default function InstitutoPage() {
       />
 
       {/* ================= HERO =================
-          O registro mais claro e quente das três frentes. A foto vem depois do
-          texto de propósito: a missão fala primeiro, a imagem confirma. */}
-      <section className="pt-24 md:pt-28">
-        <div className="wrap">
-          <div className="py-12 md:py-20">
-            <div className="flex items-center gap-4">
-              <span className="h-px w-8 bg-accent" aria-hidden="true" />
-              <Rotulo>{instituto.hero.eyebrow}</Rotulo>
-            </div>
-
-            <h1 className="t-display mt-8 max-w-[14ch] fs-hero text-ink">
-              {instituto.hero.titulo.map((linha, i) => (
-                <span
-                  key={linha}
-                  className={`block ${i === 2 ? "text-accent-texto" : ""}`}
-                >
-                  {linha}
-                </span>
-              ))}
-            </h1>
-
-            <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-end lg:gap-16">
-              <p className="t-lead max-w-[52ch] text-muted">
-                {instituto.hero.lead}
-              </p>
-              <div>
-                <Botao
-                  href={whatsappLink(mensagensWhatsapp.instituto)}
-                  externo
-                  ariaLabel={`Falar sobre o Instituto no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
-                >
-                  Quero ajudar
-                </Botao>
-              </div>
-            </div>
-          </div>
+          O carrossel é a capa, como nas outras duas frentes: o que está
+          acontecendo agora passa atrás da chamada, e a legenda embaixo leva à
+          seção do projeto que está na tela. */}
+      <CarrosselCapa
+        rotulo="Destaques do Instituto"
+        itens={destaques.map((item) => ({
+          chave: item.chave,
+          imagem: item.midia.pendente ? null : (item.midia.src ?? null),
+          posicao: item.midia.posicao,
+          provisoria: item.midia.provisoria,
+          descricaoPendente: item.midia.descricao,
+          titulo: item.titulo,
+          etiqueta: item.eyebrow,
+          href: item.acao.href,
+          externo: item.acao.externo,
+          acao: item.acao.rotulo,
+        }))}
+      >
+        <div className="flex items-center gap-4">
+          <span className="h-px w-8 bg-accent" aria-hidden="true" />
+          <Rotulo>{instituto.hero.eyebrow}</Rotulo>
         </div>
 
-      </section>
+        <h1 className="t-display mt-7 max-w-[14ch] fs-hero text-ink">
+          {instituto.hero.titulo.map((linha, i) => (
+            <span
+              key={linha}
+              className={`block ${i === 2 ? "text-accent-texto" : ""}`}
+            >
+              {linha}
+            </span>
+          ))}
+        </h1>
 
-      {/* ================= DESTAQUES =================
-          No lugar da foto de capa única: o que está acontecendo agora, um
-          slide por chamada. Substitui a imagem estática porque o Instituto
-          tem mais de um projeto, e cada um merece a própria abertura. */}
-      <CarrosselDestaques itens={destaques} />
+        <div className="mt-9">
+          <Botao
+            href={whatsappLink(mensagensWhatsapp.instituto)}
+            externo
+            ariaLabel={`Falar sobre o Instituto no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
+          >
+            Quero ajudar
+          </Botao>
+        </div>
+      </CarrosselCapa>
+
+      {/* ================= POSICIONAMENTO =================
+          A frase que estava no hero desceu para cá. Sobre a foto ela
+          disputava espaço com o título; sozinha, numa faixa só dela, é lida. */}
+      <section>
+        <div className="wrap">
+          <p className="t-lead max-w-[62ch] py-14 text-muted md:py-20">
+            {instituto.hero.lead}
+          </p>
+        </div>
+      </section>
 
       {/* ================= MISSÃO ================= */}
       <section className="py-20 md:py-28">

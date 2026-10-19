@@ -123,6 +123,33 @@
   --line-strong: rgba(33, 23, 15, 0.32);
 }
 
+/* Texto sobre fotografia escurecida — as capas das três frentes.
+   O tema das frentes claras não serve aqui: a tinta é escura e o
+   --accent-texto foi escolhido para fundo claro. A paleta se inverte, e o
+   acento ganha uma versão clara, porque o ouro e a terracota legíveis sobre
+   papel ficam abaixo de AA sobre a foto. O --accent puro não muda: ele é o
+   fundo do botão e do fio, e é a cor da marca. */
+.sobre-foto {
+  --ink: var(--tri-bone);
+  --ink-muted: rgba(255, 255, 255, 0.85);
+  --ink-faint: rgba(255, 255, 255, 0.65);
+  --accent-texto: var(--accent);
+  --line: rgba(234, 237, 230, 0.2);
+  --line-strong: rgba(234, 237, 230, 0.4);
+}
+
+/* O próprio elemento também conta: o cabeçalho carrega data-front e
+   .sobre-foto ao mesmo tempo. */
+[data-front="imobiliaria"].sobre-foto,
+[data-front="imobiliaria"] .sobre-foto {
+  --accent-texto: #e0b429; /* 6.7:1 sobre a foto velada */
+}
+
+[data-front="instituto"].sobre-foto,
+[data-front="instituto"] .sobre-foto {
+  --accent-texto: #e8835c; /* 4.8:1 sobre a foto velada */
+}
+
 /* Inversão pontual: um bloco escuro dentro de uma página clara */
 [data-invert="true"] {
   --accent-texto: var(--accent-engenharia);

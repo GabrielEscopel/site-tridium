@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 
-import { CarrosselImoveis } from "@/components/CarrosselImoveis";
+import { CarrosselCapa } from "@/components/CarrosselCapa";
 import { JsonLd } from "@/components/JsonLd";
 import { ListaImoveis } from "@/components/ListaImoveis";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Pendente, Rotulo, TituloSecao } from "@/components/ui";
-import { imobiliaria, imoveis, imoveisDestaque } from "@/content/imobiliaria";
+import {
+  formatarPreco,
+  imobiliaria,
+  imoveis,
+  imoveisDestaque,
+} from "@/content/imobiliaria";
 import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaImobiliaria, schemaMigalhas } from "@/lib/seo";
 
@@ -32,54 +37,64 @@ export default function ImobiliariaPage() {
       />
 
       {/* ================= HERO =================
-          Abertura curta, de texto, como a do Instituto. A foto decorativa de
-          antes ocupava uma tela inteira e não levava a lugar nenhum; o espaço
-          passou para o carrossel logo abaixo, que mostra imóveis de verdade. */}
-      <section className="pt-24 md:pt-28">
+          O carrossel é a capa, como na engenharia: os imóveis em destaque
+          passam atrás da chamada, e a legenda embaixo leva ao imóvel que está
+          na tela. Sai da própria carteira — `destaque: true` no imóvel. */}
+      <CarrosselCapa
+        rotulo="Imóveis em destaque"
+        itens={imoveisDestaque.map((imovel) => ({
+          chave: imovel.chave,
+          imagem: imovel.fotos[0]?.src ?? null,
+          provisoria: imovel.fotos[0]?.provisoria,
+          descricaoPendente: `Foto do ${imovel.tipo.toLowerCase()} no ${imovel.bairro}`,
+          titulo: imovel.bairro,
+          /* Só o que decide um clique: código, tamanho e preço. A ficha
+             completa está a um toque daqui, na página do imóvel. */
+          etiqueta: `${imovel.codigo} · ${imovel.area} m² · ${formatarPreco(imovel.preco)}`,
+          href: `/imobiliaria/${imovel.chave}`,
+          acao: "Ver o imóvel",
+        }))}
+      >
+        <div className="flex items-center gap-4">
+          <span className="h-px w-8 bg-accent" aria-hidden="true" />
+          <Rotulo>{imobiliaria.hero.eyebrow}</Rotulo>
+        </div>
+
+        <h1 className="t-display mt-7 max-w-[16ch] fs-hero text-ink">
+          {imobiliaria.hero.titulo.map((linha, i) => (
+            <span
+              key={linha}
+              className={`block ${i === 1 ? "text-accent-texto" : ""}`}
+            >
+              {linha}
+            </span>
+          ))}
+        </h1>
+
+        <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <Botao
+            href={whatsappLink(mensagensWhatsapp.imobiliaria)}
+            externo
+            ariaLabel={`Falar com a imobiliária no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
+          >
+            Agendar visita
+          </Botao>
+          <Botao href="#carteira" variante="texto">
+            Ver a carteira
+          </Botao>
+        </div>
+      </CarrosselCapa>
+
+      {/* ================= POSICIONAMENTO =================
+          A frase que estava no hero desceu para cá. Sobre a foto ela
+          disputava espaço com o título; sozinha, numa faixa só dela, é lida. */}
+      <section>
         <div className="wrap">
-          <div className="py-10 md:py-14">
-            <div className="flex items-center gap-4">
-              <span className="h-px w-8 bg-accent" aria-hidden="true" />
-              <Rotulo>{imobiliaria.hero.eyebrow}</Rotulo>
-            </div>
-
-            <h1 className="t-display mt-7 max-w-[16ch] fs-secao text-ink">
-              {imobiliaria.hero.titulo.map((linha, i) => (
-                <span
-                  key={linha}
-                  className={`block ${i === 1 ? "text-accent-texto" : ""}`}
-                >
-                  {linha}
-                </span>
-              ))}
-            </h1>
-
-            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
-              <p className="t-lead max-w-[52ch] text-muted">
-                {imobiliaria.hero.lead}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-                <Botao
-                  href={whatsappLink(mensagensWhatsapp.imobiliaria)}
-                  externo
-                  ariaLabel={`Falar com a imobiliária no WhatsApp ${contato.whatsappExibicao} (abre em nova aba)`}
-                >
-                  Agendar visita
-                </Botao>
-                <Botao href="#carteira" variante="texto">
-                  Ver a carteira
-                </Botao>
-              </div>
-            </div>
-          </div>
+          <p className="t-lead max-w-[62ch] py-14 text-muted md:py-20">
+            {imobiliaria.hero.lead}
+          </p>
         </div>
       </section>
-
-      {/* ================= DESTAQUES =================
-          O que interessa hoje, um imóvel por slide. Sai da própria carteira:
-          `destaque: true` no imóvel e ele aparece aqui. */}
-      <CarrosselImoveis itens={imoveisDestaque} />
 
       {/* ================= AVISO DE ESTRUTURAÇÃO ================= */}
       <section className="pb-4">
