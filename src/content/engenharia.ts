@@ -213,7 +213,7 @@ export const engenharia = {
   /* --- Provas / números ------------------------------------------------- */
   /* [CONTEÚDO PENDENTE] números reais a confirmar com o cliente */
   numeros: [
-    { valor: "[N] anos", rotulo: "de atuação em Florianópolis" },
+    { valor: "10 anos", rotulo: "de atuação em Florianópolis" },
     { valor: "[N]", rotulo: "obras entregues" },
     { valor: "[N] m²", rotulo: "construídos e reformados" },
     { valor: "[N]", rotulo: "projetos especiais executados" },

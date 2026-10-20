@@ -149,7 +149,7 @@ export default function Home() {
                 itens={[
                   { valor: "3", rotulo: "frentes de atuação" },
                   { valor: "[N]", rotulo: "obras entregues" },
-                  { valor: "[N]", rotulo: "anos de mercado" },
+                  { valor: "10", rotulo: "anos de mercado" },
                   { valor: "1", rotulo: "responsabilidade técnica" },
                 ]}
               />
