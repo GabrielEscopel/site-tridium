@@ -94,15 +94,16 @@ export function RegistroMidia({
   titulo,
 }: {
   itens: readonly Midia[];
-  titulo: string;
+  /** Sem título quando quem chama já põe um — é o caso do <Bloco>. */
+  titulo?: string;
 }) {
   if (!itens.length) return null;
 
   return (
     <div>
-      <h4 className="t-label text-accent-texto">{titulo}</h4>
+      {titulo && <h4 className="t-label text-accent-texto">{titulo}</h4>}
 
-      <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+      <ul className={`grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6 ${titulo ? "mt-6" : ""}`}>
         {itens.map((item, i) => (
           <li
             key={`${item.tipo}-${i}`}

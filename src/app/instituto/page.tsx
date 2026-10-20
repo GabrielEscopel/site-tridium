@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 
 import { Atualizacoes } from "@/components/Atualizacoes";
+import { CardProjeto } from "@/components/CardProjeto";
 import { CarrosselCapa } from "@/components/CarrosselCapa";
-import { JornadaCapitulos } from "@/components/JornadaCapitulos";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
-import { SecaoProjeto } from "@/components/SecaoProjeto";
 import { Botao, Pendente, Rotulo, TituloSecao } from "@/components/ui";
 import {
   atualizacoes,
@@ -83,32 +82,15 @@ export default function InstitutoPage() {
         </div>
       </CarrosselCapa>
 
-      {/* ================= POSICIONAMENTO =================
-          A frase que estava no hero desceu para cá. Sobre a foto ela
-          disputava espaço com o título; sozinha, numa faixa só dela, é lida. */}
-      <section>
-        <div className="wrap">
-          <p className="t-lead max-w-[62ch] py-14 text-muted md:py-20">
-            {instituto.hero.lead}
-          </p>
-        </div>
-      </section>
+      {/* ================= OS PROJETOS =================
+          Primeira coisa depois da capa: os projetos. A missão e o texto de
+          apresentação ficavam aqui e saíram — a capa já diz a que o Instituto
+          veio, e quem rola quer ver o que existe.
 
-      {/* ================= MISSÃO ================= */}
+          Índice, não conteúdo. Cada projeto tem a própria página: a história
+          inteira de um não cabe junto com a dos outros sem virar rolagem sem
+          fim — eram treze telas antes de a capoeira começar. */}
       <section className="py-20 md:py-28">
-        <div className="wrap-narrow">
-          <Reveal>
-            <p className="t-display-tight fs-secao mx-auto max-w-[24ch] text-center text-ink">
-              {instituto.missao}
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ================= ÍNDICE DOS PROJETOS =================
-          Com dois projetos já ajuda; com cinco, é o que torna a página
-          navegável. Cada item leva à âncora da sua seção. */}
-      <section className="pb-4">
         <div className="wrap">
           <Reveal>
             <TituloSecao
@@ -118,58 +100,19 @@ export default function InstitutoPage() {
             />
           </Reveal>
 
-          <Reveal as="ul" stagger className="mt-12 grid gap-px bg-line sm:grid-cols-2">
-            {projetos.map((projeto) => (
-              <li key={projeto.chave} className="bg-surface">
-                <a
-                  href={`#${projeto.chave}`}
-                  className="group flex h-full flex-col justify-between gap-6 p-6 transition-colors duration-200 hover:bg-raised sm:p-8"
-                >
-                  <div>
-                    <h3 className="t-display-tight fs-bloco text-ink">
-                      {projeto.nome}
-                    </h3>
-                    <p className="t-body mt-3 max-w-[38ch] text-muted">
-                      {projeto.resumo}
-                    </p>
-                  </div>
-                  <span className="t-label inline-flex items-center gap-3 text-accent-texto">
-                    Ver o projeto
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-300 ease-out group-hover:translate-x-1"
-                    >
-                      ↓
-                    </span>
-                  </span>
-                </a>
+          <Reveal
+            as="ul"
+            stagger
+            className="mt-12 grid gap-6 md:mt-16 md:grid-cols-2 md:gap-8"
+          >
+            {projetos.map((projeto, i) => (
+              <li key={projeto.chave} className="h-full">
+                <CardProjeto projeto={projeto} prioridade={i < 2} />
               </li>
             ))}
           </Reveal>
         </div>
       </section>
-
-      {/* ================= PROJETOS =================
-          Um bloco por projeto, todos pelo mesmo componente. Adicionar um
-          projeto novo é acrescentar um item em content/instituto.ts. */}
-      {projetos.map((projeto) => (
-        <SecaoProjeto key={projeto.chave} projeto={projeto}>
-          {projeto.temJornada && (
-            <div className="mt-16 md:mt-24">
-              <div className="wrap">
-                <Reveal>
-                  <TituloSecao
-                    rotulo={instituto.jornada.rotulo}
-                    titulo={instituto.jornada.titulo}
-                    texto={instituto.jornada.texto}
-                  />
-                </Reveal>
-              </div>
-              <JornadaCapitulos capitulos={instituto.capitulos} />
-            </div>
-          )}
-        </SecaoProjeto>
-      ))}
 
       {/* ================= ATUALIZAÇÕES ================= */}
       <Atualizacoes

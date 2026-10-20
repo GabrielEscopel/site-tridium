@@ -136,9 +136,11 @@ export function JornadaCapitulos({
           <li
             key={cap.chave}
             data-capitulo
-            className="flex flex-col justify-center py-14 lg:min-h-[100svh] lg:py-24"
+            className="grid gap-6 border-t border-line py-10 sm:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] sm:items-center sm:gap-10 lg:flex lg:min-h-[100svh] lg:flex-col lg:justify-center lg:border-0 lg:py-24"
           >
-            {/* No mobile a imagem acompanha o próprio capítulo */}
+            {/* Fora do desktop a imagem acompanha o próprio capítulo — ao lado
+                do texto, não acima: empilhada, a jornada sozinha passava de
+                três mil pixels. */}
             <figure className="lg:hidden">
               <div className="relative aspect-[4/3] overflow-hidden bg-inset">
                 {cap.imagem ? (
@@ -146,7 +148,7 @@ export function JornadaCapitulos({
                     src={cap.imagem}
                     alt={cap.imagemAlt ?? ""}
                     fill
-                    sizes="100vw"
+                    sizes="(min-width: 640px) 40vw, 100vw"
                     loading={i === 0 ? undefined : "lazy"}
                     className="object-cover"
                   />
@@ -159,7 +161,7 @@ export function JornadaCapitulos({
               </div>
             </figure>
 
-            <div className="mt-8 lg:mt-0">
+            <div>
               <div className="flex items-center gap-4">
                 <span className="h-px w-8 bg-accent" aria-hidden="true" />
                 <span className="t-label text-accent-texto">{cap.indice}</span>

@@ -77,6 +77,10 @@ export interface Projeto {
   apoio: FormaDeApoio[];
   /** Mostra a jornada em capítulos (hoje só o Moradia Digna tem). */
   temJornada?: boolean;
+  /** Foto do cartão no índice. Sem ela, entra a primeira do registro. */
+  capa?: Midia;
+  /** Artigo do nome, para "Como apoiar __ Capoeira". Padrão: "o". */
+  artigo?: "o" | "a";
 }
 
 /* -----------------------------------------------------------------------------
@@ -102,7 +106,7 @@ export const destaques: Destaque[] = [
     chave: "dona-tereza",
     eyebrow: "Moradia Digna",
     titulo: "A primeira casa foi a da dona Tereza.",
-    acao: { rotulo: "Conhecer o projeto", href: "#moradia-digna" },
+    acao: { rotulo: "Conhecer o projeto", href: "/instituto/moradia-digna" },
     /* Na capa o título fica fixo embaixo, à esquerda. A foto da visita tem a
        dona Tereza e o engenheiro justamente ali, atrás do texto; a da equipe
        tem o grupo no centro do quadro e sobra espaço para a chamada. Por isso
@@ -119,7 +123,7 @@ export const destaques: Destaque[] = [
     chave: "capoeira",
     eyebrow: "Capoeira",
     titulo: "[CONTEÚDO PENDENTE] A chamada do núcleo de capoeira.",
-    acao: { rotulo: "Conhecer o projeto", href: "#capoeira" },
+    acao: { rotulo: "Conhecer o projeto", href: "/instituto/capoeira" },
     midia: {
       tipo: "foto",
       src: "/img/instituto/capoeira-roda.webp",
@@ -206,6 +210,15 @@ export const projetos: Projeto[] = [
   {
     chave: "moradia-digna",
     nome: "Moradia Digna",
+    /* Capa do cartão no índice. Sem ela entraria a primeira do registro, que
+       é a prancha de seis fotos do diagnóstico — boa como prova, péssima como
+       capa. [FOTO PENDENTE] trocar pelo mutirão real. */
+    capa: {
+      tipo: "foto",
+      src: "/img/instituto/capitulo-03.webp",
+      descricao: "Mutirão de obra numa casa do projeto",
+      provisoria: true,
+    },
     resumo:
       "Recupera casas que deixaram de ser seguras para quem mora nelas.",
     ficha: [
@@ -322,6 +335,14 @@ export const projetos: Projeto[] = [
   {
     chave: "capoeira",
     nome: "Capoeira",
+    artigo: "a",
+    /* [FOTO PENDENTE] banco de imagens, não é o núcleo da Tridium. */
+    capa: {
+      tipo: "foto",
+      src: "/img/instituto/capoeira-ginga.webp",
+      descricao: "Dois capoeiristas em jogo na roda",
+      provisoria: true,
+    },
     resumo:
       "[CONTEÚDO PENDENTE] Uma linha sobre o que o núcleo de capoeira faz e para quem.",
     ficha: [
@@ -398,12 +419,16 @@ export const instituto = {
   nome: "Instituto Tridium",
   nomeCurto: "Instituto",
   tipo: "Braço social do Grupo Tridium",
+  /* Fora da tela hoje: a faixa que trazia a missão e o texto de apresentação
+     saiu para os projetos virem logo abaixo da capa. Os dois ficam aqui por
+     serem o posicionamento do Instituto — devolver é colar um <p> na página. */
   missao:
     "Ninguém transforma a própria vida sozinho — e quase sempre falta estrutura, não vontade.",
 
   hero: {
     eyebrow: "Projetos sociais · Florianópolis",
     titulo: ["Transformar", "vidas também", "é construir."],
+    /* Também fora da tela — ver a nota em `missao`. */
     lead: "O Instituto Tridium leva projetos sociais a quem não tem como contratá-los: moradia digna, capoeira, esporte, lazer, cultura e formação técnica em ofícios da construção. É a competência do grupo aplicada fora da obra.",
     /* [FOTO PENDENTE] imagem provisória de banco de imagens */
     imagem: "/img/instituto/hero.webp",
@@ -497,3 +522,21 @@ export const instituto = {
     botao: "Falar no WhatsApp",
   },
 } as const;
+
+/* -----------------------------------------------------------------------------
+   ACESSO AOS PROJETOS
+   Cada projeto tem a própria página em /instituto/<chave>. A página do
+   Instituto virou índice: a história inteira de um projeto não cabe junto com
+   a dos outros sem virar rolagem sem fim.
+   ----------------------------------------------------------------------------- */
+
+export function buscarProjeto(chave: string): Projeto | undefined {
+  return projetos.find((p) => p.chave === chave);
+}
+
+/** Foto do cartão: a `capa` do projeto ou, na falta dela, a primeira do
+    registro que já exista de verdade. */
+export function capaDoProjeto(projeto: Projeto): Midia | undefined {
+  if (projeto.capa) return projeto.capa;
+  return projeto.registro.find((m) => m.tipo === "foto" && !m.pendente);
+}
