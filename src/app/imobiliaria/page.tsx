@@ -85,41 +85,10 @@ export default function ImobiliariaPage() {
         </div>
       </CarrosselCapa>
 
-      {/* ================= POSICIONAMENTO =================
-          A frase que estava no hero desceu para cá. Sobre a foto ela
-          disputava espaço com o título; sozinha, numa faixa só dela, é lida. */}
-      <section>
-        <div className="wrap">
-          <p className="t-lead max-w-[62ch] py-14 text-muted md:py-20">
-            {imobiliaria.hero.lead}
-          </p>
-        </div>
-      </section>
-
-      {/* ================= AVISO DE ESTRUTURAÇÃO ================= */}
-      <section className="pb-4">
-        <div className="wrap">
-          <div className="border border-dashed border-line-strong px-6 py-6 md:px-10 md:py-8">
-            <p className="t-label text-accent-texto">Frente em estruturação</p>
-            <p className="t-body mt-4 max-w-[70ch] text-muted">
-              Esta página está com a estrutura pronta e o conteúdo provisório. A
-              carteira de imóveis, os textos institucionais, o CRECI e a
-              fotografia própria serão enviados pelo cliente e substituídos nos
-              arquivos de conteúdo — o layout não precisa mudar.
-            </p>
-            <p className="mt-5 flex flex-wrap gap-3">
-              <Pendente titulo="src/content/imobiliaria.ts">Carteira de imóveis</Pendente>
-              <Pendente titulo="src/content/imobiliaria.ts">CRECI</Pendente>
-              <Pendente titulo="src/content/imobiliaria.ts">Fotografia própria</Pendente>
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* ================= CARTEIRA =================
-          Vem antes do discurso institucional de propósito: quem chega aqui
-          quer ver imóvel. O "por que o grupo" fica abaixo, para quem gostou
-          de algum e quer saber com quem está falando.
+          Logo abaixo da capa, sem nada no meio: quem chega aqui quer ver
+          imóvel. O "por que o grupo" fica abaixo, para quem gostou de algum e
+          quer saber com quem está falando.
 
           Filtros em cima, contagem ao lado, grade embaixo. Cada card folheia
           as próprias fotos sem sair da lista, e leva à página do imóvel, onde

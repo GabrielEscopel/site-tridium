@@ -202,6 +202,9 @@ export const imobiliaria = {
   hero: {
     eyebrow: "Florianópolis · SC",
     titulo: ["Imóvel", "avaliado por", "quem constrói."],
+    /* Fora da tela hoje: a faixa que trazia esta frase saiu para a carteira
+       subir logo abaixo da capa. O texto fica aqui porque é o posicionamento
+       da frente — devolver é colar um <p> na página. */
     lead: "A mesma equipe técnica que executa obra avalia o que entra na carteira. É uma vantagem simples e difícil de copiar: sabemos o que procurar atrás do acabamento.",
     /* A foto de capa saiu: quem abre a página agora vê imóveis de verdade no
        carrossel, não uma imagem de banco. A abertura ficou mais curta também. */
