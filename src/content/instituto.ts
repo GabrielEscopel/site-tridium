@@ -129,13 +129,12 @@ export const destaques: Destaque[] = [
     acao: { rotulo: "Conhecer o projeto", href: "/instituto/capoeira" },
     midia: {
       tipo: "foto",
-      src: "/img/instituto/capoeira-roda.webp",
-      alt: "Roda de capoeira na rua: um capoeirista no ar em meia-lua enquanto o grupo toca berimbau e pandeiro",
-      descricao: "Roda de capoeira",
-      /* ⚠ FOTO PROVISÓRIA — banco de imagens, roda de rua em Salvador. Não é
-         o núcleo da Tridium. Substituir pelo registro real. */
-      provisoria: true,
-      posicao: "center 42%",
+      src: "/img/instituto/capoeira-coletivo.webp",
+      alt: "Coletivo do Projeto de Capoeira Angola Palmares reunido sob a cúpula do TAMAR",
+      descricao: "O coletivo do núcleo de capoeira",
+      /* A foto é em pé e a capa mostra só 28% da altura — o grupo todo não
+         cabe. Esta posição prioriza os rostos de quem está em pé. */
+      posicao: "center 50%",
     },
   },
   {
@@ -340,12 +339,14 @@ export const projetos: Projeto[] = [
     chave: "capoeira",
     nome: "Capoeira",
     artigo: "a",
-    /* [FOTO PENDENTE] banco de imagens, não é o núcleo da Tridium. */
+    /* A mesma foto da capa do carrossel. No cartão, que é 4:3, aparece 56%
+       da altura e o grupo inteiro cabe. */
     capa: {
       tipo: "foto",
-      src: "/img/instituto/capoeira-ginga.webp",
-      descricao: "Dois capoeiristas em jogo na roda",
-      provisoria: true,
+      src: "/img/instituto/capoeira-coletivo.webp",
+      alt: "Coletivo do Projeto de Capoeira Angola Palmares reunido sob a cúpula do TAMAR",
+      descricao: "O coletivo do núcleo de capoeira",
+      posicao: "center 74%",
     },
     resumo:
       "[CONTEÚDO PENDENTE] Uma linha sobre o que o núcleo de capoeira faz e para quem.",
