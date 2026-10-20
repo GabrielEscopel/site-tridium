@@ -123,7 +123,14 @@ export function CarrosselCapa({
                   alt=""
                   fill
                   priority={i === 0}
-                  sizes="100vw"
+                  /* Não é 100vw porque a capa é alta e a foto é deitada: o
+                     `object-cover` desenha a imagem bem mais larga que a tela
+                     e mostra só a faixa do meio. Num celular de 390px, uma
+                     foto 3:2 é desenhada com ~1090px de largura — pedir
+                     100vw traria um arquivo de 390 e a capa ficaria mole.
+                     Os multiplicadores caem conforme a tela alarga, porque aí
+                     o corte lateral diminui. */
+                  sizes="(max-width: 640px) 280vw, (max-width: 1024px) 175vw, 100vw"
                   style={{ objectPosition: item.posicao ?? "center" }}
                   className="object-cover"
                 />
