@@ -213,14 +213,15 @@ export const projetos: Projeto[] = [
   {
     chave: "moradia-digna",
     nome: "Moradia Digna",
-    /* Capa do cartão no índice. Sem ela entraria a primeira do registro, que
-       é a prancha de seis fotos do diagnóstico — boa como prova, péssima como
-       capa. [FOTO PENDENTE] trocar pelo mutirão real. */
+    /* Capa do cartão no índice: a mesma foto da capa do carrossel, para quem
+       chega pelo índice reconhecer o projeto. No cartão, que é 4:3, aparece
+       56% da altura — o grupo inteiro cabe, e esta posição o centraliza. */
     capa: {
       tipo: "foto",
-      src: "/img/instituto/capitulo-03.webp",
-      descricao: "Mutirão de obra numa casa do projeto",
-      provisoria: true,
+      src: "/img/instituto/tereza-equipe.webp",
+      alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
+      descricao: "A equipe com a dona Tereza",
+      posicao: "center 57%",
     },
     resumo:
       "Recupera casas que deixaram de ser seguras para quem mora nelas.",
