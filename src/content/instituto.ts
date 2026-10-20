@@ -116,7 +116,10 @@ export const destaques: Destaque[] = [
       src: "/img/instituto/tereza-equipe.webp",
       alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
       descricao: "A equipe com a dona Tereza",
-      posicao: "center 60%",
+      /* A foto é em pé e a capa é panorâmica: aparece uma faixa de ~28% da
+         altura. Esta posição faz a faixa cair sobre o grupo, do capacete à
+         cintura. Mexer aqui sobe ou desce o recorte. */
+      posicao: "center 44%",
     },
   },
   {
