@@ -162,9 +162,11 @@ export const frentes: Front[] = [
     resumo: "Empreendimentos e imóveis com a engenharia do grupo por trás.",
     descricao:
       "Curadoria de imóveis e empreendimentos avaliados pela mesma equipe técnica que constrói. Quem vende conhece a estrutura por dentro.",
-    imagem: "/img/imobiliaria/hero.webp",
+    /* A mesma foto que abre a aba de imóveis: quem vê a faixa no portal e
+       clica reconhece onde chegou. */
+    imagem: "/img/imobiliaria/imovel-01.webp",
     imagemAlt:
-      "Fachada de edifício residencial contemporâneo ao entardecer",
+      "Rua de casas brancas de alto padrão com telhados de cerâmica",
     accent: "#b08a02",
     status: "em-estruturacao",
   },
