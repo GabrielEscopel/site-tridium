@@ -5,6 +5,8 @@
    Pendências restantes: fotos reais dos cases e números de obra.
    ============================================================================= */
 
+import type { CaseItem } from "@/components/GaleriaCases";
+
 export const engenharia = {
   marca: "Tridium Engenharia",
   posicionamento: "Engenharia, construção, arquitetura e reforma.",
@@ -74,136 +76,6 @@ export const engenharia = {
     },
   ],
 
-  /* --- Portfólio --------------------------------------------------------
-     [FOTO PENDENTE] Nenhum case tem registro fotográfico real da Tridium.
-
-     As imagens abaixo são de BANCO e não mostram as obras da Tridium: são
-     um skatepark, uma treliça metálica, um playground e um totem quaisquer,
-     escolhidos só porque o tipo de estrutura bate. Entraram a pedido do
-     cliente, para o carrossel ficar navegável antes das fotos reais.
-
-     Por isso `imagemProvisoria: true` em todas: o selo aparece na tela em
-     cima da foto, no carrossel e na galeria. É o que impede que uma foto
-     genérica passe despercebida na revisão e vá ao ar como se fosse o
-     projeto. Ao trocar pela foto real, apague a linha do selo.
-
-     `descricaoFoto` continua valendo: é a pauta do que precisa ser
-     fotografado em cada obra. */
-  cases: [
-    {
-      chave: "rhinno",
-      nome: "Rhinno Skatepark",
-      categoria: "Projeto especial",
-      tipo: "Pista de skate",
-      local: "Florianópolis, SC",
-      ano: "[ANO PENDENTE]",
-      resumo:
-        "Pista de skate em concreto moldado in loco, com transições contínuas e raios calculados para uso profissional.",
-      descricao:
-        "Estrutura que não aceita junta aparente nem tolerância de acabamento comum: cada transição foi conferida em gabarito antes da concretagem. O piso é a peça técnica principal do projeto.",
-      escopo: ["Projeto executivo", "Cálculo estrutural", "Execução", "Acabamento"],
-      /* ATÉ TRÊS FOTOS, na ordem em que a obra aconteceu. A primeira é a
-         principal: abre o card e é a que vai para a capa da página. As outras
-         aparecem pelas setas, sem sair da grade.
-
-         Este case está com três só para mostrar o recurso funcionando — as
-         demais obras têm uma. Para acrescentar, é copiar um bloco. */
-      fotos: [
-        {
-          src: "/img/engenharia/obra-rhinno.webp",
-          alt: "Bowl de concreto de uma pista de skate, com ponte ao fundo",
-          provisoria: true,
-          /* A foto é vertical e o bowl está no terço de baixo: centralizada,
-             o quadro mostraria só céu. */
-          posicao: "center 72%",
-        },
-        {
-          src: "/img/engenharia/obra-rhinno-02.webp",
-          alt: "Pista de skate vista de lado, com ondas de concreto e árvores ao fundo",
-          provisoria: true,
-        },
-        {
-          src: "/img/engenharia/obra-rhinno-03.webp",
-          alt: "Bowl de concreto iluminado à noite, visto de cima",
-          provisoria: true,
-        },
-      ],
-      descricaoFoto:
-        "Pista concluída em uso: transições, bowl e corrimãos. Horizontal, luz do fim da tarde.",
-    },
-    {
-      chave: "marquise",
-      nome: "Marquise Floripa",
-      categoria: "Estrutura metálica",
-      tipo: "Coberturas e marquises",
-      local: "Florianópolis, SC",
-      ano: "[ANO PENDENTE]",
-      resumo:
-        "Coberturas e marquises de grande vão em estrutura metálica, dimensionadas para o vento de orla.",
-      descricao:
-        "Projetos de cobertura em que o vão livre é o requisito e a carga de vento litorânea é o limite. Cálculo, fabricação e montagem acompanhados pela mesma equipe.",
-      escopo: ["Cálculo estrutural", "Fabricação", "Montagem", "Tratamento anticorrosivo"],
-      fotos: [
-        {
-          src: "/img/engenharia/obra-marquise.webp",
-          alt: "Treliça metálica vista de baixo contra o céu, no fim da tarde",
-          provisoria: true,
-          posicao: "center 62%",
-        },
-      ],
-      descricaoFoto:
-        "Marquise instalada vista de baixo, mostrando o vão livre e a estrutura metálica.",
-    },
-    {
-      chave: "brincademia",
-      nome: "Brincademia",
-      categoria: "Projeto especial",
-      tipo: "Playground e brinquedoteca",
-      local: "Florianópolis, SC",
-      ano: "[ANO PENDENTE]",
-      resumo:
-        "Playground e brinquedoteca executados sob norma de segurança infantil, do piso amortecedor à altura de queda.",
-      descricao:
-        "Espaço em que a norma de segurança define a geometria antes da estética. Materiais, quinas, alturas de queda e superfície de impacto verificados item a item.",
-      escopo: ["Projeto", "Adequação normativa", "Execução", "Mobiliário"],
-      fotos: [
-        {
-          src: "/img/engenharia/obra-brincademia.webp",
-          alt: "Playground com escorregador e painéis coloridos sobre piso amortecedor",
-          provisoria: true,
-          /* Única das quatro na horizontal: o centro já é o enquadramento certo. */
-          posicao: "center",
-        },
-      ],
-      descricaoFoto:
-        "Playground montado com crianças em uso, e um detalhe do piso amortecedor.",
-    },
-    {
-      chave: "totens",
-      nome: "Totens",
-      categoria: "Mobiliário urbano",
-      tipo: "Comunicação visual estrutural",
-      local: "Florianópolis, SC",
-      ano: "[ANO PENDENTE]",
-      resumo:
-        "Totens e elementos de comunicação visual com fundação, estrutura e acabamento resolvidos no mesmo projeto.",
-      descricao:
-        "Peça que parece design gráfico e é, na prática, estrutura: fundação dimensionada, perfil calculado e acabamento que precisa durar ao tempo.",
-      escopo: ["Projeto", "Fundação", "Fabricação", "Instalação"],
-      fotos: [
-        {
-          src: "/img/engenharia/obra-totens.webp",
-          alt: "Totem de sinalização instalado em caminho de parque",
-          provisoria: true,
-          /* Enquadra o topo da peça: no centro, a placa é tomada por texto em
-             tailandês, que numa página brasileira salta aos olhos. */
-          posicao: "center 6%",
-        },
-      ],
-      descricaoFoto:
-        "Totem instalado no local, de corpo inteiro, com a fundação e o entorno visíveis.",
-    },
-  ],
 
   /* --- Processo ---------------------------------------------------------
      Aqui a numeração é legítima: é uma sequência real e a ordem importa. */
@@ -256,3 +128,183 @@ export const engenharia = {
     botao: "Falar no WhatsApp",
   },
 } as const;
+
+/* --- Portfólio --------------------------------------------------------
+   Cada obra tem até três fotos, na ordem em que a obra aconteceu. A primeira
+   é a principal: abre o card no portfólio e é a que vai para a capa da
+   página. As demais aparecem pelas setas, dentro do card.
+
+   O Floripa Shopping é a única com registro real da Tridium, e por isso vem
+   primeiro. As quatro seguintes ainda usam imagens de BANCO, que não mostram
+   as obras da Tridium: um skatepark, uma treliça, um playground e um totem
+   quaisquer, escolhidos só porque o tipo de estrutura bate.
+
+   Nelas vai `provisoria: true`, que acende o selo em cima da foto — é o que
+   impede uma imagem genérica de passar despercebida na revisão e ir ao ar
+   como se fosse o projeto. Ao trocar pela foto real, apague a linha do selo.
+
+   `descricaoFoto` segue valendo: é a pauta do que precisa ser fotografado
+   nas obras que ainda não têm registro.
+
+   O array está fora do objeto `engenharia` de propósito: com `as const`, o
+   TypeScript cria um tipo literal por obra e as que não usam todos os campos
+   opcionais deixam de encaixar em CaseItem. */
+export const cases: CaseItem[] = [
+  /* --- Floripa Shopping ---------------------------------------------
+     ÚNICA OBRA COM REGISTRO FOTOGRÁFICO REAL ATÉ AQUI, e por isso abre o
+     portfólio e a capa da página: é o case que o visitante de Florianópolis
+     reconhece de imediato.
+
+     O texto abaixo foi escrito a partir do que as fotos mostram e do que o
+     cliente informou (reforma da praça de alimentação e pintura do teto).
+     [A CONFIRMAR] com o cliente antes de considerar fechado: o ano, a área
+     intervinda, se a obra correu com o shopping em operação (e, nesse caso,
+     o regime de trabalho noturno) e o nome do contratante. */
+  {
+    chave: "floripa-shopping",
+    nome: "Floripa Shopping",
+    categoria: "Reforma",
+    tipo: "Praça de alimentação e cobertura",
+    local: "Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Reforma da praça de alimentação e pintura da estrutura metálica da cobertura, num shopping em funcionamento.",
+    descricao:
+      "Duas frentes no mesmo contrato: a praça de alimentação, refeita do piso ao forro, e a estrutura metálica do vão livre acima dela, repintada em altura. Obra em prédio que recebe público todo dia — o canteiro convive com a operação.",
+    escopo: [
+      "Praça de alimentação",
+      "Pintura de estrutura metálica",
+      "Trabalho em altura",
+      "Obra em prédio em operação",
+    ],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-floripa-shopping.webp",
+        alt: "Fachada do Floripa Shopping vista do alto, com os morros ao fundo",
+      },
+      {
+        src: "/img/engenharia/obra-floripa-shopping-02.webp",
+        alt: "Praça de alimentação reformada: piso claro, mobiliário novo e iluminação linear no forro",
+        posicao: "center 62%",
+      },
+      {
+        src: "/img/engenharia/obra-floripa-shopping-03.webp",
+        alt: "Estrutura metálica da cobertura repintada, vista de baixo",
+        posicao: "center 40%",
+      },
+    ],
+  },
+  {
+    chave: "rhinno",
+    nome: "Rhinno Skatepark",
+    categoria: "Projeto especial",
+    tipo: "Pista de skate",
+    local: "Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Pista de skate em concreto moldado in loco, com transições contínuas e raios calculados para uso profissional.",
+    descricao:
+      "Estrutura que não aceita junta aparente nem tolerância de acabamento comum: cada transição foi conferida em gabarito antes da concretagem. O piso é a peça técnica principal do projeto.",
+    escopo: ["Projeto executivo", "Cálculo estrutural", "Execução", "Acabamento"],
+    /* ATÉ TRÊS FOTOS, na ordem em que a obra aconteceu. A primeira é a
+       principal: abre o card e é a que vai para a capa da página. As outras
+       aparecem pelas setas, sem sair da grade.
+
+       Este case está com três só para mostrar o recurso funcionando — as
+       demais obras têm uma. Para acrescentar, é copiar um bloco. */
+    fotos: [
+      {
+        src: "/img/engenharia/obra-rhinno.webp",
+        alt: "Bowl de concreto de uma pista de skate, com ponte ao fundo",
+        provisoria: true,
+        /* A foto é vertical e o bowl está no terço de baixo: centralizada,
+           o quadro mostraria só céu. */
+        posicao: "center 72%",
+      },
+      {
+        src: "/img/engenharia/obra-rhinno-02.webp",
+        alt: "Pista de skate vista de lado, com ondas de concreto e árvores ao fundo",
+        provisoria: true,
+      },
+      {
+        src: "/img/engenharia/obra-rhinno-03.webp",
+        alt: "Bowl de concreto iluminado à noite, visto de cima",
+        provisoria: true,
+      },
+    ],
+    descricaoFoto:
+      "Pista concluída em uso: transições, bowl e corrimãos. Horizontal, luz do fim da tarde.",
+  },
+  {
+    chave: "marquise",
+    nome: "Marquise Floripa",
+    categoria: "Estrutura metálica",
+    tipo: "Coberturas e marquises",
+    local: "Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Coberturas e marquises de grande vão em estrutura metálica, dimensionadas para o vento de orla.",
+    descricao:
+      "Projetos de cobertura em que o vão livre é o requisito e a carga de vento litorânea é o limite. Cálculo, fabricação e montagem acompanhados pela mesma equipe.",
+    escopo: ["Cálculo estrutural", "Fabricação", "Montagem", "Tratamento anticorrosivo"],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-marquise.webp",
+        alt: "Treliça metálica vista de baixo contra o céu, no fim da tarde",
+        provisoria: true,
+        posicao: "center 62%",
+      },
+    ],
+    descricaoFoto:
+      "Marquise instalada vista de baixo, mostrando o vão livre e a estrutura metálica.",
+  },
+  {
+    chave: "brincademia",
+    nome: "Brincademia",
+    categoria: "Projeto especial",
+    tipo: "Playground e brinquedoteca",
+    local: "Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Playground e brinquedoteca executados sob norma de segurança infantil, do piso amortecedor à altura de queda.",
+    descricao:
+      "Espaço em que a norma de segurança define a geometria antes da estética. Materiais, quinas, alturas de queda e superfície de impacto verificados item a item.",
+    escopo: ["Projeto", "Adequação normativa", "Execução", "Mobiliário"],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-brincademia.webp",
+        alt: "Playground com escorregador e painéis coloridos sobre piso amortecedor",
+        provisoria: true,
+        /* Única das quatro na horizontal: o centro já é o enquadramento certo. */
+        posicao: "center",
+      },
+    ],
+    descricaoFoto:
+      "Playground montado com crianças em uso, e um detalhe do piso amortecedor.",
+  },
+  {
+    chave: "totens",
+    nome: "Totens",
+    categoria: "Mobiliário urbano",
+    tipo: "Comunicação visual estrutural",
+    local: "Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Totens e elementos de comunicação visual com fundação, estrutura e acabamento resolvidos no mesmo projeto.",
+    descricao:
+      "Peça que parece design gráfico e é, na prática, estrutura: fundação dimensionada, perfil calculado e acabamento que precisa durar ao tempo.",
+    escopo: ["Projeto", "Fundação", "Fabricação", "Instalação"],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-totens.webp",
+        alt: "Totem de sinalização instalado em caminho de parque",
+        provisoria: true,
+        /* Enquadra o topo da peça: no centro, a placa é tomada por texto em
+           tailandês, que numa página brasileira salta aos olhos. */
+        posicao: "center 6%",
+      },
+    ],
+    descricaoFoto:
+      "Totem instalado no local, de corpo inteiro, com a fundação e o entorno visíveis.",
+  },
+];

@@ -5,7 +5,7 @@ import { GaleriaCases } from "@/components/GaleriaCases";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Numeros, Pendente, Rotulo, TituloSecao } from "@/components/ui";
-import { engenharia } from "@/content/engenharia";
+import { cases, engenharia } from "@/content/engenharia";
 import { contato, grupo, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaEngenharia, schemaMigalhas } from "@/lib/seo";
 
@@ -41,7 +41,7 @@ export default function EngenhariaPage() {
         rotulo="Obras da Tridium"
         /* A capa usa a foto 1 de cada obra — a mesma que abre o card dela no
            portfólio. As outras duas só existem lá, folheadas pelas setas. */
-        itens={engenharia.cases.map((obra) => ({
+        itens={cases.map((obra) => ({
           chave: obra.chave,
           imagem: obra.fotos[0]?.src ?? null,
           posicao: obra.fotos[0]?.posicao,
@@ -148,7 +148,7 @@ export default function EngenhariaPage() {
         <h2 id="portfolio-titulo" className="sr-only">
           Portfólio de obras
         </h2>
-        <GaleriaCases cases={engenharia.cases} />
+        <GaleriaCases cases={cases} />
       </section>
 
       {/* ================= PROCESSO ================= */}
