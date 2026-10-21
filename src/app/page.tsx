@@ -148,7 +148,7 @@ export default function Home() {
               <Numeros
                 itens={[
                   { valor: "3", rotulo: "frentes de atuação" },
-                  { valor: "[N]", rotulo: "obras entregues" },
+                  { valor: "+2.000", rotulo: "obras entregues" },
                   { valor: "10", rotulo: "anos de mercado" },
                   { valor: "1", rotulo: "responsabilidade técnica" },
                 ]}
