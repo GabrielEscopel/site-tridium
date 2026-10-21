@@ -30,10 +30,13 @@ export interface CaseItem {
   resumo: string;
   descricao: string;
   escopo: readonly string[];
-  /* Até três fotos, na ordem em que a obra aconteceu. A primeira é a
-     principal: é ela que abre o card e é ela que vai para a capa da página.
+  /* Até três fotos, na ordem em que a obra aconteceu. A primeira abre o card.
      Vazio enquanto não houver registro fotográfico real. */
   fotos: readonly FotoCard[];
+  /* Foto da capa da página, quando a melhor para o card não é a melhor para
+     a capa. A capa é panorâmica e corta muito; o card é 4:3 e mostra bem mais
+     da foto. Sem `capa`, vale a primeira de `fotos`. */
+  capa?: FotoCard;
   descricaoFoto?: string;
 }
 

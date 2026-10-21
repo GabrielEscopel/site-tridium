@@ -225,7 +225,18 @@ export const cases: CaseItem[] = [
       "Acesso por corda",
       "Obra em prédio em operação",
     ],
+    /* A capa continua sendo o corpo do edifício: é deitada e aguenta o corte
+       panorâmico. A entrada, que abre o card, é mais fechada e na capa
+       perderia a marquise. */
+    capa: {
+      src: "/img/engenharia/obra-porto-da-ilha.webp",
+      alt: "Fachada do hotel em recuperação, com lona de proteção sobre parte do edifício",
+    },
     fotos: [
+      {
+        src: "/img/engenharia/obra-porto-da-ilha-03.webp",
+        alt: "Entrada do Hotel Porto da Ilha, com a marquise e a sinalização",
+      },
       {
         src: "/img/engenharia/obra-porto-da-ilha.webp",
         alt: "Fachada do hotel em recuperação, com lona de proteção sobre parte do edifício",
@@ -233,10 +244,6 @@ export const cases: CaseItem[] = [
       {
         src: "/img/engenharia/obra-porto-da-ilha-02.webp",
         alt: "Operador em rapel na fachada, tratando as fissuras já mapeadas em branco",
-      },
-      {
-        src: "/img/engenharia/obra-porto-da-ilha-03.webp",
-        alt: "Entrada do Hotel Porto da Ilha, com a marquise e a sinalização",
       },
     ],
   },

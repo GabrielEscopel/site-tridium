@@ -39,19 +39,23 @@ export default function EngenhariaPage() {
           nada para manter em paralelo. */}
       <CarrosselCapa
         rotulo="Obras da Tridium"
-        /* A capa usa a foto 1 de cada obra — a mesma que abre o card dela no
-           portfólio. As outras duas só existem lá, folheadas pelas setas. */
-        itens={cases.map((obra) => ({
-          chave: obra.chave,
-          imagem: obra.fotos[0]?.src ?? null,
-          posicao: obra.fotos[0]?.posicao,
-          provisoria: obra.fotos[0]?.provisoria,
-          descricaoPendente: obra.descricaoFoto,
-          titulo: obra.nome,
-          etiqueta: obra.categoria,
-          href: "#portfolio",
-          acao: "Ver no portfólio",
-        }))}
+        /* A capa usa a `capa` da obra ou, na falta dela, a foto que abre o
+           card. São molduras diferentes — aqui panorâmica, lá 4:3 — e nem
+           sempre a melhor foto para uma é a melhor para a outra. */
+        itens={cases.map((obra) => {
+          const capa = obra.capa ?? obra.fotos[0];
+          return {
+            chave: obra.chave,
+            imagem: capa?.src ?? null,
+            posicao: capa?.posicao,
+            provisoria: capa?.provisoria,
+            descricaoPendente: obra.descricaoFoto,
+            titulo: obra.nome,
+            etiqueta: obra.categoria,
+            href: "#portfolio",
+            acao: "Ver no portfólio",
+          };
+        })}
       >
         <div className="flex items-center gap-4">
           <span className="h-px w-8 bg-accent" aria-hidden="true" />
