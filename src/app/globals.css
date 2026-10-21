@@ -28,6 +28,15 @@
   --tri-ink: #101f11;
   --tri-slate: #1b2a1c;
   --tri-graphite: #2c3d2d;
+
+  /* --- Verde institucional, versão clara ---
+         Nasceu como teste na página do grupo e foi adotado: é o fundo da
+         frente de engenharia e do portal. Dois degraus acima do --tri-ink,
+         que continua existindo para blocos escuros dentro de página clara.
+         Os antigos, caso se queira voltar: ink / slate / void. */
+  --tri-mata: #1d3a20;
+  --tri-mata-alto: #213f24;
+  --tri-mata-fundo: #16301a;
   --tri-fog: #d6dbd2;
   --tri-paper: #f3f5f0;
 
@@ -39,20 +48,20 @@
   --accent-imobiliaria: #b08a02;
   --accent-instituto: #c4522c;
 
-  /* --- Tokens semânticos (padrão = tema institucional escuro) --- */
-  --surface: var(--tri-ink);
-  --surface-raised: var(--tri-slate);
-  --surface-inset: var(--tri-void);
+  /* --- Tokens semânticos (padrão = tema institucional) --- */
+  --surface: var(--tri-mata);
+  --surface-raised: var(--tri-mata-alto);
+  --surface-inset: var(--tri-mata-fundo);
   --ink: var(--tri-bone);
   --ink-muted: #9aa895;
-  --ink-faint: #859381;
-  --line: rgba(234, 237, 230, 0.14);
-  --line-strong: rgba(234, 237, 230, 0.28);
+  --ink-faint: #9aa895; /* 5,0:1 sobre --tri-mata */
+  --line: rgba(234, 237, 230, 0.18);
+  --line-strong: rgba(234, 237, 230, 0.32);
   --accent: var(--tri-green);
   /* Versao legivel do acento, para TEXTO pequeno. O --accent puro e a cor de
      marca e vive em preenchimentos, fios e areas grandes; em corpo de texto
-     sobre fundo claro ele nao alcanca 4.5:1, entao existe este par. */
-  --accent-texto: var(--tri-green);
+     ele nao alcanca 4.5:1 sobre este fundo, entao existe este par. */
+  --accent-texto: #0ec23a; /* 5,2:1 sobre --tri-mata */
   --accent-ink: var(--tri-void);
 
   /* --- Ritmo e forma --- */
@@ -83,16 +92,16 @@
 
 [data-front="engenharia"] {
   --accent: var(--accent-engenharia);
-  --accent-texto: var(--accent-engenharia); /* 5.92:1 sobre o fundo escuro */
+  --accent-texto: #0ec23a; /* 5,2:1 sobre --tri-mata */
   --accent-ink: var(--tri-void);
-  --surface: var(--tri-ink);
-  --surface-raised: var(--tri-slate);
-  --surface-inset: var(--tri-void);
+  --surface: var(--tri-mata);
+  --surface-raised: var(--tri-mata-alto);
+  --surface-inset: var(--tri-mata-fundo);
   --ink: var(--tri-bone);
   --ink-muted: #9aa895;
-  --ink-faint: #859381; /* 4.65:1 — passa AA tambem sobre --surface-raised */
-  --line: rgba(234, 237, 230, 0.14);
-  --line-strong: rgba(234, 237, 230, 0.28);
+  --ink-faint: #9aa895; /* 5,0:1 — passa AA tambem sobre --surface-raised */
+  --line: rgba(234, 237, 230, 0.18);
+  --line-strong: rgba(234, 237, 230, 0.32);
 }
 
 [data-front="imobiliaria"] {
@@ -121,29 +130,6 @@
   --ink-faint: #706357; /* 4.65:1 */
   --line: rgba(33, 23, 15, 0.16);
   --line-strong: rgba(33, 23, 15, 0.32);
-}
-
-/* =========================================================================
-   TESTE — fundo verde mais claro na página do grupo
-   -------------------------------------------------------------------------
-   Experimento a pedido do cliente, para avaliar a tonalidade. Para voltar ao
-   original, apague este bloco e o atributo `data-teste-fundo` em
-   src/app/page.tsx e em src/components/Header.tsx. Nada mais depende dele.
-
-   Dois tokens de texto mudam junto, porque fundo mais claro come contraste:
-   o --ink-faint cai de 5,2:1 para 3,6:1 e volta a 5,0:1 no tom mais claro;
-   o --accent-texto cai de 5,9:1 para 4,3:1 — abaixo do mínimo de leitura —
-   e volta a 5,2:1. O --accent puro não muda: é a cor da marca, e vive em
-   preenchimento de botão e fio, onde o mínimo é outro.
-   ========================================================================= */
-[data-teste-fundo="verde-claro"] {
-  --surface: #1d3a20;
-  --surface-raised: #213f24;
-  --surface-inset: #16301a;
-  --ink-faint: #9aa895;
-  --accent-texto: #0ec23a;
-  --line: rgba(234, 237, 230, 0.18);
-  --line-strong: rgba(234, 237, 230, 0.32);
 }
 
 /* Texto sobre fotografia escurecida — as capas das três frentes.

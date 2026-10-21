@@ -108,10 +108,6 @@ export function Header() {
 
       <header
         data-front={frenteDaRota}
-        /* TESTE de cor na página do grupo: sem isto o cabeçalho, que vive
-           fora da página, ficaria com o verde antigo ao descolar. Sai junto
-           com o experimento — ver globals.css. */
-        data-teste-fundo={pathname === "/" ? "verde-claro" : undefined}
         // text-ink reavalia --ink AQUI. Sem a classe, os filhos herdam a cor
         // ja calculada no <body> e o icone do menu fica osso sobre osso.
         className={`fixed inset-x-0 top-0 z-50 text-ink transition-colors duration-300 ${

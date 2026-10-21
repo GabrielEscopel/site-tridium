@@ -14,9 +14,8 @@ export const metadata: Metadata = metadadosRota({
 });
 
 export default function Home() {
-  /* `data-teste-fundo` é experimento de cor, temporário — ver globals.css */
   return (
-    <div data-front="engenharia" data-teste-fundo="verde-claro">
+    <div data-front="engenharia">
       {/* ================= HERO ================= */}
       <section
         data-cena-alcance
