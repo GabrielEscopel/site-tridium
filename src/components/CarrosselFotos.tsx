@@ -1,32 +1,47 @@
 "use client";
 
 /* =============================================================================
-   CARROSSEL DE FOTOS — dentro do card do imóvel
+   CARROSSEL DE FOTOS — dentro de um card
    -----------------------------------------------------------------------------
-   Deixa folhear as fotos sem sair da lista, como na referência. É proposital
-   que seja pequeno e discreto: aqui a foto é apoio da decisão, não espetáculo.
+   Deixa folhear as fotos sem sair da lista. Serve ao card de imóvel e ao card
+   de obra do portfólio, onde as fotos mostram a evolução da obra.
 
-   Diferenças em relação ao CarrosselDestaques, que abre o Instituto:
-   - não avança sozinho. Numa lista com vários cards, movimento simultâneo em
+   É proposital que seja pequeno e discreto: aqui a foto é apoio da decisão,
+   não espetáculo.
+
+   Diferenças em relação ao carrossel de capa:
+   - não avança sozinho. Numa grade com vários cards, movimento simultâneo em
      todos vira ruído e atrapalha a leitura
    - as setas só aparecem no hover ou no foco, para não poluir a grade
-   - o clique nas setas não navega para o imóvel, mesmo o card inteiro sendo
-     um link
+   - abre sempre na foto 1, que é a mesma que aparece na capa da página
+   - o clique nas setas não navega, mesmo quando o card inteiro é um link
    ============================================================================= */
 
 import { useState } from "react";
 import Image from "next/image";
-import type { FotoImovel } from "@/content/imobiliaria";
+
+/** O mínimo que o carrossel precisa. `FotoImovel` e `FotoCase` se encaixam. */
+export interface FotoCard {
+  src: string;
+  alt?: string;
+  /** Imagem de banco no lugar da real. Mostra o selo na tela. */
+  provisoria?: boolean;
+  /** object-position, quando o enquadramento central corta o que importa. */
+  posicao?: string;
+}
 
 export function CarrosselFotos({
   fotos,
   prioridade = false,
   className = "",
+  tamanhos = "(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw",
 }: {
-  fotos: readonly FotoImovel[];
+  fotos: readonly FotoCard[];
   /** true na primeira linha da grade: carrega sem esperar o scroll. */
   prioridade?: boolean;
   className?: string;
+  /** O `sizes` da imagem, que muda conforme a largura do card. */
+  tamanhos?: string;
 }) {
   const [atual, setAtual] = useState(0);
   const total = fotos.length;
@@ -34,7 +49,7 @@ export function CarrosselFotos({
   if (!total) return null;
 
   const mover = (passo: number) => (e: React.MouseEvent) => {
-    /* O card inteiro é um link: sem isto, folhear a foto abriria o imóvel. */
+    /* O card pode ser um link inteiro: sem isto, folhear abriria a página. */
     e.preventDefault();
     e.stopPropagation();
     setAtual((i) => (i + passo + total) % total);
@@ -46,11 +61,13 @@ export function CarrosselFotos({
         <Image
           key={foto.src}
           src={foto.src}
-          alt={i === 0 ? foto.alt : ""}
+          alt={i === 0 ? (foto.alt ?? "") : ""}
           fill
           priority={prioridade && i === 0}
-          sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
+          loading={prioridade && i === 0 ? undefined : "lazy"}
+          sizes={tamanhos}
           aria-hidden={i !== atual}
+          style={{ objectPosition: foto.posicao ?? "center" }}
           className={`object-cover transition-opacity duration-500 ${
             i === atual ? "opacity-100" : "opacity-0"
           }`}

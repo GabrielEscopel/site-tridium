@@ -102,12 +102,32 @@ export const engenharia = {
       descricao:
         "Estrutura que não aceita junta aparente nem tolerância de acabamento comum: cada transição foi conferida em gabarito antes da concretagem. O piso é a peça técnica principal do projeto.",
       escopo: ["Projeto executivo", "Cálculo estrutural", "Execução", "Acabamento"],
-      imagem: "/img/engenharia/obra-rhinno.webp",
-      imagemAlt: "Bowl de concreto de uma pista de skate, com ponte ao fundo",
-      imagemProvisoria: true,
-      /* A foto é vertical e o bowl está no terço de baixo: centralizada, o
-         slide mostraria só céu. */
-      imagemPosicao: "center 72%",
+      /* ATÉ TRÊS FOTOS, na ordem em que a obra aconteceu. A primeira é a
+         principal: abre o card e é a que vai para a capa da página. As outras
+         aparecem pelas setas, sem sair da grade.
+
+         Este case está com três só para mostrar o recurso funcionando — as
+         demais obras têm uma. Para acrescentar, é copiar um bloco. */
+      fotos: [
+        {
+          src: "/img/engenharia/obra-rhinno.webp",
+          alt: "Bowl de concreto de uma pista de skate, com ponte ao fundo",
+          provisoria: true,
+          /* A foto é vertical e o bowl está no terço de baixo: centralizada,
+             o quadro mostraria só céu. */
+          posicao: "center 72%",
+        },
+        {
+          src: "/img/engenharia/obra-rhinno-02.webp",
+          alt: "Pista de skate vista de lado, com ondas de concreto e árvores ao fundo",
+          provisoria: true,
+        },
+        {
+          src: "/img/engenharia/obra-rhinno-03.webp",
+          alt: "Bowl de concreto iluminado à noite, visto de cima",
+          provisoria: true,
+        },
+      ],
       descricaoFoto:
         "Pista concluída em uso: transições, bowl e corrimãos. Horizontal, luz do fim da tarde.",
     },
@@ -123,11 +143,14 @@ export const engenharia = {
       descricao:
         "Projetos de cobertura em que o vão livre é o requisito e a carga de vento litorânea é o limite. Cálculo, fabricação e montagem acompanhados pela mesma equipe.",
       escopo: ["Cálculo estrutural", "Fabricação", "Montagem", "Tratamento anticorrosivo"],
-      imagem: "/img/engenharia/obra-marquise.webp",
-      imagemAlt:
-        "Treliça metálica vista de baixo contra o céu, no fim da tarde",
-      imagemProvisoria: true,
-      imagemPosicao: "center 62%",
+      fotos: [
+        {
+          src: "/img/engenharia/obra-marquise.webp",
+          alt: "Treliça metálica vista de baixo contra o céu, no fim da tarde",
+          provisoria: true,
+          posicao: "center 62%",
+        },
+      ],
       descricaoFoto:
         "Marquise instalada vista de baixo, mostrando o vão livre e a estrutura metálica.",
     },
@@ -143,12 +166,15 @@ export const engenharia = {
       descricao:
         "Espaço em que a norma de segurança define a geometria antes da estética. Materiais, quinas, alturas de queda e superfície de impacto verificados item a item.",
       escopo: ["Projeto", "Adequação normativa", "Execução", "Mobiliário"],
-      imagem: "/img/engenharia/obra-brincademia.webp",
-      imagemAlt:
-        "Playground com escorregador e painéis coloridos sobre piso amortecedor",
-      imagemProvisoria: true,
-      /* Única das quatro na horizontal: o centro já é o enquadramento certo. */
-      imagemPosicao: "center",
+      fotos: [
+        {
+          src: "/img/engenharia/obra-brincademia.webp",
+          alt: "Playground com escorregador e painéis coloridos sobre piso amortecedor",
+          provisoria: true,
+          /* Única das quatro na horizontal: o centro já é o enquadramento certo. */
+          posicao: "center",
+        },
+      ],
       descricaoFoto:
         "Playground montado com crianças em uso, e um detalhe do piso amortecedor.",
     },
@@ -164,12 +190,16 @@ export const engenharia = {
       descricao:
         "Peça que parece design gráfico e é, na prática, estrutura: fundação dimensionada, perfil calculado e acabamento que precisa durar ao tempo.",
       escopo: ["Projeto", "Fundação", "Fabricação", "Instalação"],
-      imagem: "/img/engenharia/obra-totens.webp",
-      imagemAlt: "Totem de sinalização instalado em caminho de parque",
-      imagemProvisoria: true,
-      /* Enquadra o topo da peça: no centro, a placa é tomada por texto em
-         tailandês, que numa página brasileira salta aos olhos. */
-      imagemPosicao: "center 6%",
+      fotos: [
+        {
+          src: "/img/engenharia/obra-totens.webp",
+          alt: "Totem de sinalização instalado em caminho de parque",
+          provisoria: true,
+          /* Enquadra o topo da peça: no centro, a placa é tomada por texto em
+             tailandês, que numa página brasileira salta aos olhos. */
+          posicao: "center 6%",
+        },
+      ],
       descricaoFoto:
         "Totem instalado no local, de corpo inteiro, com a fundação e o entorno visíveis.",
     },

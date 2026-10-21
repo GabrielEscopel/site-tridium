@@ -13,10 +13,10 @@
    ============================================================================= */
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefereMovimentoReduzido } from "@/lib/motion";
+import { CarrosselFotos, type FotoCard } from "./CarrosselFotos";
 import { Pendente } from "./ui";
 import { FotoPendente } from "./FotoPendente";
 
@@ -30,13 +30,10 @@ export interface CaseItem {
   resumo: string;
   descricao: string;
   escopo: readonly string[];
-  /** null enquanto não houver registro fotográfico real do case. */
-  imagem: string | null;
-  imagemAlt?: string;
-  /** Foto de banco no lugar da obra real. Mostra o selo em cima da imagem. */
-  imagemProvisoria?: boolean;
-  /** object-position, quando o enquadramento central corta o que importa. */
-  imagemPosicao?: string;
+  /* Até três fotos, na ordem em que a obra aconteceu. A primeira é a
+     principal: é ela que abre o card e é ela que vai para a capa da página.
+     Vazio enquanto não houver registro fotográfico real. */
+  fotos: readonly FotoCard[];
   descricaoFoto?: string;
 }
 
@@ -130,27 +127,17 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
             className="w-[85vw] max-w-[30rem] shrink-0 snap-start sm:w-[62vw] lg:w-[31rem] lg:max-w-none"
           >
             <article className="flex h-full flex-col">
+              {/* Até três fotos por obra, folheadas pelas setas: dá para ver
+                  a evolução sem sair da grade. Abre sempre na foto 1, a
+                  mesma que a obra mostra na capa da página. */}
               <div className="relative aspect-[4/3] overflow-hidden bg-inset lg:aspect-auto lg:min-h-0 lg:flex-1">
-                {item.imagem ? (
-                  <>
-                    <Image
-                      src={item.imagem}
-                      alt={item.imagemAlt ?? ""}
-                      fill
-                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 62vw, 34rem"
-                      loading={i < 2 ? undefined : "lazy"}
-                      priority={i === 0}
-                      style={{ objectPosition: item.imagemPosicao ?? "center" }}
-                      className="object-cover"
-                    />
-                    {/* Enquanto for foto de banco, o selo fica por cima: é o
-                        que impede a imagem de passar por registro da obra. */}
-                    {item.imagemProvisoria && (
-                      <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-2 border border-dashed border-white/70 bg-black/65 px-2.5 py-1 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-white">
-                        ◇ Foto provisória
-                      </span>
-                    )}
-                  </>
+                {item.fotos.length > 0 ? (
+                  <CarrosselFotos
+                    fotos={item.fotos}
+                    prioridade={i === 0}
+                    tamanhos="(max-width: 640px) 85vw, (max-width: 1024px) 62vw, 34rem"
+                    className="h-full w-full"
+                  />
                 ) : (
                   <FotoPendente
                     className="absolute inset-0"
@@ -159,7 +146,7 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
                 )}
                 <span
                   aria-hidden="true"
-                  className="absolute bottom-0 left-0 h-1 w-16 bg-accent"
+                  className="absolute bottom-0 left-0 z-10 h-1 w-16 bg-accent"
                 />
               </div>
 

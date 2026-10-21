@@ -39,11 +39,13 @@ export default function EngenhariaPage() {
           nada para manter em paralelo. */}
       <CarrosselCapa
         rotulo="Obras da Tridium"
+        /* A capa usa a foto 1 de cada obra — a mesma que abre o card dela no
+           portfólio. As outras duas só existem lá, folheadas pelas setas. */
         itens={engenharia.cases.map((obra) => ({
           chave: obra.chave,
-          imagem: obra.imagem,
-          posicao: obra.imagemPosicao,
-          provisoria: obra.imagemProvisoria,
+          imagem: obra.fotos[0]?.src ?? null,
+          posicao: obra.fotos[0]?.posicao,
+          provisoria: obra.fotos[0]?.provisoria,
           descricaoPendente: obra.descricaoFoto,
           titulo: obra.nome,
           etiqueta: obra.categoria,
