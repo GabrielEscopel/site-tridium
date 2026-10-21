@@ -21,6 +21,9 @@ Thumbs.db
 
 # Fotos originais, em alta, enviadas pelo cliente. Ficam só na sua máquina:
 # o que vai para o site é a versão convertida em public/img/. Sem isto, cada
-# original de 13 MB entra no repositório e a Hostinger o baixa a cada deploy.
-# (As que já estavam versionadas continuam lá — o .gitignore não desfaz isso.)
+# original de vários MB entra no repositório e a Hostinger o baixa a cada
+# deploy. Uma pasta por frente — ao criar outra, acrescente aqui.
 /Instituto/
+/Engenharia e Arquitetura/
+/Imobiliaria/
+/Imobiliária/
