@@ -45,6 +45,10 @@ export const engenharia = {
         "Reforma estrutural e reforço",
         "Retrofit de fachada e cobertura",
         "Ampliação e mudança de layout",
+        /* Entrou quando a demolição de Santo Antônio virou case: o serviço
+           aparecia no portfólio e não na lista, e quem procurasse por ele
+           não achava. */
+        "Demolição e remoção de entulho",
         "Laudo técnico e patologia construtiva",
       ],
     },
@@ -233,6 +237,51 @@ export const cases: CaseItem[] = [
       {
         src: "/img/engenharia/obra-porto-da-ilha-03.webp",
         alt: "Entrada do Hotel Porto da Ilha, com a marquise e a sinalização",
+      },
+    ],
+  },
+  /* --- Demolição em Santo Antônio ------------------------------------
+     Terceira obra com registro real, e a que mostra o serviço menos óbvio do
+     portfólio: derrubar sem atingir quem está ao lado.
+
+     ORDEM DAS FOTOS: o cliente marcou a foto final como a do carrossel, e ela
+     é mesmo a melhor capa — mostra o terreno limpo com as divisas de pé. Como
+     a foto 1 abre também o card, o card fica em ordem editorial (resultado,
+     depois o processo) e não cronológica. Para ficar cronológico, a capa teria
+     de ser a do começo. Os textos alternativos dizem a etapa de cada uma.
+
+     [A CONFIRMAR] com o cliente: o ano, a área do terreno, o prazo, se é
+     Santo Antônio de Lisboa e o destino do entulho — demolição tem exigência
+     de descarte, e dizer para onde foi o material é diferencial de verdade. */
+  {
+    chave: "demolicao-santo-antonio",
+    nome: "Demolição em Santo Antônio",
+    categoria: "Demolição",
+    tipo: "Três casas em lote urbano",
+    local: "Santo Antônio, Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Três casas derrubadas num lote cercado de vizinhos — com as construções ao lado em pé e a rua funcionando.",
+    descricao:
+      "Numa demolição urbana o que define a obra não é o que cai: é o que precisa continuar em pé. Aqui havia casas ocupadas encostadas nas duas divisas e uma via movimentada à frente. A cobertura sai primeiro, depois a estrutura, e a máquina trabalha de dentro para fora, puxando o material para o centro do terreno.",
+    escopo: [
+      "Demolição mecanizada",
+      "Remoção seletiva de cobertura",
+      "Preservação das divisas",
+      "Remoção de entulho",
+    ],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-demolicao-santo-antonio.webp",
+        alt: "Terreno limpo ao fim da demolição, com a escavadeira removendo o entulho e os muros dos vizinhos intactos",
+      },
+      {
+        src: "/img/engenharia/obra-demolicao-santo-antonio-02.webp",
+        alt: "Começo da demolição: as coberturas sendo retiradas, com a baía ao fundo",
+      },
+      {
+        src: "/img/engenharia/obra-demolicao-santo-antonio-03.webp",
+        alt: "Demolição em andamento, entre as casas vizinhas que permanecem de pé",
       },
     ],
   },
