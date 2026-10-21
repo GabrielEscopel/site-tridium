@@ -64,6 +64,17 @@ export interface Projeto {
   ficha: { rotulo: string; valor: string }[];
   /** Parágrafos sobre o projeto. */
   sobre: string[];
+  /** A tradição ou o contexto em que o projeto se apoia. Opcional: nem todo
+      projeto precisa — o Moradia Digna não precisa explicar o que é uma casa.
+      A capoeira precisa, e é esse contexto que dá peso ao projeto. */
+  contexto?: {
+    titulo: string;
+    texto: string[];
+    /** Vocabulário da tradição. Termo curto, explicação de uma linha. */
+    termos?: { termo: string; significado: string }[];
+    /** Referência pública para quem quiser ir fundo. */
+    fonte?: { rotulo: string; href: string };
+  };
   /** Pessoa ou família em destaque. Opcional. */
   destaque?: {
     nome: string;
@@ -124,8 +135,8 @@ export const destaques: Destaque[] = [
   },
   {
     chave: "capoeira",
-    eyebrow: "Capoeira",
-    titulo: "[CONTEÚDO PENDENTE] A chamada do núcleo de capoeira.",
+    eyebrow: "Capoeira Angola",
+    titulo: "Na roda, quem assiste também joga.",
     acao: { rotulo: "Conhecer o projeto", href: "/instituto/capoeira" },
     midia: {
       tipo: "foto",
@@ -337,7 +348,7 @@ export const projetos: Projeto[] = [
 
   {
     chave: "capoeira",
-    nome: "Capoeira",
+    nome: "Capoeira Angola",
     artigo: "a",
     /* A mesma foto da capa do carrossel. No cartão, que é 4:3, aparece 56%
        da altura e o grupo inteiro cabe. */
@@ -349,17 +360,55 @@ export const projetos: Projeto[] = [
       posicao: "center 74%",
     },
     resumo:
-      "[CONTEÚDO PENDENTE] Uma linha sobre o que o núcleo de capoeira faz e para quem.",
+      "Capoeira Angola em Florianópolis: a tradição afro-brasileira reconhecida como patrimônio, praticada na roda e aberta à comunidade.",
     ficha: [
+      { rotulo: "Tradição", valor: "Capoeira Angola" },
       { rotulo: "Onde", valor: "[PENDENTE] endereço ou bairro" },
       { rotulo: "Quando", valor: "[PENDENTE] dias e horários" },
       { rotulo: "Desde", valor: "[PENDENTE]" },
       { rotulo: "Atende", valor: "[PENDENTE] faixa etária e perfil" },
     ],
     sobre: [
-      "[CONTEÚDO PENDENTE] O que é o núcleo de capoeira do Instituto: como começou, quem conduz as aulas, quantas crianças e jovens participam e o que o projeto representa para o bairro.",
-      "[CONTEÚDO PENDENTE] Como alguém entra: inscrição, idade mínima, se há custo, o que é preciso levar.",
+      "A capoeira do Instituto é Capoeira Angola: a vertente que guarda os fundamentos mais antigos da tradição — o jogo rente ao chão, a malícia, o ritual da roda e a bateria completa, com três berimbaus.",
+      /* [A CONFIRMAR] A faixa na foto identifica o "Projeto de Capoeira Angola
+         Palmares — no passo da tartaruga" e anuncia aulas com o Mestre Pardal.
+         Pelo que se lê ali, o Instituto apoia um grupo que já existe, e não um
+         núcleo criado por ele. A diferença muda o texto inteiro: confirmar com
+         o cliente o nome do grupo, a linhagem e qual é exatamente o papel do
+         Instituto antes de escrever este parágrafo. */
+      "[CONTEÚDO PENDENTE] Quem conduz as aulas, onde e desde quando acontecem, quantas pessoas participam e como alguém entra no grupo.",
     ],
+    contexto: {
+      titulo: "Na roda, quem assiste também joga.",
+      texto: [
+        "A Capoeira Angola é manifestação cultural afro-brasileira: luta, dança, música e memória na mesma prática. Formou-se no Brasil a partir da experiência de africanos escravizados e de seus descendentes, e sobreviveu à perseguição — a capoeiragem foi crime no Código Penal de 1890, dois anos depois da abolição.",
+        "A roda é o centro de tudo. Quem toca, canta, bate palma ou observa participa do jogo tanto quanto os dois que estão no meio. O jogo é uma conversa de corpo: pergunta-se com o movimento, responde-se com a esquiva. Aprende-se a escutar, a esperar a hora e a reconhecer o outro — que é o que faz da capoeira uma escola, e não só um exercício.",
+        "O Iphan registrou a roda de capoeira e o ofício dos mestres como patrimônio cultural do Brasil em 2008. Em 2014, a Unesco inscreveu a roda na lista do patrimônio imaterial da humanidade.",
+      ],
+      termos: [
+        {
+          termo: "Malícia",
+          significado: "Ler a intenção do outro sem entregar a sua.",
+        },
+        {
+          termo: "Mandinga",
+          significado:
+            "Presença, astúcia e mistério no jogo. Não se ensina com palavra.",
+        },
+        {
+          termo: "Jogo de dentro",
+          significado: "Jogar perto, com movimento curto, onde força não resolve.",
+        },
+        {
+          termo: "Ladainha",
+          significado: "O canto que abre a roda, conta história e dá o tom.",
+        },
+      ],
+      fonte: {
+        rotulo: "Dossiê da Roda de Capoeira e do Ofício dos Mestres — Iphan",
+        href: "https://bibliotecadigital.iphan.gov.br/handle/123456789/653",
+      },
+    },
     registro: [
       {
         tipo: "foto",

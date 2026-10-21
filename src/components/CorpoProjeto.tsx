@@ -65,6 +65,57 @@ export function CorpoProjeto({
         </div>
       </Bloco>
 
+      {/* --- A tradição em que o projeto se apoia (só onde existir) --- */}
+      {projeto.contexto && (
+        <Bloco titulo="A tradição">
+          <Reveal>
+            <h3 className="t-display-tight fs-secao max-w-[20ch] text-ink">
+              {projeto.contexto.titulo}
+            </h3>
+            <div className="mt-8 max-w-[62ch] space-y-5">
+              {projeto.contexto.texto.map((paragrafo, i) => (
+                <p key={i} className="t-body text-muted">
+                  {paragrafo}
+                </p>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* O vocabulário da tradição. Em lista, e não dentro do texto
+              corrido: são palavras que a pessoa vai ouvir na roda, e vale que
+              fiquem destacadas para serem reconhecidas depois. */}
+          {projeto.contexto.termos && (
+            <Reveal as="dl" className="mt-14 grid gap-px bg-line sm:grid-cols-2">
+              {projeto.contexto.termos.map((t) => (
+                <div key={t.termo} className="bg-surface p-6 sm:p-8">
+                  <dt className="t-display-tight fs-card text-ink">{t.termo}</dt>
+                  <dd className="t-body mt-3 text-muted">{t.significado}</dd>
+                </div>
+              ))}
+            </Reveal>
+          )}
+
+          {projeto.contexto.fonte && (
+            <Reveal className="mt-10">
+              <a
+                href={projeto.contexto.fonte.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="t-label group inline-flex items-center gap-3 text-muted transition-colors duration-200 hover:text-accent-texto"
+              >
+                {projeto.contexto.fonte.rotulo}
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </a>
+            </Reveal>
+          )}
+        </Bloco>
+      )}
+
       {/* --- Como funciona (jornada, só onde existir) --- */}
       {children}
 

@@ -194,6 +194,48 @@ export const cases: CaseItem[] = [
       },
     ],
   },
+  /* --- Hotel Porto da Ilha -------------------------------------------
+     Segunda obra com registro real. Faz par com o Floripa Shopping: as duas
+     aconteceram em prédio que recebe público, e é isso que as duas provam
+     junto — a Tridium trabalha sem fechar o lugar.
+
+     O texto saiu do que as fotos mostram: a fachada em recuperação sob lona,
+     o operador em rapel tratando fissuras já mapeadas em branco, e a entrada
+     pronta. [A CONFIRMAR] com o cliente: o ano, a área de fachada, a altura
+     do prédio, se a obra correu com o hotel em operação e se o contrato
+     permite nomear o Porto da Ilha. */
+  {
+    chave: "hotel-porto-da-ilha",
+    nome: "Hotel Porto da Ilha",
+    categoria: "Reforma",
+    tipo: "Recuperação e pintura de fachada",
+    local: "Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "Recuperação e pintura da fachada de um hotel no centro, com acesso por corda — sem andaime subindo pela rua.",
+    descricao:
+      "Fachada de edifício alto: as fissuras são mapeadas uma a uma, tratadas e só então a pintura entra. O acesso é por corda, com o operador descendo em rapel — o que dispensa andaime, libera a calçada e encurta o tempo em que o hóspede convive com a obra.",
+    escopo: [
+      "Tratamento de fissuras",
+      "Pintura de fachada",
+      "Acesso por corda",
+      "Obra em prédio em operação",
+    ],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-porto-da-ilha.webp",
+        alt: "Fachada do hotel em recuperação, com lona de proteção sobre parte do edifício",
+      },
+      {
+        src: "/img/engenharia/obra-porto-da-ilha-02.webp",
+        alt: "Operador em rapel na fachada, tratando as fissuras já mapeadas em branco",
+      },
+      {
+        src: "/img/engenharia/obra-porto-da-ilha-03.webp",
+        alt: "Entrada do Hotel Porto da Ilha, com a marquise e a sinalização",
+      },
+    ],
+  },
   {
     chave: "rhinno",
     nome: "Rhinno Skatepark",
