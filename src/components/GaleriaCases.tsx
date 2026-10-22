@@ -30,7 +30,8 @@ export interface CaseItem {
   resumo: string;
   descricao: string;
   escopo: readonly string[];
-  /* Até três fotos, na ordem em que a obra aconteceu. A primeira abre o card.
+  /* As fotos da obra, na ordem em que ela aconteceu. A primeira abre o card.
+     Três ou quatro funcionam bem; acima disso o contador do card vira ruído.
      Vazio enquanto não houver registro fotográfico real. */
   fotos: readonly FotoCard[];
   /* Foto da capa da página, quando a melhor para o card não é a melhor para

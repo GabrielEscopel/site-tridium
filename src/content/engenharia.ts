@@ -134,12 +134,13 @@ export const engenharia = {
 } as const;
 
 /* --- Portfólio --------------------------------------------------------
-   Cada obra tem até três fotos, na ordem em que a obra aconteceu. A primeira
-   é a principal: abre o card no portfólio e é a que vai para a capa da
-   página. As demais aparecem pelas setas, dentro do card.
+   Cada obra tem as suas fotos, na ordem em que a obra aconteceu. A primeira
+   abre o card no portfólio e, quando não há `capa` própria, é também a que
+   vai para a capa da página. As demais aparecem pelas setas, dentro do card.
+   Três ou quatro funcionam bem; acima disso o contador vira ruído.
 
-   O Floripa Shopping é a única com registro real da Tridium, e por isso vem
-   primeiro. As quatro seguintes ainda usam imagens de BANCO, que não mostram
+   As QUATRO PRIMEIRAS têm registro real da Tridium e por isso vêm na frente.
+   As quatro seguintes ainda usam imagens de BANCO, que não mostram
    as obras da Tridium: um skatepark, uma treliça, um playground e um totem
    quaisquer, escolhidos só porque o tipo de estrutura bate.
 
@@ -289,6 +290,52 @@ export const cases: CaseItem[] = [
       {
         src: "/img/engenharia/obra-demolicao-santo-antonio-03.webp",
         alt: "Demolição em andamento, entre as casas vizinhas que permanecem de pé",
+      },
+    ],
+  },
+  /* --- Escritório Tridium --------------------------------------------
+     A única obra em que a Tridium foi a própria cliente — e o endereço que
+     está no rodapé do site. Quem quiser conferir o acabamento vai até lá.
+
+     Quatro fotos: é o case que mais ganha com a sequência, porque o assunto
+     aqui é justamente o detalhe.
+
+     [A CONFIRMAR] com o cliente: o ano, a área e se a marcenaria foi
+     executada pela equipe ou por terceiro — o texto diz "sob medida", que
+     vale nos dois casos, mas se foi pela equipe dá para dizer melhor. */
+  {
+    chave: "escritorio-tridium",
+    nome: "Escritório Tridium",
+    categoria: "Obra própria",
+    tipo: "Projeto, execução e interiores",
+    local: "Agronômica, Florianópolis, SC",
+    ano: "[ANO PENDENTE]",
+    resumo:
+      "A sede da Tridium, construída pela Tridium: projeto, obra e acabamento pela mesma equipe que atende o cliente.",
+    descricao:
+      "Num escritório próprio não há cliente para negociar o acabamento para baixo — o que fica de pé é o padrão que a empresa escolheu para si. Fachada em tijolo, marcenaria sob medida com iluminação embutida, escada caracol e sala de reunião resolvidas no mesmo projeto. É também o endereço da Tridium: dá para ir ver de perto.",
+    escopo: [
+      "Projeto arquitetônico",
+      "Execução",
+      "Marcenaria sob medida",
+      "Interiores e detalhamento",
+    ],
+    fotos: [
+      {
+        src: "/img/engenharia/obra-escritorio.webp",
+        alt: "Fachada do escritório da Tridium, em tijolo, com a vitrine e a placa da empresa",
+      },
+      {
+        src: "/img/engenharia/obra-escritorio-02.webp",
+        alt: "Recepção: banco curvo em marcenaria sob medida, com iluminação embutida, e prateleira com capacetes da equipe",
+      },
+      {
+        src: "/img/engenharia/obra-escritorio-03.webp",
+        alt: "Vista do mezanino sobre a recepção, com a escada caracol ao centro",
+      },
+      {
+        src: "/img/engenharia/obra-escritorio-04.webp",
+        alt: "Sala de reunião com parede em verde cimentício e marcenaria em madeira",
       },
     ],
   },
