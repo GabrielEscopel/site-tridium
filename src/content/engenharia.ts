@@ -139,17 +139,18 @@ export const engenharia = {
    vai para a capa da página. As demais aparecem pelas setas, dentro do card.
    Três ou quatro funcionam bem; acima disso o contador vira ruído.
 
-   As QUATRO PRIMEIRAS têm registro real da Tridium e por isso vêm na frente.
-   As quatro seguintes ainda usam imagens de BANCO, que não mostram
-   as obras da Tridium: um skatepark, uma treliça, um playground e um totem
-   quaisquer, escolhidos só porque o tipo de estrutura bate.
+   TODAS AS OBRAS AQUI SÃO REAIS, com registro fotográfico da Tridium. Havia
+   quatro de demonstração — skatepark, marquise, playground e totens — com
+   imagem de banco e o selo de foto provisória; saíram quando as reais
+   chegaram, porque passaram a ocupar espaço mostrando o que não é da casa.
 
-   Nelas vai `provisoria: true`, que acende o selo em cima da foto — é o que
-   impede uma imagem genérica de passar despercebida na revisão e ir ao ar
-   como se fosse o projeto. Ao trocar pela foto real, apague a linha do selo.
+   Obra nova entra com foto própria. Enquanto a foto não existir, `fotos: []`
+   e `descricaoFoto` com a pauta do que precisa ser fotografado: o card mostra
+   um painel dizendo o que falta, em vez de uma imagem emprestada.
 
-   `descricaoFoto` segue valendo: é a pauta do que precisa ser fotografado
-   nas obras que ainda não têm registro.
+   Se alguma precisar mesmo de imagem de banco, `provisoria: true` acende o
+   selo por cima — é o que impede uma foto genérica de passar despercebida na
+   revisão e ir ao ar como se fosse o projeto.
 
    O array está fora do objeto `engenharia` de propósito: com `as const`, o
    TypeScript cria um tipo literal por obra e as que não usam todos os campos
@@ -334,114 +335,5 @@ export const cases: CaseItem[] = [
         alt: "Sala de reunião com parede em verde cimentício e marcenaria em madeira",
       },
     ],
-  },
-  {
-    chave: "rhinno",
-    nome: "Rhinno Skatepark",
-    categoria: "Projeto especial",
-    tipo: "Pista de skate",
-    local: "Florianópolis, SC",
-    resumo:
-      "Pista de skate em concreto moldado in loco, com transições contínuas e raios calculados para uso profissional.",
-    descricao:
-      "Estrutura que não aceita junta aparente nem tolerância de acabamento comum: cada transição foi conferida em gabarito antes da concretagem. O piso é a peça técnica principal do projeto.",
-    escopo: ["Projeto executivo", "Cálculo estrutural", "Execução", "Acabamento"],
-    /* ATÉ TRÊS FOTOS, na ordem em que a obra aconteceu. A primeira é a
-       principal: abre o card e é a que vai para a capa da página. As outras
-       aparecem pelas setas, sem sair da grade.
-
-       Este case está com três só para mostrar o recurso funcionando — as
-       demais obras têm uma. Para acrescentar, é copiar um bloco. */
-    fotos: [
-      {
-        src: "/img/engenharia/obra-rhinno.webp",
-        alt: "Bowl de concreto de uma pista de skate, com ponte ao fundo",
-        provisoria: true,
-        /* A foto é vertical e o bowl está no terço de baixo: centralizada,
-           o quadro mostraria só céu. */
-        posicao: "center 72%",
-      },
-      {
-        src: "/img/engenharia/obra-rhinno-02.webp",
-        alt: "Pista de skate vista de lado, com ondas de concreto e árvores ao fundo",
-        provisoria: true,
-      },
-      {
-        src: "/img/engenharia/obra-rhinno-03.webp",
-        alt: "Bowl de concreto iluminado à noite, visto de cima",
-        provisoria: true,
-      },
-    ],
-    descricaoFoto:
-      "Pista concluída em uso: transições, bowl e corrimãos. Horizontal, luz do fim da tarde.",
-  },
-  {
-    chave: "marquise",
-    nome: "Marquise Floripa",
-    categoria: "Estrutura metálica",
-    tipo: "Coberturas e marquises",
-    local: "Florianópolis, SC",
-    resumo:
-      "Coberturas e marquises de grande vão em estrutura metálica, dimensionadas para o vento de orla.",
-    descricao:
-      "Projetos de cobertura em que o vão livre é o requisito e a carga de vento litorânea é o limite. Cálculo, fabricação e montagem acompanhados pela mesma equipe.",
-    escopo: ["Cálculo estrutural", "Fabricação", "Montagem", "Tratamento anticorrosivo"],
-    fotos: [
-      {
-        src: "/img/engenharia/obra-marquise.webp",
-        alt: "Treliça metálica vista de baixo contra o céu, no fim da tarde",
-        provisoria: true,
-        posicao: "center 62%",
-      },
-    ],
-    descricaoFoto:
-      "Marquise instalada vista de baixo, mostrando o vão livre e a estrutura metálica.",
-  },
-  {
-    chave: "brincademia",
-    nome: "Brincademia",
-    categoria: "Projeto especial",
-    tipo: "Playground e brinquedoteca",
-    local: "Florianópolis, SC",
-    resumo:
-      "Playground e brinquedoteca executados sob norma de segurança infantil, do piso amortecedor à altura de queda.",
-    descricao:
-      "Espaço em que a norma de segurança define a geometria antes da estética. Materiais, quinas, alturas de queda e superfície de impacto verificados item a item.",
-    escopo: ["Projeto", "Adequação normativa", "Execução", "Mobiliário"],
-    fotos: [
-      {
-        src: "/img/engenharia/obra-brincademia.webp",
-        alt: "Playground com escorregador e painéis coloridos sobre piso amortecedor",
-        provisoria: true,
-        /* Única das quatro na horizontal: o centro já é o enquadramento certo. */
-        posicao: "center",
-      },
-    ],
-    descricaoFoto:
-      "Playground montado com crianças em uso, e um detalhe do piso amortecedor.",
-  },
-  {
-    chave: "totens",
-    nome: "Totens",
-    categoria: "Mobiliário urbano",
-    tipo: "Comunicação visual estrutural",
-    local: "Florianópolis, SC",
-    resumo:
-      "Totens e elementos de comunicação visual com fundação, estrutura e acabamento resolvidos no mesmo projeto.",
-    descricao:
-      "Peça que parece design gráfico e é, na prática, estrutura: fundação dimensionada, perfil calculado e acabamento que precisa durar ao tempo.",
-    escopo: ["Projeto", "Fundação", "Fabricação", "Instalação"],
-    fotos: [
-      {
-        src: "/img/engenharia/obra-totens.webp",
-        alt: "Totem de sinalização instalado em caminho de parque",
-        provisoria: true,
-        /* Enquadra o topo da peça: no centro, a placa é tomada por texto em
-           tailandês, que numa página brasileira salta aos olhos. */
-        posicao: "center 6%",
-      },
-    ],
-    descricaoFoto:
-      "Totem instalado no local, de corpo inteiro, com a fundação e o entorno visíveis.",
   },
 ];

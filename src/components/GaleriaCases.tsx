@@ -109,8 +109,13 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
           </p>
         </div>
 
+        {/* A chamada anterior — "obras que quase ninguém aceita executar" —
+            foi escrita para os projetos especiais de demonstração, que
+            saíram. As quatro que ficaram têm outra coisa em comum: todas
+            aconteceram com a cidade em volta funcionando — shopping aberto,
+            hotel recebendo hóspede, vizinhos encostados nas divisas. */}
         <h2 className="t-display-tight mt-5 max-w-[18ch] fs-secao text-ink">
-          Obras que quase ninguém aceita executar.
+          Obra feita no meio da cidade.
         </h2>
       </div>
 
