@@ -149,16 +149,20 @@ export function CarrosselCapa({
             não perde nada. Medido nas doze fotos de capa das três frentes —
             manda a mais clara.
 
-            1. véu parelho e leve, só para nivelar o que vier;
-            2. de baixo para cima, onde ficam o título e a legenda;
-            3. da esquerda para a direita, atrás da coluna de texto. Só no
+            Não há véu parelho: ele escurecia a foto inteira para resolver um
+            problema que só existe atrás do texto. O que restou:
+
+            1. de baixo para cima, onde ficam o título e a legenda;
+            2. da esquerda para a direita, atrás da coluna de texto. Só no
                desktop: no celular o texto ocupa a largura toda e um degradê
                lateral deixaria o fim das linhas sem apoio;
-            4. uma faixa no topo, sob o menu. Sem ela, o menu claro cai em
-               cima do céu de uma foto clara e some. */}
-        <div className="absolute inset-0 bg-black/[0.18]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/[0.88] via-black/55 to-transparent" />
-        <div className="absolute inset-0 hidden bg-gradient-to-r from-black/70 via-black/25 to-transparent md:block" />
+            3. uma faixa no topo, sob o menu. Sem ela, o menu claro cai em
+               cima do céu de uma foto clara e some.
+
+            No canto livre — direita, meia altura — a foto aparece sem véu
+            nenhum: 2,9× mais clara do que na primeira versão. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/[0.86] via-black/[0.42] to-transparent" />
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-black/[0.78] via-black/35 to-transparent md:block" />
         <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/70 to-transparent" />
         <div className="blueprint pointer-events-none absolute inset-0 opacity-15" />
       </div>

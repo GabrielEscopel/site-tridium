@@ -152,18 +152,19 @@
 [data-front="engenharia"].sobre-foto,
 [data-front="engenharia"] .sobre-foto {
   /* O verde da marca tem 2,8:1 sobre a foto mais clara das capas — abaixo do
-     mínimo de leitura em texto pequeno. Esta versão clara dá 5,3:1. */
-  --accent-texto: #5fe081;
+     mínimo de leitura em texto pequeno. Esta versão clara dá 6,9:1, folga que
+     permitiu dispensar o véu e deixar a foto aparecer. */
+  --accent-texto: #8aefa5;
 }
 
 [data-front="imobiliaria"].sobre-foto,
 [data-front="imobiliaria"] .sobre-foto {
-  --accent-texto: #e0b429; /* 6.7:1 sobre a foto velada */
+  --accent-texto: #f0d26a; /* 7,0:1 sobre a foto sem véu */
 }
 
 [data-front="instituto"].sobre-foto,
 [data-front="instituto"] .sobre-foto {
-  --accent-texto: #e8835c; /* 4.8:1 sobre a foto velada */
+  --accent-texto: #f5ab8e; /* 6,9:1 sobre a foto sem véu */
 }
 
 /* Inversão pontual: um bloco escuro dentro de uma página clara */
