@@ -149,6 +149,13 @@
 
 /* O próprio elemento também conta: o cabeçalho carrega data-front e
    .sobre-foto ao mesmo tempo. */
+[data-front="engenharia"].sobre-foto,
+[data-front="engenharia"] .sobre-foto {
+  /* O verde da marca tem 2,8:1 sobre a foto mais clara das capas — abaixo do
+     mínimo de leitura em texto pequeno. Esta versão clara dá 5,3:1. */
+  --accent-texto: #5fe081;
+}
+
 [data-front="imobiliaria"].sobre-foto,
 [data-front="imobiliaria"] .sobre-foto {
   --accent-texto: #e0b429; /* 6.7:1 sobre a foto velada */
