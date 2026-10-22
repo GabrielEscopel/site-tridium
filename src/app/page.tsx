@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CenaMarca } from "@/components/CenaMarca";
 import { PortaisFrentes } from "@/components/PortaisFrentes";
 import { Reveal } from "@/components/Reveal";
-import { Botao, Numeros, Pendente, Rotulo, TituloSecao } from "@/components/ui";
+import { Botao, Numeros, Rotulo, TituloSecao } from "@/components/ui";
 import { CTA_PRINCIPAL, contato, grupo, whatsappLink } from "@/content/site";
 import { metadadosRota } from "@/lib/seo";
 
@@ -140,17 +140,20 @@ export default function Home() {
               <h2 id="numeros-grupo" className="t-label text-faint">
                 O grupo em números
               </h2>
-              <Pendente titulo="Números precisam ser confirmados pelo cliente antes de publicar">
-                Dados pendentes
-              </Pendente>
             </div>
+            {/* Os quatro são quantidades, que é o que a fileira pede. Havia
+                aqui um "1 responsabilidade técnica": a ideia era boa — um só
+                responsável do projeto à entrega — mas num bloco de números o
+                "1" parece pouco em vez de parecer vantagem, e o sentido só
+                aparecia para quem tinha lido a chamada da engenharia. O
+                argumento continua lá, em frase, que é onde funciona. */}
             <Reveal className="mt-10">
               <Numeros
                 itens={[
                   { valor: "3", rotulo: "frentes de atuação" },
                   { valor: "+2.000", rotulo: "obras entregues" },
                   { valor: "10", rotulo: "anos de mercado" },
-                  { valor: "1", rotulo: "responsabilidade técnica" },
+                  { valor: "+100.000 m²", rotulo: "construídos e reformados" },
                 ]}
               />
             </Reveal>

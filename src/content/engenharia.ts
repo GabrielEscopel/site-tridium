@@ -121,7 +121,7 @@ export const engenharia = {
   numeros: [
     { valor: "10 anos", rotulo: "de atuação em Florianópolis" },
     { valor: "+2.000", rotulo: "obras entregues" },
-    { valor: "[N] m²", rotulo: "construídos e reformados" },
+    { valor: "+100.000 m²", rotulo: "construídos e reformados" },
     { valor: "[N]", rotulo: "projetos especiais executados" },
   ],
 
