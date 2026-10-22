@@ -171,7 +171,6 @@ export const cases: CaseItem[] = [
     categoria: "Reforma",
     tipo: "Praça de alimentação e cobertura",
     local: "Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Reforma da praça de alimentação e pintura da estrutura metálica da cobertura, num shopping em funcionamento.",
     descricao:
@@ -215,7 +214,6 @@ export const cases: CaseItem[] = [
     categoria: "Reforma",
     tipo: "Recuperação e pintura de fachada",
     local: "Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Recuperação e pintura da fachada de um hotel no centro, com acesso por corda — sem andaime subindo pela rua.",
     descricao:
@@ -267,7 +265,6 @@ export const cases: CaseItem[] = [
     categoria: "Demolição",
     tipo: "Três casas em lote urbano",
     local: "Santo Antônio, Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Três casas derrubadas num lote cercado de vizinhos — com as construções ao lado em pé e a rua funcionando.",
     descricao:
@@ -309,7 +306,6 @@ export const cases: CaseItem[] = [
     categoria: "Obra própria",
     tipo: "Projeto, execução e interiores",
     local: "Agronômica, Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "A sede da Tridium, construída pela Tridium: projeto, obra e acabamento pela mesma equipe que atende o cliente.",
     descricao:
@@ -345,7 +341,6 @@ export const cases: CaseItem[] = [
     categoria: "Projeto especial",
     tipo: "Pista de skate",
     local: "Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Pista de skate em concreto moldado in loco, com transições contínuas e raios calculados para uso profissional.",
     descricao:
@@ -386,7 +381,6 @@ export const cases: CaseItem[] = [
     categoria: "Estrutura metálica",
     tipo: "Coberturas e marquises",
     local: "Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Coberturas e marquises de grande vão em estrutura metálica, dimensionadas para o vento de orla.",
     descricao:
@@ -409,7 +403,6 @@ export const cases: CaseItem[] = [
     categoria: "Projeto especial",
     tipo: "Playground e brinquedoteca",
     local: "Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Playground e brinquedoteca executados sob norma de segurança infantil, do piso amortecedor à altura de queda.",
     descricao:
@@ -433,7 +426,6 @@ export const cases: CaseItem[] = [
     categoria: "Mobiliário urbano",
     tipo: "Comunicação visual estrutural",
     local: "Florianópolis, SC",
-    ano: "[ANO PENDENTE]",
     resumo:
       "Totens e elementos de comunicação visual com fundação, estrutura e acabamento resolvidos no mesmo projeto.",
     descricao:

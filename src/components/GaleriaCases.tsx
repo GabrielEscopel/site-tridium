@@ -17,7 +17,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefereMovimentoReduzido } from "@/lib/motion";
 import { CarrosselFotos, type FotoCard } from "./CarrosselFotos";
-import { Pendente } from "./ui";
 import { FotoPendente } from "./FotoPendente";
 
 export interface CaseItem {
@@ -26,7 +25,6 @@ export interface CaseItem {
   categoria: string;
   tipo: string;
   local: string;
-  ano: string;
   resumo: string;
   descricao: string;
   escopo: readonly string[];
@@ -179,13 +177,6 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
                   ))}
                 </ul>
 
-                {item.ano.startsWith("[") && (
-                  <p className="mt-5">
-                    <Pendente titulo="Ano de execução a confirmar">
-                      Ano pendente
-                    </Pendente>
-                  </p>
-                )}
               </div>
             </article>
           </li>
