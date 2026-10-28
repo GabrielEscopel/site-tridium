@@ -5,7 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsappFab } from "@/components/WhatsappFab";
-import { SmoothScroll } from "@/components/SmoothScroll";
+import { RolagemPorRota } from "@/components/RolagemPorRota";
 import { JsonLd } from "@/components/JsonLd";
 import { schemaOrganizacao } from "@/lib/seo";
 import { SITE_URL, grupo } from "@/content/site";
@@ -96,7 +96,7 @@ export default function RootLayout({
     >
       <body>
         <JsonLd dados={schemaOrganizacao} />
-        <SmoothScroll />
+        <RolagemPorRota />
         <Header />
         <main id="conteudo">{children}</main>
         <Footer />
