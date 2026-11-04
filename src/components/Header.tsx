@@ -14,11 +14,13 @@ import { usePathname } from "next/navigation";
 import {
   contato,
   ctaPorRota,
+  frentes,
   grupo,
-  logos,
+  logosPorFrente,
   mensagemPorRota,
   navegacao,
   whatsappLink,
+  type IdFrente,
 } from "@/content/site";
 
 export function Header() {
@@ -32,7 +34,7 @@ export function Header() {
      escuro da :root e some por cima das páginas claras (Imóveis e
      Digno): links, botão de orçamento e o ícone do menu ficam osso sobre
      osso. */
-  const frenteDaRota: "engenharia" | "imobiliaria" | "instituto" =
+  const frenteDaRota: IdFrente =
     pathname.startsWith("/imobiliaria")
       ? "imobiliaria"
       : pathname.startsWith("/instituto")
@@ -95,7 +97,12 @@ export function Header() {
     };
   }, [aberto]);
 
-  const logo = temaEscuro ? logos.horizSobreEscuro : logos.horizSobreClaro;
+  /* Cada aba mostra a marca da sua frente. O menu aberto usa sempre a versão
+     sobre escuro, porque ali o painel tem fundo próprio. */
+  const marcaDaFrente = logosPorFrente[frenteDaRota];
+  const logo = aberto || temaEscuro ? marcaDaFrente.escuro : marcaDaFrente.claro;
+  const nomeDaFrente =
+    frentes.find((f) => f.id === frenteDaRota)?.marca ?? grupo.nome;
 
   return (
     <>
@@ -129,8 +136,8 @@ export function Header() {
             aria-label={`${grupo.nome} — página inicial`}
           >
             <Image
-              src={aberto ? logos.horizSobreEscuro : logo}
-              alt={grupo.nome}
+              src={logo}
+              alt={nomeDaFrente}
               width={567}
               height={128}
               priority

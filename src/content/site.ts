@@ -223,3 +223,29 @@ export const logos = {
   iconeSobreEscuro: "/logos/ICONE-FUNDO-ESCURO.png",
   iconeSobreClaro: "/logos/ICONE-FUNDO-CLARO.png",
 } as const;
+
+/* A marca do cabeçalho muda conforme a aba: cada frente tem o próprio
+   lettering sob o mesmo símbolo. Duas versões de cada, porque o cabeçalho
+   fica claro sobre a capa e escuro depois de descolar.
+
+   Todas na horizontal e com proporção equivalente (~4,3:1), então a troca não
+   mexe no tamanho do cabeçalho.
+
+   [ARQUIVO PEQUENO] os de Imóveis vieram com 190px de largura; o cabeçalho
+   pede uns 280 numa tela retina. Pedir exportação maior ao cliente. */
+export const logosPorFrente = {
+  engenharia: {
+    escuro: logos.horizSobreEscuro,
+    claro: logos.horizSobreClaro,
+  },
+  imobiliaria: {
+    escuro: "/logos/IMOVEIS-FUNDO-ESCURO-H.png",
+    claro: "/logos/IMOVEIS-FUNDO-CLARO-H.png",
+  },
+  instituto: {
+    escuro: "/logos/INSTITUTO-FUNDO-ESCURO-H.png",
+    claro: "/logos/INSTITUTO-FUNDO-CLARO-H.png",
+  },
+} as const;
+
+export type IdFrente = keyof typeof logosPorFrente;
