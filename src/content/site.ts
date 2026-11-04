@@ -233,7 +233,19 @@ export const logos = {
 
    [ARQUIVO PEQUENO] os de Imóveis vieram com 190px de largura; o cabeçalho
    pede uns 280 numa tela retina. Pedir exportação maior ao cliente. */
-export const logosPorFrente = {
+export const marcas = {
+  /* A raiz fala pelo grupo, não por uma frente: só "Tridium", sem a linha
+     "ENGENHARIA E CONSTRUÇÃO" — essa é a assinatura da frente de engenharia,
+     que a segue usando em /engenharia.
+
+     [MONTAGEM] Não havia arquivo sem a assinatura. Estes foram montados a
+     partir do próprio FUNDO-*-H_1: o símbolo ficou intacto, o lettering foi
+     recortado e recentrado verticalmente contra ele, e a linha de assinatura
+     descartada. Vale pedir ao designer a exportação oficial. */
+  grupo: {
+    escuro: "/logos/GRUPO-FUNDO-ESCURO-H.png",
+    claro: "/logos/GRUPO-FUNDO-CLARO-H.png",
+  },
   engenharia: {
     escuro: logos.horizSobreEscuro,
     claro: logos.horizSobreClaro,
@@ -248,4 +260,4 @@ export const logosPorFrente = {
   },
 } as const;
 
-export type IdFrente = keyof typeof logosPorFrente;
+export type IdFrente = "engenharia" | "imobiliaria" | "instituto";

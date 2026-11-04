@@ -16,7 +16,7 @@ import {
   ctaPorRota,
   frentes,
   grupo,
-  logosPorFrente,
+  marcas,
   mensagemPorRota,
   navegacao,
   whatsappLink,
@@ -97,12 +97,15 @@ export function Header() {
     };
   }, [aberto]);
 
-  /* Cada aba mostra a marca da sua frente. O menu aberto usa sempre a versão
-     sobre escuro, porque ali o painel tem fundo próprio. */
-  const marcaDaFrente = logosPorFrente[frenteDaRota];
-  const logo = aberto || temaEscuro ? marcaDaFrente.escuro : marcaDaFrente.claro;
-  const nomeDaFrente =
-    frentes.find((f) => f.id === frenteDaRota)?.marca ?? grupo.nome;
+  /* Cada aba mostra a marca da sua frente; a raiz mostra a do grupo, só
+     "Tridium". O menu aberto usa sempre a versão sobre escuro, porque ali o
+     painel tem fundo próprio. */
+  const naRaiz = pathname === "/";
+  const marca = naRaiz ? marcas.grupo : marcas[frenteDaRota];
+  const logo = aberto || temaEscuro ? marca.escuro : marca.claro;
+  const nomeDaMarca = naRaiz
+    ? grupo.nome
+    : (frentes.find((f) => f.id === frenteDaRota)?.marca ?? grupo.nome);
 
   return (
     <>
@@ -137,7 +140,7 @@ export function Header() {
           >
             <Image
               src={logo}
-              alt={nomeDaFrente}
+              alt={nomeDaMarca}
               width={567}
               height={128}
               priority
