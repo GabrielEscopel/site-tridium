@@ -518,32 +518,56 @@ export const projetos: Projeto[] = [
         href: "https://bibliotecadigital.iphan.gov.br/handle/123456789/653",
       },
     },
+    /* Registro todo com foto real do núcleo. Saiu `capoeira-ginga`, de
+       banco e feita em Salvador, que até aqui abria este bloco com o selo
+       de provisória; saíram também os três painéis de foto pendente, que
+       eram andaime à vista para quem visitava a página.
+
+       A grade é de duas colunas e `destaque` ocupa as duas. Cinco fotos
+       fecham três fileiras exatas, sem célula órfã. A 3 fica de fora: ela
+       já é o cartão do índice.
+
+       Quatro das cinco são 4:3 na origem, então entram sem corte nenhum.
+
+       AINDA FALTA, e por isso não está escrito na tela: foto da roda
+       acontecendo (todas as cinco são grupo posado), retrato de um aluno
+       ou do mestre, e vídeo de aula — capoeira é movimento e som, e foto
+       parada não dá conta disso. */
     registro: [
       {
         tipo: "foto",
         destaque: true,
-        src: "/img/instituto/capoeira-ginga.webp",
-        alt: "Dois capoeiristas em jogo na rua, acompanhados por berimbau e atabaques",
-        descricao: "O jogo acontece na roda, com o ritmo ditando o movimento.",
-        provisoria: true,
+        src: "/img/instituto/capoeira-05.webp",
+        alt: "Turma grande de crianças, jovens e adultos de uniforme branco, sentados no chão de um ginásio",
+        descricao: "A turma inteira, de criança a mestre, no mesmo uniforme.",
       },
       {
         tipo: "foto",
-        pendente: true,
-        destaque: true,
-        descricao:
-          "A roda do núcleo da Tridium, com os alunos. Foto aberta, que mostre o grupo e o espaço onde as aulas acontecem.",
-      },
-      {
-        tipo: "video",
-        pendente: true,
-        descricao:
-          "Trecho de uma aula ou de uma roda. Vídeo curto — capoeira é movimento e som, foto sozinha não dá conta.",
+        src: "/img/instituto/capoeira-02.webp",
+        alt: "Grupo de capoeiristas segurando berimbau, pandeiro e atabaque num salão de madeira",
+        descricao: "Berimbau, pandeiro e atabaque: são eles que ditam o jogo.",
       },
       {
         tipo: "foto",
-        pendente: true,
-        descricao: "Retrato de um aluno ou do mestre que conduz as aulas.",
+        src: "/img/instituto/capoeira-04.webp",
+        alt: "Encontro numeroso de capoeira angola numa academia de paredes cobertas por fotos emolduradas",
+        descricao: "Encontro de capoeira angola, entre retratos de quem veio antes.",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-01.webp",
+        alt: "Integrantes do núcleo de capoeira reunidos sob uma cúpula geodésica",
+        descricao: "O coletivo reunido sob a cúpula.",
+        posicao: "center 50%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-coletivo.webp",
+        alt: "Coletivo do Projeto de Capoeira Angola Palmares reunido sob a cúpula do TAMAR",
+        descricao: "A faixa do Projeto de Capoeira Angola Palmares, atrás do grupo.",
+        /* Em pé, 950×1266: a célula 4:3 mostra 56% da altura. Esta posição
+           deixa a faixa legível, que é o que esta foto tem de único. */
+        posicao: "center 50%",
       },
     ],
     apoio: [
