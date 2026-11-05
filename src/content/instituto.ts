@@ -299,12 +299,6 @@ export const projetos: Projeto[] = [
         descricao: "Entrega da chave à família, na porta da casa pronta.",
       },
     ],
-    numeros: [
-      { valor: "[N]", rotulo: "casas reformadas" },
-      { valor: "[N]", rotulo: "pessoas atendidas" },
-      { valor: "[N]", rotulo: "voluntários mobilizados" },
-      { valor: "[N]", rotulo: "famílias na fila" },
-    ],
     apoio: [
       {
         titulo: "Doar material",
@@ -436,11 +430,6 @@ export const projetos: Projeto[] = [
         pendente: true,
         descricao: "Retrato de um aluno ou do mestre que conduz as aulas.",
       },
-    ],
-    numeros: [
-      { valor: "[N]", rotulo: "alunos ativos" },
-      { valor: "[N]", rotulo: "aulas por semana" },
-      { valor: "[N]", rotulo: "anos de projeto" },
     ],
     apoio: [
       {

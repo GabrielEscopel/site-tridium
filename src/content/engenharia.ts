@@ -117,12 +117,14 @@ export const engenharia = {
   ],
 
   /* --- Provas / números ------------------------------------------------- */
-  /* [CONTEÚDO PENDENTE] números reais a confirmar com o cliente */
+  /* Os tres confirmados pelo cliente. Havia um quarto, "[N] projetos
+     especiais executados", que nunca ganhou numero e mostrava o colchete
+     na tela — numero de mentira ao lado de tres verdadeiros estraga os
+     tres. Volta quando houver a contagem. */
   numeros: [
     { valor: "10 anos", rotulo: "de atuação em Florianópolis" },
     { valor: "+2.000", rotulo: "obras entregues" },
     { valor: "+100.000 m²", rotulo: "construídos e reformados" },
-    { valor: "[N]", rotulo: "projetos especiais executados" },
   ],
 
   cta: {

@@ -4,7 +4,7 @@ import { CarrosselCapa } from "@/components/CarrosselCapa";
 import { GaleriaCases } from "@/components/GaleriaCases";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
-import { Botao, Numeros, Pendente, Rotulo, TituloSecao } from "@/components/ui";
+import { Botao, Numeros, Rotulo, TituloSecao } from "@/components/ui";
 import { cases, engenharia } from "@/content/engenharia";
 import { contato, grupo, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { metadadosRota, schemaEngenharia, schemaMigalhas } from "@/lib/seo";
@@ -208,14 +208,12 @@ export default function EngenhariaPage() {
       <section className="pb-20 md:pb-32" aria-labelledby="numeros-eng">
         <div className="wrap">
           <div className="border-t border-line pt-10">
-            <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 id="numeros-eng" className="t-label text-faint">
-                A engenharia em números
-              </h2>
-              <Pendente titulo="Números reais a confirmar com o cliente antes de publicar">
-                Dados pendentes
-              </Pendente>
-            </div>
+            {/* O selo de "dados pendentes" saiu com o número que faltava:
+                os três que ficaram vieram do cliente, e avisar que são
+                duvidosos desmentiria os três de uma vez. */}
+            <h2 id="numeros-eng" className="t-label text-faint">
+              A engenharia em números
+            </h2>
             <Reveal className="mt-10">
               <Numeros itens={engenharia.numeros} />
             </Reveal>
