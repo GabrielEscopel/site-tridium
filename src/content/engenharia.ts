@@ -446,14 +446,14 @@ export const cases: CaseItem[] = [
 
   /* --- Centro Pastoral São Paulo --------------------------------------
      A faixa na foto identifica a Igreja São Paulo Apóstolo e o Centro de
-     Pastoral. [A CONFIRMAR] o local — não dá para ler nas fotos, e chutar
-     cidade num case nomeado seria pior do que deixar pendente. */
+     Pastoral. Cidade confirmada pelo cliente; [A CONFIRMAR] ainda o bairro,
+     que daria ao case a mesma precisão dos outros. */
   {
     chave: "centro-pastoral-sao-paulo",
     nome: "Centro Pastoral São Paulo",
     categoria: "Construção",
     tipo: "Estrutura de concreto em curva",
-    local: "[LOCAL A CONFIRMAR]",
+    local: "Florianópolis, SC",
     destaque: true,
     resumo:
       "Estrutura curva de concreto para o centro de pastoral da Igreja São Paulo Apóstolo.",
