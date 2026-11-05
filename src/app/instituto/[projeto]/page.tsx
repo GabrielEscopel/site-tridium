@@ -3,17 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CarrosselCapa } from "@/components/CarrosselCapa";
-import { Bloco, CorpoProjeto } from "@/components/CorpoProjeto";
-import { JornadaCapitulos } from "@/components/JornadaCapitulos";
+import { CorpoProjeto } from "@/components/CorpoProjeto";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Rotulo } from "@/components/ui";
-import {
-  buscarProjeto,
-  fotosDeCapa,
-  instituto,
-  projetos,
-} from "@/content/instituto";
+import { buscarProjeto, fotosDeCapa, projetos } from "@/content/instituto";
 import {
   contato,
   mensagensWhatsapp,
@@ -118,23 +112,14 @@ export default async function ProjetoPage({
       {/* ================= O PROJETO =================
           Todos os projetos passam pelo mesmo corpo, na mesma ordem. */}
       <div className="wrap space-y-20 py-20 md:space-y-28 md:py-28">
-        <CorpoProjeto projeto={projeto}>
-          {projeto.temJornada && (
-            <Bloco titulo={instituto.jornada.rotulo}>
-              <Reveal>
-                <h3 className="t-display-tight fs-secao text-ink">
-                  {instituto.jornada.titulo}
-                </h3>
-                <p className="t-lead mt-5 max-w-[46ch] text-muted">
-                  {instituto.jornada.texto}
-                </p>
-              </Reveal>
-              <div className="mt-12">
-                <JornadaCapitulos capitulos={instituto.capitulos} />
-              </div>
-            </Bloco>
-          )}
-        </CorpoProjeto>
+        {/* Todo projeto passa pelo mesmo corpo, sem exceção.
+
+            O Moradia Digna tinha aqui um bloco só dele: a jornada em quatro
+            capítulos ilustrados. As ilustrações eram fotos de banco — duas
+            delas a mesma foto repetida — e cada capítulo carregava um selo
+            de "relato real pendente". O que os capítulos diziam de verdade
+            passou para o texto do projeto, em `sobre`. */}
+        <CorpoProjeto projeto={projeto} />
       </div>
 
       {/* ================= OUTROS PROJETOS =================

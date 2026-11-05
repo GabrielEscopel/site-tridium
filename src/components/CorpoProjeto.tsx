@@ -33,7 +33,7 @@ export function CorpoProjeto({
   children,
 }: {
   projeto: Projeto;
-  /** Conteúdo extra do projeto (a jornada em capítulos, no Moradia Digna). */
+  /** Bloco próprio de um projeto, se ele precisar de um. */
   children?: ReactNode;
 }) {
   const { destaque } = projeto;
@@ -116,7 +116,9 @@ export function CorpoProjeto({
         </Bloco>
       )}
 
-      {/* --- Como funciona (jornada, só onde existir) --- */}
+      {/* --- Espaço para um bloco próprio do projeto, entre o texto e os
+             contemplados. Hoje nenhum usa: o Moradia Digna tinha aqui a
+             jornada em capítulos, que virou texto corrido. --- */}
       {children}
 
       {/* --- Contemplados --- */}

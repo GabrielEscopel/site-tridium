@@ -86,8 +86,6 @@ export interface Projeto {
   registro: Midia[];
   numeros?: { valor: string; rotulo: string }[];
   apoio: FormaDeApoio[];
-  /** Mostra a jornada em capítulos (hoje só o Moradia Digna tem). */
-  temJornada?: boolean;
   /** Foto do cartão no índice. Sem ela, entra a primeira do registro. */
   capa?: Midia;
   /** As fotos que passam na capa da página do projeto. Lista à parte porque
@@ -285,23 +283,45 @@ export const projetos: Projeto[] = [
       { rotulo: "Atende", valor: "Famílias em situação de vulnerabilidade" },
       { rotulo: "Como entra na fila", valor: "Indicação + visita técnica" },
     ],
+    /* Estes cinco parágrafos contam o projeto inteiro, do que se encontra
+       na visita até o acompanhamento depois da chave. Antes isso estava
+       partido em quatro "capítulos" ilustrados, e as ilustrações eram fotos
+       de banco — duas delas a mesma foto, repetida. Em texto corrido vira
+       um argumento só, e a página fica igual à da capoeira.
+
+       Saiu com os capítulos um parágrafo que era só recado para o cliente:
+       "histórico do projeto, equipe envolvida e critérios de elegibilidade".
+       É conteúdo que falta de verdade, mas o lugar de anotar isso é aqui,
+       não na tela de quem visita. */
     sobre: [
       "O Moradia Digna é o projeto mais antigo do Instituto e o que mais se parece com o trabalho do grupo: é obra. A diferença é o critério de entrada — não é quem pode pagar, é quem corre risco dentro da própria casa.",
-      "Cada casa recebe levantamento, projeto de intervenção assinado e execução acompanhada por responsável técnico. A prioridade segue sempre a mesma ordem: estrutura, cobertura, instalação elétrica, água e esgoto, e só então acabamento.",
-      "[CONTEÚDO PENDENTE] Histórico do projeto, equipe envolvida e critérios completos de elegibilidade.",
+      "O que a visita técnica encontra costuma se repetir: infiltração que virou mofo, telhado que cede, instalação elétrica improvisada, piso de chão batido. São problemas que começam construtivos e terminam no posto de saúde.",
+      "Daí sai um levantamento e um projeto de intervenção assinado, com execução acompanhada por responsável técnico. A prioridade segue sempre a mesma ordem: estrutura, cobertura, instalação elétrica, água e esgoto, e só então acabamento. É projeto, não remendo.",
+      "A obra acontece junto: equipe técnica da Tridium, voluntários e a própria família no mesmo canteiro. Quem mora participa das decisões — é a casa dela, não um presente.",
+      "A entrega da chave é o fim da obra e o começo do acompanhamento. A equipe volta depois para verificar se o que foi feito se manteve: reforma social que não é revisitada costuma virar problema de novo.",
     ],
-    destaque: {
-      nome: "Dona Tereza",
-      papel: "Primeira família atendida",
-      texto:
-        "[CONTEÚDO PENDENTE] A história da dona Tereza: como a casa chegou até o projeto, o que foi encontrado na visita técnica, o que foi feito e como ela vive hoje. Este é o relato mais importante da página — é ele que mostra o que o Instituto faz, com nome e rosto, em vez de explicar em tese.",
-      midia: {
-        tipo: "foto",
-        src: "/img/instituto/tereza-retrato.webp",
-        alt: "Dona Tereza de pé na porta de casa, olhando para a câmera",
-        descricao: "Dona Tereza na porta de casa",
-      },
-    },
+    /* SEM BLOCO DE DESTAQUE, e por isso a página não tem mais a seção
+       "Contemplados" — a de capoeira também não tem.
+
+       Ele existia com o nome da dona Tereza, o retrato dela e um corpo de
+       texto que era inteiro recado: "[CONTEÚDO PENDENTE] a história da dona
+       Tereza: como a casa chegou até o projeto, o que foi encontrado na
+       visita, o que foi feito e como ela vive hoje".
+
+       ISSO CONTINUA SENDO O CONTEÚDO MAIS IMPORTANTE QUE FALTA na página:
+       é o que mostra o projeto com nome e rosto em vez de explicar em tese.
+       Com a história escrita, basta devolver o bloco — `destaque` segue na
+       interface, e o corpo da página volta a mostrá-lo sozinho. O retrato
+       dela (`tereza-retrato`) não se perdeu: segue no terceiro slide da
+       capa. */
+    /* Só foto real, como na capoeira. Três fotos: a primeira ocupa as duas
+       colunas da grade, entao fecham duas fileiras exatas.
+
+       AINDA FALTA, e por isso não está escrito na tela: a casa depois da
+       reforma, de preferência no mesmo enquadramento das fotos do
+       diagnóstico; a entrega da chave à família; e um vídeo curto com o
+       depoimento da dona Tereza, de celular mesmo, com áudio limpo. O
+       antes-e-depois é o que falta para a página provar o que afirma. */
     registro: [
       {
         tipo: "foto",
@@ -324,23 +344,6 @@ export const projetos: Projeto[] = [
         alt: "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
         descricao: "A conversa que abre todo atendimento: ouvir quem mora ali.",
         posicao: "center 45%",
-      },
-      {
-        tipo: "video",
-        pendente: true,
-        descricao:
-          "Depoimento da dona Tereza falando da casa. Vídeo curto, de celular mesmo, com áudio limpo.",
-      },
-      {
-        tipo: "foto",
-        pendente: true,
-        descricao:
-          "A casa depois da reforma — de preferência no mesmo enquadramento das fotos do diagnóstico.",
-      },
-      {
-        tipo: "foto",
-        pendente: true,
-        descricao: "Entrega da chave à família, na porta da casa pronta.",
       },
     ],
     apoio: [
@@ -381,7 +384,6 @@ export const projetos: Projeto[] = [
         pendencia: "Critérios de elegibilidade e fluxo de triagem.",
       },
     ],
-    temJornada: true,
   },
 
   {
@@ -632,63 +634,6 @@ export const instituto = {
     texto:
       "O Instituto não é uma ideia guarda-chuva. É um conjunto de projetos que acontecem em lugares concretos, com pessoas concretas. Abaixo, cada um deles — o que é, quem atende e como você pode entrar.",
   },
-
-  /* --- Jornada em capítulos (usada dentro do Moradia Digna) -------------
-     A ordem é narrativa e deliberada: o problema, o método, o resultado.
-     [CONTEÚDO PENDENTE] textos e fotos reais a serem enviados. */
-  jornada: {
-    rotulo: "Como funciona",
-    titulo: "De uma casa a um lar.",
-    texto: "Quatro etapas, na ordem em que acontecem. Nenhuma pode ser pulada.",
-  },
-
-  capitulos: [
-    {
-      chave: "diagnostico",
-      indice: "Capítulo um",
-      titulo: "O que a gente encontra",
-      texto:
-        "Infiltração que virou mofo, telhado que cede, instalação elétrica improvisada, piso de chão batido. Problemas que começam construtivos e terminam no posto de saúde.",
-      nota: "[CONTEÚDO PENDENTE] substituir por relato real de diagnóstico.",
-      imagem: "/img/instituto/tereza-diagnostico.webp",
-      imagemAlt:
-        "Seis registros do interior da casa da dona Tereza mostrando piso apodrecido, umidade e improviso",
-      imagemProvisoria: false,
-    },
-    {
-      chave: "projeto",
-      indice: "Capítulo dois",
-      titulo: "Projeto, não remendo",
-      texto:
-        "Cada casa recebe um levantamento e um projeto de intervenção assinado. A prioridade é sempre a mesma ordem: estrutura, cobertura, instalação elétrica, água e esgoto, e só então acabamento.",
-      nota: "[CONTEÚDO PENDENTE] detalhar critério técnico de priorização.",
-      imagem: "/img/instituto/capitulo-02.webp",
-      imagemAlt: "[FOTO PENDENTE] Registro da etapa de projeto",
-      imagemProvisoria: true,
-    },
-    {
-      chave: "mutirao",
-      indice: "Capítulo três",
-      titulo: "A obra acontece junto",
-      texto:
-        "Equipe técnica da Tridium, voluntários e a própria família trabalhando na mesma obra. Quem mora participa das decisões — é a casa dela, não um presente.",
-      nota: "[CONTEÚDO PENDENTE] descrever a dinâmica real do mutirão.",
-      imagem: "/img/instituto/capitulo-03.webp",
-      imagemAlt: "[FOTO PENDENTE] Registro do mutirão de obra",
-      imagemProvisoria: true,
-    },
-    {
-      chave: "entrega",
-      indice: "Capítulo quatro",
-      titulo: "A chave devolvida",
-      texto:
-        "A entrega é o fim da obra e o começo do acompanhamento. Voltamos depois para verificar se o que foi feito se manteve — reforma social que não é revisitada costuma virar problema de novo.",
-      nota: "[CONTEÚDO PENDENTE] incluir história real de família atendida.",
-      imagem: "/img/instituto/hero.webp",
-      imagemAlt: "[FOTO PENDENTE] Registro da entrega da casa reformada",
-      imagemProvisoria: true,
-    },
-  ],
 
   /* --- Transparência ---------------------------------------------------- */
   transparencia: {
