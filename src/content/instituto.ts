@@ -388,13 +388,62 @@ export const projetos: Projeto[] = [
     chave: "capoeira",
     nome: "Capoeira Angola",
     artigo: "a",
-    /* A capa da página só com foto real. O núcleo tem uma: o coletivo
-       sob a cúpula do TAMAR, com a faixa do projeto legível. As outras
-       duas do conjunto (`capoeira-ginga`, `capoeira-roda`) são de banco
-       e foram feitas em Salvador — igreja, fonte e casario do Pelourinho
-       ao fundo. Elas seguem dentro da página, com o selo de provisória;
-       na capa seriam a cara do projeto, e a cara seria de outra cidade. */
+    /* A capa da página. Cinco fotos novas do próprio núcleo, na ordem em
+       que o cliente numerou as dela — a 1 abre, como ele pediu. Fecha com
+       `capoeira-coletivo`, que já estava aqui e é a única em que a faixa
+       do projeto aparece legível.
+
+       Fora da capa: `capoeira-ginga` e `capoeira-roda`, de banco e feitas
+       em Salvador. Com foto real do grupo não há mais motivo para elas
+       abrirem a página.
+
+       [A CONFIRMAR] onde e quando cada uma foi feita. As legendas abaixo
+       dizem só o que dá para ver na foto; com data e lugar elas ficam bem
+       melhores. A 4 parece um seminário em academia tradicional, e pode
+       nem ser em Florianópolis — por isso não diz cidade nenhuma.
+
+       [ARQUIVO PEQUENO] as cinco vieram entre 1049 e 1600px de largura; a
+       capa pede ~2350. Elas abrem bem, mas o navegador estica. Vale pedir
+       os originais ao núcleo. Enquadramentos medidos no recorte real da
+       capa (~1,8:1), em seis alturas. */
     capaFotos: [
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-01.webp",
+        alt: "Integrantes do núcleo de capoeira reunidos sob uma cúpula geodésica, de uniforme branco",
+        descricao: "O coletivo reunido",
+        posicao: "center 44%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-02.webp",
+        alt: "Grupo de capoeiristas com berimbau, pandeiro e atabaque, num salão de madeira à noite",
+        descricao: "Com os instrumentos da roda",
+        posicao: "center 50%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-03.webp",
+        alt: "Grupo numeroso de braços erguidos sob a cúpula do TAMAR",
+        descricao: "O grupo sob a cúpula",
+        /* Em pé, 1200×1600: a capa mostra ~42% da altura, e a metade de
+           cima é só telhado. Esta posição desce o recorte até as pessoas. */
+        posicao: "center 70%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-04.webp",
+        alt: "Encontro de capoeira angola numa academia tradicional, com as paredes cobertas de fotos emolduradas",
+        descricao: "Encontro de capoeira angola",
+        posicao: "center 50%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-05.webp",
+        alt: "Turma grande de crianças, jovens e adultos de uniforme branco, sentados no chão de um ginásio",
+        descricao: "A turma inteira",
+        posicao: "center 55%",
+      },
       {
         tipo: "foto",
         src: "/img/instituto/capoeira-coletivo.webp",
