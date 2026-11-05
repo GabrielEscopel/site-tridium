@@ -18,6 +18,11 @@ export const metadata: Metadata = metadadosRota({
 });
 
 export default function EngenhariaPage() {
+  /* As obras que abrem a página. Sem nenhuma marcada, entram as primeiras —
+     a capa nunca fica vazia por esquecimento. */
+  const marcadas = cases.filter((o) => o.destaque);
+  const capas = (marcadas.length > 0 ? marcadas : cases).slice(0, 6);
+
   return (
     <div data-front="engenharia" className="bg-surface">
       <JsonLd
@@ -36,13 +41,15 @@ export default function EngenhariaPage() {
           de ler qualquer coisa.
 
           As fotos saem do mesmo `cases` que alimenta o portfólio mais abaixo —
-          nada para manter em paralelo. */}
+          nada para manter em paralelo. A capa mostra só as marcadas com
+          `destaque`; o portfólio mostra todas. Com catorze obras, catorze
+          pontinhos no carrossel não seriam navegáveis por ninguém. */}
       <CarrosselCapa
         rotulo="Obras da Tridium"
         /* A capa usa a `capa` da obra ou, na falta dela, a foto que abre o
            card. São molduras diferentes — aqui panorâmica, lá 4:3 — e nem
            sempre a melhor foto para uma é a melhor para a outra. */
-        itens={cases.map((obra) => {
+        itens={capas.map((obra) => {
           const capa = obra.capa ?? obra.fotos[0];
           return {
             chave: obra.chave,

@@ -36,6 +36,10 @@ export interface CaseItem {
      a capa. A capa é panorâmica e corta muito; o card é 4:3 e mostra bem mais
      da foto. Sem `capa`, vale a primeira de `fotos`. */
   capa?: FotoCard;
+  /* Entra no carrossel de abertura da página. O portfólio mostra todas as
+     obras; a capa mostra as escolhidas, senão vira uma fileira de pontinhos
+     que ninguém consegue usar. */
+  destaque?: boolean;
   descricaoFoto?: string;
 }
 
@@ -109,13 +113,14 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
           </p>
         </div>
 
-        {/* A chamada anterior — "obras que quase ninguém aceita executar" —
-            foi escrita para os projetos especiais de demonstração, que
-            saíram. As quatro que ficaram têm outra coisa em comum: todas
-            aconteceram com a cidade em volta funcionando — shopping aberto,
-            hotel recebendo hóspede, vizinhos encostados nas divisas. */}
-        <h2 className="t-display-tight mt-5 max-w-[18ch] fs-secao text-ink">
-          Obra feita no meio da cidade.
+        {/* A chamada acompanha o que o portfólio virou. Já foi "obras que
+            quase ninguém aceita executar", escrita para os projetos especiais
+            de demonstração, e depois "obra feita no meio da cidade", quando
+            sobraram quatro obras urbanas. Com catorze, o que elas provam
+            juntas é alcance: tem parede ripada de uma sala e tem estrutura de
+            concreto em curva. */}
+        <h2 className="t-display-tight mt-5 max-w-[22ch] fs-secao text-ink">
+          De uma parede a uma estrutura inteira.
         </h2>
       </div>
 
