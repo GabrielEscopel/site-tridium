@@ -233,8 +233,13 @@ export const projetos: Projeto[] = [
       descricao: "A equipe com a dona Tereza",
       posicao: "center 57%",
     },
+    /* Serve quatro lugares ao mesmo tempo: o card do indice, a linha de
+       abertura da pagina do projeto, a meta description do Google e a
+       description do schema.org. Por isso para em ~150 caracteres — o
+       Google corta perto de 160, e um resumo cortado no meio da frase
+       aparece truncado no resultado de busca. */
     resumo:
-      "Recupera casas que deixaram de ser seguras para quem mora nelas.",
+      "Recupera casas que deixaram de ser seguras para quem mora nelas: famílias em vulnerabilidade social, com visita técnica, projeto assinado e obra acompanhada.",
     ficha: [
       { rotulo: "Onde", valor: "Florianópolis e Grande Florianópolis" },
       { rotulo: "Desde", valor: "[PENDENTE]" },
