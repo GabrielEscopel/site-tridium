@@ -2,12 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CarrosselCapa } from "@/components/CarrosselCapa";
 import { Bloco, CorpoProjeto } from "@/components/CorpoProjeto";
 import { JornadaCapitulos } from "@/components/JornadaCapitulos";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Rotulo } from "@/components/ui";
-import { buscarProjeto, instituto, projetos } from "@/content/instituto";
+import {
+  buscarProjeto,
+  fotosDeCapa,
+  instituto,
+  projetos,
+} from "@/content/instituto";
 import {
   contato,
   mensagensWhatsapp,
@@ -67,35 +73,51 @@ export default async function ProjetoPage({
         ]}
       />
 
-      {/* ================= CABEÇALHO ================= */}
-      <section className="pt-24 md:pt-28">
-        <div className="wrap py-10 md:py-14">
-          <Link
-            href="/instituto"
-            className="t-label group inline-flex items-center gap-3 text-muted transition-colors duration-200 hover:text-accent-texto"
+      {/* ================= CAPA =================
+          O mesmo padrão das três frentes: as fotos passam atrás de uma
+          chamada parada. Aqui elas são do próprio projeto, então a legenda
+          não leva a lugar nenhum — ela diz o que a foto mostra.
+
+          Isto também conserta o cabeçalho. Ele assume foto escura embaixo
+          enquanto a página está no topo, e por isso usava a marca clara;
+          sobre o creme desta página a marca sumia. Agora existe a foto que
+          ele sempre esperou encontrar. */}
+      <CarrosselCapa
+        rotulo={`Fotos do ${projeto.nome}`}
+        itens={fotosDeCapa(projeto).map((foto, i) => ({
+          chave: foto.src ?? `capa-${i}`,
+          imagem: foto.src ?? null,
+          posicao: foto.posicao,
+          provisoria: foto.provisoria,
+          descricaoPendente: foto.descricao,
+          titulo: foto.descricao,
+        }))}
+      >
+        <Link
+          href="/instituto"
+          className="t-label group inline-flex items-center gap-3 text-muted no-underline transition-colors duration-200 hover:text-accent-texto"
+        >
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-300 ease-out group-hover:-translate-x-1"
           >
-            <span
-              aria-hidden="true"
-              className="transition-transform duration-300 ease-out group-hover:-translate-x-1"
-            >
-              ←
-            </span>
-            Voltar ao Instituto
-          </Link>
+            ←
+          </span>
+          Voltar ao Instituto
+        </Link>
 
-          <div className="mt-8 flex items-center gap-4">
-            <span className="h-px w-8 shrink-0 bg-accent" aria-hidden="true" />
-            <Rotulo>Projeto do Instituto Tridium</Rotulo>
-          </div>
-
-          <h1 className="t-display fs-hero mt-6 text-ink">{projeto.nome}</h1>
-          <p className="t-lead mt-5 max-w-[52ch] text-muted">{projeto.resumo}</p>
+        <div className="mt-8 flex items-center gap-4">
+          <span className="h-px w-8 shrink-0 bg-accent" aria-hidden="true" />
+          <Rotulo>Projeto do Instituto Tridium</Rotulo>
         </div>
-      </section>
+
+        <h1 className="t-display fs-hero mt-6 text-ink">{projeto.nome}</h1>
+        <p className="t-lead mt-5 max-w-[52ch] text-muted">{projeto.resumo}</p>
+      </CarrosselCapa>
 
       {/* ================= O PROJETO =================
           Todos os projetos passam pelo mesmo corpo, na mesma ordem. */}
-      <div className="wrap space-y-20 pb-20 md:space-y-28 md:pb-28">
+      <div className="wrap space-y-20 py-20 md:space-y-28 md:py-28">
         <CorpoProjeto projeto={projeto}>
           {projeto.temJornada && (
             <Bloco titulo={instituto.jornada.rotulo}>

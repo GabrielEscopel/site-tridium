@@ -90,6 +90,11 @@ export interface Projeto {
   temJornada?: boolean;
   /** Foto do cartão no índice. Sem ela, entra a primeira do registro. */
   capa?: Midia;
+  /** As fotos que passam na capa da página do projeto. Lista à parte porque
+      a capa é panorâmica e corta muito: foto em pé vira uma faixa, e nem
+      toda foto do registro sobrevive a isso — uma colagem de detalhes, por
+      exemplo, vira fragmento ilegível. Sem ela, entra só a capa do cartão. */
+  capaFotos?: Midia[];
   /** Artigo do nome, para "Como apoiar __ Capoeira". Padrão: "o". */
   artigo?: "o" | "a";
 }
@@ -233,6 +238,40 @@ export const projetos: Projeto[] = [
       descricao: "A equipe com a dona Tereza",
       posicao: "center 57%",
     },
+    /* A capa da página. Enquadramentos medidos renderizando cada foto no
+       recorte real da capa (~1,8:1) em seis alturas diferentes.
+
+       Fora da lista: `tereza-diagnostico`, que é uma colagem de quatro
+       fotos de detalhe — cortada numa faixa panorâmica sobram pedaços de
+       panela e tijolo, sem assunto nenhum. Ela continua no registro, onde
+       aparece inteira. */
+    capaFotos: [
+      {
+        tipo: "foto",
+        src: "/img/instituto/tereza-equipe.webp",
+        alt: "Equipe do Instituto Tridium reunida com a dona Tereza na porta de casa",
+        descricao: "A equipe com a dona Tereza",
+        /* Em pé, 2350×3158: a capa mostra ~28% da altura. Esta posição faz a
+           faixa cair do capacete à cintura, com o grupo inteiro dentro. */
+        posicao: "center 44%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/tereza-visita.webp",
+        alt: "Dona Tereza conversa com um engenheiro da Tridium na porta de casa",
+        descricao: "A visita técnica à casa",
+        /* Deitada: desce o recorte para tirar telhado e trazer as duas
+           pessoas, que estão na metade de baixo do quadro. */
+        posicao: "center 85%",
+      },
+      {
+        tipo: "foto",
+        src: "/img/instituto/tereza-retrato.webp",
+        alt: "Dona Tereza de pé na porta de casa, olhando para a câmera",
+        descricao: "Dona Tereza na porta de casa",
+        posicao: "center 50%",
+      },
+    ],
     /* Serve quatro lugares ao mesmo tempo: o card do indice, a linha de
        abertura da pagina do projeto, a meta description do Google e a
        description do schema.org. Por isso para em ~150 caracteres — o
@@ -349,6 +388,23 @@ export const projetos: Projeto[] = [
     chave: "capoeira",
     nome: "Capoeira Angola",
     artigo: "a",
+    /* A capa da página só com foto real. O núcleo tem uma: o coletivo
+       sob a cúpula do TAMAR, com a faixa do projeto legível. As outras
+       duas do conjunto (`capoeira-ginga`, `capoeira-roda`) são de banco
+       e foram feitas em Salvador — igreja, fonte e casario do Pelourinho
+       ao fundo. Elas seguem dentro da página, com o selo de provisória;
+       na capa seriam a cara do projeto, e a cara seria de outra cidade. */
+    capaFotos: [
+      {
+        tipo: "foto",
+        src: "/img/instituto/capoeira-coletivo.webp",
+        alt: "Coletivo do Projeto de Capoeira Angola Palmares reunido sob a cúpula do TAMAR",
+        descricao: "O coletivo do núcleo de capoeira",
+        /* Em pé, 950×1266: a capa mostra ~28% da altura e o grupo todo
+           não cabe. Esta posição prioriza quem está em pé. */
+        posicao: "center 50%",
+      },
+    ],
     /* A mesma foto da capa do carrossel. No cartão, que é 4:3, aparece 56%
        da altura e o grupo inteiro cabe. */
     capa: {
@@ -587,4 +643,12 @@ export function buscarProjeto(chave: string): Projeto | undefined {
 export function capaDoProjeto(projeto: Projeto): Midia | undefined {
   if (projeto.capa) return projeto.capa;
   return projeto.registro.find((m) => m.tipo === "foto" && !m.pendente);
+}
+
+/** As fotos da capa da página do projeto. Nunca volta vazio enquanto houver
+    uma capa de cartão — a página não abre sem imagem por esquecimento. */
+export function fotosDeCapa(projeto: Projeto): Midia[] {
+  if (projeto.capaFotos?.length) return projeto.capaFotos;
+  const capa = capaDoProjeto(projeto);
+  return capa ? [capa] : [];
 }
