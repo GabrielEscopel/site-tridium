@@ -454,14 +454,19 @@ export const projetos: Projeto[] = [
         posicao: "center 50%",
       },
     ],
-    /* A mesma foto da capa do carrossel. No cartão, que é 4:3, aparece 56%
-       da altura e o grupo inteiro cabe. */
+    /* O cartão é 4:3 e corta bem menos que a capa, então aqui cabe a foto
+       que na capa teria de ser espremida. Em pé, 1200×1600: o cartão mostra
+       56% da altura, e a metade de cima é telhado. Esta posição desce o
+       recorte até o grupo, com um pouco de cúpula em cima e chão embaixo.
+
+       Ela também é o terceiro slide da capa da página, com outro recorte —
+       moldura diferente, enquadramento diferente. */
     capa: {
       tipo: "foto",
-      src: "/img/instituto/capoeira-coletivo.webp",
-      alt: "Coletivo do Projeto de Capoeira Angola Palmares reunido sob a cúpula do TAMAR",
-      descricao: "O coletivo do núcleo de capoeira",
-      posicao: "center 74%",
+      src: "/img/instituto/capoeira-03.webp",
+      alt: "Grupo numeroso do núcleo de capoeira, de braços erguidos, sob a cúpula do TAMAR",
+      descricao: "O grupo sob a cúpula",
+      posicao: "center 85%",
     },
     resumo:
       "Capoeira Angola em Florianópolis: a tradição afro-brasileira reconhecida como patrimônio, praticada na roda e aberta à comunidade.",
