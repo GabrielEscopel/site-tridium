@@ -29,6 +29,13 @@ export interface Imovel {
   tipo: string;
   finalidade: "venda" | "aluguel";
   situacao: string;
+  /** Nome do condomínio ou empreendimento, quando o imóvel estiver em um.
+      Aparece acima do título, como na imobiliária de referência. */
+  empreendimento?: string;
+  /** A manchete do anúncio, escrita à mão. Sem ela, `tituloImovel` monta uma
+      a partir da ficha — útil enquanto a carteira vem de um CRM que não
+      manda título pronto. */
+  titulo?: string;
   bairro: string;
   cidade: string;
   /** Texto de busca do mapa. Rua e bairro bastam. */
@@ -36,8 +43,11 @@ export interface Imovel {
   dormitorios: number;
   suites?: number;
   vagas: number;
-  /** Área privativa em m². */
+  /** Área privativa em m². Num terreno, é a área construída (0 se não houver). */
   area: number;
+  /** Área do terreno em m². Em casa e terreno é ela que o comprador compara;
+      em apartamento normalmente não existe. */
+  areaTerreno?: number;
   /** Em reais. `null` mostra "Sob consulta". */
   preco: number | null;
   condominio?: number;
@@ -61,6 +71,48 @@ export function formatarPreco(valor: number | null): string {
     currency: "BRL",
     maximumFractionDigits: 0,
   });
+}
+
+/** A manchete do anúncio: a escrita à mão, ou uma montada da ficha no mesmo
+    molde que as imobiliárias usam ("Apartamento de 3 dormitórios sendo 2
+    suítes no Residencial Alta Cittá"). O título nunca sai vazio. */
+export function tituloImovel(imovel: Imovel): string {
+  if (imovel.titulo) return imovel.titulo;
+
+  const partes: string[] = [imovel.tipo];
+  if (imovel.dormitorios > 0) {
+    partes.push(
+      `de ${imovel.dormitorios} dormitório${imovel.dormitorios > 1 ? "s" : ""}`
+    );
+    if (imovel.suites && imovel.suites > 0) {
+      partes.push(
+        `sendo ${imovel.suites} suíte${imovel.suites > 1 ? "s" : ""}`
+      );
+    }
+  }
+  partes.push(`no ${imovel.empreendimento ?? `bairro ${imovel.bairro}`}`);
+  return partes.join(" ");
+}
+
+/** As áreas que o card mostra em caixa, na ordem em que interessam. Terreno
+    primeiro: num lote é a única medida, e numa casa é a que decide. */
+export function areasDoImovel(
+  imovel: Imovel
+): { rotulo: string; valor: number }[] {
+  const areas: { rotulo: string; valor: number }[] = [];
+  if (imovel.areaTerreno) areas.push({ rotulo: "Terreno", valor: imovel.areaTerreno });
+  if (imovel.area > 0) {
+    areas.push({
+      rotulo: imovel.areaTerreno ? "Construída" : "Área privativa",
+      valor: imovel.area,
+    });
+  }
+  return areas;
+}
+
+/** "5.895 m²" — milhar com ponto, como a referência escreve. */
+export function formatarArea(m2: number): string {
+  return `${m2.toLocaleString("pt-BR", { maximumFractionDigits: 0 })} m²`;
 }
 
 /** "Apartamento · 2 quartos · 93 m² · 1 vaga" — usado em alt e em SEO. */
@@ -144,7 +196,9 @@ export const imoveis: Imovel[] = [
     dormitorios: 3,
     suites: 1,
     vagas: 2,
+    /* Casa mostra as duas caixas: o construido e o terreno. */
     area: 180,
+    areaTerreno: 420,
     preco: 2450000,
     selos: ["Exclusivo"],
     destaque: true,
@@ -174,7 +228,9 @@ export const imoveis: Imovel[] = [
     endereco: "Rio Tavares, Florianópolis, SC",
     dormitorios: 0,
     vagas: 0,
-    area: 450,
+    /* Lote sem construcao: a area privativa e zero e some do card. */
+    areaTerreno: 450,
+    area: 0,
     preco: null,
     resumo:
       "[CONTEÚDO PENDENTE] Uma linha sobre o terreno e o que cabe nele.",

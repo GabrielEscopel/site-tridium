@@ -19,6 +19,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { IconeSeta } from "./IconesImovel";
 
 /** O mínimo que o carrossel precisa. `FotoImovel` e `FotoCase` se encaixam. */
 export interface FotoCard {
@@ -35,6 +36,7 @@ export function CarrosselFotos({
   prioridade = false,
   className = "",
   tamanhos = "(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw",
+  variante = "padrao",
 }: {
   fotos: readonly FotoCard[];
   /** true na primeira linha da grade: carrega sem esperar o scroll. */
@@ -42,6 +44,10 @@ export function CarrosselFotos({
   className?: string;
   /** O `sizes` da imagem, que muda conforme a largura do card. */
   tamanhos?: string;
+  /** "anuncio" e o desenho da carteira de imoveis: setas redondas e
+      pontinhos no rodape da foto, como na imobiliaria de referencia.
+      "padrao" e o do portfolio de obras: setas retas e contador 1/3. */
+  variante?: "padrao" | "anuncio";
 }) {
   const [atual, setAtual] = useState(0);
   const total = fotos.length;
@@ -82,12 +88,30 @@ export function CarrosselFotos({
 
       {total > 1 && (
         <>
-          <Seta lado="esquerda" aoClicar={mover(-1)} />
-          <Seta lado="direita" aoClicar={mover(1)} />
+          <Seta lado="esquerda" aoClicar={mover(-1)} variante={variante} />
+          <Seta lado="direita" aoClicar={mover(1)} variante={variante} />
 
-          <span className="absolute bottom-2 right-2 z-10 rounded-full bg-black/60 px-2 py-0.5 font-mono text-[0.5625rem] text-white">
-            {atual + 1}/{total}
-          </span>
+          {variante === "anuncio" ? (
+            /* Pontinhos so indicam; quem navega sao as setas. Por isso nao
+               sao botoes, e o leitor de tela nao ganha tres alvos a mais. */
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-2.5 z-10 flex justify-center gap-1.5"
+            >
+              {fotos.map((foto, i) => (
+                <span
+                  key={foto.src}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === atual ? "w-4 bg-white" : "w-1.5 bg-white/60"
+                  }`}
+                />
+              ))}
+            </span>
+          ) : (
+            <span className="absolute bottom-2 right-2 z-10 rounded-full bg-black/60 px-2 py-0.5 font-mono text-[0.5625rem] text-white">
+              {atual + 1}/{total}
+            </span>
+          )}
         </>
       )}
     </div>
@@ -97,19 +121,30 @@ export function CarrosselFotos({
 function Seta({
   lado,
   aoClicar,
+  variante,
 }: {
   lado: "esquerda" | "direita";
   aoClicar: (e: React.MouseEvent) => void;
+  variante: "padrao" | "anuncio";
 }) {
+  const anuncio = variante === "anuncio";
   return (
     <button
       type="button"
       onClick={aoClicar}
-      className={`absolute top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center bg-black/45 text-white opacity-0 transition-opacity duration-200 hover:bg-black/70 focus-visible:opacity-100 group-hover/foto:opacity-100 ${
-        lado === "esquerda" ? "left-2" : "right-2"
-      }`}
+      className={`absolute top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center opacity-0 transition-opacity duration-200 focus-visible:opacity-100 group-hover/foto:opacity-100 ${
+        anuncio
+          ? "rounded-full bg-white/85 text-[color:var(--cart-titulo)] shadow-[var(--cart-sombra)] hover:bg-white"
+          : "bg-black/45 text-white hover:bg-black/70"
+      } ${lado === "esquerda" ? "left-2" : "right-2"}`}
     >
-      <span aria-hidden="true">{lado === "esquerda" ? "←" : "→"}</span>
+      {anuncio ? (
+        <IconeSeta
+          className={`h-4 w-4 ${lado === "esquerda" ? "rotate-180" : ""}`}
+        />
+      ) : (
+        <span aria-hidden="true">{lado === "esquerda" ? "←" : "→"}</span>
+      )}
       <span className="sr-only">
         {lado === "esquerda" ? "Foto anterior" : "Próxima foto"}
       </span>

@@ -351,3 +351,43 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* =============================================================================
+   CARTEIRA DE IMÓVEIS — o desenho da imobiliária parceira
+   -----------------------------------------------------------------------------
+   A listagem segue a Sinos Imóveis, que o cliente adotou como referência:
+   barra de busca verde no topo, cartões brancos arredondados com sombra rasa,
+   pastilhas, botão de ação amarelo.
+
+   As CORES, porém, são as da Tridium. A referência usa #0a5a2e e #ffcb08, que
+   são a marca de outra empresa; o grupo já tem verde e ouro próprios e eles
+   caem quase em cima. O papel de cada cor é o mesmo, a tinta é nossa.
+
+   Tudo medido contra WCAG AA (4,5:1 para texto normal, 3:1 para interface):
+     barra          #1d3a20 com #eaede6 .......... 10,58:1
+     pastilha       #24502a com #eaede6 ........... 7,87:1
+     botão buscar   #e0b411 com #2a2100 ........... 8,14:1
+     título do card #17602a sobre branco .......... 7,66:1
+     rótulo na barra #a8b7a3 sobre #1d3a20 ........ 5,94:1
+
+   Vive num escopo próprio porque é o desenho DESTA lista, não do site: as
+   outras duas frentes seguem com o visual editorial do grupo.
+   ============================================================================= */
+.carteira {
+  --cart-barra: var(--tri-mata);
+  --cart-barra-ink: var(--tri-bone);
+  --cart-barra-faint: #a8b7a3;
+  --cart-pilula: #24502a;
+  --cart-pilula-ink: var(--tri-bone);
+  --cart-acao: #e0b411;
+  --cart-acao-ink: #2a2100;
+  --cart-titulo: #17602a;
+  --cart-campo: #ffffff;
+  --cart-campo-linha: #d8cdbb;
+  --cart-card: #ffffff;
+  --cart-card-linha: #e7dfd2;
+  --cart-caixa: #fbf9f5;
+  --cart-preco: #201c16;
+  --cart-sombra: 0 2px 6px rgba(28, 40, 30, 0.07);
+  --cart-sombra-alta: 0 10px 24px -12px rgba(28, 40, 30, 0.35);
+}
