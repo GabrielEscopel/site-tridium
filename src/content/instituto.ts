@@ -188,35 +188,18 @@ export interface Atualizacao {
   href?: string;
 }
 
-/* [CONTEÚDO PENDENTE] Nenhuma atualização real ainda. Os itens abaixo são
-   exemplos do formato e devem ser substituídos — ou removidos, deixando o
-   array vazio, caso a seção não vá ao ar na primeira versão. */
-export const atualizacoes: Atualizacao[] = [
-  {
-    chave: "exemplo-1",
-    categoria: "Moradia Digna",
-    titulo: "[CONTEÚDO PENDENTE] Título da atualização",
-    resumo:
-      "Duas ou três linhas sobre o que aconteceu. Exemplo: mutirão concluído na casa da família X, com tantos voluntários, e o que foi feito.",
-    data: "[PENDENTE]",
-  },
-  {
-    chave: "exemplo-2",
-    categoria: "Capoeira",
-    titulo: "[CONTEÚDO PENDENTE] Título da atualização",
-    resumo:
-      "Exemplo: turma nova aberta, quantas vagas, onde e quando acontecem as aulas.",
-    data: "[PENDENTE]",
-  },
-  {
-    chave: "exemplo-3",
-    categoria: "Instituto",
-    titulo: "[CONTEÚDO PENDENTE] Título da atualização",
-    resumo:
-      "Exemplo: parceria firmada com uma empresa fornecedora, e o que ela viabiliza.",
-    data: "[PENDENTE]",
-  },
-];
+/* VAZIO DE PROPÓSITO, e por isso a faixa "Acontecendo" não aparece no site:
+   o componente `Atualizacoes` devolve null com a lista vazia.
+
+   Aqui havia três itens de exemplo, que iam ao ar escritos "[CONTEÚDO
+   PENDENTE] Título da atualização" com data "[PENDENTE]". Eram instruções
+   para o cliente renderizadas como se fossem notícia.
+
+   PARA A FAIXA VOLTAR, basta um item real neste array. O formato está no tipo
+   `Atualizacao` logo acima: categoria (o nome do projeto, ou "Instituto"
+   para avisos gerais), título, resumo de duas ou três linhas, data em ISO
+   (AAAA-MM-DD) e, se houver, um link. Item novo entra no topo. */
+export const atualizacoes: Atualizacao[] = [];
 
 /* -----------------------------------------------------------------------------
    OS PROJETOS
@@ -395,9 +378,8 @@ export const projetos: Projeto[] = [
        `capoeira-coletivo`, que já estava aqui e é a única em que a faixa
        do projeto aparece legível.
 
-       Fora da capa: `capoeira-ginga` e `capoeira-roda`, de banco e feitas
-       em Salvador. Com foto real do grupo não há mais motivo para elas
-       abrirem a página.
+       Havia aqui duas fotos de banco, feitas em Salvador, que saíram da
+       capa quando chegaram as reais e depois do site inteiro.
 
        [A CONFIRMAR] onde e quando cada uma foi feita. As legendas abaixo
        dizem só o que dá para ver na foto; com data e lugar elas ficam bem
@@ -520,10 +502,10 @@ export const projetos: Projeto[] = [
         href: "https://bibliotecadigital.iphan.gov.br/handle/123456789/653",
       },
     },
-    /* Registro todo com foto real do núcleo. Saiu `capoeira-ginga`, de
-       banco e feita em Salvador, que até aqui abria este bloco com o selo
-       de provisória; saíram também os três painéis de foto pendente, que
-       eram andaime à vista para quem visitava a página.
+    /* Registro todo com foto real do núcleo. Saiu uma foto de banco, feita
+       em Salvador, que até aqui abria este bloco com o selo de provisória;
+       saíram também os três painéis de foto pendente, que eram andaime à
+       vista para quem visitava a página.
 
        A grade é de duas colunas e `destaque` ocupa as duas. Cinco fotos
        fecham três fileiras exatas, sem célula órfã. A 3 fica de fora: ela
