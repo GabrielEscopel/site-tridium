@@ -33,8 +33,16 @@ import {
   tituloImovel,
   type Imovel,
 } from "@/content/imobiliaria";
+import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
+import { useFavoritos } from "@/lib/favoritos";
 import { CardImovel } from "./CardImovel";
-import { IconeLupa } from "./IconesImovel";
+import {
+  IconeChave,
+  IconeEstrela,
+  IconeLupa,
+  IconeWhatsapp,
+  iconeDoTipo,
+} from "./IconesImovel";
 
 type Ordem = "relevancia" | "menor-preco" | "maior-preco" | "maior-area";
 
@@ -59,6 +67,21 @@ const FAIXAS: { valor: string; rotulo: string }[] = [
 const SEM_ACENTO = (t: string) =>
   t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
+/* O plural de cada tipo para a caixa de atalho. O que não estiver aqui ganha
+   um "s" no fim, que resolve "Cobertura" e erra em pouca coisa. */
+const PLURAIS: Record<string, string> = {
+  Apartamento: "Apartamentos",
+  Casa: "Casas",
+  Terreno: "Terrenos",
+  Cobertura: "Coberturas",
+  Sobrado: "Sobrados",
+  Galpão: "Galpões",
+  Pavilhão: "Pavilhões",
+  "Sala comercial": "Salas comerciais",
+};
+
+const pluralDoTipo = (t: string) => PLURAIS[t] ?? `${t}s`;
+
 export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
   const [busca, setBusca] = useState("");
   const [codigo, setCodigo] = useState("");
@@ -67,8 +90,48 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
   const [tipo, setTipo] = useState("");
   const [teto, setTeto] = useState("");
   const [ordem, setOrdem] = useState<Ordem>("relevancia");
+  const [soFavoritos, setSoFavoritos] = useState(false);
 
+  const favoritos = useFavoritos();
   const resultadosRef = useRef<HTMLDivElement>(null);
+
+  /* As caixas de atalho saem da propria carteira, nao de uma lista fixa:
+     tipo novo no conteudo vira caixa nova, e nenhuma caixa leva a zero
+     resultado. A primeira e Aluguel, como na referencia, e so aparece
+     quando houver imovel para alugar. */
+  const atalhos = useMemo(() => {
+    const porTipo = opcoesFiltro.tipos
+      .map((t) => ({
+        chave: `tipo:${t}`,
+        rotulo: pluralDoTipo(t),
+        Icone: iconeDoTipo(t),
+        total: imoveis.filter((i) => i.tipo === t).length,
+        ativo: tipo === t,
+        acao: () => {
+          setFinalidade("");
+          setTipo(tipo === t ? "" : t);
+        },
+      }))
+      .filter((a) => a.total > 0);
+
+    const alugueis = imoveis.filter((i) => i.finalidade === "aluguel").length;
+    if (alugueis === 0) return porTipo;
+
+    return [
+      {
+        chave: "finalidade:aluguel",
+        rotulo: "Aluguel",
+        Icone: IconeChave,
+        total: alugueis,
+        ativo: finalidade === "aluguel",
+        acao: () => {
+          setTipo("");
+          setFinalidade(finalidade === "aluguel" ? "" : "aluguel");
+        },
+      },
+      ...porTipo,
+    ];
+  }, [imoveis, tipo, finalidade]);
 
   const filtrados = useMemo(() => {
     const termo = SEM_ACENTO(busca.trim());
@@ -76,6 +139,7 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
     const limite = teto ? Number(teto) : null;
 
     const lista = imoveis.filter((i) => {
+      if (soFavoritos && !favoritos.chaves.includes(i.chave)) return false;
       if (finalidade && i.finalidade !== finalidade) return false;
       if (bairro && i.bairro !== bairro) return false;
       if (tipo && i.tipo !== tipo) return false;
@@ -124,9 +188,22 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
       }
       return 0;
     });
-  }, [imoveis, busca, codigo, finalidade, bairro, tipo, teto, ordem]);
+  }, [
+    imoveis,
+    busca,
+    codigo,
+    finalidade,
+    bairro,
+    tipo,
+    teto,
+    ordem,
+    soFavoritos,
+    favoritos.chaves,
+  ]);
 
-  const temFiltro = Boolean(busca || codigo || finalidade || bairro || tipo || teto);
+  const temFiltro = Boolean(
+    busca || codigo || finalidade || bairro || tipo || teto || soFavoritos
+  );
 
   const limpar = () => {
     setBusca("");
@@ -135,6 +212,7 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
     setBairro("");
     setTipo("");
     setTeto("");
+    setSoFavoritos(false);
   };
 
   /* O botão não "aplica" nada — os filtros já valem. Ele fecha o teclado do
@@ -145,8 +223,65 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
     resultadosRef.current?.scrollIntoView({ block: "start" });
   };
 
+  const nFav = favoritos.chaves.length;
+
   return (
     <div className="carteira">
+      {/* ---------- Telefone e favoritos ----------
+          Na referência estes dois ficam no cabeçalho do site. Aqui ficam na
+          seção da carteira: o cabeçalho da Tridium é o mesmo nas três
+          frentes, e um contador de imóveis favoritados apareceria também em
+          Engenharia e no Instituto, onde não significa nada. */}
+      <div className="mb-4 flex flex-wrap items-center justify-end gap-3">
+        <a
+          href={whatsappLink(mensagensWhatsapp.imobiliaria)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2.5 rounded-full border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] px-4 py-2.5 text-[0.9375rem] font-semibold text-[color:var(--cart-preco)] no-underline shadow-[var(--cart-sombra)] transition-colors duration-200 hover:bg-[color:var(--cart-caixa)]"
+        >
+          <IconeWhatsapp className="h-[1.1rem] w-[1.1rem] text-[color:var(--cart-titulo)]" />
+          {contato.whatsappExibicao}
+          <span className="sr-only">(abre o WhatsApp em nova aba)</span>
+        </a>
+
+        {/* Enquanto o efeito do localStorage não rodou, `pronto` é false e o
+            botão não aparece: sem isso ele piscaria "0" em toda visita de
+            quem já tem imóveis salvos.
+
+            Ele fica visível com zero favoritos se o filtro estiver LIGADO.
+            Sem isso, tirar a estrela do último imóvel sumiria com o botão e
+            deixaria a pessoa presa numa lista vazia, sem o que desligar. */}
+        {favoritos.pronto && (nFav > 0 || soFavoritos) && (
+          <button
+            type="button"
+            onClick={() => setSoFavoritos((v) => !v)}
+            aria-pressed={soFavoritos}
+            className={`inline-flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-[0.9375rem] font-semibold shadow-[var(--cart-sombra)] transition-colors duration-200 ${
+              soFavoritos
+                ? "border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
+                : "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] text-[color:var(--cart-preco)] hover:bg-[color:var(--cart-caixa)]"
+            }`}
+          >
+            <IconeEstrela
+              cheia
+              className={`h-[1.1rem] w-[1.1rem] ${
+                soFavoritos ? "" : "text-[color:var(--cart-acao)]"
+              }`}
+            />
+            Favoritos
+            <span
+              className={`grid h-5 min-w-5 place-items-center rounded-full px-1 text-xs font-bold ${
+                soFavoritos
+                  ? "bg-[color:var(--cart-pilula-ink)] text-[color:var(--cart-pilula)]"
+                  : "bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
+              }`}
+            >
+              {nFav}
+            </span>
+          </button>
+        )}
+      </div>
+
       {/* ---------- Barra de busca ---------- */}
       <form
         onSubmit={irAosResultados}
@@ -222,6 +357,48 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
         </div>
       </form>
 
+      {/* ---------- Caixas de atalho ----------
+          O mesmo filtro de tipo da barra, num formato que se vê de longe e
+          se toca com o polegar. As categorias saem da carteira, não de uma
+          lista fixa: caixa que devolve zero resultado é beco sem saída.
+
+          São `aria-pressed`, não links: eles ligam e desligam um filtro
+          nesta mesma página, e um link prometeria outra. */}
+      {atalhos.length > 0 && (
+        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {atalhos.map((a) => (
+            <li key={a.chave}>
+              <button
+                type="button"
+                onClick={a.acao}
+                aria-pressed={a.ativo}
+                className={`flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl border px-3 py-4 text-center transition-colors duration-200 ${
+                  a.ativo
+                    ? "border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
+                    : "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] text-[color:var(--cart-preco)] shadow-[var(--cart-sombra)] hover:border-[color:var(--cart-titulo)]"
+                }`}
+              >
+                <a.Icone
+                  className={`h-6 w-6 ${
+                    a.ativo ? "" : "text-[color:var(--cart-titulo)]"
+                  }`}
+                />
+                <span className="text-sm font-semibold leading-tight">
+                  {a.rotulo}
+                </span>
+                <span
+                  className={`text-xs ${
+                    a.ativo ? "opacity-80" : "text-[color:var(--ink-faint)]"
+                  }`}
+                >
+                  {a.total}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
       {/* ---------- Cabeçalho de resultados ---------- */}
       <div
         ref={resultadosRef}
@@ -266,7 +443,12 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
         <ul className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filtrados.map((imovel, i) => (
             <li key={imovel.chave} className="h-full">
-              <CardImovel imovel={imovel} prioridade={i < 3} />
+              <CardImovel
+                imovel={imovel}
+                prioridade={i < 3}
+                favorito={favoritos.chaves.includes(imovel.chave)}
+                aoFavoritar={favoritos.alternar}
+              />
             </li>
           ))}
         </ul>

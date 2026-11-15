@@ -104,3 +104,106 @@ export function IconeWhatsapp({ className = "h-4 w-4" }: Props) {
     </svg>
   );
 }
+
+export function IconeEstrela({
+  className = "h-4 w-4",
+  cheia = false,
+}: Props & { cheia?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill={cheia ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="m12 3.6 2.6 5.3 5.8.85-4.2 4.1 1 5.78L12 16.9l-5.2 2.73 1-5.78-4.2-4.1 5.8-.85L12 3.6Z" />
+    </svg>
+  );
+}
+
+/* --- Ícones das caixas de categoria ------------------------------------
+   Um por tipo de imóvel da carteira. `iconeDoTipo` casa pelo nome e, no que
+   não reconhecer, devolve a casa genérica — tipo novo no conteúdo entra na
+   grade sem quebrar, mesmo antes de alguém desenhar um ícone para ele. */
+
+export function IconePredio(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M4 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M13 21V10h6a1 1 0 0 1 1 1v10M3 21h18" />
+      <path d="M7 8h2M7 12h2M7 16h2M16 14h1M16 17h1" />
+    </Svg>
+  );
+}
+
+export function IconeCasa(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9.5Z" />
+      <path d="M9.5 21v-6h5v6" />
+    </Svg>
+  );
+}
+
+export function IconeTerreno(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M3 19.5 12 15l9 4.5-9 2.5-9-2.5Z" />
+      <path d="M12 15V4M12 4l5 1.8L12 7.6" />
+    </Svg>
+  );
+}
+
+export function IconeCobertura(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M4 21V9l5-3.5V21M9 21V12h6a1 1 0 0 1 1 1v8M3 21h18" />
+      <path d="M16 9h4v12M18 5.5V9" />
+    </Svg>
+  );
+}
+
+export function IconeComercial(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M3.5 8.5 5 4h14l1.5 4.5a2.5 2.5 0 0 1-4.6 1.4 2.5 2.5 0 0 1-4.9 0 2.5 2.5 0 0 1-4.9 0A2.5 2.5 0 0 1 3.5 8.5Z" />
+      <path d="M5 11v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9M10 21v-5h4v5" />
+    </Svg>
+  );
+}
+
+export function IconeChave(p: Props) {
+  return (
+    <Svg {...p}>
+      <circle cx="7.5" cy="8" r="3.5" />
+      <path d="m10 10.5 9 9M16.5 17l2-2M14 14.5l2-2" />
+    </Svg>
+  );
+}
+
+const SEM_ACENTO = (t: string) =>
+  t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+export function iconeDoTipo(tipo: string) {
+  const t = SEM_ACENTO(tipo);
+  if (t.includes("cobertura")) return IconeCobertura;
+  if (t.includes("apartament") || t.includes("kitnet") || t.includes("studio")) {
+    return IconePredio;
+  }
+  if (t.includes("terreno") || t.includes("lote") || t.includes("sitio")) {
+    return IconeTerreno;
+  }
+  if (
+    t.includes("comercial") ||
+    t.includes("sala") ||
+    t.includes("loja") ||
+    t.includes("galpao") ||
+    t.includes("pavilhao")
+  ) {
+    return IconeComercial;
+  }
+  return IconeCasa;
+}

@@ -42,6 +42,7 @@ import {
   IconeCama,
   IconeCarro,
   IconeCompartilhar,
+  IconeEstrela,
   IconePino,
   IconeWhatsapp,
 } from "./IconesImovel";
@@ -49,9 +50,16 @@ import {
 export function CardImovel({
   imovel,
   prioridade = false,
+  favorito = false,
+  aoFavoritar,
 }: {
   imovel: Imovel;
   prioridade?: boolean;
+  /** Já está na lista de quem está olhando. */
+  favorito?: boolean;
+  /** Sem esta função a estrela não aparece — é o que permite reusar o card
+      fora da carteira, onde não há lista de favoritos. */
+  aoFavoritar?: (chave: string) => void;
 }) {
   const href = `/imobiliaria/${imovel.chave}`;
   const titulo = tituloImovel(imovel);
@@ -103,8 +111,11 @@ export function CardImovel({
           {imovel.finalidade === "aluguel" ? "Aluguel" : "Venda"}
         </span>
 
+        {/* Selos descem para a esquerda, embaixo da finalidade: o canto
+            superior direito agora é da estrela, e dois blocos ali
+            disputariam o mesmo toque no celular. */}
         {imovel.selos && imovel.selos.length > 0 && (
-          <ul className="absolute right-3 top-3 z-20 flex flex-wrap justify-end gap-1.5">
+          <ul className="absolute left-3 top-12 z-20 flex flex-wrap gap-1.5">
             {imovel.selos.map((selo) => (
               <li
                 key={selo}
@@ -114,6 +125,26 @@ export function CardImovel({
               </li>
             ))}
           </ul>
+        )}
+
+        {aoFavoritar && (
+          <button
+            type="button"
+            onClick={() => aoFavoritar(imovel.chave)}
+            aria-pressed={favorito}
+            aria-label={
+              favorito
+                ? `Tirar o imóvel ${imovel.codigo} dos favoritos`
+                : `Salvar o imóvel ${imovel.codigo} nos favoritos`
+            }
+            className={`absolute right-3 top-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/92 shadow-[var(--cart-sombra)] transition-colors duration-200 hover:bg-white ${
+              favorito
+                ? "text-[color:var(--cart-acao)]"
+                : "text-[color:var(--cart-titulo)]"
+            }`}
+          >
+            <IconeEstrela cheia={favorito} className="h-[1.15rem] w-[1.15rem]" />
+          </button>
         )}
       </div>
 
