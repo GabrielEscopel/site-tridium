@@ -88,7 +88,21 @@ export function CardImovel({
        borda de cima e seria decepada por ele. Quem recorta a foto nos cantos
        arredondados é o próprio contêiner da foto, logo abaixo. O `mt-3` abre
        o espaço que a pastilha ocupa fora do cartão. */
-    <article className="group relative mt-3 flex h-full flex-col rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] shadow-[var(--cart-sombra)] transition-shadow duration-200 hover:shadow-[var(--cart-sombra-alta)]">
+    /* A LEVANTADA SOB O MOUSE. Quatro pixels, em 0,22s — a mesma receita da
+       imobiliária de referência, medida na folha de estilo dela. É pouco de
+       propósito: o suficiente para o cartão se destacar dos vizinhos, pouco
+       demais para parecer que algo saltou. Sobem junto a sombra, que abre, e
+       o fio da borda, que esverdeia.
+
+       A transição precisa nomear `translate`, e não `transform`: no Tailwind
+       v4 o `-translate-y-1` escreve na propriedade `translate`, que é
+       separada. Com `transform` na lista, o cartão dava o pulo de 4px de uma
+       vez enquanto a sombra abria devagar — o que se via era um tranco.
+
+       `motion-reduce` desliga o deslocamento para quem pediu menos movimento
+       no sistema; a sombra e a borda ficam, e o cartão continua respondendo
+       ao mouse sem se mexer. */
+    <article className="group relative mt-3 flex h-full flex-col rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] shadow-[var(--cart-sombra)] transition-[translate,box-shadow,border-color] duration-[220ms] ease-[var(--cart-curva)] hover:-translate-y-1 hover:border-[color:var(--cart-linha-ativa)] hover:shadow-[var(--cart-sombra-alta)] motion-reduce:transition-[box-shadow,border-color] motion-reduce:hover:translate-y-0">
       {/* A pastilha do código monta a cavalo na borda de cima, como na
           referência. Fica FORA do contêiner da foto: é ele quem recorta os
           cantos arredondados, e lá dentro ela seria decepada ao meio.
@@ -137,7 +151,10 @@ export function CardImovel({
                 ? `Tirar o imóvel ${imovel.codigo} dos favoritos`
                 : `Salvar o imóvel ${imovel.codigo} nos favoritos`
             }
-            className={`absolute right-3 top-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/92 shadow-[var(--cart-sombra)] transition-colors duration-200 hover:bg-white ${
+            /* A estrela cresce 6% sob o mouse, como na referência: o cartão
+               inteiro já está subindo, e ela precisa de um sinal próprio
+               para se separar dele. */
+            className={`absolute right-3 top-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/92 shadow-[var(--cart-sombra)] transition-[scale,color,background-color] duration-150 ease-[var(--cart-curva)] hover:scale-105 hover:bg-white motion-reduce:hover:scale-100 ${
               favorito
                 ? "text-[color:var(--cart-acao)]"
                 : "text-[color:var(--cart-titulo)]"

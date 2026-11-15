@@ -389,5 +389,11 @@
   --cart-caixa: #fbf9f5;
   --cart-preco: #201c16;
   --cart-sombra: 0 2px 6px rgba(28, 40, 30, 0.07);
-  --cart-sombra-alta: 0 10px 24px -12px rgba(28, 40, 30, 0.35);
+  /* A sombra do cartao levantado, e a curva e o tempo do movimento:
+     medidos na propria referencia, onde o cartao sobe 4px em 0,22s. */
+  --cart-sombra-alta: 0 8px 24px -8px rgba(24, 45, 32, 0.16);
+  --cart-curva: cubic-bezier(0.2, 0.6, 0.2, 1);
+  /* O fio verde-claro que acende na borda do cartao sob o mouse.
+     Decorativo: quem avisa que da para clicar sao a subida e a sombra. */
+  --cart-linha-ativa: #67cf83;
 }
