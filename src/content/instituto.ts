@@ -262,7 +262,7 @@ export const projetos: Projeto[] = [
       "Recupera casas que deixaram de ser seguras para quem mora nelas: famílias em vulnerabilidade social, com visita técnica, projeto assinado e obra acompanhada.",
     ficha: [
       { rotulo: "Onde", valor: "Florianópolis e Grande Florianópolis" },
-      { rotulo: "Desde", valor: "[PENDENTE]" },
+      { rotulo: "Desde", valor: "2026" },
       { rotulo: "Atende", valor: "Famílias em situação de vulnerabilidade" },
       { rotulo: "Como entra na fila", valor: "Indicação + visita técnica" },
     ],
