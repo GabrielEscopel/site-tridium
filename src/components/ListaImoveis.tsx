@@ -29,6 +29,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import {
+  categorias,
   opcoesFiltro,
   tituloImovel,
   type Imovel,
@@ -37,11 +38,10 @@ import { contato, mensagensWhatsapp, whatsappLink } from "@/content/site";
 import { useFavoritos } from "@/lib/favoritos";
 import { CardImovel } from "./CardImovel";
 import {
-  IconeChave,
   IconeEstrela,
   IconeLupa,
   IconeWhatsapp,
-  iconeDoTipo,
+  iconeDaCategoria,
 } from "./IconesImovel";
 
 type Ordem = "relevancia" | "menor-preco" | "maior-preco" | "maior-area";
@@ -67,21 +67,6 @@ const FAIXAS: { valor: string; rotulo: string }[] = [
 const SEM_ACENTO = (t: string) =>
   t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-/* O plural de cada tipo para a caixa de atalho. O que não estiver aqui ganha
-   um "s" no fim, que resolve "Cobertura" e erra em pouca coisa. */
-const PLURAIS: Record<string, string> = {
-  Apartamento: "Apartamentos",
-  Casa: "Casas",
-  Terreno: "Terrenos",
-  Cobertura: "Coberturas",
-  Sobrado: "Sobrados",
-  Galpão: "Galpões",
-  Pavilhão: "Pavilhões",
-  "Sala comercial": "Salas comerciais",
-};
-
-const pluralDoTipo = (t: string) => PLURAIS[t] ?? `${t}s`;
-
 export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
   const [busca, setBusca] = useState("");
   const [codigo, setCodigo] = useState("");
@@ -91,47 +76,26 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
   const [teto, setTeto] = useState("");
   const [ordem, setOrdem] = useState<Ordem>("relevancia");
   const [soFavoritos, setSoFavoritos] = useState(false);
+  const [categoria, setCategoria] = useState("");
 
   const favoritos = useFavoritos();
   const resultadosRef = useRef<HTMLDivElement>(null);
 
-  /* As caixas de atalho saem da propria carteira, nao de uma lista fixa:
-     tipo novo no conteudo vira caixa nova, e nenhuma caixa leva a zero
-     resultado. A primeira e Aluguel, como na referencia, e so aparece
-     quando houver imovel para alugar. */
-  const atalhos = useMemo(() => {
-    const porTipo = opcoesFiltro.tipos
-      .map((t) => ({
-        chave: `tipo:${t}`,
-        rotulo: pluralDoTipo(t),
-        Icone: iconeDoTipo(t),
-        total: imoveis.filter((i) => i.tipo === t).length,
-        ativo: tipo === t,
-        acao: () => {
-          setFinalidade("");
-          setTipo(tipo === t ? "" : t);
-        },
-      }))
-      .filter((a) => a.total > 0);
+  /* As doze categorias da referência, sempre todas na grade. A contagem é
+     feita aqui porque a caixa mostra quantos existem em cada uma, e porque
+     é ela que decide se a caixa entra acesa ou apagada. */
+  const atalhos = useMemo(
+    () =>
+      categorias.map((c) => ({
+        ...c,
+        Icone: iconeDaCategoria(c.icone),
+        total: imoveis.filter(c.casa).length,
+      })),
+    [imoveis]
+  );
 
-    const alugueis = imoveis.filter((i) => i.finalidade === "aluguel").length;
-    if (alugueis === 0) return porTipo;
+  const categoriaAtiva = categorias.find((c) => c.chave === categoria);
 
-    return [
-      {
-        chave: "finalidade:aluguel",
-        rotulo: "Aluguel",
-        Icone: IconeChave,
-        total: alugueis,
-        ativo: finalidade === "aluguel",
-        acao: () => {
-          setTipo("");
-          setFinalidade(finalidade === "aluguel" ? "" : "aluguel");
-        },
-      },
-      ...porTipo,
-    ];
-  }, [imoveis, tipo, finalidade]);
 
   const filtrados = useMemo(() => {
     const termo = SEM_ACENTO(busca.trim());
@@ -140,6 +104,7 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
 
     const lista = imoveis.filter((i) => {
       if (soFavoritos && !favoritos.chaves.includes(i.chave)) return false;
+      if (categoriaAtiva && !categoriaAtiva.casa(i)) return false;
       if (finalidade && i.finalidade !== finalidade) return false;
       if (bairro && i.bairro !== bairro) return false;
       if (tipo && i.tipo !== tipo) return false;
@@ -199,10 +164,11 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
     ordem,
     soFavoritos,
     favoritos.chaves,
+    categoriaAtiva,
   ]);
 
   const temFiltro = Boolean(
-    busca || codigo || finalidade || bairro || tipo || teto || soFavoritos
+    busca || codigo || finalidade || bairro || tipo || teto || soFavoritos || categoria
   );
 
   const limpar = () => {
@@ -213,6 +179,7 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
     setTipo("");
     setTeto("");
     setSoFavoritos(false);
+    setCategoria("");
   };
 
   /* O botão não "aplica" nada — os filtros já valem. Ele fecha o teclado do
@@ -358,46 +325,59 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
       </form>
 
       {/* ---------- Caixas de atalho ----------
-          O mesmo filtro de tipo da barra, num formato que se vê de longe e
-          se toca com o polegar. As categorias saem da carteira, não de uma
-          lista fixa: caixa que devolve zero resultado é beco sem saída.
+          As doze categorias que a Tridium Imóveis atende, na ordem da
+          referência. Estão todas sempre na grade, inclusive as que ainda não
+          têm imóvel: a caixa não é só um filtro, é o que a casa faz. Uma
+          categoria vazia entra mais apagada e sem contagem, e quem clica
+          nela não bate num muro — a lista abaixo diz que ainda não há nada
+          ali e abre conversa no WhatsApp.
 
           São `aria-pressed`, não links: eles ligam e desligam um filtro
           nesta mesma página, e um link prometeria outra. */}
-      {atalhos.length > 0 && (
-        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {atalhos.map((a) => (
+      <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        {atalhos.map((a) => {
+          const ativo = categoria === a.chave;
+          const vazio = a.total === 0;
+          return (
             <li key={a.chave}>
               <button
                 type="button"
-                onClick={a.acao}
-                aria-pressed={a.ativo}
-                className={`flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl border px-3 py-4 text-center transition-colors duration-200 ${
-                  a.ativo
+                onClick={() => setCategoria(ativo ? "" : a.chave)}
+                aria-pressed={ativo}
+                className={`flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl border px-3 py-4 text-center transition-[translate,box-shadow,border-color,background-color] duration-[220ms] ease-[var(--cart-curva)] ${
+                  ativo
                     ? "border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
-                    : "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] text-[color:var(--cart-preco)] shadow-[var(--cart-sombra)] hover:border-[color:var(--cart-titulo)]"
+                    : vazio
+                      ? "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)]/60 text-[color:var(--ink-faint)] hover:-translate-y-0.5 hover:border-[color:var(--cart-linha-ativa)] hover:text-[color:var(--cart-preco)] motion-reduce:hover:translate-y-0"
+                      : "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] text-[color:var(--cart-preco)] shadow-[var(--cart-sombra)] hover:-translate-y-0.5 hover:border-[color:var(--cart-linha-ativa)] hover:shadow-[var(--cart-sombra-alta)] motion-reduce:hover:translate-y-0"
                 }`}
               >
                 <a.Icone
                   className={`h-6 w-6 ${
-                    a.ativo ? "" : "text-[color:var(--cart-titulo)]"
+                    ativo
+                      ? ""
+                      : vazio
+                        ? "text-[color:var(--cart-titulo)]/45"
+                        : "text-[color:var(--cart-titulo)]"
                   }`}
                 />
                 <span className="text-sm font-semibold leading-tight">
                   {a.rotulo}
                 </span>
-                <span
-                  className={`text-xs ${
-                    a.ativo ? "opacity-80" : "text-[color:var(--ink-faint)]"
-                  }`}
-                >
-                  {a.total}
-                </span>
+                {a.total > 0 && (
+                  <span
+                    className={`text-xs ${
+                      ativo ? "opacity-80" : "text-[color:var(--ink-faint)]"
+                    }`}
+                  >
+                    {a.total}
+                  </span>
+                )}
               </button>
             </li>
-          ))}
-        </ul>
-      )}
+          );
+        })}
+      </ul>
 
       {/* ---------- Cabeçalho de resultados ---------- */}
       <div
@@ -453,21 +433,46 @@ export function ListaImoveis({ imoveis }: { imoveis: readonly Imovel[] }) {
           ))}
         </ul>
       ) : (
-        <div className="mt-6 rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] px-6 py-20 text-center shadow-[var(--cart-sombra)]">
+        /* Quem chegou aqui por uma caixa de categoria vazia merece ouvir o
+           nome dela de volta, e não um "nenhum imóvel" genérico: ele soaria
+           como erro de busca quando na verdade a carteira é que ainda não
+           chegou lá. E, em vez de só oferecer o botão de voltar, a saída é
+           o WhatsApp — categoria procurada é procura declarada. */
+        <div className="mt-6 rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] px-6 py-16 text-center shadow-[var(--cart-sombra)]">
           <p className="t-display-tight fs-bloco text-[color:var(--ink)]">
-            Nenhum imóvel com esse filtro.
+            {categoriaAtiva
+              ? `Ainda não temos ${categoriaAtiva.rotulo.toLowerCase()} na carteira.`
+              : "Nenhum imóvel com esse filtro."}
           </p>
-          <p className="t-body mx-auto mt-4 max-w-[46ch] text-[color:var(--ink-muted)]">
-            A carteira ainda é pequena e cresce toda semana. Diga o que procura
-            e avisamos quando entrar algo no perfil.
+          <p className="t-body mx-auto mt-4 max-w-[48ch] text-[color:var(--ink-muted)]">
+            {categoriaAtiva
+              ? "A Tridium Imóveis trabalha com essa categoria — ela só não está na carteira hoje. Diga o que procura e avisamos assim que entrar."
+              : "A carteira ainda é pequena e cresce toda semana. Diga o que procura e avisamos quando entrar algo no perfil."}
           </p>
-          <button
-            type="button"
-            onClick={limpar}
-            className="mt-8 rounded-xl bg-[color:var(--cart-pilula)] px-6 py-3 text-[0.9375rem] font-bold text-[color:var(--cart-pilula-ink)] transition-opacity duration-200 hover:opacity-90"
-          >
-            Limpar filtros
-          </button>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href={whatsappLink(
+                categoriaAtiva
+                  ? `Olá! Procuro ${categoriaAtiva.rotulo.toLowerCase()} em Florianópolis. Vocês podem me avisar quando entrar algo assim na carteira?`
+                  : mensagensWhatsapp.imobiliaria
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 rounded-xl bg-[color:var(--cart-pilula)] px-6 py-3 text-[0.9375rem] font-bold text-[color:var(--cart-pilula-ink)] no-underline transition-opacity duration-200 hover:opacity-90"
+            >
+              <IconeWhatsapp className="h-[1.1rem] w-[1.1rem]" />
+              Avise quando entrar
+            </a>
+
+            <button
+              type="button"
+              onClick={limpar}
+              className="rounded-xl border border-[color:var(--cart-campo-linha)] px-6 py-3 text-[0.9375rem] font-semibold text-[color:var(--cart-preco)] transition-colors duration-200 hover:bg-[color:var(--cart-caixa)]"
+            >
+              Limpar filtros
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -184,26 +184,87 @@ export function IconeChave(p: Props) {
   );
 }
 
-const SEM_ACENTO = (t: string) =>
-  t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-export function iconeDoTipo(tipo: string) {
-  const t = SEM_ACENTO(tipo);
-  if (t.includes("cobertura")) return IconeCobertura;
-  if (t.includes("apartament") || t.includes("kitnet") || t.includes("studio")) {
-    return IconePredio;
-  }
-  if (t.includes("terreno") || t.includes("lote") || t.includes("sitio")) {
-    return IconeTerreno;
-  }
-  if (
-    t.includes("comercial") ||
-    t.includes("sala") ||
-    t.includes("loja") ||
-    t.includes("galpao") ||
-    t.includes("pavilhao")
-  ) {
-    return IconeComercial;
-  }
-  return IconeCasa;
+/* --- Os ícones restantes das caixas de categoria --- */
+
+export function IconeArvore(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M12 3.5 7 10h3l-4 5.5h5V21h2v-5.5h5L14 10h3L12 3.5Z" />
+    </Svg>
+  );
+}
+
+export function IconeEsquina(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M4 4v12a1 1 0 0 0 1 1h12" />
+      <path d="M8 8h8v8" strokeDasharray="2.5 2.5" />
+      <path d="M17 17 21 21M17 21h4v-4" />
+    </Svg>
+  );
+}
+
+export function IconeCondominio(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M2 12l4-3.5L10 12M14 12l4-3.5L22 12" />
+      <path d="M4 12v8h4v-8M16 12v8h4v-8M10 20h4" />
+    </Svg>
+  );
+}
+
+export function IconeFoguete(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M13.5 4.5c3 1.5 5 4.5 5.5 8.5l-4 3.5-5-5 3.5-7Z" />
+      <path d="M10 12.5 5.5 11l2-3.5 3.5-.5" />
+      <path d="M14 16.5 15.5 21l3.5-2 .5-3.5" />
+      <path d="m8 16-3 3M6.5 13.5 4 16M10.5 17.5 8 20" />
+    </Svg>
+  );
+}
+
+export function IconeGalpao(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M3 20V10l9-5 9 5v10" />
+      <path d="M3 20h18M7 20v-6h10v6" />
+      <path d="M7 17h10" />
+    </Svg>
+  );
+}
+
+export function IconeTroca(p: Props) {
+  return (
+    <Svg {...p}>
+      <path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5" />
+    </Svg>
+  );
+}
+
+/* O nome que o conteúdo declara em `categorias`, e o desenho que ele vira.
+   Nome desconhecido cai na casa genérica: categoria nova entra na grade sem
+   ninguém precisar desenhar nada antes. */
+export const ICONES_CATEGORIA = {
+  aluguel: IconeChave,
+  sitio: IconeArvore,
+  casa: IconeCasa,
+  terreno: IconeTerreno,
+  esquina: IconeEsquina,
+  apartamento: IconePredio,
+  cobertura: IconeCobertura,
+  condominio: IconeCondominio,
+  lancamento: IconeFoguete,
+  comercial: IconeComercial,
+  galpao: IconeGalpao,
+  permuta: IconeTroca,
+} as const;
+
+export type NomeIconeCategoria = keyof typeof ICONES_CATEGORIA;
+
+export function iconeDaCategoria(nome: string) {
+  return (
+    ICONES_CATEGORIA[nome as NomeIconeCategoria] ?? IconeCasa
+  );
 }

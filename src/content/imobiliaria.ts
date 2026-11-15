@@ -53,6 +53,10 @@ export interface Imovel {
   condominio?: number;
   iptu?: number;
   selos?: string[];
+  /** O proprietário aceita permuta (troca por outro imóvel) como parte do
+      pagamento. É condição de negócio, não tipo de imóvel — por isso tem
+      campo próprio e não entra em `tipo`. */
+  aceitaPermuta?: boolean;
   /** Entra no carrossel de abertura. Ligue e desligue conforme o mês. */
   destaque?: boolean;
   resumo: string;
@@ -316,6 +320,108 @@ export const imobiliaria = {
 function unicos(valores: string[]): string[] {
   return [...new Set(valores)].sort((a, b) => a.localeCompare(b, "pt-BR"));
 }
+
+/* -----------------------------------------------------------------------------
+   CATEGORIAS — as caixas de atalho da carteira
+   -----------------------------------------------------------------------------
+   As mesmas doze da imobiliária de referência, na mesma ordem. Elas não saem
+   dos dados: são uma declaração do que a Tridium Imóveis atende. Caixa sem
+   imóvel hoje continua na grade, mais apagada, e dizendo o que a casa faz —
+   quando a carteira crescer, ela acende sozinha.
+
+   Nem toda categoria é um tipo de imóvel, e é por isso que cada uma traz a
+   própria regra em vez de um nome para comparar:
+     Aluguel     é finalidade
+     Lançamentos é situação da obra
+     Permutas    é condição de negócio
+   As outras nove casam pelo tipo, sem acento e sem caixa, para "Sítio" e
+   "sitio" caírem no mesmo lugar.
+
+   `icone` é o nome que ICONES_CATEGORIA, em IconesImovel.tsx, traduz em
+   desenho. O conteúdo não importa componente: ele é lido no servidor.
+   ----------------------------------------------------------------------------- */
+
+export interface CategoriaImovel {
+  chave: string;
+  rotulo: string;
+  icone: string;
+  /** Decide se o imóvel entra nesta categoria. */
+  casa: (imovel: Imovel) => boolean;
+}
+
+const normal = (t: string) =>
+  t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+/** Casa pelo tipo, aceitando singular e plural e ignorando acento. */
+const porTipo = (...nomes: string[]) => {
+  const alvos = nomes.map(normal);
+  return (i: Imovel) => {
+    const t = normal(i.tipo);
+    return alvos.some((a) => t === a || t.startsWith(a));
+  };
+};
+
+export const categorias: CategoriaImovel[] = [
+  {
+    chave: "aluguel",
+    rotulo: "Aluguel",
+    icone: "aluguel",
+    casa: (i) => i.finalidade === "aluguel",
+  },
+  { chave: "sitios", rotulo: "Sítios", icone: "sitio", casa: porTipo("sitio", "chacara") },
+  { chave: "casas", rotulo: "Casas", icone: "casa", casa: porTipo("casa", "sobrado") },
+  {
+    chave: "terrenos",
+    rotulo: "Terrenos",
+    icone: "terreno",
+    /* O terreno de esquina tem caixa própria logo ao lado; aqui ficam os
+       demais, senão o mesmo lote apareceria nas duas contagens. */
+    casa: (i) => porTipo("terreno", "lote")(i) && !normal(i.tipo).includes("esquina"),
+  },
+  {
+    chave: "terrenos-esquina",
+    rotulo: "Terrenos de Esquina",
+    icone: "esquina",
+    casa: (i) => normal(i.tipo).includes("esquina"),
+  },
+  {
+    chave: "apartamentos",
+    rotulo: "Apartamentos",
+    icone: "apartamento",
+    casa: porTipo("apartamento", "kitnet", "studio"),
+  },
+  { chave: "coberturas", rotulo: "Coberturas", icone: "cobertura", casa: porTipo("cobertura") },
+  {
+    chave: "condominios",
+    rotulo: "Condomínios Horizontais",
+    icone: "condominio",
+    casa: porTipo("condominio horizontal", "casa em condominio"),
+  },
+  {
+    chave: "lancamentos",
+    rotulo: "Lançamentos",
+    icone: "lancamento",
+    casa: (i) => normal(i.situacao).includes("lancamento"),
+  },
+  {
+    chave: "comerciais",
+    rotulo: "Comerciais",
+    icone: "comercial",
+    casa: porTipo("comercial", "sala comercial", "loja", "ponto comercial"),
+  },
+  {
+    chave: "pavilhoes",
+    rotulo: "Pavilhões",
+    icone: "galpao",
+    casa: porTipo("pavilhao", "galpao", "barracao"),
+  },
+  {
+    chave: "permutas",
+    rotulo: "Permutas",
+    icone: "permuta",
+    casa: (i) => i.aceitaPermuta === true,
+  },
+];
 
 export const opcoesFiltro = {
   tipos: unicos(imoveis.map((i) => i.tipo)),
