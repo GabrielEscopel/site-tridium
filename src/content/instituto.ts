@@ -143,12 +143,16 @@ export const destaques: Destaque[] = [
     acao: { rotulo: "Conhecer o projeto", href: "/instituto/capoeira" },
     midia: {
       tipo: "foto",
-      src: "/img/instituto/capoeira-coletivo.webp",
-      alt: "Coletivo do Projeto de Capoeira Angola Palmares reunido sob a cúpula do TAMAR",
-      descricao: "O coletivo do núcleo de capoeira",
-      /* A foto é em pé e a capa mostra só 28% da altura — o grupo todo não
-         cabe. Esta posição prioriza os rostos de quem está em pé. */
-      posicao: "center 50%",
+      src: "/img/instituto/capoeira-03.webp",
+      alt: "Grupo numeroso do núcleo de capoeira, de braços erguidos, sob a cúpula do TAMAR",
+      descricao: "O grupo sob a cúpula",
+      /* A mesma foto do cartão do projeto e do terceiro slide da página
+         dele: quem vê a capa e clica reconhece onde chegou.
+
+         Em pé, 1200×1600, a capa mostra ~42% da altura e a metade de cima
+         é só telhado — esta posição desce o recorte até as pessoas. É mais
+         baixa que o 85% do cartão porque a capa é bem mais panorâmica. */
+      posicao: "center 70%",
     },
   },
   {
