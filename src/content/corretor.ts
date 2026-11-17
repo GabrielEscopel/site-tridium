@@ -628,3 +628,99 @@ export function cardsPendentes(): { etapa: string; card: CardProcedimento }[] {
   }
   return lista;
 }
+
+/* -----------------------------------------------------------------------------
+   PERFIL DO CORRETOR
+   -----------------------------------------------------------------------------
+   Quem está estudando. Aparece ao lado do treinamento, e é também onde o
+   CRECI do corretor fica visível para ele mesmo — o registro vence, e o
+   primeiro a notar tem de ser quem depende dele.
+
+   ⚠ HOJE É UM SÓ, o do acesso de teste, com os campos marcados como
+   pendentes. Quando houver banco de dados e login de verdade, cada corretor
+   terá o seu e `perfilDoUsuario` passa a buscar lá em vez de devolver este.
+
+   `atuaDesde` é um ANO, não um texto como "8 anos de mercado": texto
+   envelhece sozinho e ninguém lembra de atualizar. O tempo é calculado na
+   hora em que a página abre.
+   ----------------------------------------------------------------------------- */
+
+export interface PerfilCorretor {
+  usuario: string;
+  nome: string;
+  cargo: string;
+  /** Caminho da foto em /public. Sem ela, entram as iniciais. */
+  foto?: string;
+  /** Número de inscrição no CRECI, com a seccional. */
+  creci: string;
+  /** Formação, curso técnico, CNAI — o que couber. */
+  formacao: string[];
+  /** Ano em que começou no mercado imobiliário. */
+  atuaDesde: number | null;
+  /** Bairros ou regiões em que trabalha. */
+  atuacao?: string;
+}
+
+const PENDENTE = "[PENDENTE]";
+
+export const perfisCorretor: PerfilCorretor[] = [
+  {
+    usuario: "admin",
+    nome: "Francis Michel",
+    cargo: "Corretor de imóveis",
+    /* Recorte quadrado do retrato, centrado no rosto. O avatar e redondo e
+       pequeno: a foto inteira apenas reduzida deixaria a cabeça do tamanho
+       de um grão dentro do círculo. */
+    foto: "/img/equipe/francis-michel.webp",
+    /* [A CONFIRMAR] a seccional do registro. O número veio sem ela, e
+       CRECI-RS e CRECI-SC são conselhos diferentes: quem atua em outro
+       estado precisa de inscrição secundária. Como ele vem da Sinos, que
+       é do Vale dos Sinos, o mais provável é RS. */
+    creci: "41587",
+    formacao: [
+      "Técnico em Transações Imobiliárias",
+      "Tecnólogo em Gestão Imobiliária",
+      "Perito Avaliador",
+      "MBA em Marketing e Vendas",
+      "Pós-graduação em Gestão de Pessoas",
+    ],
+    atuaDesde: 2011,
+  },
+];
+
+export function perfilDoUsuario(usuario: string): PerfilCorretor {
+  const achado = perfisCorretor.find((p) => p.usuario === usuario);
+  if (achado) return achado;
+
+  /* Usuário sem perfil cadastrado não derruba a página: ele ganha um perfil
+     vazio com o próprio nome de acesso. */
+  return {
+    usuario,
+    nome: usuario,
+    cargo: "Corretor de imóveis",
+    creci: PENDENTE,
+    formacao: [PENDENTE],
+    atuaDesde: null,
+  };
+}
+
+/** "8 anos de mercado", contado do ano de início até hoje. */
+export function tempoDeMercado(atuaDesde: number | null): string | null {
+  if (!atuaDesde) return null;
+  const anos = new Date().getFullYear() - atuaDesde;
+  if (anos < 1) return "primeiro ano de mercado";
+  return `${anos} ${anos === 1 ? "ano" : "anos"} de mercado`;
+}
+
+/** As iniciais, para o lugar da foto. "Ana Paula Souza" → "AS". */
+export function iniciaisDe(nome: string): string {
+  const partes = nome
+    .replace(/\[.*?\]/g, "")
+    .trim()
+    .split(/\s+/)
+    .filter((p) => p.length > 2);
+  if (partes.length === 0) return "?";
+  const primeira = partes[0][0];
+  const ultima = partes.length > 1 ? partes[partes.length - 1][0] : "";
+  return (primeira + ultima).toUpperCase();
+}

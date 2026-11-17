@@ -23,7 +23,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { procedimentos, type CardProcedimento } from "@/content/corretor";
+import {
+  iniciaisDe,
+  perfilDoUsuario,
+  procedimentos,
+  tempoDeMercado,
+  type CardProcedimento,
+  type PerfilCorretor,
+} from "@/content/corretor";
 import { marcas } from "@/content/site";
 import { useProgressoTreinamento } from "@/lib/progressoTreinamento";
 import { useSessaoCorretor } from "@/lib/sessaoCorretor";
@@ -59,7 +66,7 @@ export function AreaTreinamento() {
           `sobre-foto` reaproveita a inversão de paleta que o resto do site já
           usa sobre fundo escuro. */}
       <header className="sobre-foto sticky top-0 z-40 border-b border-white/10 bg-[color:var(--cart-barra)] shadow-[var(--cart-sombra-alta)]">
-        <div className="wrap flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-3.5">
+        <div className="wrap flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5 py-3">
           {/* AS DUAS MARCAS, lado a lado, separadas só por um fio. A da casa
               primeiro: esta é a área da Tridium, a Sinos entra como parceira.
 
@@ -78,7 +85,7 @@ export function AreaTreinamento() {
               caixa, as duas palavras ficavam 8px fora de registro: a da
               Sinos nasce mais abaixo no arquivo dela, porque tem o telhado
               em cima. Como e `translate`, nao mexe na altura da faixa. */}
-          <div className="flex min-w-0 items-center gap-3 md:gap-4">
+          <div className="order-1 flex min-w-0 items-center gap-3 md:gap-4">
             <Link href="/imobiliaria/corretor" className="shrink-0 no-underline">
               <Image
                 src={marcas.imobiliaria.escuro}
@@ -105,7 +112,22 @@ export function AreaTreinamento() {
             />
           </div>
 
-          <div className="flex items-center gap-2.5">
+          {/* OS MÓDULOS NA FAIXA VERDE, ao lado das marcas. É a navegação
+              principal do treinamento: clicar troca o módulo mostrado
+              abaixo, e a faixa fica congelada, então ela acompanha a
+              rolagem.
+
+              `order` muda a arrumação conforme a largura: numa tela estreita
+              os módulos descem para uma linha só deles, embaixo das marcas e
+              dos botões, e rolam na horizontal. Espremê-los entre as duas
+              pontas num celular faria chips de dois dedos de largura. */}
+          <TrilhaNoCabecalho
+            moduloAberto={modulo.chave}
+            aoEscolher={setModuloAberto}
+            progresso={progresso}
+          />
+
+          <div className="order-2 flex items-center gap-2.5 lg:order-3">
             <span className="hidden text-sm text-white/70 sm:inline">
               {sessao.usuario}
             </span>
@@ -126,33 +148,22 @@ export function AreaTreinamento() {
         </div>
       </header>
 
-      <div className="wrap py-8 md:py-12">
-        {/* ================= ABERTURA ================= */}
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <p className="t-label text-[color:var(--cart-titulo)]">
-              Formação da equipe
-            </p>
-            <h1 className="t-display-tight fs-secao mt-3 max-w-[18ch] text-[color:var(--ink)]">
-              Treinamento do corretor
-            </h1>
-            <p className="t-body mt-4 max-w-[58ch] text-[color:var(--ink-muted)]">
-              Nove módulos na ordem em que um imóvel passa pela imobiliária, da
-              captação ao jurídico. Cada módulo termina com uma capacidade, não
-              com um assunto.
-            </p>
+      {/* ================= CORPO =================
+          À esquerda, quem está estudando: foto, CRECI, formação, tempo de
+          mercado e o progresso. À direita, o módulo escolhido lá em cima.
+
+          A coluna da esquerda era a trilha dos módulos; ela subiu para a
+          faixa verde, que fica congelada e acompanha a rolagem — navegação
+          que some quando se desce a página não serve para quem está lendo
+          um módulo longo. */}
+      <div className="wrap py-8 md:py-10">
+        <div className="grid gap-6 lg:grid-cols-[19rem_1fr] lg:gap-8">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <Perfil
+              perfil={perfilDoUsuario(sessao.usuario)}
+              progresso={progresso}
+            />
           </div>
-
-          {progresso.pronto && <Medidor progresso={progresso} />}
-        </div>
-
-        {/* ================= A SEQUÊNCIA ================= */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-[19rem_1fr] lg:gap-8">
-          <TrilhaModulos
-            moduloAberto={modulo.chave}
-            aoEscolher={setModuloAberto}
-            progresso={progresso}
-          />
 
           <Modulo
             modulo={modulo}
@@ -199,52 +210,14 @@ function SemAcesso() {
   );
 }
 
-function Medidor({ progresso }: { progresso: Progresso }) {
-  const { feitas, total, percentual } = progresso.resumo;
-  return (
-    <div className="w-full max-w-[20rem] rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] p-5 shadow-[var(--cart-sombra)]">
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="t-label text-[color:var(--ink-faint)]">Seu progresso</p>
-        <p className="text-[1.375rem] font-bold text-[color:var(--cart-preco)]">
-          {percentual}%
-        </p>
-      </div>
+/* A navegação do treinamento, dentro da faixa verde. Chips compactos: com
+   nove módulos e as marcas ao lado, nome por extenso em todos não caberia em
+   tela nenhuma. O número aparece sempre; o nome, só no módulo aberto, que é
+   onde a pessoa precisa dele. Os outros dizem o nome ao leitor de tela e no
+   título que surge ao parar o mouse.
 
-      {/* `role="progressbar"` para o leitor de tela anunciar a fração; a barra
-          colorida é só o desenho disso. */}
-      <div
-        role="progressbar"
-        aria-valuenow={feitas}
-        aria-valuemin={0}
-        aria-valuemax={total}
-        aria-label={`${feitas} de ${total} aulas concluídas`}
-        className="mt-3 h-2 overflow-hidden rounded-full bg-[color:var(--cart-caixa)]"
-      >
-        <div
-          className="h-full rounded-full bg-[color:var(--cart-acao)] transition-[width] duration-500 ease-[var(--cart-curva)]"
-          style={{ width: `${percentual}%` }}
-        />
-      </div>
-
-      <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm text-[color:var(--ink-muted)]">
-          {feitas} de {total} aulas
-        </p>
-        {feitas > 0 && (
-          <button
-            type="button"
-            onClick={progresso.zerar}
-            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-titulo)]"
-          >
-            Zerar
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function TrilhaModulos({
+   Módulo concluído troca o número pelo visto. */
+function TrilhaNoCabecalho({
   moduloAberto,
   aoEscolher,
   progresso,
@@ -254,67 +227,50 @@ function TrilhaModulos({
   progresso: Progresso;
 }) {
   return (
-    <nav aria-label="Módulos do treinamento" className="lg:sticky lg:top-24 lg:self-start">
-      <ol className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pb-0">
+    <nav
+      aria-label="Módulos do treinamento"
+      className="order-3 w-full min-w-0 lg:order-2 lg:w-auto lg:flex-1"
+    >
+      <ol className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:justify-center lg:pb-0">
         {procedimentos.map((m) => {
           const ativo = m.chave === moduloAberto;
           const p = progresso.resumo.porModulo[m.chave] ?? { feitas: 0, total: 0 };
           const completo = p.total > 0 && p.feitas === p.total;
-          const Icone = iconeDaCategoria(m.icone);
 
           return (
-            <li key={m.chave} className="shrink-0 lg:shrink">
+            <li key={m.chave} className="shrink-0">
               <button
                 type="button"
                 onClick={() => aoEscolher(m.chave)}
                 aria-current={ativo ? "true" : undefined}
-                className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors duration-200 ${
+                title={`Módulo ${m.numero} — ${m.titulo}`}
+                className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 transition-colors duration-200 ${
                   ativo
-                    ? "border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
-                    : "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] text-[color:var(--cart-preco)] hover:border-[color:var(--cart-linha-ativa)]"
+                    ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+                    : "text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                {/* Módulo concluído troca o ícone pelo visto: a trilha precisa
-                    ser lida de relance, e doze ícones iguais não dizem nada. */}
                 <span
-                  className={`grid h-8 w-8 shrink-0 place-items-center rounded-full ${
-                    completo
-                      ? ativo
-                        ? "bg-[color:var(--cart-pilula-ink)] text-[color:var(--cart-pilula)]"
-                        : "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
-                      : ativo
-                        ? "bg-white/15"
-                        : "bg-[color:var(--cart-caixa)] text-[color:var(--cart-titulo)]"
+                  className={`grid h-5 w-5 shrink-0 place-items-center rounded-full font-mono text-[0.625rem] font-bold ${
+                    ativo
+                      ? "bg-black/15"
+                      : completo
+                        ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+                        : "bg-white/15"
                   }`}
                 >
-                  {completo ? (
-                    <span aria-hidden="true" className="text-sm font-bold">
-                      ✓
-                    </span>
-                  ) : (
-                    <Icone className="h-[1.1rem] w-[1.1rem]" />
-                  )}
+                  {completo && !ativo ? <span aria-hidden="true">&#10003;</span> : m.numero}
                 </span>
 
-                <span className="min-w-0">
-                  <span
-                    className={`block font-mono text-[0.625rem] font-bold tracking-[0.12em] ${
-                      ativo ? "opacity-75" : "text-[color:var(--ink-faint)]"
-                    }`}
-                  >
-                    MÓDULO {m.numero}
-                  </span>
-                  <span className="block whitespace-nowrap text-sm font-semibold lg:whitespace-normal">
+                {ativo && (
+                  <span className="whitespace-nowrap text-xs font-bold">
                     {m.titulo}
                   </span>
-                  <span
-                    className={`block text-xs ${
-                      ativo ? "opacity-75" : "text-[color:var(--ink-faint)]"
-                    }`}
-                  >
-                    {p.feitas}/{p.total} aulas
-                    {completo && " · concluído"}
-                  </span>
+                )}
+
+                <span className="sr-only">
+                  Módulo {m.numero}: {m.titulo}
+                  {completo ? " (concluído)" : ""}
                 </span>
               </button>
             </li>
@@ -322,6 +278,160 @@ function TrilhaModulos({
         })}
       </ol>
     </nav>
+  );
+}
+
+/* Quem está estudando. O CRECI fica aqui, à vista do próprio corretor: o
+   registro vence, e o primeiro a notar tem de ser quem depende dele. */
+function Perfil({
+  perfil,
+  progresso,
+}: {
+  perfil: PerfilCorretor;
+  progresso: Progresso;
+}) {
+  const pendente = (v: string) => v.startsWith("[");
+  const tempo = tempoDeMercado(perfil.atuaDesde);
+  const { feitas, total, percentual } = progresso.resumo;
+  const semNome = pendente(perfil.nome);
+
+  return (
+    <div className="rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] p-6 shadow-[var(--cart-sombra)]">
+      <div className="flex items-center gap-4">
+        {perfil.foto ? (
+          <Image
+            src={perfil.foto}
+            alt={perfil.nome}
+            width={160}
+            height={160}
+            className="h-16 w-16 shrink-0 rounded-full object-cover"
+            style={{ objectPosition: "center 20%" }}
+          />
+        ) : (
+          /* Sem foto, as iniciais — e não um painel de "foto pendente".
+             Avatar vazio é padrão em qualquer sistema e não parece defeito;
+             o aviso de pendência está nos campos, onde resolve algo. */
+          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[color:var(--cart-pilula)] text-[1.25rem] font-bold text-[color:var(--cart-pilula-ink)]">
+            {iniciaisDe(semNome ? perfil.usuario : perfil.nome)}
+          </span>
+        )}
+
+        <div className="min-w-0">
+          <p
+            className={`text-[1.0625rem] font-bold leading-tight ${
+              semNome ? "text-[color:var(--ink-faint)]" : "text-[color:var(--ink)]"
+            }`}
+          >
+            {semNome ? "Nome a preencher" : perfil.nome}
+          </p>
+          <p className="mt-1 text-sm text-[color:var(--ink-muted)]">
+            {perfil.cargo}
+          </p>
+        </div>
+      </div>
+
+      <dl className="mt-6 space-y-4 border-t border-[color:var(--cart-card-linha)] pt-5">
+        <Campo rotulo="CRECI" pendente={pendente(perfil.creci)}>
+          {pendente(perfil.creci) ? "A preencher" : perfil.creci}
+        </Campo>
+
+        <Campo rotulo="Formação" pendente={perfil.formacao.every(pendente)}>
+          {perfil.formacao.every(pendente) ? (
+            "A preencher"
+          ) : (
+            <span className="block space-y-1">
+              {perfil.formacao
+                .filter((f) => !pendente(f))
+                .map((f) => (
+                  <span key={f} className="block leading-snug">
+                    {f}
+                  </span>
+                ))}
+            </span>
+          )}
+        </Campo>
+
+        <Campo rotulo="No mercado" pendente={!tempo}>
+          {tempo ? `Desde ${perfil.atuaDesde} · ${tempo}` : "A preencher"}
+        </Campo>
+
+        {perfil.atuacao && (
+          <Campo rotulo="Atuação" pendente={false}>
+            {perfil.atuacao}
+          </Campo>
+        )}
+      </dl>
+
+      {progresso.pronto && (
+        <div className="mt-6 border-t border-[color:var(--cart-card-linha)] pt-5">
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="t-label text-[color:var(--ink-faint)]">Treinamento</p>
+            <p className="text-[1.25rem] font-bold text-[color:var(--cart-preco)]">
+              {percentual}%
+            </p>
+          </div>
+
+          <div
+            role="progressbar"
+            aria-valuenow={feitas}
+            aria-valuemin={0}
+            aria-valuemax={total}
+            aria-label={`${feitas} de ${total} aulas concluídas`}
+            className="mt-2.5 h-2 overflow-hidden rounded-full bg-[color:var(--cart-caixa)]"
+          >
+            <div
+              className="h-full rounded-full bg-[color:var(--cart-acao)] transition-[width] duration-500 ease-[var(--cart-curva)]"
+              style={{ width: `${percentual}%` }}
+            />
+          </div>
+
+          <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm text-[color:var(--ink-muted)]">
+              {feitas} de {total} aulas
+            </p>
+            {feitas > 0 && (
+              <button
+                type="button"
+                onClick={progresso.zerar}
+                className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-titulo)]"
+              >
+                Zerar
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      <p className="mt-5 border-t border-dashed border-[color:var(--cart-campo-linha)] pt-4 text-xs leading-snug text-[color:var(--ink-faint)]">
+        O progresso fica neste navegador. Com login de verdade, ele passa a ser
+        do corretor, em qualquer computador.
+      </p>
+    </div>
+  );
+}
+
+function Campo({
+  rotulo,
+  children,
+  pendente,
+}: {
+  rotulo: string;
+  children: React.ReactNode;
+  pendente: boolean;
+}) {
+  return (
+    <div>
+      <dt className="t-label text-[color:var(--ink-faint)]">{rotulo}</dt>
+      <dd
+        className={`mt-1 text-sm ${
+          pendente
+            ? "italic text-[color:var(--ink-faint)]"
+            : "text-[color:var(--ink)]"
+        }`}
+      >
+        {children}
+      </dd>
+    </div>
   );
 }
 
