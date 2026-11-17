@@ -77,6 +77,10 @@ export interface EtapaProcedimento {
   objetivo: string;
   /** Nome do ícone em IconesImovel.ICONES_CATEGORIA, ou um dos próprios. */
   icone: string;
+  /** Imagem de abertura do módulo. Enquanto não houver arquivo, o módulo
+      mostra um painel dizendo o que precisa ser produzido — a mesma regra
+      do resto do site: nunca uma imagem de banco no lugar da real. */
+  imagem?: { src?: string; alt: string; descricao: string; credito?: string };
   topicos: TopicoProcedimento[];
 }
 
@@ -88,61 +92,42 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "História",
     tituloCurto: "História",
     resumo:
-      "De onde vem a casa em que o corretor entrou. Quem não sabe contar a história da empresa vende só o imóvel; quem sabe, vende também o motivo de confiar nela.",
+      "De onde vem a profissão. Corretagem não nasceu com os portais nem com o WhatsApp — é um ofício antigo, regulamentado por lei, com conselho e código de ética próprios.",
     objetivo:
-      "Contar, em dois minutos e com suas palavras, o que é o Grupo Tridium, de onde veio a parceria com a Sinos e por que uma imobiliária com engenharia por trás é diferente das outras.",
+      "Explicar a um cliente por que corretor é profissão regulamentada, o que o CRECI significa na prática e o que separa quem exerce o ofício de quem apenas aproxima duas pessoas.",
     icone: "casa",
+    /* SEM IMAGEM DE ABERTURA. O campo existe e o componente sabe desenhar;
+       e so preencher aqui quando houver arquivo:
+
+         imagem: {
+           src: "/img/treinamento/historia-corretagem.webp",
+           alt: "...",
+           descricao: "...",
+         },
+
+       Deitada, 1600px ou mais de largura, gravada em public/img/treinamento.
+       Enquanto nao houver, nada aparece: painel de "imagem a produzir" na
+       tela e andaime a vista, e este site vem tirando esses. */
     topicos: [
       {
-        chave: "grupo",
-        titulo: "O Grupo Tridium",
+        chave: "historia-corretagem",
+        titulo: "História da corretagem",
         resumo:
-          "As três frentes e a ideia que as une: engenharia, imóveis e instituto.",
+          "Do intermediário sem nome à profissão com lei, conselho e formação obrigatória.",
         passos: [
-          "[CONTEÚDO PENDENTE] Quando e por quem o grupo foi fundado.",
-          "[CONTEÚDO PENDENTE] Como as três frentes nasceram, e em que ordem.",
-          "O símbolo são três galões sobre uma base sólida — três frentes, uma fundação.",
-          "Números da engenharia: 10 anos em Florianópolis, mais de 2.000 obras, mais de 100.000 m².",
+          "A corretagem é tão antiga quanto a propriedade privada: sempre houve quem aproximasse quem tem do que quer comprar, e cobrasse por isso.",
+          "No Brasil, por séculos foi ofício livre — qualquer um se dizia corretor, e não havia quem respondesse por erro ou má-fé.",
+          "Lei 4.116, de 27 de agosto de 1962: a primeira a regulamentar a profissão e a criar a estrutura de conselhos. É dela que vem o Dia do Corretor de Imóveis, 27 de agosto, comemorado até hoje.",
+          "Lei 6.530, de 12 de maio de 1978: a que vale hoje. Revogou a de 1962, deu nova regulamentação à profissão, ratificou o COFECI e os CRECIs e abriu o exercício ao Técnico em Transações Imobiliárias.",
+          "Decreto 81.871, de 29 de junho de 1978: regulamenta a Lei 6.530 e detalha o funcionamento dos conselhos. A Lei 10.795/2003 fez alterações pontuais depois.",
+          "O que isso mudou na prática: formação exigida (o TTI), registro obrigatório no CRECI, código de ética e alguém a quem o cliente pode reclamar.",
+          "Dos anos 2010 em diante, portais, CRM e tour virtual tiraram do corretor o monopólio da informação: o cliente chega sabendo o preço da rua inteira.",
+          "O que sobrou, e que nenhum portal faz: ler o imóvel por dentro, antecipar o que trava no cartório e dizer ao cliente quando o negócio não vale a pena.",
         ],
+        exigencia:
+          "Exercer a profissão sem registro no CRECI é exercício ilegal (Lei 6.530/78). A comissão de quem não tem registro não é exigível em juízo — o conselho existe também para proteger quem trabalha direito.",
         atencao:
-          "PENDENTE: este tópico precisa da história contada pelo cliente. O que está aqui é o que o próprio site já afirma — não dá para treinar alguém a contar uma história que ninguém escreveu.",
-      },
-      {
-        chave: "imoveis",
-        titulo: "A Tridium Imóveis",
-        resumo:
-          "A frente mais nova do grupo, e o que ela faz de diferente.",
-        passos: [
-          "[CONTEÚDO PENDENTE] Quando a frente de imóveis começou e por quê.",
-          "O diferencial: quem avalia o imóvel é a mesma equipe técnica que constrói.",
-          "A área de atuação: Florianópolis e Grande Florianópolis.",
-          "[A CONFIRMAR] o número do CRECI da pessoa jurídica.",
-        ],
-        atencao:
-          "O CRECI da imobiliária ainda não aparece em nenhuma página do site, e a lei exige em toda peça publicitária.",
-      },
-      {
-        chave: "parceria-sinos",
-        titulo: "A parceria com a Sinos Imóveis",
-        resumo:
-          "Quem é a parceira, o que ela traz e o que cabe a cada lado.",
-        passos: [
-          "[CONTEÚDO PENDENTE] Como a parceria começou e o que cada casa põe nela.",
-          "A Sinos atua no Vale dos Sinos, no Rio Grande do Sul, há 15 anos.",
-          "[A CONFIRMAR] o que o corretor pode dizer sobre a parceria a um cliente.",
-        ],
-      },
-      {
-        chave: "instituto",
-        titulo: "O Instituto Tridium",
-        resumo:
-          "O braço social do grupo. Cliente pergunta, e o corretor precisa saber responder.",
-        passos: [
-          "O Moradia Digna recupera casas que deixaram de ser seguras para quem mora nelas, desde 2026.",
-          "O núcleo de Capoeira Angola, em Florianópolis.",
-          "O critério de entrada no Moradia Digna não é quem pode pagar, é quem corre risco dentro da própria casa.",
-          "[CONTEÚDO PENDENTE] o que o corretor pode oferecer a quem quiser apoiar.",
-        ],
+          "Uma fonte do próprio sistema COFECI-CRECI diz que a Lei 4.116/62 foi declarada inconstitucional por inteiro; outra, que a inconstitucionalidade atingiu apenas o art. 7º. A revogação pela Lei 6.530/78 é consenso. Em prova ou conversa técnica, fique na revogação, que ninguém contesta.",
       },
     ],
   },

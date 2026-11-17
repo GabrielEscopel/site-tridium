@@ -479,7 +479,40 @@ function Modulo({
   return (
     <div>
       {/* ---------- Abertura do módulo ---------- */}
-      <div className="rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] p-6 shadow-[var(--cart-sombra)] md:p-8">
+      <div className="overflow-hidden rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] shadow-[var(--cart-sombra)]">
+        {/* A imagem de abertura, quando o módulo tiver uma. Sem arquivo,
+            entra o painel dizendo o que precisa ser produzido — a mesma
+            regra do resto do site: nunca imagem de banco no lugar da real. */}
+        {modulo.imagem &&
+          (modulo.imagem.src ? (
+            <figure className="relative aspect-[21/9] w-full bg-[color:var(--cart-caixa)]">
+              <Image
+                src={modulo.imagem.src}
+                alt={modulo.imagem.alt}
+                fill
+                sizes="(min-width: 1024px) 60vw, 100vw"
+                className="object-cover"
+              />
+              {modulo.imagem.credito && (
+                <figcaption className="absolute bottom-2 right-3 rounded bg-black/55 px-2 py-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] text-white">
+                  {modulo.imagem.credito}
+                </figcaption>
+              )}
+            </figure>
+          ) : (
+            <div className="flex aspect-[21/9] w-full items-center justify-center border-b border-dashed border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-caixa)] px-8 text-center">
+              <p className="max-w-[52ch]">
+                <span className="block font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-titulo)]">
+                  &#9671; Imagem a produzir
+                </span>
+                <span className="mt-2 block text-sm leading-snug text-[color:var(--ink-muted)]">
+                  {modulo.imagem.descricao}
+                </span>
+              </p>
+            </div>
+          ))}
+
+        <div className="p-6 md:p-8">
         <p className="font-mono text-[0.6875rem] font-bold tracking-[0.12em] text-[color:var(--cart-titulo)]">
           MÓDULO {modulo.numero} DE {procedimentos.length}
         </p>
@@ -499,6 +532,7 @@ function Modulo({
           <p className="mt-2 text-sm leading-snug text-[color:var(--ink)]">
             {modulo.objetivo}
           </p>
+        </div>
         </div>
       </div>
 
