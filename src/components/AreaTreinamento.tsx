@@ -60,10 +60,24 @@ export function AreaTreinamento() {
           usa sobre fundo escuro. */}
       <header className="sobre-foto sticky top-0 z-40 border-b border-white/10 bg-[color:var(--cart-barra)] shadow-[var(--cart-sombra-alta)]">
         <div className="wrap flex flex-wrap items-center justify-between gap-x-4 gap-y-3 py-3.5">
-          {/* AS DUAS MARCAS, lado a lado. A da casa primeiro: esta é a área
-              da Tridium, a Sinos entra como parceira. O rótulo entre elas
-              existe para o corretor não achar que entrou no site errado —
-              duas marcas juntas sem explicação confundem. */}
+          {/* AS DUAS MARCAS, lado a lado, separadas só por um fio. A da casa
+              primeiro: esta é a área da Tridium, a Sinos entra como parceira.
+
+              AS ALTURAS SÃO DIFERENTES DE PROPÓSITO, e é isso que faz as duas
+              parecerem do mesmo tamanho. A da Tridium é deitada e a palavra
+              ocupa 59% do arquivo; a da Sinos é empilhada, com telhado em
+              cima e "imóveis" embaixo, e a palavra ocupa 53,8%. Igualar a
+              ALTURA DO ARQUIVO deixaria "Sinos" menor que "Tridium" — o que
+              o olho compara é a letra, não a caixa.
+
+              Medido nos dois arquivos: com a Tridium a 32px a palavra dela
+              tem 18,9px, e a Sinos precisa de 35px para chegar ao mesmo; a
+              36px, 40px.
+
+              A SUBIDA DE 8px alinha as linhas de base. Centradas pela
+              caixa, as duas palavras ficavam 8px fora de registro: a da
+              Sinos nasce mais abaixo no arquivo dela, porque tem o telhado
+              em cima. Como e `translate`, nao mexe na altura da faixa. */}
           <div className="flex min-w-0 items-center gap-3 md:gap-4">
             <Link href="/imobiliaria/corretor" className="shrink-0 no-underline">
               <Image
@@ -78,24 +92,17 @@ export function AreaTreinamento() {
 
             <span
               aria-hidden="true"
-              className="h-7 w-px shrink-0 bg-white/20 md:h-8"
+              className="h-8 w-px shrink-0 bg-white/20 md:h-9"
             />
 
-            <span className="flex min-w-0 items-center gap-2.5 md:gap-3">
-              <span className="hidden font-mono text-[0.5625rem] font-bold uppercase leading-tight tracking-[0.12em] text-white/55 sm:block">
-                em parceria
-                <br />
-                com
-              </span>
-              <Image
-                src="/logos/parceiro-sinos.webp"
-                alt="Sinos Imóveis"
-                width={310}
-                height={160}
-                priority
-                className="h-7 w-auto md:h-8"
-              />
-            </span>
+            <Image
+              src="/logos/parceiro-sinos.webp"
+              alt="Sinos Imóveis"
+              width={310}
+              height={160}
+              priority
+              className="h-[35px] w-auto shrink-0 -translate-y-[8px] md:h-10 md:-translate-y-[9px]"
+            />
           </div>
 
           <div className="flex items-center gap-2.5">
