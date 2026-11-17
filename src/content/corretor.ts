@@ -48,12 +48,59 @@ export interface CardProcedimento {
   href?: string;
 }
 
+/* -----------------------------------------------------------------------------
+   BLOCOS DE AULA
+   -----------------------------------------------------------------------------
+   Um topico pode ser duas coisas diferentes, e elas pedem formas diferentes:
+
+     PROCEDIMENTO  o passo a passo de uma tarefa. Lista numerada, e a ordem
+                   carrega informacao. E o caso de quase todos os modulos.
+     AULA          materia para estudar: secoes com titulo, linha do tempo,
+                   definicoes. Lista numerada aqui viraria uma parede de
+                   itens sem hierarquia.
+
+   Topico com `conteudo` e aula e se desenha assim; sem ele, e procedimento e
+   usa `passos`. Os dois convivem no mesmo array, e nenhum modulo precisa
+   escolher um formato so.
+   ----------------------------------------------------------------------------- */
+
+export type BlocoAula =
+  /** Paragrafo solto, para abrir ou fechar a aula. */
+  | { tipo: "texto"; texto: string }
+  /** Secao com titulo, texto opcional e lista opcional. */
+  | {
+      tipo: "secao";
+      titulo: string;
+      texto?: string;
+      itens?: string[];
+      /** De onde veio a informacao desta secao. */
+      fonte?: string;
+    }
+  /** Linha do tempo. `ano` aparece em destaque ao lado do texto. */
+  | {
+      tipo: "linha";
+      titulo?: string;
+      marcos: {
+        ano: string;
+        titulo: string;
+        texto: string;
+        /** Marca o acontecimento que divide a historia em antes e depois. */
+        marco?: boolean;
+      }[];
+    }
+  /** Caixa de fecho: a ideia que a aula quer deixar. */
+  | { tipo: "fecho"; titulo: string; texto: string };
+
 export interface TopicoProcedimento {
   chave: string;
   titulo: string;
   resumo: string;
-  /** O passo a passo, na ordem em que acontece. */
+  /** O passo a passo, na ordem em que acontece. Vazio numa aula. */
   passos: string[];
+  /** Materia de estudo, quando o topico for aula e nao procedimento. */
+  conteudo?: BlocoAula[];
+  /** De onde veio o conteudo, quando couber citar. */
+  fontes?: { rotulo: string; href: string }[];
   /** Exigência legal ou de conselho, com a fonte. */
   exigencia?: string;
   /** Erro comum que custa caro. */
@@ -92,42 +139,219 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "História",
     tituloCurto: "História",
     resumo:
-      "De onde vem a profissão. Corretagem não nasceu com os portais nem com o WhatsApp — é um ofício antigo, regulamentado por lei, com conselho e código de ética próprios.",
+      "De onde vem a profissão, o que a lei manda o corretor fazer e como ele é pago. Corretagem não nasceu com os portais — é um ofício antigo, regulamentado, com conselho e código de ética próprios.",
     objetivo:
-      "Explicar a um cliente por que corretor é profissão regulamentada, o que o CRECI significa na prática e o que separa quem exerce o ofício de quem apenas aproxima duas pessoas.",
+      "Explicar por que corretor é profissão regulamentada, dizer o que é e o que não é função sua, e saber em que momento a comissão passa a ser devida — inclusive quando o negócio cai no fim.",
     icone: "casa",
-    /* SEM IMAGEM DE ABERTURA. O campo existe e o componente sabe desenhar;
-       e so preencher aqui quando houver arquivo:
+    /* A imagem e uma peca do CRECI-SC sobre a historia da corretagem: a
+       metade esquerda em sepia — caravela, casario colonial, homens de
+       cartola sobre uma planta, pena e tinteiro — e a direita em cor, com
+       arranha-ceus, casa moderna, corretor com clientes e laptop. Diz o que
+       a aula diz, numa olhada.
 
-         imagem: {
-           src: "/img/treinamento/historia-corretagem.webp",
-           alt: "...",
-           descricao: "...",
-         },
-
-       Deitada, 1600px ou mais de largura, gravada em public/img/treinamento.
-       Enquanto nao houver, nada aparece: painel de "imagem a produzir" na
-       tela e andaime a vista, e este site vem tirando esses. */
+       Quadrada, 800x800. Por isso ela entra ao LADO do texto, nao como
+       faixa deitada: numa faixa 21:9 o corte comeria a caravela em cima e a
+       mesa com a planta embaixo, que e justamente a passagem do tempo que a
+       imagem conta. */
+    imagem: {
+      src: "/img/treinamento/historia-corretagem.webp",
+      alt: "Montagem do CRECI-SC: a corretagem do passado, em sepia, dando lugar ao mercado atual",
+      descricao: "A corretagem, do passado ao presente",
+      credito: "CRECI-SC",
+    },
     topicos: [
       {
         chave: "historia-corretagem",
         titulo: "História da corretagem",
         resumo:
-          "Do intermediário sem nome à profissão com lei, conselho e formação obrigatória.",
-        passos: [
-          "A corretagem é tão antiga quanto a propriedade privada: sempre houve quem aproximasse quem tem do que quer comprar, e cobrasse por isso.",
-          "No Brasil, por séculos foi ofício livre — qualquer um se dizia corretor, e não havia quem respondesse por erro ou má-fé.",
-          "Lei 4.116, de 27 de agosto de 1962: a primeira a regulamentar a profissão e a criar a estrutura de conselhos. É dela que vem o Dia do Corretor de Imóveis, 27 de agosto, comemorado até hoje.",
-          "Lei 6.530, de 12 de maio de 1978: a que vale hoje. Revogou a de 1962, deu nova regulamentação à profissão, ratificou o COFECI e os CRECIs e abriu o exercício ao Técnico em Transações Imobiliárias.",
-          "Decreto 81.871, de 29 de junho de 1978: regulamenta a Lei 6.530 e detalha o funcionamento dos conselhos. A Lei 10.795/2003 fez alterações pontuais depois.",
-          "O que isso mudou na prática: formação exigida (o TTI), registro obrigatório no CRECI, código de ética e alguém a quem o cliente pode reclamar.",
-          "Dos anos 2010 em diante, portais, CRM e tour virtual tiraram do corretor o monopólio da informação: o cliente chega sabendo o preço da rua inteira.",
-          "O que sobrou, e que nenhum portal faz: ler o imóvel por dentro, antecipar o que trava no cartório e dizer ao cliente quando o negócio não vale a pena.",
+          "Da Mesopotâmia ao CRECI: como a necessidade de negociar terra virou profissão regulamentada.",
+        /* Aula, nao procedimento: por isso `conteudo` e nao `passos`. */
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "A profissão de corretor de imóveis é muito mais antiga do que parece. Ela nasceu de uma necessidade humana que nunca deixou de existir: comprar, vender, trocar e negociar terra. A atividade começou há milhares de anos — muito antes de existirem imobiliárias, prédios e CRECI.",
+          },
+          {
+            tipo: "secao",
+            titulo: "1. Onde tudo começou",
+            texto:
+              "A negociação de terras existe desde as primeiras civilizações. Não havia profissão regulamentada, mas já havia quem fizesse o papel de intermediário.",
+            itens: [
+              "Por volta de 3.000 a.C., na Mesopotâmia, já existiam registros escritos de compra, venda e transferência de terras.",
+              "Na Grécia Antiga, intermediários ajudavam pessoas a encontrar propriedades e a fechar negócio.",
+              "No Império Romano, a propriedade privada ganhou peso e as negociações imobiliárias se desenvolveram.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "2. Como surgiu o corretor moderno",
+            texto:
+              "Entre os séculos XVIII e XIX, com o crescimento das cidades e do comércio, comprar, vender e alugar imóvel virou coisa frequente. É aí que aparecem as primeiras empresas especializadas em intermediar esses negócios, e a função ganha contorno próprio: aproximar comprador e vendedor, avaliar oportunidades e conduzir a negociação.",
+          },
+          {
+            tipo: "secao",
+            titulo: "3. E no Brasil",
+            texto:
+              "A atividade ganhou força no início do século XX. Com a urbanização e a expansão das construções, cresceu a necessidade de quem conhecesse terrenos, casas e oportunidades. No começo era tudo informal — e foi o próprio tamanho do mercado que acabou exigindo organização e regra.",
+          },
+          {
+            tipo: "linha",
+            titulo: "4. As datas que marcaram a profissão no Brasil",
+            marcos: [
+              {
+                ano: "1808",
+                titulo: "A chegada da família real",
+                texto:
+                  "O CRECI-DF relaciona o início da atividade no país à procura de moradia para a corte portuguesa recém-chegada. É história de tradição do conselho, contada como origem simbólica, não como registro documental.",
+              },
+              {
+                ano: "1937",
+                titulo: "O primeiro sindicato",
+                texto:
+                  "Criado no Rio de Janeiro o primeiro Sindicato dos Corretores de Imóveis.",
+              },
+              {
+                ano: "1957",
+                titulo: "O primeiro Congresso Nacional",
+                texto:
+                  "Corretores de vários estados se reúnem para reivindicar reconhecimento e regulamentação da profissão.",
+              },
+              {
+                ano: "1962",
+                titulo: "A primeira regulamentação",
+                texto:
+                  "Em 27 de agosto é promulgada a Lei nº 4.116, que regulamenta a profissão e marca a criação dos conselhos. É por causa dela que 27 de agosto é o Dia Nacional do Corretor de Imóveis.",
+                marco: true,
+              },
+              {
+                ano: "1978",
+                titulo: "A lei que vale hoje",
+                texto:
+                  "A Lei nº 6.530, de 12 de maio, dá nova regulamentação à profissão e é a base até hoje. O Decreto nº 81.871, de 29 de junho, a regulamenta.",
+                marco: true,
+              },
+              {
+                ano: "1980–1990",
+                titulo: "Consolidação",
+                texto:
+                  "Os conselhos regionais se espalham pelo país e a fiscalização se fortalece.",
+              },
+              {
+                ano: "2000–hoje",
+                titulo: "A virada digital",
+                texto:
+                  "Portais imobiliários, redes sociais, marketing digital, fotografia profissional, vídeo e visita virtual passam a fazer parte do ofício.",
+              },
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "5. O que são CRECI e COFECI",
+            itens: [
+              "CRECI — Conselho Regional de Corretores de Imóveis. Fiscaliza o exercício da profissão em cada região e emite a carteira profissional.",
+              "COFECI — Conselho Federal de Corretores de Imóveis. Coordena e orienta o sistema dos conselhos regionais.",
+              "Para exercer legalmente é preciso ter a formação exigida — o TTI, Técnico em Transações Imobiliárias — e registro ativo no CRECI.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "6. A profissão hoje",
+            texto:
+              "O corretor deixou de ser quem abre a porta do imóvel. Hoje precisa dominar:",
+            itens: [
+              "Mercado imobiliário da região em que atua.",
+              "Documentação de imóveis — matrícula, certidões, o que trava cartório.",
+              "Técnicas de venda e negociação.",
+              "Financiamento imobiliário.",
+              "Marketing e divulgação.",
+              "Atendimento e relacionamento com o cliente.",
+              "Avaliação e características construtivas do imóvel.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "7. Uma curiosidade",
+            texto:
+              "O Dia do Corretor de Imóveis é 27 de agosto por causa da primeira lei que regulamentou a profissão, em 1962. A data não foi escolhida por conveniência: ela marca uma conquista que a categoria levou anos reivindicando.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Por que isso importa para quem vende imóvel hoje",
+            texto:
+              "A corretagem nasceu de uma necessidade que nunca deixou de existir: as pessoas sempre precisaram de um lugar para morar, trabalhar e formar patrimônio. Para quem compra, o imóvel raramente é só uma construção — é a primeira casa própria, a independência, um investimento. Saber de onde vem a profissão é o que separa quem mostra imóvel de quem responde, com segurança, por que merece a confiança do cliente.",
+          },
         ],
         exigencia:
           "Exercer a profissão sem registro no CRECI é exercício ilegal (Lei 6.530/78). A comissão de quem não tem registro não é exigível em juízo — o conselho existe também para proteger quem trabalha direito.",
         atencao:
           "Uma fonte do próprio sistema COFECI-CRECI diz que a Lei 4.116/62 foi declarada inconstitucional por inteiro; outra, que a inconstitucionalidade atingiu apenas o art. 7º. A revogação pela Lei 6.530/78 é consenso. Em prova ou conversa técnica, fique na revogação, que ninguém contesta.",
+        fontes: [
+          {
+            rotulo: "CRECI-DF — História do corretor de imóveis",
+            href: "https://crecidf.gov.br/historia-do-corretor-de-imoveis/",
+          },
+          {
+            rotulo: "CRECI-SP — História da profissão",
+            href: "https://crecisp.gov.br/o-creci/historia/1978",
+          },
+          {
+            rotulo: "Câmara dos Deputados — Lei nº 6.530/1978",
+            href: "https://www2.camara.leg.br/legin/fed/lei/1970-1979/lei-6530-12-maio-1978-365766-norma-pl.html",
+          },
+          {
+            rotulo: "COFECI — A evolução da profissão",
+            href: "https://www.cofeci.gov.br/post/a-evolu%C3%A7%C3%A3o-da-profiss%C3%A3o-de-corretor-de-im%C3%B3veis",
+          },
+        ],
+      },
+      {
+        chave: "funcoes",
+        titulo: "As funções do corretor",
+        resumo:
+          "O que a lei manda o corretor fazer, o que ela não manda, e onde termina o ofício dele.",
+        passos: [
+          "A função central é a INTERMEDIAÇÃO: aproximar quem compra de quem vende, ou quem aluga de quem loca, até o negócio fechar. Compra, venda, permuta e locação.",
+          "Opinar sobre a comercialização: preço, condições, o momento de vender. É função prevista em lei, não favor.",
+          "Informar. O Código Civil manda prestar ao cliente, por conta própria, tudo o que possa influir no resultado do negócio — inclusive o que atrapalha a venda.",
+          "Agir com diligência e prudência: conferir documento, visitar o imóvel, checar o que o cliente afirma.",
+          "Acompanhar até o fim: proposta, contrato, cartório, chaves. Intermediação não termina no aperto de mão.",
+          "O QUE NÃO É FUNÇÃO DO CORRETOR: redigir parecer jurídico, representar parte em juízo, assinar laudo de engenharia, fazer avaliação judicial sem CNAI. Reconhecer o limite e encaminhar é parte do ofício.",
+        ],
+        exigencia:
+          "A corretagem está no Capítulo XIII do Código Civil, arts. 722 a 729. O art. 722 define o contrato; o 723 traz os deveres de diligência e de informação, e quem os descumpre responde por perdas e danos. A Lei 6.530/78 define as atribuições profissionais.",
+        atencao:
+          "O dever de informar vale TAMBÉM para o que derruba o negócio: vazamento conhecido, processo na matrícula, obra vizinha aprovada. Omitir para fechar mais rápido é o caminho mais curto para devolver a comissão em juízo.",
+      },
+      {
+        chave: "comissoes",
+        titulo: "As comissões",
+        resumo:
+          "Quando a comissão é devida, quanto é, quem paga e o que a lei garante mesmo quando o negócio cai.",
+        passos: [
+          "A comissão nasce do RESULTADO ÚTIL: conseguido o resultado previsto, ela é devida — ainda que o negócio não se efetive por arrependimento das partes (art. 725).",
+          "Sem percentual combinado, ele é arbitrado pela natureza do negócio e pelos usos do lugar (art. 724). Combinar por escrito evita a discussão.",
+          "Com exclusividade, a comissão é devida mesmo que o negócio seja fechado sem o corretor — salvo se ficar provada a inércia dele (art. 726).",
+          "Negócio fechado DEPOIS do prazo, mas por efeito do trabalho do corretor: a comissão continua devida (art. 727).",
+          "Mais de um corretor na mesma intermediação: a remuneração se divide entre eles, salvo ajuste diferente (art. 728).",
+          "Os percentuais de referência são os da tabela do CRECI de cada estado. Dentro da casa, a comissão ainda se reparte entre captador, vendedor e imobiliária.",
+          "Quem paga, em regra, é quem contratou o corretor — normalmente o vendedor. O que vale é o que estiver escrito na autorização.",
+          "Comissão recebida se declara e se nota-fisca. Combinado de boca vira prejuízo de um dos dois lados.",
+        ],
+        exigencia:
+          "Arts. 724 a 728 do Código Civil tratam da remuneração. A corretagem é obrigação de resultado, não de meio: não se paga pelo esforço, paga-se pela aproximação útil. Quem não tem registro no CRECI não tem comissão exigível em juízo.",
+        atencao:
+          "A redação literal dos artigos foi conferida por resumo, não palavra por palavra. Antes de citar num contrato ou numa cobrança, confira o texto no site do Planalto — e lembre que a jurisprudência do STJ sobre resultado útil se move.",
+        cards: [
+          {
+            chave: "tabela-comissao",
+            titulo: "Tabela de comissão e divisão interna",
+            descricao:
+              "Os percentuais de referência do CRECI-SC e como a casa divide entre captador, vendedor e imobiliária.",
+            tipo: "ferramenta",
+          },
+        ],
       },
     ],
   },

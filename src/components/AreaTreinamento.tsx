@@ -28,6 +28,7 @@ import {
   perfilDoUsuario,
   procedimentos,
   tempoDeMercado,
+  type BlocoAula,
   type CardProcedimento,
   type PerfilCorretor,
 } from "@/content/corretor";
@@ -478,61 +479,62 @@ function Modulo({
 
   return (
     <div>
-      {/* ---------- Abertura do módulo ---------- */}
+      {/* ---------- Abertura do modulo ----------
+          Com imagem, o cartao vira duas colunas no desktop: a imagem de um
+          lado, o texto do outro. A imagem do modulo 01 e quadrada, e numa
+          faixa deitada o corte comeria justamente a passagem do tempo que
+          ela conta — a caravela em cima, a mesa com a planta embaixo. Por
+          isso ela fica quadrada nos dois tamanhos: no celular empilha em
+          cima do texto, inteira.
+
+          Sem imagem, o texto ocupa o cartao inteiro, como antes. */}
       <div className="overflow-hidden rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] shadow-[var(--cart-sombra)]">
-        {/* A imagem de abertura, quando o módulo tiver uma. Sem arquivo,
-            entra o painel dizendo o que precisa ser produzido — a mesma
-            regra do resto do site: nunca imagem de banco no lugar da real. */}
-        {modulo.imagem &&
-          (modulo.imagem.src ? (
-            <figure className="relative aspect-[21/9] w-full bg-[color:var(--cart-caixa)]">
+        <div
+          className={
+            modulo.imagem?.src
+              ? "grid gap-0 md:grid-cols-[minmax(0,15rem)_1fr] lg:grid-cols-[minmax(0,17rem)_1fr]"
+              : ""
+          }
+        >
+          {modulo.imagem?.src && (
+            <figure className="relative aspect-square w-full bg-[color:var(--cart-caixa)] md:h-full">
               <Image
                 src={modulo.imagem.src}
                 alt={modulo.imagem.alt}
                 fill
-                sizes="(min-width: 1024px) 60vw, 100vw"
+                sizes="(min-width: 1024px) 17rem, (min-width: 768px) 15rem, 100vw"
                 className="object-cover"
               />
               {modulo.imagem.credito && (
-                <figcaption className="absolute bottom-2 right-3 rounded bg-black/55 px-2 py-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] text-white">
+                <figcaption className="absolute bottom-2 right-2 rounded bg-black/55 px-2 py-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] text-white">
                   {modulo.imagem.credito}
                 </figcaption>
               )}
             </figure>
-          ) : (
-            <div className="flex aspect-[21/9] w-full items-center justify-center border-b border-dashed border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-caixa)] px-8 text-center">
-              <p className="max-w-[52ch]">
-                <span className="block font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-titulo)]">
-                  &#9671; Imagem a produzir
-                </span>
-                <span className="mt-2 block text-sm leading-snug text-[color:var(--ink-muted)]">
-                  {modulo.imagem.descricao}
-                </span>
+          )}
+
+          <div className="p-6 md:p-8">
+            <p className="font-mono text-[0.6875rem] font-bold tracking-[0.12em] text-[color:var(--cart-titulo)]">
+              MÓDULO {modulo.numero} DE {procedimentos.length}
+            </p>
+            <h2 className="t-display-tight fs-bloco mt-2 text-[color:var(--ink)]">
+              {modulo.titulo}
+            </h2>
+            <p className="t-body mt-3 max-w-[62ch] text-[color:var(--ink-muted)]">
+              {modulo.resumo}
+            </p>
+
+            {/* O objetivo e o que separa treinamento de manual: ele diz o que
+                a pessoa tem de SABER FAZER, nao o que vai ler. */}
+            <div className="mt-6 rounded-xl border-l-[3px] border-l-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)] px-5 py-4">
+              <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-acao-ink)]">
+                Ao fim deste módulo você sabe
+              </p>
+              <p className="mt-2 text-sm leading-snug text-[color:var(--ink)]">
+                {modulo.objetivo}
               </p>
             </div>
-          ))}
-
-        <div className="p-6 md:p-8">
-        <p className="font-mono text-[0.6875rem] font-bold tracking-[0.12em] text-[color:var(--cart-titulo)]">
-          MÓDULO {modulo.numero} DE {procedimentos.length}
-        </p>
-        <h2 className="t-display-tight fs-bloco mt-2 text-[color:var(--ink)]">
-          {modulo.titulo}
-        </h2>
-        <p className="t-body mt-3 max-w-[62ch] text-[color:var(--ink-muted)]">
-          {modulo.resumo}
-        </p>
-
-        {/* O objetivo é o que separa treinamento de manual: ele diz o que a
-            pessoa tem de SABER FAZER, não o que vai ler. */}
-        <div className="mt-6 rounded-xl border-l-[3px] border-l-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)] px-5 py-4">
-          <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-acao-ink)]">
-            Ao fim deste módulo você sabe
-          </p>
-          <p className="mt-2 text-sm leading-snug text-[color:var(--ink)]">
-            {modulo.objetivo}
-          </p>
-        </div>
+          </div>
         </div>
       </div>
 
@@ -669,16 +671,22 @@ function Aula({
           id={`aula-${topico.chave}`}
           className="border-t border-[color:var(--cart-card-linha)] px-5 pb-6 pt-5 sm:px-6"
         >
-          <ol className="space-y-2.5">
-            {topico.passos.map((passo, i) => (
-              <li key={passo} className="flex gap-3.5 text-sm">
-                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[color:var(--cart-caixa)] font-mono text-[0.625rem] font-bold text-[color:var(--cart-titulo)]">
-                  {i + 1}
-                </span>
-                <span className="text-[color:var(--ink)]">{passo}</span>
-              </li>
-            ))}
-          </ol>
+          {/* Aula desenha `conteudo`; procedimento desenha `passos`. Um
+              topico nunca tem os dois cheios. */}
+          {topico.conteudo ? (
+            <Materia blocos={topico.conteudo} />
+          ) : (
+            <ol className="space-y-2.5">
+              {topico.passos.map((passo, i) => (
+                <li key={passo} className="flex gap-3.5 text-sm">
+                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[color:var(--cart-caixa)] font-mono text-[0.625rem] font-bold text-[color:var(--cart-titulo)]">
+                    {i + 1}
+                  </span>
+                  <span className="text-[color:var(--ink)]">{passo}</span>
+                </li>
+              ))}
+            </ol>
+          )}
 
           {topico.exigencia && (
             <Marca tom="lei" rotulo="Exigência legal">
@@ -707,6 +715,26 @@ function Aula({
             </div>
           )}
 
+          {topico.fontes && topico.fontes.length > 0 && (
+            <div className="mt-6 border-t border-[color:var(--cart-card-linha)] pt-4">
+              <p className="t-label text-[color:var(--ink-faint)]">Fontes</p>
+              <ul className="mt-2 space-y-1">
+                {topico.fontes.map((f) => (
+                  <li key={f.href}>
+                    <a
+                      href={f.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-[color:var(--cart-titulo)] underline underline-offset-2 transition-opacity duration-200 hover:opacity-70"
+                    >
+                      {f.rotulo}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {!concluida && (
             <button
               type="button"
@@ -719,6 +747,122 @@ function Aula({
         </div>
       )}
     </li>
+  );
+}
+
+/* A materia de uma aula. Quatro formas, cada uma com um trabalho:
+
+     texto   abre ou fecha, em corpo maior que o resto
+     secao   titulo numerado, texto e lista — e o grosso da aula
+     linha   a linha do tempo, com o ano ancorado a esquerda
+     fecho   a caixa final, a ideia que a aula quer deixar
+
+   Nao e lista numerada como nos procedimentos: aula nao e sequencia de
+   passos a executar, e materia a ler, e numerar tudo achataria a
+   hierarquia entre secao, item e marco. */
+function Materia({ blocos }: { blocos: BlocoAula[] }) {
+  return (
+    <div className="space-y-6">
+      {blocos.map((b, i) => {
+        if (b.tipo === "texto") {
+          return (
+            <p
+              key={i}
+              className="text-[0.9375rem] leading-relaxed text-[color:var(--ink)]"
+            >
+              {b.texto}
+            </p>
+          );
+        }
+
+        if (b.tipo === "secao") {
+          return (
+            <section key={i}>
+              <h4 className="text-[0.9375rem] font-bold text-[color:var(--cart-titulo)]">
+                {b.titulo}
+              </h4>
+              {b.texto && (
+                <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink-muted)]">
+                  {b.texto}
+                </p>
+              )}
+              {b.itens && (
+                <ul className="mt-3 space-y-2">
+                  {b.itens.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm">
+                      <span
+                        aria-hidden="true"
+                        className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--cart-acao)]"
+                      />
+                      <span className="leading-relaxed text-[color:var(--ink)]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          );
+        }
+
+        if (b.tipo === "linha") {
+          return (
+            <section key={i}>
+              {b.titulo && (
+                <h4 className="text-[0.9375rem] font-bold text-[color:var(--cart-titulo)]">
+                  {b.titulo}
+                </h4>
+              )}
+              {/* O fio vertical liga os marcos; o ano fica ancorado a
+                  esquerda, largura fixa, para a coluna nao dancar. */}
+              <ol className="mt-4 space-y-5 border-l-2 border-[color:var(--cart-card-linha)] pl-5">
+                {b.marcos.map((m) => (
+                  <li key={m.ano} className="relative">
+                    <span
+                      aria-hidden="true"
+                      className={`absolute -left-[1.6rem] top-1 h-3 w-3 rounded-full border-2 border-[color:var(--cart-card)] ${
+                        m.marco
+                          ? "bg-[color:var(--cart-acao)]"
+                          : "bg-[color:var(--cart-card-linha)]"
+                      }`}
+                    />
+                    <p
+                      className={`font-mono text-xs font-bold tracking-[0.08em] ${
+                        m.marco
+                          ? "text-[color:var(--cart-acao-ink)]"
+                          : "text-[color:var(--ink-faint)]"
+                      }`}
+                    >
+                      {m.ano}
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-[color:var(--ink)]">
+                      {m.titulo}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-[color:var(--ink-muted)]">
+                      {m.texto}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          );
+        }
+
+        return (
+          <div
+            key={i}
+            className="rounded-xl border-l-[3px] border-l-[color:var(--cart-titulo)] bg-[color:var(--cart-caixa)] px-5 py-4"
+          >
+            <p className="text-sm font-bold text-[color:var(--cart-titulo)]">
+              {b.titulo}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink)]">
+              {b.texto}
+            </p>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
