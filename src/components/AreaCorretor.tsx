@@ -22,7 +22,6 @@ import { credencialTeste, procedimentos, totalTopicos } from "@/content/corretor
 import { imoveis } from "@/content/imobiliaria";
 import { useSessaoCorretor } from "@/lib/sessaoCorretor";
 import { PainelCarteira } from "./PainelCarteira";
-import { PainelProcedimentos } from "./PainelProcedimentos";
 
 export function AreaCorretor() {
   const { sessao, pronto, entrar, sair } = useSessaoCorretor();
@@ -183,8 +182,6 @@ function Campo({
    AS SALAS
    -------------------------------------------------------------------------- */
 
-type Aba = "carteira" | "procedimentos";
-
 function Painel({
   usuario,
   aoSair,
@@ -192,21 +189,6 @@ function Painel({
   usuario: string;
   aoSair: () => void;
 }) {
-  const [aba, setAba] = useState<Aba>("carteira");
-
-  const abas: { chave: Aba; rotulo: string; contagem: string }[] = [
-    {
-      chave: "carteira",
-      rotulo: "Carteira",
-      contagem: `${imoveis.length} ${imoveis.length === 1 ? "imóvel" : "imóveis"}`,
-    },
-    {
-      chave: "procedimentos",
-      rotulo: "Procedimentos",
-      contagem: `${procedimentos.length} etapas · ${totalTopicos()} tópicos`,
-    },
-  ];
-
   return (
     <div className="carteira py-10 md:py-14">
       <div className="wrap">
@@ -249,51 +231,42 @@ function Painel({
           registre aqui dado de cliente, proposta, documento ou comissão.
         </p>
 
-        {/* ---------- Abas ---------- */}
-        <div
-          role="tablist"
-          aria-label="Áreas do painel"
-          className="mt-8 flex flex-wrap gap-3"
-        >
-          {abas.map((a) => {
-            const ativa = aba === a.chave;
-            return (
-              <button
-                key={a.chave}
-                type="button"
-                role="tab"
-                aria-selected={ativa}
-                aria-controls={`painel-${a.chave}`}
-                id={`aba-${a.chave}`}
-                onClick={() => setAba(a.chave)}
-                className={`rounded-xl border px-5 py-3 text-left transition-[translate,box-shadow,border-color,background-color] duration-[220ms] ease-[var(--cart-curva)] ${
-                  ativa
-                    ? "border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
-                    : "border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] text-[color:var(--cart-preco)] shadow-[var(--cart-sombra)] hover:-translate-y-0.5 hover:border-[color:var(--cart-linha-ativa)] motion-reduce:hover:translate-y-0"
-                }`}
-              >
-                <span className="block text-[0.9375rem] font-bold">
-                  {a.rotulo}
-                </span>
-                <span
-                  className={`mt-0.5 block text-xs ${
-                    ativa ? "opacity-80" : "text-[color:var(--ink-faint)]"
-                  }`}
-                >
-                  {a.contagem}
-                </span>
-              </button>
-            );
-          })}
+        {/* ---------- As duas frentes ----------
+            Não são abas: a carteira vive aqui e o treinamento é uma área
+            própria, com cabeçalho e marca próprios. Por isso uma é um
+            cartão parado e a outra é um link, com a seta dizendo que leva
+            para fora desta tela. */}
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:max-w-[42rem]">
+          <div className="rounded-xl border border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] px-5 py-4 text-[color:var(--cart-pilula-ink)]">
+            <span className="block text-[0.9375rem] font-bold">Carteira</span>
+            <span className="mt-0.5 block text-xs opacity-80">
+              {imoveis.length} {imoveis.length === 1 ? "imóvel" : "imóveis"}
+            </span>
+          </div>
+
+          <Link
+            href="/imobiliaria/corretor/treinamento"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] px-5 py-4 no-underline shadow-[var(--cart-sombra)] transition-[translate,box-shadow,border-color] duration-[220ms] ease-[var(--cart-curva)] hover:-translate-y-0.5 hover:border-[color:var(--cart-linha-ativa)] hover:shadow-[var(--cart-sombra-alta)] motion-reduce:hover:translate-y-0"
+          >
+            <span className="min-w-0">
+              <span className="block text-[0.9375rem] font-bold text-[color:var(--cart-preco)]">
+                Treinamento
+              </span>
+              <span className="mt-0.5 block text-xs text-[color:var(--ink-faint)]">
+                {procedimentos.length} módulos · {totalTopicos()} aulas
+              </span>
+            </span>
+            <span
+              aria-hidden="true"
+              className="shrink-0 text-[color:var(--cart-titulo)] transition-transform duration-300 ease-out group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </Link>
         </div>
 
-        <div
-          role="tabpanel"
-          id={`painel-${aba}`}
-          aria-labelledby={`aba-${aba}`}
-          className="mt-8"
-        >
-          {aba === "carteira" ? <PainelCarteira /> : <PainelProcedimentos />}
+        <div className="mt-8">
+          <PainelCarteira />
         </div>
       </div>
     </div>

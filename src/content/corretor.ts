@@ -66,6 +66,10 @@ export interface EtapaProcedimento {
   numero: string;
   titulo: string;
   resumo: string;
+  /** O que o corretor tem de SABER FAZER ao fim do módulo. É isto que
+      transforma a lista de procedimentos num treinamento: sem um objetivo
+      verificável, a pessoa lê os passos e não sabe se aprendeu. */
+  objetivo: string;
   /** Nome do ícone em IconesImovel.ICONES_CATEGORIA, ou um dos próprios. */
   icone: string;
   topicos: TopicoProcedimento[];
@@ -79,6 +83,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Captação",
     resumo:
       "Trazer o imóvel para a carteira com preço defensável, documentação em ordem e autorização assinada. Captação malfeita vira anúncio que não fecha.",
+    objetivo:
+      "Captar um imóvel sozinho: avaliar o preço com comparáveis, conferir a documentação que trava cartório, colher a autorização assinada e produzir o material do anúncio.",
     icone: "casa",
     topicos: [
       {
@@ -187,6 +193,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Divulgação",
     resumo:
       "Colocar o imóvel onde o comprador procura, com a informação que ele precisa para decidir visitar.",
+    objetivo:
+      "Publicar um imóvel em todos os canais com texto honesto, ficha completa e o CRECI onde a lei exige — e cruzar a carteira interna antes de gastar com portal.",
     icone: "lancamento",
     topicos: [
       {
@@ -229,6 +237,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Atendimento",
     resumo:
       "Do primeiro contato do interessado até a visita. É aqui que a maior parte dos negócios se perde, por demora.",
+    objetivo:
+      "Receber um lead, qualificar pagamento antes de marcar visita, conduzir a visita e fazer o retorno no mesmo dia, com tudo registrado.",
     icone: "aluguel",
     topicos: [
       {
@@ -291,6 +301,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Negociação",
     resumo:
       "Da proposta ao aceite. Tudo por escrito, inclusive o que foi recusado.",
+    objetivo:
+      "Colher proposta por escrito com prazo de validade, levar ao proprietário com comparativo na mão e conduzir até o aceite sem deixar combinado verbal.",
     icone: "permuta",
     topicos: [
       {
@@ -354,6 +366,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Documentação e contrato",
     resumo:
       "Reunir certidões, redigir o contrato e assinar. A etapa mais técnica e a que mais derruba negócio.",
+    objetivo:
+      "Saber quais certidões pedir e por quê, ler uma matrícula procurando o que anula a venda, e reconhecer as garantias válidas de locação.",
     icone: "comercial",
     topicos: [
       {
@@ -408,6 +422,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Fechamento",
     resumo:
       "Escritura, registro e chaves. Só existe transferência de propriedade com registro na matrícula.",
+    objetivo:
+      "Conduzir ITBI, escritura e registro sem surpresa de prazo nem de valor, e entregar as chaves com termo assinado.",
     icone: "aluguel",
     topicos: [
       {
@@ -447,6 +463,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Rotina de locação",
     resumo:
       "O que acontece todo mês depois que o inquilino entra. É receita recorrente e é onde mora o atrito.",
+    objetivo:
+      "Tocar a rotina mensal de um contrato: vistoria que serve de prova, repasse no prazo, reajuste na data e inadimplência atacada no primeiro atraso.",
     icone: "condominio",
     topicos: [
       {
@@ -514,6 +532,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Administrativo e financeiro",
     resumo:
       "Comissão, nota fiscal e conciliação. Corre em paralelo a todas as etapas.",
+    objetivo:
+      "Calcular e dividir a comissão pela regra da casa, emitir nota e fechar o mês com a conciliação conferida.",
     icone: "apartamento",
     topicos: [
       {
@@ -552,6 +572,8 @@ export const procedimentos: EtapaProcedimento[] = [
     titulo: "Jurídico e conformidade",
     resumo:
       "O que mantém a imobiliária em funcionamento e fora de processo.",
+    objetivo:
+      "Reconhecer o que mantém a imobiliária regular — CRECI ativo e visível, LGPD respeitada — e identificar quando a conversa precisa ir para o jurídico.",
     icone: "esquina",
     topicos: [
       {

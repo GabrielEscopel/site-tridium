@@ -3,6 +3,7 @@ import { Archivo, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Header } from "@/components/Header";
+import { SomenteNoSite } from "@/components/SomenteNoSite";
 import { Footer } from "@/components/Footer";
 import { WhatsappFab } from "@/components/WhatsappFab";
 import { RolagemPorRota } from "@/components/RolagemPorRota";
@@ -99,7 +100,9 @@ export default function RootLayout({
         <RolagemPorRota />
         <Header />
         <main id="conteudo">{children}</main>
-        <Footer />
+        <SomenteNoSite>
+          <Footer />
+        </SomenteNoSite>
         <WhatsappFab />
       </body>
     </html>

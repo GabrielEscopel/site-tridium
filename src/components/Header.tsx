@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { rotaInterna } from "@/lib/rotaInterna";
 import {
   contato,
   ctaPorRota,
@@ -107,7 +108,16 @@ export function Header() {
     ? grupo.nome
     : (frentes.find((f) => f.id === frenteDaRota)?.marca ?? grupo.nome);
 
-  return (
+  /* A área do corretor tem cabeçalho próprio, com as marcas da parceria.
+     Este aqui sai de cena — fixo no topo, ele montava por cima do outro e as
+     duas marcas da Tridium apareciam sobrepostas.
+
+     A saída fica DEPOIS de todos os hooks acima de propósito: React exige que
+     a mesma sequência de hooks rode em todo render, e um `return` antes deles
+     quebraria a regra na primeira navegação para dentro da área. */
+  if (rotaInterna(pathname)) return null;
+
+  return (
     <>
       <a
         href="#conteudo"

@@ -12,6 +12,7 @@
    ============================================================================= */
 
 import { usePathname } from "next/navigation";
+import { rotaInterna } from "@/lib/rotaInterna";
 import {
   contato,
   ctaPorRota,
@@ -21,6 +22,10 @@ import {
 
 export function WhatsappFab() {
   const pathname = usePathname();
+
+  /* Botão de falar com a Tridium não faz sentido na área interna:
+     quem está ali já é a Tridium. */
+  if (rotaInterna(pathname)) return null;
 
   return (
     <a
