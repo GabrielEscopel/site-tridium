@@ -607,113 +607,191 @@ export const procedimentos: EtapaProcedimento[] = [
   {
     chave: "captacao",
     numero: "03",
-    titulo: "Captação",
+    titulo: "Agenciamento",
+    tituloCurto: "Agenciamento",
     resumo:
-      "Trazer o imóvel para a carteira com preço defensável, documentação em ordem e autorização assinada. Captação malfeita vira anúncio que não fecha.",
+      "Trazer o imóvel para a carteira. Cada tipo pede uma conversa diferente, uma documentação diferente e um caminho diferente até o anúncio.",
     objetivo:
-      "Captar um imóvel sozinho: avaliar o preço com comparáveis, conferir a documentação que trava cartório, colher a autorização assinada e produzir o material do anúncio.",
+      "Saber a quem procurar e o que pedir em cada tipo de imóvel — lançamento de construtora, apartamento usado, terreno, casa — e manter cada um no grupo certo, para a carteira não virar uma lista só.",
     icone: "casa",
+    /* O card e o mapa do modulo inteiro, e e largo: entra como faixa. Os
+       modulos 01 e 02 abrem com foto quadrada ao lado do texto; aqui nao ha
+       foto, ha um infografico, e espremido numa coluna ele seria ilegivel. */
+    imagem: {
+      src: "/img/treinamento/agenciamento-grupos.webp",
+      alt: "Os quatro grupos de agenciamento: empreendimentos de construtoras, apartamentos usados, terrenos e casas, e apartamentos por região",
+      descricao: "Os quatro grupos de agenciamento",
+      formato: "deitada",
+    },
     topicos: [
       {
-        chave: "prospeccao",
-        titulo: "Prospecção e primeiro contato",
+        chave: "construtoras",
+        titulo: "Empreendimentos de construtoras",
         resumo:
-          "De onde vem o imóvel e como a conversa começa. A origem precisa ficar registrada: ela diz quais canais valem o esforço.",
-        passos: [
-          "Registrar a origem: indicação, placa, portal, redes, carteira antiga, prospecção ativa.",
-          "Confirmar quem está falando e se tem poderes para negociar o imóvel.",
-          "Levantar o básico por telefone: endereço, tipo, metragem, se está ocupado, se há dívida.",
-          "Agendar a visita de avaliação.",
-        ],
-        atencao:
-          "Quem atende nem sempre é quem pode vender. Herança sem inventário, imóvel de espólio e separação em curso travam a venda meses depois — pergunte no primeiro contato.",
-      },
-      {
-        chave: "avaliacao",
-        titulo: "Avaliação e definição de preço",
-        resumo:
-          "O preço sai de comparação com o mercado, não do que o proprietário espera receber. Preço errado é o motivo número um de imóvel encalhado.",
-        passos: [
-          "Visita técnica com medição e registro fotográfico do estado real.",
-          "Levantar comparáveis: mesmo bairro, mesma tipologia, vendidos nos últimos meses — não os anunciados.",
-          "Ajustar por andar, posição solar, vaga, estado de conservação e idade.",
-          "Montar o parecer com a faixa de preço e a justificativa.",
-          "Apresentar ao proprietário e registrar a decisão dele por escrito.",
-        ],
-        exigencia:
-          "Parecer Técnico de Avaliação Mercadológica (PTAM) só pode ser emitido por corretor com CNAI. Sem CNAI, o documento é uma opinião de valor, e precisa estar escrito que é.",
-      },
-      {
-        chave: "laudo-tridium",
-        titulo: "Laudo técnico da engenharia",
-        resumo:
-          "O que nenhuma outra imobiliária de Florianópolis entrega: a avaliação estrutural de quem constrói, antes de o cliente assinar.",
-        passos: [
-          "Acionar a Tridium Engenharia para vistoria do imóvel captado.",
-          "Verificar estrutura, cobertura, instalação elétrica, hidráulica e sinais de infiltração.",
-          "Apontar o que precisa de reforma, com ordem de prioridade e estimativa.",
-          "Anexar o laudo à ficha do imóvel.",
-        ],
-        atencao:
-          "O laudo é argumento de venda dos dois lados: dá segurança a quem compra e justifica o preço de quem vende. Mas é documento técnico — o que estiver nele vira responsabilidade do grupo.",
-      },
-      {
-        chave: "documentacao-captacao",
-        titulo: "Documentação do imóvel e do proprietário",
-        resumo:
-          "Conferir agora o que travaria o negócio no cartório depois. Documento é o que mais atrasa fechamento.",
-        passos: [
-          "Matrícula atualizada do imóvel (emitida há menos de 30 dias).",
-          "IPTU do ano, com número de inscrição e situação de débito.",
-          "Documento e estado civil de todos os proprietários.",
-          "Pacto antenupcial, se houver, e anuência do cônjuge.",
-          "Habite-se e averbação da construção, quando a obra não estiver na matrícula.",
-          "Declaração de quitação do condomínio, se aplicável.",
-        ],
-        atencao:
-          "Construção não averbada impede financiamento bancário. Descobrir isso na análise do banco custa semanas e, muitas vezes, o cliente.",
-      },
-      {
-        chave: "autorizacao",
-        titulo: "Autorização de venda ou locação",
-        resumo:
-          "Sem autorização assinada não há trabalho a fazer. Ela define prazo, preço, exclusividade e comissão.",
-        passos: [
-          "Definir se é exclusiva ou aberta, e por quanto tempo.",
-          "Registrar o preço autorizado e a margem de negociação.",
-          "Registrar o percentual de comissão e quem paga.",
-          "Colher assinatura de todos os proprietários.",
-          "Combinar como será o acesso para visitas.",
-        ],
-        exigencia:
-          "A comissão só é devida quando há aproximação útil comprovada entre as partes (Código Civil, art. 725). Autorização escrita é o que prova isso.",
-      },
-      {
-        chave: "producao",
-        titulo: "Produção do material",
-        resumo:
-          "O anúncio é a vitrine. Foto ruim derruba imóvel bom, e refazer depois custa outra visita.",
-        passos: [
-          "Fotografar com luz do dia, ambientes arrumados e lente grande angular.",
-          "Primeira foto é a que vende: fachada ou o melhor ambiente.",
-          "Medir e desenhar a planta, se não houver.",
-          "Vídeo ou tour 360°, quando o imóvel justificar.",
-          "Cadastrar no sistema e gerar o código do imóvel.",
-        ],
-        cards: [
+          "Lançamentos e imóveis na planta, com contato direto com quem constrói.",
+        passos: [],
+        conteudo: [
           {
-            chave: "guia-foto",
-            titulo: "Guia de fotografia de imóvel",
-            descricao:
-              "Ordem dos ambientes, horário de luz, o que tirar do quadro e os enquadramentos que o site espera.",
-            tipo: "guia",
+            tipo: "texto",
+            texto:
+              "Aqui o imóvel não tem dono ainda — tem incorporadora. A conversa é com a área comercial da construtora, não com proprietário, e quase tudo que o corretor precisa já vem pronto: tabela, planta, material de venda e, muitas vezes, o treinamento do produto.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que buscar",
+            itens: [
+              "Lançamentos e imóveis na planta na região de atuação.",
+              "Contato direto com o comercial da construtora, não só pelo stand.",
+              "Tabela de vendas atualizada — ela muda a cada fase da obra.",
+              "Condições de pagamento: entrada, parcelas de obra, chaves e financiamento.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que confirmar antes de anunciar",
+            itens: [
+              "Registro de incorporação na matrícula — sem ele a construtora não pode vender unidade na planta.",
+              "Prazo de entrega previsto e a tolerância contratual.",
+              "Percentual e forma de pagamento da comissão, e quando ela é liberada.",
+              "Se a parceria é exclusiva, aberta ou por tabela de rede.",
+            ],
+            fonte:
+              "Lançamento costuma pagar comissão maior que revenda, mas o recebimento acompanha o cronograma da obra. Vale saber disso antes de contar com o dinheiro.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "A vantagem e o risco",
+            texto:
+              "A vantagem é o volume: um empreendimento tem dezenas de unidades com a mesma documentação e o mesmo material. O risco é o prazo — o cliente compra hoje e recebe daqui a três anos, e quem vendeu é quem ele procura quando a obra atrasa.",
+          },
+        ],
+      },
+      {
+        chave: "apartamentos-usados",
+        titulo: "Apartamentos usados",
+        resumo:
+          "Imóveis de revenda, captados direto com o proprietário.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "É o agenciamento clássico: do outro lado há uma pessoa, com expectativa de preço, pressa ou falta dela, e uma documentação que ninguém conferiu há anos. O trabalho começa bem antes do anúncio.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Na conversa com o proprietário",
+            itens: [
+              "Confirmar quem são todos os proprietários e se todos concordam em vender.",
+              "Entender o motivo da venda e o prazo — eles definem a margem de negociação.",
+              "Apresentar preço com comparaveis vendidos, não anunciados.",
+              "Registrar por escrito o preço autorizado e a comissão.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Documentação que trava o fechamento",
+            itens: [
+              "Matrícula atualizada — emitida há menos de 30 dias.",
+              "IPTU do ano e situação de débito.",
+              "Declaração de quitação do condomínio.",
+              "Estado civil dos proprietários e anuência do cônjuge.",
+            ],
+            fonte:
+              "Penhora, usufruto, hipoteca e alienação fiduciária aparecem na matrícula. Descobrir na análise do banco custa semanas.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "O diferencial da casa",
+            texto:
+              "Em usado, o comprador compra também os problemas que não vê. A avaliação técnica da Tridium Engenharia — estrutura, cobertura, elétrica, infiltração — é o que nenhuma outra imobiliária de Florianópolis entrega, e serve aos dois lados: dá segurança a quem compra e justifica o preço de quem vende.",
+          },
+        ],
+      },
+      {
+        chave: "terrenos-casas",
+        titulo: "Terrenos e casas",
+        resumo:
+          "Lotes, terrenos e casas à venda, e as oportunidades que aparecem por bairro.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "Terreno: o que define o valor",
+            texto:
+              "Em lote, quase tudo que vale está fora da foto. O preço por metro muda com o que se pode construir ali.",
+            itens: [
+              "Zoneamento e índices de aproveitamento — quantos pavimentos, qual recuo, qual taxa de ocupação.",
+              "Topografia e necessidade de contenção. Em Florianópolis, aclive e declive mudam o custo da obra.",
+              "Infraestrutura na rua: água, esgoto, energia, pavimentação.",
+              "Restrições ambientais, área de preservação e faixa de marinha.",
+              "Matrícula: se o lote está individualizado ou ainda é fração de uma gleba.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Casa: o que olhar na visita",
+            itens: [
+              "Idade da construção e estado de estrutura, cobertura e instalações.",
+              "Habite-se e averbação da construção na matrícula.",
+              "Ampliações feitas sem projeto — muito comuns e um problema no financiamento.",
+              "Sinais de infiltração, recalque e improviso elétrico.",
+            ],
+            fonte:
+              "Construção não averbada impede financiamento bancário. É o tipo de coisa que precisa ser dita ao proprietário na captação, não na proposta.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Onde a oportunidade aparece",
+            texto:
+              "Terreno e casa são os tipos em que o corretor que conhece o bairro ganha do portal. Obra começando na rua, lote que muda de mão, casa antiga de família que vai a inventário — isso não está em nenhum site, está na rua.",
+          },
+        ],
+      },
+      {
+        chave: "apartamentos-regiao",
+        titulo: "Apartamentos por região",
+        resumo:
+          "Um grupo para cada bairro. Quem conhece a rua responde o que o portal não responde.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "O último grupo não separa por tipo, separa por lugar. É o que permite responder em minutos a quem procura \"um dois quartos na Agronômica\" — e saber, sem consultar nada, quanto vale o metro naquela quadra.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Os bairros da casa",
+            itens: [
+              "Agronômica — onde fica o escritório do grupo.",
+              "Trindade.",
+              "Rio Vermelho.",
+            ],
+            fonte:
+              "A lista cresce conforme a carteira. Bairro novo vira grupo novo quando houver imóvel suficiente para justificar.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que saber de cada bairro",
+            itens: [
+              "Faixa de preço por metro, por tipologia.",
+              "Os prédios e os construtores com boa e má fama na região.",
+              "Acesso, transporte, escola, mercado, saúde.",
+              "Barulho, sol da tarde, enchente, vaga de rua — o que só quem mora ali conta.",
+              "Obras aprovadas na vizinhança que vão mudar vista ou trânsito.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Por que separar por bairro e não por preço",
+            texto:
+              "Quem procura imóvel raramente começa pelo valor: começa pelo lugar onde quer viver, e só depois descobre o que cabe no bolso. Organizar a carteira do mesmo jeito que o cliente pensa encurta o caminho entre a pergunta e a resposta.",
           },
         ],
       },
     ],
   },
-
-  /* ------------------------------------------------------------------ 03 */
   {
     chave: "divulgacao",
     numero: "04",
@@ -1176,6 +1254,27 @@ export function cardsPendentes(): { etapa: string; card: CardProcedimento }[] {
    hora em que a página abre.
    ----------------------------------------------------------------------------- */
 
+/* -----------------------------------------------------------------------------
+   METAS
+   -----------------------------------------------------------------------------
+   Meta sem forma de conferir e desejo. Cada meta traz o alvo e o periodo, e o
+   corretor marca na tela o que ja fez; a contagem zera sozinha quando a semana
+   vira.
+
+   `alvo: null` e meta declarada mas ainda sem numero. Ela aparece como "a
+   definir", em vez de sumir: o que falta decidir fica a vista de quem decide.
+   ----------------------------------------------------------------------------- */
+
+export interface MetaCorretor {
+  chave: string;
+  rotulo: string;
+  /** Quantos, no periodo. `null` enquanto o numero nao estiver definido. */
+  alvo: number | null;
+  periodo: "semana" | "mes";
+  /** O que conta como um. Sem isso a meta vira discussao no fim do mes. */
+  criterio?: string;
+}
+
 export interface PerfilCorretor {
   usuario: string;
   nome: string;
@@ -1190,6 +1289,8 @@ export interface PerfilCorretor {
   atuaDesde: number | null;
   /** Bairros ou regiões em que trabalha. */
   atuacao?: string;
+  /** As metas do corretor, com o acompanhamento da semana. */
+  metas?: MetaCorretor[];
 }
 
 const PENDENTE = "[PENDENTE]";
@@ -1216,6 +1317,25 @@ export const perfisCorretor: PerfilCorretor[] = [
       "Pós-graduação em Gestão de Pessoas",
     ],
     atuaDesde: 2011,
+    /* [EXEMPLO] Duas metas, para o formato ficar de pe. A de agenciamento
+       veio do cliente; a de vendas ainda nao tem numero, e por isso aparece
+       como "a definir" em vez de sumir da tela. */
+    metas: [
+      {
+        chave: "agenciamento",
+        rotulo: "Agenciamentos",
+        alvo: 2,
+        periodo: "semana",
+        criterio:
+          "Conta im\u00f3vel com autoriza\u00e7\u00e3o assinada e cadastrado na carteira \u2014 visita de avalia\u00e7\u00e3o sem assinatura n\u00e3o conta.",
+      },
+      {
+        chave: "vendas",
+        rotulo: "Vendas",
+        alvo: null,
+        periodo: "mes",
+      },
+    ],
   },
 ];
 

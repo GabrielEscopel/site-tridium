@@ -30,9 +30,11 @@ import {
   tempoDeMercado,
   type BlocoAula,
   type CardProcedimento,
+  type MetaCorretor,
   type PerfilCorretor,
 } from "@/content/corretor";
 import { marcas } from "@/content/site";
+import { useMetasCorretor } from "@/lib/metasCorretor";
 import { useProgressoTreinamento } from "@/lib/progressoTreinamento";
 import { useSessaoCorretor } from "@/lib/sessaoCorretor";
 import { iconeDaCategoria } from "./IconesImovel";
@@ -377,6 +379,10 @@ function Perfil({
         )}
       </dl>
 
+      {perfil.metas && perfil.metas.length > 0 && (
+        <Metas metas={perfil.metas} />
+      )}
+
       {progresso.pronto && (
         <div className="mt-6 border-t border-[color:var(--cart-card-linha)] pt-5">
           <div className="flex items-baseline justify-between gap-4">
@@ -421,6 +427,111 @@ function Perfil({
         O progresso fica neste navegador. Com login de verdade, ele passa a ser
         do corretor, em qualquer computador.
       </p>
+    </div>
+  );
+}
+
+/* As metas da semana, dentro do cartao do corretor.
+
+   Meta sem forma de conferir e desejo, entao cada uma tem um marcador: uma
+   fileira de bolinhas quando o alvo e pequeno, que e o caso de "dois por
+   semana" — da para ver o quanto falta sem ler numero. A contagem zera
+   sozinha na virada da semana.
+
+   Meta sem numero definido aparece como "a definir" em vez de sumir: o que
+   falta decidir fica a vista de quem decide. */
+function Metas({ metas }: { metas: MetaCorretor[] }) {
+  const { pronto, feito, marcar, intervalo } = useMetasCorretor();
+
+  return (
+    <div className="mt-6 border-t border-[color:var(--cart-card-linha)] pt-5">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Metas
+        </p>
+        <p className="text-xs text-[color:var(--ink-faint)]">{intervalo}</p>
+      </div>
+
+      <ul className="mt-4 space-y-4">
+        {metas.map((m) => {
+          const semAlvo = m.alvo === null;
+          const n = pronto ? feito(m.chave) : 0;
+          const completa = !semAlvo && n >= (m.alvo ?? 0);
+
+          return (
+            <li key={m.chave}>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+                <p className="text-sm font-semibold text-[color:var(--ink)]">
+                  {m.rotulo}
+                </p>
+                <p
+                  className={`text-xs ${
+                    semAlvo
+                      ? "italic text-[color:var(--ink-faint)]"
+                      : "text-[color:var(--ink-muted)]"
+                  }`}
+                >
+                  {semAlvo
+                    ? "A definir"
+                    : `${m.alvo} por ${m.periodo === "semana" ? "semana" : "mes"}`}
+                </p>
+              </div>
+
+              {!semAlvo && pronto && (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <span
+                    className="flex items-center gap-1.5"
+                    role="group"
+                    aria-label={`${m.rotulo}: ${n} de ${m.alvo} nesta semana`}
+                  >
+                    {Array.from({ length: m.alvo ?? 0 }).map((_, i) => {
+                      const cheia = i < n;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          /* Clicar na bolinha i define a contagem como i+1;
+                             clicar na ultima cheia desmarca. Assim corrigir
+                             um engano e um toque, nao varios. */
+                          onClick={() => marcar(m.chave, cheia && i + 1 === n ? i : i + 1)}
+                          aria-pressed={cheia}
+                          aria-label={
+                            cheia
+                              ? `Desmarcar ${m.rotulo.toLowerCase()} ${i + 1}`
+                              : `Marcar ${m.rotulo.toLowerCase()} ${i + 1} como feito`
+                          }
+                          className={`h-5 w-5 rounded-full border-2 transition-colors duration-200 ${
+                            cheia
+                              ? "border-[color:var(--cart-acao)] bg-[color:var(--cart-acao)]"
+                              : "border-[color:var(--cart-campo-linha)] hover:border-[color:var(--cart-titulo)]"
+                          }`}
+                        />
+                      );
+                    })}
+                  </span>
+
+                  <span
+                    aria-hidden="true"
+                    className={`text-xs font-semibold ${
+                      completa
+                        ? "text-[color:var(--cart-titulo)]"
+                        : "text-[color:var(--ink-faint)]"
+                    }`}
+                  >
+                    {completa ? "feita" : `${n}/${m.alvo}`}
+                  </span>
+                </div>
+              )}
+
+              {m.criterio && (
+                <p className="mt-1.5 text-xs leading-snug text-[color:var(--ink-faint)]">
+                  {m.criterio}
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
