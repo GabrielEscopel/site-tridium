@@ -628,41 +628,153 @@ export const procedimentos: EtapaProcedimento[] = [
         chave: "construtoras",
         titulo: "Empreendimentos de construtoras",
         resumo:
-          "Lançamentos e imóveis na planta, com contato direto com quem constrói.",
+          "Lançamentos e imóveis na planta: como achar, como fotografar e como organizar o grupo do bairro.",
         passos: [],
         conteudo: [
           {
             tipo: "texto",
             texto:
-              "Aqui o imóvel não tem dono ainda — tem incorporadora. A conversa é com a área comercial da construtora, não com proprietário, e quase tudo que o corretor precisa já vem pronto: tabela, planta, material de venda e, muitas vezes, o treinamento do produto.",
+              "Aqui o imóvel não tem dono ainda — tem incorporadora. A conversa é com a área comercial da construtora, não com proprietário, e quase tudo que o corretor precisa já vem pronto: tabela, planta e material de venda. O trabalho é encontrar o empreendimento antes dos outros e deixar o registro arrumado.",
           },
           {
-            tipo: "secao",
-            titulo: "O que buscar",
-            itens: [
-              "Lançamentos e imóveis na planta na região de atuação.",
-              "Contato direto com o comercial da construtora, não só pelo stand.",
-              "Tabela de vendas atualizada — ela muda a cada fase da obra.",
-              "Condições de pagamento: entrada, parcelas de obra, chaves e financiamento.",
+            tipo: "imagem",
+            src: "/img/treinamento/agenciamento-construtoras.webp",
+            alt: "Card da Tridium Imóveis com o passo a passo da captação de empreendimentos e o padrão do grupo de WhatsApp",
+            legenda:
+              "O passo a passo e o padrão do grupo. Vale consultar antes de criar um grupo novo.",
+          },
+          {
+            tipo: "linha",
+            titulo: "O passo a passo",
+            marcos: [
+              {
+                ano: "01",
+                titulo: "Pesquisa nos portais",
+                texto:
+                  "Levantamento dos empreendimentos nos portais e na internet.",
+              },
+              {
+                ano: "02",
+                titulo: "Vistoria in loco",
+                texto:
+                  "Ir até o empreendimento e conferir pessoalmente. Portal mostra render; a rua mostra o que foi construído.",
+              },
+              {
+                ano: "03",
+                titulo: "Foto padrão da capa",
+                texto:
+                  "Fachada frontal, seguindo o padrão da casa descrito abaixo.",
+                marco: true,
+              },
+              {
+                ano: "04",
+                titulo: "Identificar contatos",
+                texto: "Nome da construtora, WhatsApp e e-mail do comercial.",
+              },
+              {
+                ano: "05",
+                titulo: "Visita à construtora",
+                texto:
+                  "Quando houver abertura, ir buscar o material do empreendimento — tabela, plantas, memorial e peças de divulgação.",
+              },
+              {
+                ano: "06",
+                titulo: "Documentação e ficha de agenciamento",
+                texto:
+                  "Solicitar à construtora a documentação do empreendimento e preencher a ficha de agenciamento. É o passo que fecha a captação: sem ele o imóvel está achado, não agenciado.",
+                marco: true,
+              },
             ],
           },
           {
             tipo: "secao",
-            titulo: "O que confirmar antes de anunciar",
+            titulo: "O grupo de WhatsApp",
+            texto:
+              "Cada bairro tem o seu grupo, e o nome segue sempre o mesmo molde, para qualquer um achar sem perguntar:",
             itens: [
-              "Registro de incorporação na matrícula — sem ele a construtora não pode vender unidade na planta.",
-              "Prazo de entrega previsto e a tolerância contratual.",
-              "Percentual e forma de pagamento da comissão, e quando ela é liberada.",
-              "Se a parceria é exclusiva, aberta ou por tabela de rede.",
+              "CAP — EP — Bairro, Cidade",
+              "Exemplo: CAP - EP - Trindade, Florianópolis",
             ],
             fonte:
-              "Lançamento costuma pagar comissão maior que revenda, mas o recebimento acompanha o cronograma da obra. Vale saber disso antes de contar com o dinheiro.",
+              "CAP é captação, EP é empreendimento. O grupo é genérico da região — um por bairro, não um por prédio.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O padrão da foto de capa",
+            texto:
+              "A foto do grupo é a fachada do empreendimento, e ela segue quatro regras:",
+            itens: [
+              "Foto da fachada, de frente.",
+              "Um pouco da calçada — dá escala e mostra o acesso.",
+              "Bem iluminada.",
+              "Bom contraste.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Ajuste da imagem",
+            texto:
+              "Depois de fotografar, a imagem passa por um tratamento para ficar no padrão:",
+            itens: [
+              "Deixar a foto com iluminação solar.",
+              "Remover veículos, pessoas, cabos e qualquer coisa na frente do empreendimento.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "A documentação do empreendimento",
+            texto:
+              "O que pedir ao comercial da construtora, e sem o que não se anuncia:",
+            itens: [
+              "Registro de incorporação averbado na matrícula — é ele que autoriza a venda de unidade na planta.",
+              "Memorial descritivo: o que está incluído em cada unidade e com que acabamento.",
+              "Plantas e quadro de áreas, com área privativa e total por tipologia.",
+              "Tabela de vendas vigente, com a data — ela muda a cada fase da obra.",
+              "Alvará de construção e previsão de entrega, com a tolerância contratual.",
+              "Condições de pagamento e o banco que financia o empreendimento.",
+              "Autorização de comercialização, com o percentual e o prazo da comissão.",
+              "Material de divulgação liberado, e por escrito o que pode ser publicado.",
+            ],
+            fonte:
+              "O registro de incorporação é exigência da Lei 4.591/64, art. 32: sem ele a incorporadora não pode negociar unidades. Pedir o número do registro, e não a palavra de quem atende, é o que protege o corretor.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A ficha de agenciamento",
+            texto:
+              "Toda captação termina numa ficha preenchida. É ela que transforma o que o corretor viu e ouviu em registro da casa — e o que permite a outro corretor atender aquele imóvel sem começar do zero.",
+            itens: [
+              "Identificação do empreendimento e da construtora, com os contatos.",
+              "Endereço, bairro e o grupo de WhatsApp a que pertence.",
+              "Tipologias, áreas, preços e condições, com a data da tabela.",
+              "Situação da obra e previsão de entrega.",
+              "Documentação recebida e o que ficou pendente.",
+              "Quem captou e quando — é por aqui que a comissão de captação se prova depois.",
+            ],
           },
           {
             tipo: "fecho",
-            titulo: "A vantagem e o risco",
+            titulo: "Até onde vai o tratamento",
             texto:
-              "A vantagem é o volume: um empreendimento tem dezenas de unidades com a mesma documentação e o mesmo material. O risco é o prazo — o cliente compra hoje e recebe daqui a três anos, e quem vendeu é quem ele procura quando a obra atrasa.",
+              "Tirar carro estacionado, pedestre e fio solto limpa a foto sem mudar o imóvel — isso é tratamento. Apagar o poste que fica na frente da sacada, o prédio vizinho que tapa a vista ou a fiação que cruza a varanda já é outra coisa: o cliente chega na visita e encontra o que a foto negou. A linha é simples — some com o que estava passando, não com o que fica.",
+          },
+        ],
+        atencao:
+          "Propaganda que omite característica relevante do produto é publicidade enganosa (CDC, art. 37). Numa foto de imóvel, o que está fixo na paisagem — poste, fiação, vizinho, muro — conta como característica.",
+        cards: [
+          {
+            chave: "ficha-agenciamento",
+            titulo: "Ficha de agenciamento",
+            descricao:
+              "O formulário padrão da casa, preenchido ao fim de toda captação: empreendimento, contatos, tipologias, documentação recebida e quem captou.",
+            tipo: "modelo",
+          },
+          {
+            chave: "padrao-foto-empreendimento",
+            titulo: "Padrão de foto de empreendimento",
+            descricao:
+              "O enquadramento da fachada, o horário de luz e o que pode e o que não pode sair da imagem no tratamento.",
+            tipo: "guia",
           },
         ],
       },
