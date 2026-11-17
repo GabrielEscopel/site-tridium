@@ -381,67 +381,46 @@ export const procedimentos: EtapaProcedimento[] = [
     numero: "02",
     titulo: "Apresentação pessoal",
     tituloCurto: "Apresentação",
+    /* Frase de impacto, nao descricao: o numero e o conteudo. Nao sao tres
+       segundos nem sete — e o que a pesquisa de Princeton mediu. */
     resumo:
-      "Como o corretor chega. Em um negócio em que o cliente decide a quem confiar o maior bem que tem, a primeira impressão é parte do serviço.",
+      "Não são três segundos. Nem sete. São 100 MILISSEGUNDOS — um décimo de segundo — para o cliente decidir se confia em você.",
     objetivo:
       "Apresentar-se em trinta segundos de um jeito que dê vontade de continuar a conversa, chegar à visita dentro do padrão da casa — da camisa ao porta-malas — e manter um perfil público que ajude em vez de atrapalhar.",
     icone: "aluguel",
-    /* Mesma moldura do modulo 01: quadrada, ao lado do texto. As fotos
-       saem dos proprios cards da casa — os corretores em cima, o veiculo
-       embaixo — porque sao elas que mostram a identificacao visual de que
-       a aula fala: camisa oficial, cordao, cracha e a marca na porta do
-       carro. Os cards inteiros, com as listas, aparecem dentro da aula. */
+    /* Mesma moldura do modulo 01: quadrada, ao lado do texto. Recorte do
+       proprio card da casa, no TAMANHO NATIVO — a versao anterior juntava
+       os corretores e o carro num quadrado so, esticando os dois para
+       caber, e saia borrada. Com um assunto so, o recorte cabe sem
+       deformar. O carro aparece inteiro na aula 03, onde e o tema. */
     imagem: {
-      src: "/img/treinamento/apresentacao-padrao.webp",
-      alt: "Corretor e corretora de camisa oficial da Tridium Imoveis, com cordao e cracha, e o veiculo da empresa com a marca na porta",
+      src: "/img/treinamento/apresentacao-corretores.webp",
+      alt: "Corretor e corretora de camisa oficial da Tridium Imoveis, com cordao e cracha de identificacao",
       descricao: "O padrao de apresentacao da casa",
     },
     topicos: [
       {
-        chave: "discurso",
-        titulo: "A apresentação em trinta segundos",
+        chave: "imagem-profissional",
+        titulo: "Imagem profissional",
         resumo:
-          "O que dizer quando perguntam o que você faz. Treinado, sai natural; improvisado, sai confuso.",
-        passos: [
-          "Nome, o que faz e onde atua, em uma frase.",
-          "O diferencial da casa em outra: avaliação técnica de quem constrói.",
-          "Uma pergunta no fim, que devolve a palavra ao outro.",
-          "Treinar em voz alta até sair sem pensar — decorado soa decorado, sabido soa natural.",
-        ],
-        atencao:
-          "Apresentação não é currículo. Ninguém quer ouvir a lista de cursos no primeiro minuto; a formacao aparece quando ela responde a uma dúvida real do cliente.",
-        cards: [
-          {
-            chave: "modelo-pitch",
-            titulo: "Modelo de apresentação",
-            descricao:
-              "A estrutura das três partes, com exemplos para visita, telefone e evento.",
-            tipo: "modelo",
-          },
-        ],
-      },
-      {
-        chave: "postura",
-        titulo: "Imagem, vestuário e veículo",
-        resumo:
-          "O padrão de apresentação da casa, do cabelo ao porta-malas. O cliente lê o corretor antes de ouvir o que ele diz.",
+          "O cuidado pessoal que o cliente registra antes de ouvir a primeira frase.",
         passos: [],
         conteudo: [
           {
             tipo: "fecho",
             titulo: "Um décimo de segundo",
             texto:
-              "Não são três segundos, nem sete. Um estudo de Princeton mostrou que bastam 100 MILISSEGUNDOS de exposição a um rosto para alguém formar julgamento de confiabilidade, competência e simpatia — e que dar mais tempo à pessoa quase não muda o julgamento, só aumenta a confiança dela nele. De todos os traços medidos, CONFIABILIDADE foi o que se formou mais rápido e com mais concordância. Quando o cliente abre a porta, a primeira impressão já está formada. Dá para revertê-la depois, com trabalho; sair na frente custa menos.",
+              "Não são três segundos, nem sete. Um estudo de Princeton mostrou que bastam 100 MILISSEGUNDOS de exposição a um rosto para alguém formar julgamento de confiabilidade, competência e simpatia — e que dar mais tempo quase não muda o julgamento, só aumenta a confiança de quem julga. De todos os traços medidos, CONFIABILIDADE foi o que se formou mais rápido e com mais concordância. Quando o cliente abre a porta, a impressão já está formada. Dá para revertê-la, com trabalho; sair na frente custa menos.",
           },
           {
             tipo: "imagem",
             src: "/img/treinamento/apresentacao-corretor.webp",
-            alt: "Corretor e corretora de camisa oficial verde da Tridium Imóveis, com cracha de identificação visível",
+            alt: "Corretor e corretora de camisa oficial da Tridium Imóveis, ao lado das listas de imagem profissional e vestuário",
             legenda: "O padrão de apresentação da Tridium Imóveis.",
           },
           {
             tipo: "secao",
-            titulo: "Imagem profissional",
+            titulo: "O básico, todo dia",
             itens: [
               "Cabelo cortado e bem cuidado.",
               "Barba feita ou bem aparada.",
@@ -452,45 +431,11 @@ export const procedimentos: EtapaProcedimento[] = [
           },
           {
             tipo: "secao",
-            titulo: "Vestuário e identificação",
-            itens: [
-              "Camisa oficial da imobiliária.",
-              "Cracha de identificação visível.",
-              "Roupas limpas, alinhadas e em bom estado.",
-              "Calçado social ou casual, alinhado e limpo.",
-            ],
-            fonte:
-              "Quem vai receber um desconhecido dentro de casa precisa saber, de longe, quem é aquela pessoa. O cracha não é formalidade: é o que separa o corretor de qualquer um.",
-          },
-          {
-            tipo: "imagem",
-            src: "/img/treinamento/apresentacao-veiculo.webp",
-            alt: "Veículo da Tridium Imóveis com a marca aplicada na porta, ao lado da lista de cuidados com o carro",
-            legenda:
-              "Em muitas visitas o carro é a primeira sala de reunião.",
-          },
-          {
-            tipo: "secao",
-            titulo: "Veículo",
-            itens: [
-              "Limpo por dentro e por fora.",
-              "Organizado e sem objetos soltos.",
-              "Manutenção em dia: revisões, pneus e itens de segurança.",
-              "Transmite cuidado, credibilidade e profissionalismo.",
-            ],
-          },
-          {
-            tipo: "secao",
-            titulo: "Na hora da visita",
-            itens: [
-              "Chegar antes do horário combinado, sempre.",
-              "Levar documento com foto, cartão, carregador e água.",
-              "Celular no silencioso e fora da mão durante a visita.",
-            ],
+            titulo: "Por que isso pesa mais aqui do que em outras profissões",
+            texto:
+              "O cliente vai entregar a um desconhecido a negociação do maior bem que tem, e muitas vezes vai recebê-lo dentro de casa. Na falta de outra informação, ele usa o que vê. Cuidado com a aparência não é vaidade: é o primeiro sinal de que a pessoa cuida também do que não se vê — do contrato, do prazo, da documentação.",
           },
         ],
-        atencao:
-          "O cuidado com a aparência não é vaidade nem exigência de etiqueta: é o primeiro sinal de que a pessoa cuida também do que não se vê — do contrato, do prazo, da documentação. O cliente faz essa ligação sem perceber que está fazendo.",
         fontes: [
           {
             rotulo:
@@ -504,37 +449,161 @@ export const procedimentos: EtapaProcedimento[] = [
         ],
       },
       {
-        chave: "material",
-        titulo: "Material de trabalho",
+        chave: "vestuario",
+        titulo: "Vestuário e identificação",
         resumo:
-          "O que precisa estar pronto antes do primeiro atendimento.",
-        passos: [
-          "Cartão com o número do CRECI — é exigência legal, não enfeite.",
-          "Assinatura de e-mail com nome, CRECI e contato.",
-          "Foto profissional, a mesma em todos os canais.",
-          "Ficha de perfil do cliente, para a qualificação.",
+          "A camisa da casa e o cracha. Quem recebe um desconhecido em casa precisa saber, de longe, quem é aquela pessoa.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "O uniforme da casa",
+            itens: [
+              "Camisa oficial da imobiliária.",
+              "Cracha de identificação visível — no peito, não no bolso.",
+              "Roupas limpas, alinhadas e em bom estado.",
+              "Calçado social ou casual, alinhado e limpo.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que levar junto",
+            texto:
+              "Identificação não é só o que se veste. O material que o corretor carrega diz a mesma coisa.",
+            itens: [
+              "Cartão com o número do CRECI.",
+              "Documento com foto.",
+              "Carregador de celular e água — visita longa acontece.",
+              "Pasta ou prancheta para a ficha do imóvel e a proposta.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O cracha não é formalidade",
+            texto:
+              "É o que separa o corretor de qualquer um que bate à porta. Vale mais para quem vai abrir do que para quem vai entrar — e por isso ele fica à vista desde a calçada, não depois do cumprimento.",
+          },
         ],
         exigencia:
-          "O número de inscrição no CRECI é obrigatório em toda peça publicitária e material de identificação do corretor (Lei 6.530/78; Resolução COFECI 492/2007).",
+          "O número de inscrição no CRECI é obrigatório no material de identificação e em toda peça publicitária do corretor (Lei 6.530/78; Resolução COFECI 492/2007).",
       },
       {
-        chave: "redes",
-        titulo: "Presença nas redes",
+        chave: "carro",
+        titulo: "Carro",
         resumo:
-          "O cliente procura o nome do corretor antes de responder a mensagem. O que ele acha conta.",
-        passos: [
-          "Perfil público com foto profissional, cidade de atuação e CRECI na bio.",
-          "Separar o perfil pessoal do profissional.",
-          "Publicar imóvel com a mesma informação do anúncio — preço diferente em dois lugares derruba a confiança.",
-          "Responder mensagem de rede no mesmo prazo do WhatsApp.",
+          "Em muitas visitas ele é a primeira sala de reunião, e às vezes a única.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/apresentacao-veiculo.webp",
+            alt: "Veículo da Tridium Imóveis com a marca aplicada na porta, ao lado da lista de cuidados com o carro",
+            legenda: "O padrão de veículo da Tridium Imóveis.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O padrão",
+            itens: [
+              "Limpo por dentro e por fora.",
+              "Organizado e sem objetos soltos.",
+              "Manutenção em dia: revisões, pneus e itens de segurança.",
+              "Transmite cuidado, credibilidade e profissionalismo.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Na prática",
+            itens: [
+              "Banco do carona livre antes de buscar o cliente.",
+              "Temperatura ajustada e som baixo ou desligado — a conversa é o trabalho.",
+              "Tanque com folga: parar no posto no meio do roteiro passa desorganização.",
+              "Combustivel e estacionamento entram no custo da visita, não no bolso do cliente.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O trajeto também é atendimento",
+            texto:
+              "Entre um imóvel e outro há quinze, vinte minutos com o cliente sentado ao lado. É o momento em que ele conta o que não disse na ficha: o prazo real, quem decide junto, o que já viu e por que não gostou. Carro bagunçado encurta essa conversa.",
+          },
+        ],
+        atencao:
+          "Carro com a marca da imobiliária é peça de divulgação circulando. Dirigir mal nele custa mais caro que dirigir mal em carro sem adesivo.",
+      },
+      {
+        chave: "comportamento",
+        titulo: "Comportamento e relacionamento",
+        resumo:
+          "Como o corretor chega, conduz e volta. O que acontece depois da primeira impressão.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "A apresentação em trinta segundos",
+            texto:
+              "O que dizer quando perguntam o que você faz. Treinada, sai natural; improvisada, sai confusa.",
+            itens: [
+              "Nome, o que faz e onde atua, em uma frase.",
+              "O diferencial da casa em outra: avaliação técnica de quem constrói.",
+              "Uma pergunta no fim, que devolve a palavra ao outro.",
+              "Treinar em voz alta até sair sem pensar — decorado soa decorado, sabido soa natural.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Durante a visita",
+            itens: [
+              "Chegar antes do horário combinado, sempre.",
+              "Celular no silencioso e fora da mão.",
+              "Deixar o cliente andar sozinho em algum momento — o silêncio faz parte.",
+              "Ouvir mais do que falar: a objeção dele vale mais que o argumento seu.",
+              "Não prometer o que depende de terceiro: banco, cartório, proprietário.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Depois",
+            itens: [
+              "Retorno em 24 horas, mesmo quando não há novidade.",
+              "Registrar o que foi dito — prazo, perfil, o que comparou.",
+              "Avisar quando entrar imóvel no perfil dele, ainda que meses depois.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Nas redes",
+            texto:
+              "O cliente procura o nome do corretor antes de responder à mensagem. O que ele acha conta.",
+            itens: [
+              "Perfil público com foto profissional, cidade de atuação e CRECI na bio.",
+              "Perfil pessoal separado do profissional.",
+              "Mesma informação do anúncio — preço diferente em dois lugares derruba a confiança.",
+              "Responder mensagem de rede no mesmo prazo do WhatsApp.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Relação longa vale mais que venda rápida",
+            texto:
+              "Quem compra imóvel compra poucas vezes na vida, mas indica muitas. A maior parte da carteira de um corretor experiente vem de indicação — e indicação nasce de quem foi bem tratado inclusive quando o negócio não fechou.",
+          },
         ],
         atencao:
           "Opinião política, religiosa ou de time no perfil profissional afasta metade dos clientes possíveis, e nunca se sabe qual metade.",
+        cards: [
+          {
+            chave: "modelo-pitch",
+            titulo: "Modelo de apresentação",
+            descricao:
+              "A estrutura das três partes, com exemplos para visita, telefone e evento.",
+            tipo: "modelo",
+          },
+        ],
       },
     ],
   },
 
-  /* ------------------------------------------------------------------ 01 */
+  /* ------------------------------------------------------------------ 03 */
   {
     chave: "captacao",
     numero: "03",
@@ -644,7 +713,7 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 02 */
+  /* ------------------------------------------------------------------ 03 */
   {
     chave: "divulgacao",
     numero: "04",
@@ -688,7 +757,8 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 03 */
+  /* ------------------------------------------------------------------ 04 */
+  /* ------------------------------------------------------------------ 05 */
   {
     chave: "atendimento",
     numero: "05",
@@ -817,7 +887,6 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 05 */
   {
     chave: "contrato",
     numero: "07",
