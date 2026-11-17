@@ -83,8 +83,153 @@ export interface EtapaProcedimento {
 export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 01 */
   {
-    chave: "captacao",
+    chave: "historia",
     numero: "01",
+    titulo: "História",
+    tituloCurto: "História",
+    resumo:
+      "De onde vem a casa em que o corretor entrou. Quem não sabe contar a história da empresa vende só o imóvel; quem sabe, vende também o motivo de confiar nela.",
+    objetivo:
+      "Contar, em dois minutos e com suas palavras, o que é o Grupo Tridium, de onde veio a parceria com a Sinos e por que uma imobiliária com engenharia por trás é diferente das outras.",
+    icone: "casa",
+    topicos: [
+      {
+        chave: "grupo",
+        titulo: "O Grupo Tridium",
+        resumo:
+          "As três frentes e a ideia que as une: engenharia, imóveis e instituto.",
+        passos: [
+          "[CONTEÚDO PENDENTE] Quando e por quem o grupo foi fundado.",
+          "[CONTEÚDO PENDENTE] Como as três frentes nasceram, e em que ordem.",
+          "O símbolo são três galões sobre uma base sólida — três frentes, uma fundação.",
+          "Números da engenharia: 10 anos em Florianópolis, mais de 2.000 obras, mais de 100.000 m².",
+        ],
+        atencao:
+          "PENDENTE: este tópico precisa da história contada pelo cliente. O que está aqui é o que o próprio site já afirma — não dá para treinar alguém a contar uma história que ninguém escreveu.",
+      },
+      {
+        chave: "imoveis",
+        titulo: "A Tridium Imóveis",
+        resumo:
+          "A frente mais nova do grupo, e o que ela faz de diferente.",
+        passos: [
+          "[CONTEÚDO PENDENTE] Quando a frente de imóveis começou e por quê.",
+          "O diferencial: quem avalia o imóvel é a mesma equipe técnica que constrói.",
+          "A área de atuação: Florianópolis e Grande Florianópolis.",
+          "[A CONFIRMAR] o número do CRECI da pessoa jurídica.",
+        ],
+        atencao:
+          "O CRECI da imobiliária ainda não aparece em nenhuma página do site, e a lei exige em toda peça publicitária.",
+      },
+      {
+        chave: "parceria-sinos",
+        titulo: "A parceria com a Sinos Imóveis",
+        resumo:
+          "Quem é a parceira, o que ela traz e o que cabe a cada lado.",
+        passos: [
+          "[CONTEÚDO PENDENTE] Como a parceria começou e o que cada casa põe nela.",
+          "A Sinos atua no Vale dos Sinos, no Rio Grande do Sul, há 15 anos.",
+          "[A CONFIRMAR] o que o corretor pode dizer sobre a parceria a um cliente.",
+        ],
+      },
+      {
+        chave: "instituto",
+        titulo: "O Instituto Tridium",
+        resumo:
+          "O braço social do grupo. Cliente pergunta, e o corretor precisa saber responder.",
+        passos: [
+          "O Moradia Digna recupera casas que deixaram de ser seguras para quem mora nelas, desde 2026.",
+          "O núcleo de Capoeira Angola, em Florianópolis.",
+          "O critério de entrada no Moradia Digna não é quem pode pagar, é quem corre risco dentro da própria casa.",
+          "[CONTEÚDO PENDENTE] o que o corretor pode oferecer a quem quiser apoiar.",
+        ],
+      },
+    ],
+  },
+
+  /* ------------------------------------------------------------------ 02 */
+  {
+    chave: "apresentacao",
+    numero: "02",
+    titulo: "Apresentação pessoal",
+    tituloCurto: "Apresentação",
+    resumo:
+      "Como o corretor chega. Em um negócio em que o cliente decide a quem confiar o maior bem que tem, a primeira impressão é parte do serviço.",
+    objetivo:
+      "Apresentar-se em trinta segundos de um jeito que dê vontade de continuar a conversa, chegar a uma visita vestido e preparado para ela, e manter um perfil público que ajude em vez de atrapalhar.",
+    icone: "aluguel",
+    topicos: [
+      {
+        chave: "discurso",
+        titulo: "A apresentação em trinta segundos",
+        resumo:
+          "O que dizer quando perguntam o que você faz. Treinado, sai natural; improvisado, sai confuso.",
+        passos: [
+          "Nome, o que faz e onde atua, em uma frase.",
+          "O diferencial da casa em outra: avaliação técnica de quem constrói.",
+          "Uma pergunta no fim, que devolve a palavra ao outro.",
+          "Treinar em voz alta até sair sem pensar — decorado soa decorado, sabido soa natural.",
+        ],
+        atencao:
+          "Apresentação não é currículo. Ninguém quer ouvir a lista de cursos no primeiro minuto; a formacao aparece quando ela responde a uma dúvida real do cliente.",
+        cards: [
+          {
+            chave: "modelo-pitch",
+            titulo: "Modelo de apresentação",
+            descricao:
+              "A estrutura das três partes, com exemplos para visita, telefone e evento.",
+            tipo: "modelo",
+          },
+        ],
+      },
+      {
+        chave: "postura",
+        titulo: "Postura e aparência",
+        resumo:
+          "O cliente lê o corretor antes de ouvir o que ele diz.",
+        passos: [
+          "Vestir-se um grau acima do cliente, nunca abaixo.",
+          "Levar sempre: documento com foto, cartão, carregador e água.",
+          "Chegar antes do horário combinado, sempre.",
+          "Celular no silencioso durante a visita, e fora da mão.",
+          "Carro limpo por dentro: em muitas visitas ele é a primeira sala de reunião.",
+        ],
+      },
+      {
+        chave: "material",
+        titulo: "Material de trabalho",
+        resumo:
+          "O que precisa estar pronto antes do primeiro atendimento.",
+        passos: [
+          "Cartão com o número do CRECI — é exigência legal, não enfeite.",
+          "Assinatura de e-mail com nome, CRECI e contato.",
+          "Foto profissional, a mesma em todos os canais.",
+          "Ficha de perfil do cliente, para a qualificação.",
+        ],
+        exigencia:
+          "O número de inscrição no CRECI é obrigatório em toda peça publicitária e material de identificação do corretor (Lei 6.530/78; Resolução COFECI 492/2007).",
+      },
+      {
+        chave: "redes",
+        titulo: "Presença nas redes",
+        resumo:
+          "O cliente procura o nome do corretor antes de responder a mensagem. O que ele acha conta.",
+        passos: [
+          "Perfil público com foto profissional, cidade de atuação e CRECI na bio.",
+          "Separar o perfil pessoal do profissional.",
+          "Publicar imóvel com a mesma informação do anúncio — preço diferente em dois lugares derruba a confiança.",
+          "Responder mensagem de rede no mesmo prazo do WhatsApp.",
+        ],
+        atencao:
+          "Opinião política, religiosa ou de time no perfil profissional afasta metade dos clientes possíveis, e nunca se sabe qual metade.",
+      },
+    ],
+  },
+
+  /* ------------------------------------------------------------------ 01 */
+  {
+    chave: "captacao",
+    numero: "03",
     titulo: "Captação",
     resumo:
       "Trazer o imóvel para a carteira com preço defensável, documentação em ordem e autorização assinada. Captação malfeita vira anúncio que não fecha.",
@@ -194,7 +339,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 02 */
   {
     chave: "divulgacao",
-    numero: "02",
+    numero: "04",
     titulo: "Divulgação",
     resumo:
       "Colocar o imóvel onde o comprador procura, com a informação que ele precisa para decidir visitar.",
@@ -238,7 +383,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 03 */
   {
     chave: "atendimento",
-    numero: "03",
+    numero: "05",
     titulo: "Atendimento",
     resumo:
       "Do primeiro contato do interessado até a visita. É aqui que a maior parte dos negócios se perde, por demora.",
@@ -302,7 +447,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 04 */
   {
     chave: "negociacao",
-    numero: "04",
+    numero: "06",
     titulo: "Negociação",
     resumo:
       "Da proposta ao aceite. Tudo por escrito, inclusive o que foi recusado.",
@@ -367,7 +512,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 05 */
   {
     chave: "contrato",
-    numero: "05",
+    numero: "07",
     titulo: "Documentação e contrato",
     tituloCurto: "Documentação",
     resumo:
@@ -424,7 +569,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 06 */
   {
     chave: "fechamento",
-    numero: "06",
+    numero: "08",
     titulo: "Fechamento",
     resumo:
       "Escritura, registro e chaves. Só existe transferência de propriedade com registro na matrícula.",
@@ -465,7 +610,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 07 */
   {
     chave: "locacao",
-    numero: "07",
+    numero: "09",
     titulo: "Rotina de locação",
     tituloCurto: "Locação",
     resumo:
@@ -535,7 +680,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 08 */
   {
     chave: "administrativo",
-    numero: "08",
+    numero: "10",
     titulo: "Administrativo e financeiro",
     tituloCurto: "Administrativo",
     resumo:
@@ -576,7 +721,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 09 */
   {
     chave: "juridico",
-    numero: "09",
+    numero: "11",
     titulo: "Jurídico e conformidade",
     tituloCurto: "Jurídico",
     resumo:
