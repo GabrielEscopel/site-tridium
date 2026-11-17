@@ -489,20 +489,33 @@ function Modulo({
 
           Sem imagem, o texto ocupa o cartao inteiro, como antes. */}
       <div className="overflow-hidden rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] shadow-[var(--cart-sombra)]">
+        {/* Card desenhado, com texto dentro, entra como FAIXA em cima:
+            espremido numa coluna estreita ele perde metade do que diz.
+            Foto solta entra ao lado, que e mais compacto. */}
         <div
           className={
-            modulo.imagem?.src
+            modulo.imagem?.src && modulo.imagem.formato !== "deitada"
               ? "grid gap-0 md:grid-cols-[minmax(0,15rem)_1fr] lg:grid-cols-[minmax(0,17rem)_1fr]"
               : ""
           }
         >
           {modulo.imagem?.src && (
-            <figure className="relative aspect-square w-full bg-[color:var(--cart-caixa)] md:h-full">
+            <figure
+              className={`relative w-full bg-[color:var(--cart-caixa)] ${
+                modulo.imagem.formato === "deitada"
+                  ? "aspect-[16/9]"
+                  : "aspect-square md:h-full"
+              }`}
+            >
               <Image
                 src={modulo.imagem.src}
                 alt={modulo.imagem.alt}
                 fill
-                sizes="(min-width: 1024px) 17rem, (min-width: 768px) 15rem, 100vw"
+                sizes={
+                  modulo.imagem.formato === "deitada"
+                    ? "(min-width: 1024px) 60vw, 100vw"
+                    : "(min-width: 1024px) 17rem, (min-width: 768px) 15rem, 100vw"
+                }
                 className="object-cover"
               />
               {modulo.imagem.credito && (
@@ -848,19 +861,50 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
           );
         }
 
-        return (
-          <div
-            key={i}
-            className="rounded-xl border-l-[3px] border-l-[color:var(--cart-titulo)] bg-[color:var(--cart-caixa)] px-5 py-4"
-          >
-            <p className="text-sm font-bold text-[color:var(--cart-titulo)]">
-              {b.titulo}
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink)]">
-              {b.texto}
-            </p>
-          </div>
-        );
+        if (b.tipo === "imagem") {
+          return (
+            <figure key={i}>
+              <div
+                className={`relative w-full overflow-hidden rounded-xl bg-[color:var(--cart-caixa)] ${
+                  b.formato === "quadrada" ? "aspect-square" : "aspect-[16/9]"
+                }`}
+              >
+                <Image
+                  src={b.src}
+                  alt={b.alt}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              {b.legenda && (
+                <figcaption className="mt-2 text-xs leading-snug text-[color:var(--ink-faint)]">
+                  {b.legenda}
+                </figcaption>
+              )}
+            </figure>
+          );
+        }
+
+        /* `fecho`. Escrito por extenso, e nao como "o que sobrar": assim o
+           TypeScript avisa quando um tipo novo de bloco entrar sem desenho. */
+        if (b.tipo === "fecho") {
+          return (
+            <div
+              key={i}
+              className="rounded-xl border-l-[3px] border-l-[color:var(--cart-titulo)] bg-[color:var(--cart-caixa)] px-5 py-4"
+            >
+              <p className="text-sm font-bold text-[color:var(--cart-titulo)]">
+                {b.titulo}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink)]">
+                {b.texto}
+              </p>
+            </div>
+          );
+        }
+
+        return null;
       })}
     </div>
   );

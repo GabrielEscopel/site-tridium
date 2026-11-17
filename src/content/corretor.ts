@@ -89,7 +89,17 @@ export type BlocoAula =
       }[];
     }
   /** Caixa de fecho: a ideia que a aula quer deixar. */
-  | { tipo: "fecho"; titulo: string; texto: string };
+  | { tipo: "fecho"; titulo: string; texto: string }
+  /** Imagem no meio da aula. `legenda` aparece embaixo, quando houver. */
+  | {
+      tipo: "imagem";
+      src: string;
+      alt: string;
+      legenda?: string;
+      /** Proporcao do arquivo, para a moldura nao cortar o que importa.
+          Cards desenhados com texto dentro nao podem ser cortados. */
+      formato?: "deitada" | "quadrada";
+    };
 
 export interface TopicoProcedimento {
   chave: string;
@@ -127,7 +137,16 @@ export interface EtapaProcedimento {
   /** Imagem de abertura do módulo. Enquanto não houver arquivo, o módulo
       mostra um painel dizendo o que precisa ser produzido — a mesma regra
       do resto do site: nunca uma imagem de banco no lugar da real. */
-  imagem?: { src?: string; alt: string; descricao: string; credito?: string };
+  imagem?: {
+    src?: string;
+    alt: string;
+    descricao: string;
+    credito?: string;
+    /** "quadrada" entra ao lado do texto; "deitada", como faixa em cima.
+        Card desenhado, com texto dentro, tem de ser deitado: espremido
+        num quadrado ele perde metade do que diz. */
+    formato?: "deitada" | "quadrada";
+  };
   topicos: TopicoProcedimento[];
 }
 
@@ -365,8 +384,18 @@ export const procedimentos: EtapaProcedimento[] = [
     resumo:
       "Como o corretor chega. Em um negócio em que o cliente decide a quem confiar o maior bem que tem, a primeira impressão é parte do serviço.",
     objetivo:
-      "Apresentar-se em trinta segundos de um jeito que dê vontade de continuar a conversa, chegar a uma visita vestido e preparado para ela, e manter um perfil público que ajude em vez de atrapalhar.",
+      "Apresentar-se em trinta segundos de um jeito que dê vontade de continuar a conversa, chegar à visita dentro do padrão da casa — da camisa ao porta-malas — e manter um perfil público que ajude em vez de atrapalhar.",
     icone: "aluguel",
+    /* Mesma moldura do modulo 01: quadrada, ao lado do texto. As fotos
+       saem dos proprios cards da casa — os corretores em cima, o veiculo
+       embaixo — porque sao elas que mostram a identificacao visual de que
+       a aula fala: camisa oficial, cordao, cracha e a marca na porta do
+       carro. Os cards inteiros, com as listas, aparecem dentro da aula. */
+    imagem: {
+      src: "/img/treinamento/apresentacao-padrao.webp",
+      alt: "Corretor e corretora de camisa oficial da Tridium Imoveis, com cordao e cracha, e o veiculo da empresa com a marca na porta",
+      descricao: "O padrao de apresentacao da casa",
+    },
     topicos: [
       {
         chave: "discurso",
@@ -393,15 +422,85 @@ export const procedimentos: EtapaProcedimento[] = [
       },
       {
         chave: "postura",
-        titulo: "Postura e aparência",
+        titulo: "Imagem, vestuário e veículo",
         resumo:
-          "O cliente lê o corretor antes de ouvir o que ele diz.",
-        passos: [
-          "Vestir-se um grau acima do cliente, nunca abaixo.",
-          "Levar sempre: documento com foto, cartão, carregador e água.",
-          "Chegar antes do horário combinado, sempre.",
-          "Celular no silencioso durante a visita, e fora da mão.",
-          "Carro limpo por dentro: em muitas visitas ele é a primeira sala de reunião.",
+          "O padrão de apresentação da casa, do cabelo ao porta-malas. O cliente lê o corretor antes de ouvir o que ele diz.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "fecho",
+            titulo: "Um décimo de segundo",
+            texto:
+              "Não são três segundos, nem sete. Um estudo de Princeton mostrou que bastam 100 MILISSEGUNDOS de exposição a um rosto para alguém formar julgamento de confiabilidade, competência e simpatia — e que dar mais tempo à pessoa quase não muda o julgamento, só aumenta a confiança dela nele. De todos os traços medidos, CONFIABILIDADE foi o que se formou mais rápido e com mais concordância. Quando o cliente abre a porta, a primeira impressão já está formada. Dá para revertê-la depois, com trabalho; sair na frente custa menos.",
+          },
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/apresentacao-corretor.webp",
+            alt: "Corretor e corretora de camisa oficial verde da Tridium Imóveis, com cracha de identificação visível",
+            legenda: "O padrão de apresentação da Tridium Imóveis.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Imagem profissional",
+            itens: [
+              "Cabelo cortado e bem cuidado.",
+              "Barba feita ou bem aparada.",
+              "Higiene pessoal em dia.",
+              "Unhas limpas e aparência organizada.",
+              "Uso moderado de perfume — em carro fechado e imóvel sem ventilação, excesso incomoda.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Vestuário e identificação",
+            itens: [
+              "Camisa oficial da imobiliária.",
+              "Cracha de identificação visível.",
+              "Roupas limpas, alinhadas e em bom estado.",
+              "Calçado social ou casual, alinhado e limpo.",
+            ],
+            fonte:
+              "Quem vai receber um desconhecido dentro de casa precisa saber, de longe, quem é aquela pessoa. O cracha não é formalidade: é o que separa o corretor de qualquer um.",
+          },
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/apresentacao-veiculo.webp",
+            alt: "Veículo da Tridium Imóveis com a marca aplicada na porta, ao lado da lista de cuidados com o carro",
+            legenda:
+              "Em muitas visitas o carro é a primeira sala de reunião.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Veículo",
+            itens: [
+              "Limpo por dentro e por fora.",
+              "Organizado e sem objetos soltos.",
+              "Manutenção em dia: revisões, pneus e itens de segurança.",
+              "Transmite cuidado, credibilidade e profissionalismo.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Na hora da visita",
+            itens: [
+              "Chegar antes do horário combinado, sempre.",
+              "Levar documento com foto, cartão, carregador e água.",
+              "Celular no silencioso e fora da mão durante a visita.",
+            ],
+          },
+        ],
+        atencao:
+          "O cuidado com a aparência não é vaidade nem exigência de etiqueta: é o primeiro sinal de que a pessoa cuida também do que não se vê — do contrato, do prazo, da documentação. O cliente faz essa ligação sem perceber que está fazendo.",
+        fontes: [
+          {
+            rotulo:
+              "Willis & Todorov (2006), Psychological Science — First Impressions: Making Up Your Mind After a 100-ms Exposure to a Face",
+            href: "https://collaborate.princeton.edu/en/publications/first-impressions-making-up-your-mind-after-a-100-ms-exposure-to-/",
+          },
+          {
+            rotulo: "Princeton — Snap judgments decide a face's character",
+            href: "https://princeton.edu/news/2006/08/22/snap-judgments-decide-faces-character-psychologist-finds",
+          },
         ],
       },
       {
