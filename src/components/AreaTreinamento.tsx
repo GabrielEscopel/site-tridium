@@ -344,7 +344,7 @@ function Perfil({
         </div>
       </div>
 
-      <dl className="mt-6 space-y-4 border-t border-[color:var(--cart-card-linha)] pt-5">
+      <dl className="mt-6 space-y-5 border-t border-[color:var(--cart-card-linha)] pt-5">
         <Campo rotulo="CRECI" pendente={pendente(perfil.creci)}>
           {pendente(perfil.creci) ? "A preencher" : perfil.creci}
         </Campo>
@@ -353,7 +353,7 @@ function Perfil({
           {perfil.formacao.every(pendente) ? (
             "A preencher"
           ) : (
-            <span className="block space-y-1">
+            <span className="block space-y-1.5">
               {perfil.formacao
                 .filter((f) => !pendente(f))
                 .map((f) => (
@@ -435,12 +435,25 @@ function Campo({
 }) {
   return (
     <div>
-      <dt className="t-label text-[color:var(--ink-faint)]">{rotulo}</dt>
+      {/* Os rótulos da ficha vem no verde da marca e em negrito: são eles
+          que o olho procura quando se quer o CRECI ou o tempo de mercado,
+          e em cinza-fraco eles sumiam sob o próprio conteúdo. 7,66:1 sobre
+          o branco do cartão, acima do mínimo AA. */}
+      <dt className="t-label font-bold text-[color:var(--cart-titulo)]">
+        {rotulo}
+      </dt>
+      {/* O conteúdo vem mais leve que o resto do cartão e mais longe do
+          rótulo. Em tinta cheia, colado, rótulo e valor liam como um bloco
+          só e era preciso procurar onde um terminava. Com o verde forte em
+          cima e o cinza embaixo, a hierarquia se vê de relance.
+
+          --ink-muted dá 5,99:1 sobre o branco do cartão: mais leve que o
+          quase-preto de antes e ainda bem acima do mínimo AA. */}
       <dd
-        className={`mt-1 text-sm ${
+        className={`mt-2 text-sm leading-relaxed ${
           pendente
             ? "italic text-[color:var(--ink-faint)]"
-            : "text-[color:var(--ink)]"
+            : "text-[color:var(--ink-muted)]"
         }`}
       >
         {children}
