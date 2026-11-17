@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { CarrosselCapa } from "@/components/CarrosselCapa";
 import { JsonLd } from "@/components/JsonLd";
@@ -188,6 +189,18 @@ export default function ImobiliariaPage() {
               WhatsApp {contato.whatsappExibicao}
             </Botao>
           </Reveal>
+
+          {/* A porta da área interna. Discreta de propósito: é para a equipe,
+              não para quem procura imóvel. Fica no fim da página, onde quem
+              trabalha aqui sabe encontrar e quem não trabalha não repara. */}
+          <p className="mt-16 border-t border-line pt-6 text-sm text-faint">
+            <Link
+              href="/imobiliaria/corretor"
+              className="text-faint no-underline transition-colors duration-200 hover:text-accent-texto"
+            >
+              Área do corretor
+            </Link>
+          </p>
         </div>
       </section>
     </div>
