@@ -65,7 +65,9 @@ export function AreaTreinamento() {
           também onde o amarelo do telhado e o ouro da Tridium se encontram.
           `sobre-foto` reaproveita a inversão de paleta que o resto do site já
           usa sobre fundo escuro. */}
-      <header className="sobre-foto sticky top-0 z-40 border-b border-white/10 bg-[color:var(--cart-barra)] shadow-[var(--cart-sombra-alta)]">
+      <header className="sticky top-0 z-40 shadow-[var(--cart-sombra-alta)]">
+        {/* FAIXA DE CIMA, escura: as marcas e os botoes de sessao. */}
+        <div className="sobre-foto border-b border-white/10 bg-[color:var(--cart-barra)]">
         <div className="wrap flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5 py-3">
           {/* AS DUAS MARCAS, lado a lado, separadas só por um fio. A da casa
               primeiro: esta é a área da Tridium, a Sinos entra como parceira.
@@ -85,7 +87,7 @@ export function AreaTreinamento() {
               caixa, as duas palavras ficavam 8px fora de registro: a da
               Sinos nasce mais abaixo no arquivo dela, porque tem o telhado
               em cima. Como e `translate`, nao mexe na altura da faixa. */}
-          <div className="order-1 flex min-w-0 items-center gap-3 md:gap-4">
+          <div className="flex min-w-0 items-center gap-3 md:gap-4">
             <Link href="/imobiliaria/corretor" className="shrink-0 no-underline">
               <Image
                 src={marcas.imobiliaria.escuro}
@@ -112,22 +114,7 @@ export function AreaTreinamento() {
             />
           </div>
 
-          {/* OS MÓDULOS NA FAIXA VERDE, ao lado das marcas. É a navegação
-              principal do treinamento: clicar troca o módulo mostrado
-              abaixo, e a faixa fica congelada, então ela acompanha a
-              rolagem.
-
-              `order` muda a arrumação conforme a largura: numa tela estreita
-              os módulos descem para uma linha só deles, embaixo das marcas e
-              dos botões, e rolam na horizontal. Espremê-los entre as duas
-              pontas num celular faria chips de dois dedos de largura. */}
-          <TrilhaNoCabecalho
-            moduloAberto={modulo.chave}
-            aoEscolher={setModuloAberto}
-            progresso={progresso}
-          />
-
-          <div className="order-2 flex items-center gap-2.5 lg:order-3">
+          <div className="flex items-center gap-2.5">
             <span className="hidden text-sm text-white/70 sm:inline">
               {sessao.usuario}
             </span>
@@ -146,6 +133,27 @@ export function AreaTreinamento() {
             </button>
           </div>
         </div>
+        </div>
+
+        {/* FAIXA DE BAIXO, clara: os modulos, com o nome escrito.
+
+            Eles estavam na faixa escura, espremidos entre as marcas e os
+            botoes, e so cabia o numero. Aqui a faixa e inteira deles, entao
+            cabe "MODULO 01 / Captacao" em todos — e ninguem precisa decorar
+            que o 06 e Fechamento.
+
+            Continua dentro do mesmo <header> congelado: duas faixas que
+            grudam juntas, sem precisar calcular a altura de uma para
+            deslocar a outra. */}
+        <div className="border-b border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)]">
+          <div className="wrap">
+            <TrilhaDeModulos
+              moduloAberto={modulo.chave}
+              aoEscolher={setModuloAberto}
+              progresso={progresso}
+            />
+          </div>
+        </div>
       </header>
 
       {/* ================= CORPO =================
@@ -158,7 +166,7 @@ export function AreaTreinamento() {
           um módulo longo. */}
       <div className="wrap py-8 md:py-10">
         <div className="grid gap-6 lg:grid-cols-[19rem_1fr] lg:gap-8">
-          <div className="lg:sticky lg:top-28 lg:self-start">
+          <div className="lg:sticky lg:top-32 lg:self-start">
             <Perfil
               perfil={perfilDoUsuario(sessao.usuario)}
               progresso={progresso}
@@ -210,14 +218,14 @@ function SemAcesso() {
   );
 }
 
-/* A navegação do treinamento, dentro da faixa verde. Chips compactos: com
-   nove módulos e as marcas ao lado, nome por extenso em todos não caberia em
-   tela nenhuma. O número aparece sempre; o nome, só no módulo aberto, que é
-   onde a pessoa precisa dele. Os outros dizem o nome ao leitor de tela e no
-   título que surge ao parar o mouse.
+/* A navegacao do treinamento, na faixa clara logo abaixo das marcas.
 
-   Módulo concluído troca o número pelo visto. */
-function TrilhaNoCabecalho({
+   Cada chip traz o numero E o nome: a faixa e inteira deles, entao cabe, e
+   "Modulo 06" sozinho nao diz nada a quem ainda nao decorou a sequencia.
+
+   Modulo concluido troca o numero pelo visto. Em tela estreita a fileira
+   rola na horizontal, com o modulo aberto trazido para a vista. */
+function TrilhaDeModulos({
   moduloAberto,
   aoEscolher,
   progresso,
@@ -227,11 +235,8 @@ function TrilhaNoCabecalho({
   progresso: Progresso;
 }) {
   return (
-    <nav
-      aria-label="Módulos do treinamento"
-      className="order-3 w-full min-w-0 lg:order-2 lg:w-auto lg:flex-1"
-    >
-      <ol className="flex items-center gap-1.5 overflow-x-auto pb-1 lg:justify-center lg:pb-0">
+    <nav aria-label="Módulos do treinamento">
+      <ol className="flex items-stretch gap-0.5 overflow-x-auto py-2">
         {procedimentos.map((m) => {
           const ativo = m.chave === moduloAberto;
           const p = progresso.resumo.porModulo[m.chave] ?? { feitas: 0, total: 0 };
@@ -243,34 +248,43 @@ function TrilhaNoCabecalho({
                 type="button"
                 onClick={() => aoEscolher(m.chave)}
                 aria-current={ativo ? "true" : undefined}
-                title={`Módulo ${m.numero} — ${m.titulo}`}
-                className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 transition-colors duration-200 ${
+                ref={(el) => {
+                  /* Ao trocar de modulo pelo botao "seguinte", la embaixo, o
+                     chip correspondente pode estar fora da vista numa tela
+                     estreita. Ele se traz para dentro sozinho. */
+                  if (el && ativo) {
+                    el.scrollIntoView({ block: "nearest", inline: "nearest" });
+                  }
+                }}
+                className={`flex h-full items-center gap-2 rounded-lg px-2.5 py-2 text-left transition-colors duration-200 ${
                   ativo
-                    ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
-                    : "text-white/70 hover:bg-white/10 hover:text-white"
+                    ? "bg-[color:var(--cart-pilula)] text-[color:var(--cart-pilula-ink)]"
+                    : "text-[color:var(--cart-preco)] hover:bg-[color:var(--cart-caixa)]"
                 }`}
               >
                 <span
-                  className={`grid h-5 w-5 shrink-0 place-items-center rounded-full font-mono text-[0.625rem] font-bold ${
+                  className={`grid h-6 w-6 shrink-0 place-items-center rounded-full font-mono text-[0.625rem] font-bold ${
                     ativo
-                      ? "bg-black/15"
+                      ? "bg-white/15"
                       : completo
                         ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
-                        : "bg-white/15"
+                        : "bg-[color:var(--cart-caixa)] text-[color:var(--cart-titulo)]"
                   }`}
                 >
                   {completo && !ativo ? <span aria-hidden="true">&#10003;</span> : m.numero}
                 </span>
 
-                {ativo && (
-                  <span className="whitespace-nowrap text-xs font-bold">
-                    {m.titulo}
-                  </span>
-                )}
+                {/* So o nome. A palavra "modulo" repetida nove vezes nao
+                    acrescenta nada, e o numero ja esta na bolinha ao lado —
+                    tirada, sobra espaco e a fileira respira. Ela continua
+                    dita ao leitor de tela, logo abaixo, onde a bolinha
+                    sozinha nao bastaria. */}
+                <span className="whitespace-nowrap text-sm font-semibold leading-tight">
+                  {m.tituloCurto ?? m.titulo}
+                </span>
 
                 <span className="sr-only">
-                  Módulo {m.numero}: {m.titulo}
-                  {completo ? " (concluído)" : ""}
+                  Módulo {m.numero}{completo ? ", concluído" : ""}
                 </span>
               </button>
             </li>

@@ -65,6 +65,11 @@ export interface EtapaProcedimento {
   chave: string;
   numero: string;
   titulo: string;
+  /** Nome curto, para a trilha de modulos. Tres titulos nao cabem nela por
+      extenso e empurravam a fileira inteira para alem da tela; o titulo
+      completo continua aparecendo na abertura do modulo. Sem este campo,
+      vale o `titulo`. */
+  tituloCurto?: string;
   resumo: string;
   /** O que o corretor tem de SABER FAZER ao fim do módulo. É isto que
       transforma a lista de procedimentos num treinamento: sem um objetivo
@@ -364,6 +369,7 @@ export const procedimentos: EtapaProcedimento[] = [
     chave: "contrato",
     numero: "05",
     titulo: "Documentação e contrato",
+    tituloCurto: "Documentação",
     resumo:
       "Reunir certidões, redigir o contrato e assinar. A etapa mais técnica e a que mais derruba negócio.",
     objetivo:
@@ -461,6 +467,7 @@ export const procedimentos: EtapaProcedimento[] = [
     chave: "locacao",
     numero: "07",
     titulo: "Rotina de locação",
+    tituloCurto: "Locação",
     resumo:
       "O que acontece todo mês depois que o inquilino entra. É receita recorrente e é onde mora o atrito.",
     objetivo:
@@ -530,6 +537,7 @@ export const procedimentos: EtapaProcedimento[] = [
     chave: "administrativo",
     numero: "08",
     titulo: "Administrativo e financeiro",
+    tituloCurto: "Administrativo",
     resumo:
       "Comissão, nota fiscal e conciliação. Corre em paralelo a todas as etapas.",
     objetivo:
@@ -570,6 +578,7 @@ export const procedimentos: EtapaProcedimento[] = [
     chave: "juridico",
     numero: "09",
     titulo: "Jurídico e conformidade",
+    tituloCurto: "Jurídico",
     resumo:
       "O que mantém a imobiliária em funcionamento e fora de processo.",
     objetivo:
