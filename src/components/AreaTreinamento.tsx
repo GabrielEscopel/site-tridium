@@ -20,7 +20,7 @@
    duas versões a manter: módulo, aula ou card novo entra lá e aparece aqui.
    ============================================================================= */
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -37,6 +37,8 @@ import { marcas } from "@/content/site";
 import { useMetasCorretor } from "@/lib/metasCorretor";
 import { useProgressoTreinamento } from "@/lib/progressoTreinamento";
 import { useSessaoCorretor } from "@/lib/sessaoCorretor";
+import { useAnotacoesContrato } from "@/lib/anotacoesContrato";
+import { useDitado } from "@/lib/ditado";
 import { iconeDaCategoria } from "./IconesImovel";
 
 export function AreaTreinamento() {
@@ -869,7 +871,7 @@ function Aula({
           {/* Aula desenha `conteudo`; procedimento desenha `passos`. Um
               topico nunca tem os dois cheios. */}
           {topico.conteudo ? (
-            <Materia blocos={topico.conteudo} />
+            <Materia blocos={topico.conteudo} aula={topico.chave} />
           ) : (
             <ol className="space-y-2.5">
               {topico.passos.map((passo, i) => (
@@ -955,7 +957,213 @@ function Aula({
    Nao e lista numerada como nos procedimentos: aula nao e sequencia de
    passos a executar, e materia a ler, e numerar tudo achataria a
    hierarquia entre secao, item e marco. */
-function Materia({ blocos }: { blocos: BlocoAula[] }) {
+/* --------------------------------------------------------------------------
+   A CLAUSULA, COM A BARRA DE ALTERACAO
+   --------------------------------------------------------------------------
+   Componente proprio, e nao JSX solto dentro do `map` da Materia, porque aqui
+   entram hooks — o estado de aberto/fechado e o ditado — e hook nao pode
+   morar dentro de um laco.
+
+   A BARRA NASCE FECHADA. Dezesseis campos de texto abertos de uma vez
+   transformam a aula numa planilha e empurram o conteudo para baixo. Fechada,
+   ela e uma linha; quem quer anotar abre a dela.
+
+   Clausula que JA TEM anotacao abre sozinha e ganha marca no botao: ao voltar
+   na aula, o que se procura e justamente o que ficou escrito. */
+function Clausula({
+  bloco,
+  valor,
+  pronto,
+  aoAnotar,
+}: {
+  bloco: Extract<BlocoAula, { tipo: "clausula" }>;
+  valor: string;
+  pronto: boolean;
+  aoAnotar: (texto: string) => void;
+}) {
+  const [aberta, setAberta] = useState(false);
+  const campo = useRef<HTMLTextAreaElement | null>(null);
+
+  /* O texto ditado entra NO FIM do que ja estava, com um espaco antes, em vez
+     de substituir: ditar e digitar se misturam na mesma anotacao. */
+  const receberFala = useCallback(
+    (trecho: string) => {
+      const atual = campo.current?.value ?? "";
+      const juntado = atual.trim() === "" ? trecho.trim() : `${atual.trim()} ${trecho.trim()}`;
+      aoAnotar(juntado);
+    },
+    [aoAnotar],
+  );
+
+  const ditado = useDitado(receberFala);
+
+  /* Enquanto `pronto` for false nao se sabe se ha anotacao guardada: o
+     primeiro render acontece no servidor, onde localStorage nao existe. Abrir
+     antes faria a barra piscar aberta e fechar. */
+  const temAnotacao = pronto && valor.trim() !== "";
+  const mostrando = aberta || temAnotacao;
+
+  return (
+    /* A clausula vem num cartao proprio, com fio a esquerda: numa aula de
+       dezesseis delas, paragrafo solto vira parede e ninguem acha onde uma
+       termina e a outra comeca.
+
+       A traducao fica DENTRO do mesmo cartao, nao numa caixa solta embaixo.
+       Separadas, viram dois blocos que o olho pode ler na ordem errada;
+       juntas, a ordem e obrigatoria — o tecnico primeiro, porque e ele que
+       vale, e a traducao logo abaixo, porque e ela que faz o tecnico ser
+       lido. */
+    <section className="rounded-xl border border-[color:var(--cart-card-linha)] border-l-[3px] border-l-[color:var(--cart-titulo)] bg-[color:var(--cart-card)] px-5 py-4">
+      <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">
+        Cláusula {bloco.numero}
+      </p>
+      <h4 className="mt-1 text-[0.9375rem] font-bold text-[color:var(--cart-titulo)]">
+        {bloco.titulo}
+      </h4>
+      <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink-muted)]">
+        {bloco.texto}
+      </p>
+      {bloco.itens && (
+        <ul className="mt-3 space-y-2">
+          {bloco.itens.map((item) => (
+            <li key={item} className="flex gap-3 text-sm">
+              <span
+                aria-hidden="true"
+                className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--cart-card-linha)]"
+              />
+              <span className="leading-relaxed text-[color:var(--ink-muted)]">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="mt-4 rounded-lg border-l-[3px] border-l-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)] px-4 py-3">
+        <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-acao-ink)]">
+          Em bom português
+        </p>
+        <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
+          {bloco.simples}
+        </p>
+      </div>
+
+      {/* ---------- A barra de alteração ---------- */}
+      <div className="mt-4 border-t border-[color:var(--cart-card-linha)] pt-3">
+        {!mostrando ? (
+          <button
+            type="button"
+            onClick={() => setAberta(true)}
+            className="flex items-center gap-2 text-xs font-semibold text-[color:var(--cart-titulo)] hover:underline"
+          >
+            <IconeLapis />
+            Anotar alteração nesta cláusula
+          </button>
+        ) : (
+          <div>
+            <div className="flex items-center justify-between gap-3">
+              <label
+                htmlFor={`anotacao-${bloco.numero}`}
+                className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-titulo)]"
+              >
+                Alteração desejada
+              </label>
+              {ditado.suportado && (
+                /* O microfone fica JUNTO DO RÓTULO e não dentro do campo: um
+                   botão por cima do texto cobriria o que foi escrito e viraria
+                   alvo de clique errado em tela de celular. */
+                <button
+                  type="button"
+                  onClick={ditado.alternar}
+                  aria-pressed={ditado.ouvindo}
+                  aria-label={ditado.ouvindo ? "Parar de ditar" : "Ditar pelo microfone"}
+                  className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors duration-200 ${
+                    ditado.ouvindo
+                      ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+                      : "border border-[color:var(--cart-campo-linha)] text-[color:var(--ink-muted)] hover:border-[color:var(--cart-titulo)] hover:text-[color:var(--cart-titulo)]"
+                  }`}
+                >
+                  <IconeMicrofone />
+                  {ditado.ouvindo ? "Ouvindo…" : "Ditar"}
+                </button>
+              )}
+            </div>
+
+            <textarea
+              id={`anotacao-${bloco.numero}`}
+              ref={campo}
+              value={valor}
+              onChange={(e) => aoAnotar(e.target.value)}
+              rows={3}
+              placeholder="O que você quer mudar aqui?"
+              className="mt-2 w-full resize-y rounded-xl border border-[color:var(--cart-campo-linha)] bg-white px-4 py-3 text-sm leading-relaxed text-[color:var(--ink)] placeholder:text-[color:var(--ink-faint)] focus:border-[color:var(--cart-titulo)] focus:outline-none focus:ring-2 focus:ring-[color:var(--cart-acao)]"
+            />
+
+            {/* `role="status"` para o erro do microfone ser anunciado por
+                leitor de tela: sem isso, quem não enxerga o botão mudar de cor
+                fica falando para um microfone que não está ouvindo. */}
+            {ditado.erro && (
+              <p role="status" className="mt-2 text-xs text-[color:var(--ink-muted)]">
+                {ditado.erro}
+              </p>
+            )}
+
+            {/* Os dois avisos que esta tela deve e que ninguém adivinha. */}
+            <p className="mt-2 text-[0.6875rem] leading-snug text-[color:var(--ink-faint)]">
+              A anotação fica guardada <strong>neste navegador</strong> — não
+              chega à Tridium nem acompanha você em outro computador.
+              {ditado.suportado &&
+                " Ao ditar, o áudio é enviado ao serviço de transcrição do navegador para virar texto."}
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function IconeLapis() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-3.5 w-3.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 20h4L19 9a2.3 2.3 0 0 0-3.2-3.2L5 16.5V20Z" />
+      <path d="M14.5 6.5 17.5 9.5" />
+    </svg>
+  );
+}
+
+function IconeMicrofone() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-3.5 w-3.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="9" y="2.5" width="6" height="11" rx="3" />
+      <path d="M5.5 11a6.5 6.5 0 0 0 13 0" />
+      <path d="M12 17.5V21" />
+    </svg>
+  );
+}
+
+function Materia({ blocos, aula }: { blocos: BlocoAula[]; aula: string }) {
+  /* Uma leitura do armazenamento para a aula inteira, e nao uma por clausula:
+     dezesseis copias do mesmo estado sairiam de sincronia entre si. */
+  const anotacoes = useAnotacoesContrato();
+
   return (
     <div className="space-y-6">
       {blocos.map((b, i) => {
@@ -1001,53 +1209,15 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
         }
 
         if (b.tipo === "clausula") {
+          const id = `${aula}/${b.numero}`;
           return (
-            /* A clausula vem num cartao proprio, com fio a esquerda: numa
-               aula de doze ou dezesseis delas, paragrafo solto vira parede e
-               ninguem acha onde uma termina e a outra comeca.
-
-               A traducao fica DENTRO do mesmo cartao, nao numa caixa solta
-               embaixo. Separadas, viram dois blocos que o olho pode ler na
-               ordem errada; juntas, a ordem e obrigatoria — o tecnico
-               primeiro, porque e ele que vale, e a traducao logo abaixo,
-               porque e ela que faz o tecnico ser lido. */
-            <section
+            <Clausula
               key={i}
-              className="rounded-xl border border-[color:var(--cart-card-linha)] border-l-[3px] border-l-[color:var(--cart-titulo)] bg-[color:var(--cart-card)] px-5 py-4"
-            >
-              <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">
-                Cláusula {b.numero}
-              </p>
-              <h4 className="mt-1 text-[0.9375rem] font-bold text-[color:var(--cart-titulo)]">
-                {b.titulo}
-              </h4>
-              <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink-muted)]">
-                {b.texto}
-              </p>
-              {b.itens && (
-                <ul className="mt-3 space-y-2">
-                  {b.itens.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm">
-                      <span
-                        aria-hidden="true"
-                        className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--cart-card-linha)]"
-                      />
-                      <span className="leading-relaxed text-[color:var(--ink-muted)]">
-                        {item}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="mt-4 rounded-lg border-l-[3px] border-l-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)] px-4 py-3">
-                <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-acao-ink)]">
-                  Em bom português
-                </p>
-                <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
-                  {b.simples}
-                </p>
-              </div>
-            </section>
+              bloco={b}
+              valor={anotacoes.anotacoes[id] ?? ""}
+              pronto={anotacoes.pronto}
+              aoAnotar={(texto) => anotacoes.anotar(id, texto)}
+            />
           );
         }
 
