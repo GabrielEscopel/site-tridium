@@ -614,14 +614,14 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Saber a quem procurar e o que pedir em cada tipo de imóvel — lançamento de construtora, apartamento usado, terreno, casa — e manter cada um no grupo certo, para a carteira não virar uma lista só.",
     icone: "casa",
-    /* O card e o mapa do modulo inteiro, e e largo: entra como faixa. Os
-       modulos 01 e 02 abrem com foto quadrada ao lado do texto; aqui nao ha
-       foto, ha um infografico, e espremido numa coluna ele seria ilegivel. */
+    /* Mesmo padrao dos modulos 01 e 02: foto quadrada a esquerda, texto a
+       direita. Recorte do card da casa no tamanho nativo. Antes aqui havia
+       o infografico dos quatro grupos, em faixa, e o modulo abria diferente
+       dos outros dois. */
     imagem: {
-      src: "/img/treinamento/agenciamento-grupos.webp",
-      alt: "Os quatro grupos de agenciamento: empreendimentos de construtoras, apartamentos usados, terrenos e casas, e apartamentos por região",
-      descricao: "Os quatro grupos de agenciamento",
-      formato: "deitada",
+      src: "/img/treinamento/agenciamento-recepcao.webp",
+      alt: "Corretor da Tridium Imoveis cumprimentando um cliente na entrada de um empreendimento",
+      descricao: "A recepcao do cliente no empreendimento",
     },
     topicos: [
       {
