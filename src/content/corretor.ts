@@ -416,7 +416,7 @@ export const procedimentos: EtapaProcedimento[] = [
         chave: "imagem-profissional",
         titulo: "Imagem profissional",
         resumo:
-          "O cuidado pessoal que o cliente registra antes de ouvir a primeira frase.",
+          "O cuidado pessoal, o uniforme e o crachá — tudo o que o cliente registra antes de ouvir a primeira frase.",
         passos: [],
         conteudo: [
           {
@@ -443,39 +443,21 @@ export const procedimentos: EtapaProcedimento[] = [
               "Uso moderado de perfume — em carro fechado e imóvel sem ventilação, excesso incomoda.",
             ],
           },
+          /* O uniforme e o cracha vinham numa aula separada, "Vestuario e
+             identificacao", que repetia esta: o card do certo contra errado,
+             logo acima, ja lista "uniforme alinhado" e "cracha visivel", e a
+             aula seguinte abria com os mesmos dois itens em texto. O que ela
+             tinha de proprio — onde o cracha fica, o que o corretor carrega,
+             e a exigencia legal do CRECI — entrou aqui. A divisao agora e por
+             assunto, nao por repeticao: o corpo, a roupa, o que vai na mao. */
           {
             tipo: "secao",
-            titulo: "Por que isso pesa mais aqui do que em outras profissões",
+            titulo: "O uniforme e o crachá",
             texto:
-              "O cliente vai entregar a um desconhecido a negociação do maior bem que tem, e muitas vezes vai recebê-lo dentro de casa. Na falta de outra informação, ele usa o que vê. Cuidado com a aparência não é vaidade: é o primeiro sinal de que a pessoa cuida também do que não se vê — do contrato, do prazo, da documentação.",
-          },
-        ],
-        fontes: [
-          {
-            rotulo:
-              "Willis & Todorov (2006), Psychological Science — First Impressions: Making Up Your Mind After a 100-ms Exposure to a Face",
-            href: "https://collaborate.princeton.edu/en/publications/first-impressions-making-up-your-mind-after-a-100-ms-exposure-to-/",
-          },
-          {
-            rotulo: "Princeton — Snap judgments decide a face's character",
-            href: "https://princeton.edu/news/2006/08/22/snap-judgments-decide-faces-character-psychologist-finds",
-          },
-        ],
-      },
-      {
-        chave: "vestuario",
-        titulo: "Vestuário e identificação",
-        resumo:
-          "A camisa da casa e o cracha. Quem recebe um desconhecido em casa precisa saber, de longe, quem é aquela pessoa.",
-        passos: [],
-        conteudo: [
-          {
-            tipo: "secao",
-            titulo: "O uniforme da casa",
+              "O crachá vale mais para quem vai abrir a porta do que para quem vai entrar. Por isso ele fica à vista desde a calçada, no peito e não no bolso: é o que separa o corretor de qualquer um que bate à campainha.",
             itens: [
-              "Camisa oficial da imobiliária.",
-              "Cracha de identificação visível — no peito, não no bolso.",
-              "Roupas limpas, alinhadas e em bom estado.",
+              "Camisa oficial da imobiliária, limpa e alinhada.",
+              "Crachá de identificação no peito, legível de longe.",
               "Calçado social ou casual, alinhado e limpo.",
             ],
           },
@@ -492,14 +474,25 @@ export const procedimentos: EtapaProcedimento[] = [
             ],
           },
           {
-            tipo: "fecho",
-            titulo: "O cracha não é formalidade",
+            tipo: "secao",
+            titulo: "Por que isso pesa mais aqui do que em outras profissões",
             texto:
-              "É o que separa o corretor de qualquer um que bate à porta. Vale mais para quem vai abrir do que para quem vai entrar — e por isso ele fica à vista desde a calçada, não depois do cumprimento.",
+              "O cliente vai entregar a um desconhecido a negociação do maior bem que tem, e muitas vezes vai recebê-lo dentro de casa. Na falta de outra informação, ele usa o que vê. Cuidado com a aparência não é vaidade: é o primeiro sinal de que a pessoa cuida também do que não se vê — do contrato, do prazo, da documentação.",
           },
         ],
         exigencia:
           "O número de inscrição no CRECI é obrigatório no material de identificação e em toda peça publicitária do corretor (Lei 6.530/78; Resolução COFECI 492/2007).",
+        fontes: [
+          {
+            rotulo:
+              "Willis & Todorov (2006), Psychological Science — First Impressions: Making Up Your Mind After a 100-ms Exposure to a Face",
+            href: "https://collaborate.princeton.edu/en/publications/first-impressions-making-up-your-mind-after-a-100-ms-exposure-to-/",
+          },
+          {
+            rotulo: "Princeton — Snap judgments decide a face's character",
+            href: "https://princeton.edu/news/2006/08/22/snap-judgments-decide-faces-character-psychologist-finds",
+          },
+        ],
       },
       {
         chave: "carro",
