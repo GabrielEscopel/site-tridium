@@ -501,21 +501,15 @@ export const procedimentos: EtapaProcedimento[] = [
           "Em muitas visitas ele é a primeira sala de reunião, e às vezes a única.",
         passos: [],
         conteudo: [
+          /* Sem `legenda` e sem a secao "O padrao": o card ja traz os quatro
+             itens escritos dentro dele, e a legenda so repetia o titulo que
+             esta na tarja verde. Repetir em texto o que a imagem diz nao
+             reforca — faz a aula parecer mais longa do que e. O que sobra
+             aqui e o que o card NAO diz: o uso do carro na visita. */
           {
             tipo: "imagem",
             src: "/img/treinamento/apresentacao-veiculo.webp",
-            alt: "Veículo da Tridium Imóveis com a marca aplicada na porta, ao lado da lista de cuidados com o carro",
-            legenda: "O padrão de veículo da Tridium Imóveis.",
-          },
-          {
-            tipo: "secao",
-            titulo: "O padrão",
-            itens: [
-              "Limpo por dentro e por fora.",
-              "Organizado e sem objetos soltos.",
-              "Manutenção em dia: revisões, pneus e itens de segurança.",
-              "Transmite cuidado, credibilidade e profissionalismo.",
-            ],
+            alt: "Veículo da Tridium Imóveis com a marca aplicada na porta, ao lado da lista de cuidados com o carro: limpo por dentro e por fora, organizado e sem objetos soltos, manutenção em dia com revisões, pneus e itens de segurança",
           },
           {
             tipo: "secao",
