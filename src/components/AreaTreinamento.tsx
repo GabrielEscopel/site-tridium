@@ -750,7 +750,11 @@ function Aula({
           : "border-[color:var(--cart-card-linha)]"
       }`}
     >
-      <div className="flex items-start gap-3 px-5 py-4 sm:px-6">
+      {/* `items-center`, e não `items-start`. Com o resumo embaixo, a linha
+          tinha duas alturas e os controles precisavam se prender ao topo;
+          agora é uma linha só, e alinhar pelo topo deixaria a caixa de
+          concluído e a seta pendendo abaixo do texto. */}
+      <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
         {/* A caixa de concluído fica FORA do botão que abre a aula: um botão
             dentro do outro não existe em HTML, e marcar como vista não devia
             obrigar a abrir. */}
@@ -763,7 +767,7 @@ function Aula({
               ? `Desmarcar a aula ${topico.titulo}`
               : `Marcar a aula ${topico.titulo} como concluída`
           }
-          className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${
+          className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition-colors duration-200 ${
             concluida
               ? "border-[color:var(--cart-acao)] bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
               : "border-[color:var(--cart-campo-linha)] text-transparent hover:border-[color:var(--cart-titulo)]"
@@ -779,7 +783,7 @@ function Aula({
           onClick={() => setAberta((v) => !v)}
           aria-expanded={aberta}
           aria-controls={`aula-${topico.chave}`}
-          className="group flex min-w-0 flex-1 items-start gap-4 text-left"
+          className="group flex min-w-0 flex-1 items-center gap-4 text-left"
         >
           <span className="min-w-0 flex-1">
             {/* O número anda na MESMA linha do título. Empilhado, o rótulo
@@ -787,13 +791,22 @@ function Aula({
                 na lista já dizia, e empurrava o título para baixo. Ao lado,
                 ele vira o que sempre foi: um índice.
 
-                Baseline comum, não centro comum: o número é pequeno e o
-                título grande, e alinhá-los pelo meio deixaria o número
-                boiando. `sr-only` devolve a palavra "Aula" a quem ouve a
-                página — lido em voz alta, um "01" solto antes do título não
-                diz nada. */}
+                Mesmo corpo e mesmo peso do título — 1,0625rem, semibold —,
+                e não a letrinha de rótulo de antes. Continua em mono: os
+                algarismos de largura fixa fazem 01, 02 e 03 caírem na mesma
+                coluna descendo a lista, o que uma proporcional não faz.
+
+                A cor é o que separa um do outro. Em --ink-muted o número
+                acompanha o título sem disputar com ele; no verde do título
+                os dois virariam uma frase só.
+
+                Baseline comum, não centro comum: mesmo com corpos iguais, é
+                a baseline que mantém o par assentado quando o título quebra
+                em duas linhas. `sr-only` devolve a palavra "Aula" a quem
+                ouve a página — lido em voz alta, um "01" solto antes do
+                título não diz nada. */}
             <span className="flex items-baseline gap-2.5">
-              <span className="shrink-0 font-mono text-[0.6875rem] font-bold tracking-[0.12em] text-[color:var(--ink-faint)]">
+              <span className="shrink-0 font-mono text-[1.0625rem] font-semibold text-[color:var(--ink-muted)]">
                 <span className="sr-only">Aula </span>
                 {String(numero).padStart(2, "0")}
               </span>
@@ -807,9 +820,11 @@ function Aula({
                 {topico.titulo}
               </span>
             </span>
-            <span className="mt-1.5 block text-sm leading-snug text-[color:var(--ink-muted)]">
-              {topico.resumo}
-            </span>
+            {/* O resumo da aula saiu daqui. `topico.resumo` CONTINUA nos
+                dados, escrito para as 41 aulas: é o que a aula promete, e
+                serve de ementa para quem for montar material a partir
+                disto. Na lista ele dobrava a altura de cada linha e fazia
+                os doze módulos virarem rolagem. */}
           </span>
 
           {/* A seta é o que diz que o cartão abre, e era um ▾ de texto, solto
