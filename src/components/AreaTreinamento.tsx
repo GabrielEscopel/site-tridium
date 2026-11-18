@@ -86,10 +86,19 @@ export function AreaTreinamento() {
               tem 18,9px, e a Sinos precisa de 35px para chegar ao mesmo; a
               36px, 40px.
 
-              A SUBIDA DE 8px alinha as linhas de base. Centradas pela
-              caixa, as duas palavras ficavam 8px fora de registro: a da
-              Sinos nasce mais abaixo no arquivo dela, porque tem o telhado
-              em cima. Como e `translate`, nao mexe na altura da faixa. */}
+              A SUBIDA ajusta o registro vertical. Centradas pela caixa, as
+              duas palavras ficavam 8px fora: a da Sinos nasce mais abaixo no
+              arquivo dela, porque tem o telhado em cima. Alinhar as bases ao
+              milimetro, porem, deixava a marca parecendo alta demais na
+              faixa — o telhado puxa a massa visual para cima. Por isso a
+              subida ficou em 5px, e nao nos 9px do calculo: a palavra da
+              Sinos termina 5,5px abaixo da Tridium, e e assim que as duas
+              parecem assentadas.
+
+              A Sinos tambem entra 14% maior na palavra. Marca empilhada, com
+              telhado e assinatura minuscula, le menor que uma deitada do
+              mesmo tamanho; o excesso compensa isso sem distorcer nada.
+              Como e `translate`, nao mexe na altura da faixa. */}
           <div className="flex min-w-0 items-center gap-3 md:gap-4">
             <Link href="/imobiliaria/corretor" className="shrink-0 no-underline">
               <Image
@@ -113,7 +122,7 @@ export function AreaTreinamento() {
               width={310}
               height={160}
               priority
-              className="h-[35px] w-auto shrink-0 -translate-y-[8px] md:h-10 md:-translate-y-[9px]"
+              className="h-[39px] w-auto shrink-0 -translate-y-[4px] md:h-11 md:-translate-y-[5px]"
             />
           </div>
 
