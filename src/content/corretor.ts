@@ -656,6 +656,17 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Abrir uma conversa por e-mail, WhatsApp, Instagram ou pessoalmente dentro do padrão da casa — dizendo quem é, de onde veio o contato e o que quer, em poucas linhas — e saber quando parar.",
     icone: "permuta",
+    /* Recorte quadrado a partir de x=119, na altura nativa. Dos quatro
+       enquadramentos testados, e o unico que cabe os tres rostos inteiros E o
+       corretor completo com a marca no peito e o cracha a vista. Mais a
+       esquerda, o gesto do braco se perde; mais a direita, o cliente da ponta
+       fica cortado pela metade — e a aula de abordagem pessoal fala
+       justamente de quem esta sendo abordado, nao so de quem aborda. */
+    imagem: {
+      src: "/img/treinamento/abordagem-comercial.webp",
+      alt: "Corretor de camisa oficial da Tridium Imóveis, com cordão e crachá, apontando algo para um casal de clientes na entrada de um imóvel",
+      descricao: "A conversa que começa antes da visita",
+    },
     topicos: [
       {
         chave: "email",
