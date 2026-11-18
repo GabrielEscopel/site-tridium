@@ -1008,11 +1008,32 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
                   {b.titulo}
                 </h4>
               )}
-              {/* O fio vertical liga os marcos; o ano fica ancorado a
-                  esquerda, largura fixa, para a coluna nao dancar. */}
-              <ol className="mt-4 space-y-5 border-l-2 border-[color:var(--cart-card-linha)] pl-5">
+              {/* O fio vertical liga os marcos. O numero (ou o ano) anda na
+                  MESMA linha do titulo: empilhado, ele gastava uma linha
+                  inteira para dizer a ordem que o proprio fio ja mostra.
+
+                  A coluna do numero e um GRID, nao um flex com espaco fixo.
+                  Este mesmo bloco desenha os passos de um procedimento, onde
+                  todo rotulo tem dois digitos, e a linha do tempo da Historia,
+                  onde eles vao de "1808" a "2000–hoje". Com espaco fixo, os
+                  titulos da linha do tempo comecariam cada um num ponto
+                  diferente. O grid mede o rotulo mais largo do bloco e da essa
+                  largura a todos, entao os titulos caem na mesma coluna sem
+                  que ninguem precise medir nada na mao.
+
+                  `grid-cols-subgrid` faz cada <li> herdar as colunas da <ol>.
+                  Onde o navegador nao souber subgrid, o item volta a empilhar
+                  numero em cima do titulo — que e exatamente o desenho de
+                  antes, entao a degradacao nao quebra nada.
+
+                  `items-baseline`: o numero e pequeno e o titulo e maior;
+                  alinhados pelo meio, o numero ficaria boiando. */}
+              <ol className="mt-4 grid gap-y-5 border-l-2 border-[color:var(--cart-card-linha)] pl-5 sm:grid-cols-[auto_1fr] sm:gap-x-3">
                 {b.marcos.map((m) => (
-                  <li key={m.ano} className="relative">
+                  <li
+                    key={m.ano}
+                    className="relative grid gap-y-0.5 sm:col-span-2 sm:grid-cols-subgrid sm:items-baseline"
+                  >
                     <span
                       aria-hidden="true"
                       className={`absolute -left-[1.6rem] top-1 h-3 w-3 rounded-full border-2 border-[color:var(--cart-card)] ${
@@ -1022,7 +1043,7 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
                       }`}
                     />
                     <p
-                      className={`font-mono text-xs font-bold tracking-[0.08em] ${
+                      className={`whitespace-nowrap font-mono text-xs font-bold tracking-[0.08em] ${
                         m.marco
                           ? "text-[color:var(--cart-acao-ink)]"
                           : "text-[color:var(--ink-faint)]"
@@ -1030,12 +1051,14 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
                     >
                       {m.ano}
                     </p>
-                    <p className="mt-0.5 text-sm font-semibold text-[color:var(--ink)]">
-                      {m.titulo}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-[color:var(--ink-muted)]">
-                      {m.texto}
-                    </p>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-[color:var(--ink)]">
+                        {m.titulo}
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-[color:var(--ink-muted)]">
+                        {m.texto}
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ol>
