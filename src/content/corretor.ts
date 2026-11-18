@@ -162,21 +162,25 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Explicar por que corretor é profissão regulamentada, dizer o que é e o que não é função sua, e saber em que momento a comissão passa a ser devida — inclusive quando o negócio cai no fim.",
     icone: "casa",
-    /* A imagem e uma peca do CRECI-SC sobre a historia da corretagem: a
-       metade esquerda em sepia — caravela, casario colonial, homens de
-       cartola sobre uma planta, pena e tinteiro — e a direita em cor, com
-       arranha-ceus, casa moderna, corretor com clientes e laptop. Diz o que
-       a aula diz, numa olhada.
+    /* Colagem sobre a historia da corretagem: a metade esquerda em sepia —
+       caravela, casario colonial, homens de cartola sobre uma planta, pena e
+       tinteiro — e a direita em cor, com arranha-ceus, casa moderna, corretor
+       com clientes e laptop. Diz o que a aula diz, numa olhada.
+
+       Sem `credito`: a versao anterior era uma peca do CRECI-SC, com a marca
+       gravada no rodape, e a etiqueta de credito acompanhava. Esta e material
+       proprio da casa, entao nao ha a quem creditar — e deixar o nome de um
+       terceiro numa imagem que nao e dele seria atribuicao errada, nao
+       cortesia.
 
        Quadrada, 800x800. Por isso ela entra ao LADO do texto, nao como
        faixa deitada: numa faixa 21:9 o corte comeria a caravela em cima e a
        mesa com a planta embaixo, que e justamente a passagem do tempo que a
        imagem conta. */
     imagem: {
-      src: "/img/treinamento/historia-corretagem.webp",
-      alt: "Montagem do CRECI-SC: a corretagem do passado, em sepia, dando lugar ao mercado atual",
+      src: "/img/treinamento/historia-corretagem-colagem.webp",
+      alt: "Colagem: a corretagem do passado, em sepia, dando lugar ao mercado atual",
       descricao: "A corretagem, do passado ao presente",
-      credito: "CRECI-SC",
     },
     topicos: [
       {
