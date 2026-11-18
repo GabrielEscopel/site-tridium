@@ -604,10 +604,276 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
+  /* ---------------------------------------------------------------------
+     03 ABORDAGEM COMERCIAL
+     Entra antes do Agenciamento porque e o que vem antes dele na pratica: o
+     corretor precisa saber falar com alguem para depois conseguir o imovel.
+     Captar um empreendimento, pedir autorizacao de venda e marcar visita sao
+     todos primeiros contatos — e ate aqui o treinamento ensinava o QUE fazer
+     sem nunca dizer COMO abrir a conversa.
+
+     As quatro aulas sao os quatro canais por onde a casa aborda. Cada uma traz
+     um padrao de abertura, porque padronizar e o ponto: o cliente tem de
+     receber a mesma impressao venha ele de qual corretor vier.
+     --------------------------------------------------------------------- */
+  {
+    chave: "abordagem",
+    numero: "03",
+    titulo: "Abordagem comercial",
+    tituloCurto: "Abordagem",
+    resumo:
+      "O primeiro contato não é conversa fiada antes do trabalho. É o trabalho: é nele que o cliente decide se responde.",
+    objetivo:
+      "Abrir uma conversa por e-mail, WhatsApp, Instagram ou pessoalmente dentro do padrão da casa — dizendo quem é, de onde veio o contato e o que quer, em poucas linhas — e saber quando parar.",
+    icone: "permuta",
+    topicos: [
+      {
+        chave: "email",
+        titulo: "E-mail",
+        resumo:
+          "O canal que deixa registro, aguenta anexo e chega a quem não responde WhatsApp.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "E-mail parece canal morto até aparecer uma proposta para formalizar, um síndico para notificar, um casal que decide junto e precisa reencaminhar para o outro, ou um cliente de empresa que só lê o que chega na caixa corporativa. Ele é o único canal em que o que foi dito fica registrado com data, e isso vale tanto a favor quanto contra.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O assunto decide se vai ser aberto",
+            texto:
+              "O padrão da casa é sempre o mesmo, para o cliente reconhecer o remetente antes de abrir.",
+            itens: [
+              "Imóvel [código] — [tipo, dormitórios] no [bairro] | Tridium Imóveis.",
+              "Nada de \"Oportunidade imperdível\" ou \"Você precisa ver isso\": é o que o filtro de spam procura.",
+              "Um assunto, um e-mail. Dois imóveis diferentes são dois e-mails.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "A estrutura, em quatro partes",
+            itens: [
+              "Quem é você e de onde veio o contato — a primeira linha, sempre.",
+              "O motivo, em até três linhas. Quem precisa rolar a tela já desistiu.",
+              "UM pedido só: responder, marcar visita, confirmar um dado. Dois pedidos viram zero.",
+              "Assinatura com nome, CRECI, telefone e a imobiliária.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Anexos",
+            itens: [
+              "Ficha do imóvel em PDF, nunca print de tela.",
+              "Nome de arquivo padrão: codigo-bairro-ficha.pdf. Chega assim na pasta do cliente.",
+              "Acima de 10 MB, link em vez de anexo.",
+              "Documento de cliente só vai por e-mail quando foi ele quem pediu.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O que não se faz",
+            texto:
+              "Disparo para lista comprada é o caminho mais curto para a marca cair no spam de todo mundo — inclusive dos clientes de verdade. Contato de e-mail é dado pessoal: a pessoa precisa ter dado o endereço à casa, e precisa conseguir pedir para parar de receber a qualquer momento (LGPD, art. 18).",
+          },
+        ],
+        exigencia:
+          "E-mail que oferece imóvel é peça publicitária: o número de inscrição no CRECI é obrigatório na assinatura (Lei 6.530/78; Resolução COFECI 492/2007).",
+        cards: [
+          {
+            chave: "modelo-email",
+            titulo: "Modelos de e-mail",
+            descricao:
+              "Primeiro contato, envio de ficha, retomada de cliente parado e encaminhamento de proposta.",
+            tipo: "modelo",
+          },
+        ],
+      },
+      {
+        chave: "whatsapp-abordagem",
+        titulo: "WhatsApp",
+        resumo:
+          "Onde a conversa realmente acontece — e onde a primeira mensagem decide se vai haver uma segunda.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "No WhatsApp o cliente vê o nome, a foto e a primeira linha antes de decidir abrir. Isso é tudo o que você tem. Uma mensagem que começa com \"Oi, tudo bem?\" e para ali obriga a pessoa a perguntar quem é — e a maioria não pergunta, só não responde.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A primeira mensagem, em quatro linhas",
+            texto:
+              "Tudo numa mensagem só. Mandar linha por linha enche a tela de notificação e irrita antes de informar.",
+            itens: [
+              "Nome e imobiliária.",
+              "De onde veio o contato: o anúncio, a placa, a indicação de alguém, o formulário do site.",
+              "O que você quer, em uma frase.",
+              "UMA pergunta aberta no fim — pergunta de sim ou não encerra a conversa.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que não entra no primeiro contato",
+            itens: [
+              "Áudio. Só depois que o cliente mandar áudio primeiro, e ainda assim curto.",
+              "Vinte fotos soltas. Manda o link da página do imóvel no site.",
+              "Preço antes de saber o que a pessoa procura.",
+              "Mensagem fora do horário comercial, salvo se foi ela quem escreveu.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Depois que a conversa abre",
+            itens: [
+              "Responder em minutos: quem procura imóvel está falando com mais de uma imobiliária.",
+              "Confirmar visita na véspera e no dia.",
+              "Registrar no cadastro o que foi combinado — conversa de WhatsApp não é sistema.",
+              "Fora do horário, mensagem de ausência: avisar que vai demorar é melhor que o silêncio.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Insistência tem limite, e ele é fácil de ver",
+            texto:
+              "Duas mensagens sem resposta já disseram o que precisavam dizer. A terceira não convence ninguém: vira bloqueio, e bloqueio é o número da casa queimado para sempre naquele aparelho. Quem não respondeu hoje pode responder em três meses — se ainda conseguir receber.",
+          },
+        ],
+        atencao:
+          "Lista de transmissão para quem não pediu é o caminho curto para o bloqueio. Contato e preferência de compra são dados pessoais sob a LGPD, e a responsabilidade é da imobiliária, inclusive por descuido de corretor. Documento de cliente — RG, CPF, comprovante de renda — não fica em grupo nem em conversa: vai para o sistema.",
+        cards: [
+          {
+            chave: "modelo-whatsapp",
+            titulo: "Modelos de primeira mensagem",
+            descricao:
+              "Lead de portal, lead de placa, indicação, retomada de cliente parado e confirmação de visita.",
+            tipo: "modelo",
+          },
+        ],
+      },
+      {
+        chave: "instagram-abordagem",
+        titulo: "Instagram",
+        resumo:
+          "O perfil é vitrine aberta vinte e quatro horas. O direct é atendimento, com o mesmo prazo do WhatsApp.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "O perfil",
+            itens: [
+              "Conta profissional, foto de rosto e cidade de atuação.",
+              "CRECI na bio — ali ele vale como identificação e como exigência.",
+              "Link para o site da casa, não para um imóvel que vai sair do ar.",
+              "Perfil do corretor é profissional: o pessoal fica em outra conta.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Abordar sem invadir",
+            texto:
+              "Direct frio com anúncio é o equivalente digital de puxar alguém pelo braço na rua. A ordem que funciona é a inversa.",
+            itens: [
+              "Primeiro aparecer: comentar, responder, estar presente nos stories.",
+              "Direct só depois de alguma interação, ou quando a pessoa pediu.",
+              "Quem comentou num imóvel está perguntando — responder no comentário e seguir no direct.",
+              "Resposta de direct no mesmo prazo do WhatsApp.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que o perfil publica",
+            itens: [
+              "Feed: o imóvel bem fotografado, com o código na legenda.",
+              "Stories: o bastidor, a visita, o bairro — é onde se conhece o corretor.",
+              "Reels: tour curto e vertical, começando pelo melhor ambiente.",
+              "Nada de post só com telefone e preço: isso é classificado, não presença.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Imagem de cliente e de imóvel habitado",
+            texto:
+              "Interior de imóvel ocupado mostra a vida de alguém: móvel, foto de família, remédio na mesa. Publicar isso pede autorização do morador, por escrito, e vale também para o cliente que aparece na visita. Autorização de imagem é rápida de pedir e cara de não ter.",
+          },
+        ],
+        exigencia:
+          "Post que oferece imóvel é peça publicitária: o número do CRECI é obrigatório na peça ou no perfil (Lei 6.530/78; Resolução COFECI 492/2007).",
+      },
+      {
+        chave: "abordagem-pessoal",
+        titulo: "Abordagem pessoal",
+        resumo:
+          "Plantão, porta de empreendimento, vizinho do imóvel captado. Trinta segundos para a pessoa decidir se fica.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Aqui não há tela para esconder a hesitação e não dá para apagar e reescrever. Em compensação é o canal com a maior taxa de resposta que existe: a pessoa está na sua frente e vai dizer alguma coisa. O que ela vai dizer depende quase inteiramente dos primeiros trinta segundos.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Os trinta segundos",
+            itens: [
+              "Crachá à vista ANTES de falar — quem está sendo abordado precisa saber quem é você.",
+              "Nome e imobiliária.",
+              "Por que você está ali: o plantão, o imóvel da esquina, o empreendimento.",
+              "Uma pergunta aberta sobre a pessoa, não sobre a venda.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "A pergunta que abre e a que fecha",
+            texto:
+              "\"O senhor quer comprar um apartamento?\" tem uma resposta só, e é não. \"O senhor mora aqui no bairro?\" abre uma conversa em que a pessoa fala de si — e é falando de si que ela conta o que precisa.",
+            itens: [
+              "Perguntar sobre o bairro, a mudança, a família, o que trouxe a pessoa ali.",
+              "Ouvir mais do que falar no primeiro contato.",
+              "Preço entra quando ela perguntar, não antes.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Ler a situação",
+            itens: [
+              "Não bloquear a passagem nem acompanhar quem está indo embora.",
+              "Pedir licença para continuar — e aceitar o não na primeira vez.",
+              "Quem está com criança, com pressa ou com sacola não quer conversar agora.",
+              "Cartão na mão ao sair, sempre: o não de hoje liga em março.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O contato que você leva embora",
+            texto:
+              "Anotar telefone no verso de um papel é perder o contato. Peça o número dizendo para que vai usá-lo, registre no cadastro no mesmo dia, e na primeira mensagem lembre onde vocês se conheceram — \"somos o corretor do plantão do sábado\". Sem isso, do outro lado chega mais um número desconhecido oferecendo imóvel.",
+          },
+        ],
+        cards: [
+          {
+            chave: "roteiro-plantao",
+            titulo: "Roteiro de abordagem em plantão",
+            descricao:
+              "Os trinta segundos de abertura, as perguntas que abrem conversa e o que fazer com o contato depois.",
+            tipo: "modelo",
+          },
+        ],
+        fontes: [
+          {
+            rotulo:
+              "Resolução COFECI nº 326/1992 — Código de Ética Profissional dos Corretores de Imóveis (alterada pela Resolução 1.404/2018)",
+            href: "https://www.crecisp.gov.br/Files/notify/71f27005-77ce-47fb-8d10-3c2365681464_codigoeticaci.pdf",
+          },
+        ],
+      },
+    ],
+  },
   /* ------------------------------------------------------------------ 06 */
   {
     chave: "captacao",
-    numero: "03",
+    numero: "04",
     titulo: "Agenciamento",
     tituloCurto: "Agenciamento",
     resumo:
@@ -907,7 +1173,7 @@ export const procedimentos: EtapaProcedimento[] = [
   },
   {
     chave: "divulgacao",
-    numero: "04",
+    numero: "05",
     titulo: "Divulgação",
     tituloCurto: "Divulgação",
     resumo:
@@ -1189,7 +1455,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 05 */
   {
     chave: "financiamento",
-    numero: "05",
+    numero: "06",
     titulo: "Financiamento",
     tituloCurto: "Financiamento",
     resumo:
@@ -1492,7 +1758,7 @@ export const procedimentos: EtapaProcedimento[] = [
 
   {
     chave: "atendimento",
-    numero: "06",
+    numero: "07",
     titulo: "Atendimento",
     resumo:
       "Do primeiro contato do interessado até a visita. É aqui que a maior parte dos negócios se perde, por demora.",
@@ -1556,7 +1822,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 08 */
   {
     chave: "negociacao",
-    numero: "07",
+    numero: "08",
     titulo: "Negociação",
     resumo:
       "Da proposta ao aceite. Tudo por escrito, inclusive o que foi recusado.",
@@ -1620,7 +1886,7 @@ export const procedimentos: EtapaProcedimento[] = [
 
   {
     chave: "contrato",
-    numero: "08",
+    numero: "09",
     titulo: "Documentação e contrato",
     tituloCurto: "Documentação",
     resumo:
@@ -1677,7 +1943,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 09 */
   {
     chave: "fechamento",
-    numero: "09",
+    numero: "10",
     titulo: "Fechamento",
     resumo:
       "Escritura, registro e chaves. Só existe transferência de propriedade com registro na matrícula.",
@@ -1718,7 +1984,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 10 */
   {
     chave: "locacao",
-    numero: "10",
+    numero: "11",
     titulo: "Rotina de locação",
     tituloCurto: "Locação",
     resumo:
@@ -1788,7 +2054,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 11 */
   {
     chave: "administrativo",
-    numero: "11",
+    numero: "12",
     titulo: "Administrativo e financeiro",
     tituloCurto: "Administrativo",
     resumo:
@@ -1829,7 +2095,7 @@ export const procedimentos: EtapaProcedimento[] = [
   /* ------------------------------------------------------------------ 12 */
   {
     chave: "juridico",
-    numero: "12",
+    numero: "13",
     titulo: "Jurídico e conformidade",
     tituloCurto: "Jurídico",
     resumo:
