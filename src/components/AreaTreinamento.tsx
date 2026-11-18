@@ -781,33 +781,69 @@ function Aula({
           onClick={() => setAberta((v) => !v)}
           aria-expanded={aberta}
           aria-controls={`aula-${topico.chave}`}
-          className="flex min-w-0 flex-1 items-start gap-4 text-left"
+          className="group flex min-w-0 flex-1 items-start gap-4 text-left"
         >
           <span className="min-w-0 flex-1">
-            <span className="block font-mono text-[0.625rem] font-bold tracking-[0.12em] text-[color:var(--ink-faint)]">
-              AULA {String(numero).padStart(2, "0")}
-            </span>
-            <span
-              className={`mt-1 block text-[1.0625rem] font-semibold ${
-                concluida
-                  ? "text-[color:var(--ink-muted)]"
-                  : "text-[color:var(--cart-titulo)]"
-              }`}
-            >
-              {topico.titulo}
+            {/* O número anda na MESMA linha do título. Empilhado, o rótulo
+                "AULA 01" ocupava uma linha inteira para dizer o que o lugar
+                na lista já dizia, e empurrava o título para baixo. Ao lado,
+                ele vira o que sempre foi: um índice.
+
+                Baseline comum, não centro comum: o número é pequeno e o
+                título grande, e alinhá-los pelo meio deixaria o número
+                boiando. `sr-only` devolve a palavra "Aula" a quem ouve a
+                página — lido em voz alta, um "01" solto antes do título não
+                diz nada. */}
+            <span className="flex items-baseline gap-2.5">
+              <span className="shrink-0 font-mono text-[0.6875rem] font-bold tracking-[0.12em] text-[color:var(--ink-faint)]">
+                <span className="sr-only">Aula </span>
+                {String(numero).padStart(2, "0")}
+              </span>
+              <span
+                className={`min-w-0 text-[1.0625rem] font-semibold ${
+                  concluida
+                    ? "text-[color:var(--ink-muted)]"
+                    : "text-[color:var(--cart-titulo)]"
+                }`}
+              >
+                {topico.titulo}
+              </span>
             </span>
             <span className="mt-1.5 block text-sm leading-snug text-[color:var(--ink-muted)]">
               {topico.resumo}
             </span>
           </span>
 
+          {/* A seta é o que diz que o cartão abre, e era um ▾ de texto, solto
+              e do tamanho do corpo. Agora é um disco de 32px — maior que a
+              caixa de concluído, porque abrir é a ação principal da linha.
+
+              No repouso ela é verde sobre o branco do cartão; sob o mouse o
+              disco acende no amarelo da marca e o traço vira tinta escura.
+              O amarelo NÃO entra no traço: #e0b411 sobre branco dá 1,96:1 e
+              uma seta amarela sobre o cartão sumiria em vez de chamar. Como
+              fundo, com #2a2100 em cima, dá 8,14:1 — é como o botão Sair já
+              funciona.
+
+              `group-focus-visible` repete o aceso para quem chega pelo
+              teclado: o botão não tinha foco visível nenhum. */}
           <span
             aria-hidden="true"
-            className={`mt-5 shrink-0 text-[color:var(--cart-titulo)] transition-transform duration-300 ease-[var(--cart-curva)] ${
+            className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[color:var(--cart-titulo)] transition-[background-color,color,rotate] duration-300 ease-[var(--cart-curva)] group-hover:bg-[color:var(--cart-acao)] group-hover:text-[color:var(--cart-acao-ink)] group-focus-visible:bg-[color:var(--cart-acao)] group-focus-visible:text-[color:var(--cart-acao-ink)] motion-reduce:transition-[background-color,color] ${
               aberta ? "rotate-180" : ""
             }`}
           >
-            ▾
+            <svg
+              viewBox="0 0 16 16"
+              className="h-[1.125rem] w-[1.125rem]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 6.25 8 10.25 12 6.25" />
+            </svg>
           </span>
         </button>
       </div>
