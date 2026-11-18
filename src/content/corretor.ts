@@ -99,6 +99,29 @@ export type BlocoAula =
       /** Proporcao do arquivo, para a moldura nao cortar o que importa.
           Cards desenhados com texto dentro nao podem ser cortados. */
       formato?: "deitada" | "quadrada";
+    }
+  /** Clausula de contrato, com a traducao embaixo.
+   *
+   *  Existe porque contrato tem um problema proprio: quem precisa cumprir a
+   *  clausula nao e quem a escreveu. O corretor que vai registrar a indicacao
+   *  por escrito nao le "nexo com a indicacao e participacao efetiva na
+   *  aproximacao comercial" e entende o que tem de fazer na segunda-feira.
+   *
+   *  Por isso os dois textos andam SEMPRE juntos e nesta ordem: `texto` diz o
+   *  que o contrato diz, e `simples` diz o que isso significa no dia. Um sem o
+   *  outro e meio trabalho — so o tecnico nao e lido, so o simples nao vale
+   *  numa discussao. */
+  | {
+      tipo: "clausula";
+      /** Como a clausula e chamada no contrato: "PRIMEIRA", "DECIMA SEGUNDA". */
+      numero: string;
+      titulo: string;
+      /** O que a clausula determina, em linguagem tecnica. */
+      texto: string;
+      /** Os paragrafos, quando a clausula tiver. */
+      itens?: string[];
+      /** A mesma coisa, em portugues de conversa. */
+      simples: string;
     };
 
 export interface TopicoProcedimento {
@@ -2134,6 +2157,306 @@ export const procedimentos: EtapaProcedimento[] = [
         ],
         exigencia:
           "LGPD (Lei 13.709/18). Vazamento de documento de cliente gera responsabilidade da imobiliária, inclusive por descuido de corretor.",
+      },
+    ],
+  },
+  /* ---------------------------------------------------------------------
+     14 CONTRATOS DE PARCERIA
+     O modulo 09, "Documentacao", trata dos papeis da VENDA — o que se pede do
+     comprador, do vendedor e do imovel. Este trata dos papeis que ficam ATRAS
+     dela: com quem a casa divide negocio e em que condicoes.
+
+     As clausulas usam o bloco `clausula`, que traz a traducao colada no texto
+     tecnico. A razao esta no comentario do tipo, em corretor.ts: quem precisa
+     cumprir a clausula nao e quem a escreveu.
+
+     O QUE NAO ENTROU, DE PROPOSITO: a qualificacao das partes. O contrato
+     original traz CPF, RG e endereco residencial de uma pessoa fisica, e isso
+     nao vai para uma pagina que qualquer um com o endereco abre. O valor de
+     treinamento esta nas clausulas, nao no cabecalho.
+     --------------------------------------------------------------------- */
+  {
+    chave: "contratos-parceria",
+    numero: "14",
+    titulo: "Contratos de parceria",
+    tituloCurto: "Contratos",
+    resumo:
+      "Com quem a casa divide negócio, e em que condições. Comissão combinada de boca vira discussão; combinada por escrito vira contrato.",
+    objetivo:
+      "Ler o contrato de parceria da casa e saber, sem consultar ninguém, quando a outra imobiliária tem direito a comissão, quanto é, por quanto tempo uma indicação fica protegida e o que precisa estar registrado por escrito para o direito existir.",
+    icone: "permuta",
+    topicos: [
+      {
+        chave: "parceria-imobiliarias",
+        titulo: "Imobiliária com imobiliária",
+        resumo:
+          "O contrato com a Sinos Imóveis, cláusula por cláusula, com a tradução de cada uma.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Este é o contrato que a Tridium Imóveis tem com a Sinos Imóveis — a parceira cujo logo está no alto desta tela. Ele resolve três coisas: quem responde tecnicamente pela intermediação, quem recebe quanto quando o negócio nasce de um lado e fecha do outro, e o que precisa estar escrito para esse direito existir.",
+          },
+          {
+            tipo: "texto",
+            texto:
+              "Cada cláusula aparece primeiro como o contrato a escreveu e depois em português de conversa. Os dois textos valem: o técnico é o que se usa numa discussão, o simples é o que se usa na segunda-feira.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Quem são as partes",
+            itens: [
+              "SINOS ASSESSORIA IMOBILIÁRIA LTDA — CRECI/RS nº 23250, Novo Hamburgo/RS. No contrato, SINOS.",
+              "TRIDIUM ENGENHARIA E CONSTRUÇÃO LTDA — Palhoça/SC. No contrato, TRIDIUM.",
+              "Francis Michel da Rosa Marques — RESPONSÁVEL TÉCNICO pela Tridium perante o CRECI-SC.",
+              "Assinado em Novo Hamburgo, 13 de novembro de 2026, em duas vias e com duas testemunhas.",
+            ],
+          },
+          {
+            tipo: "clausula",
+            numero: "primeira",
+            titulo: "Do objeto",
+            texto:
+              "Disciplina a cooperação comercial na captação e intermediação de imóveis, indicação de compradores, divulgação de ofertas e acompanhamento das operações, bem como as condições do eventual exercício da responsabilidade técnica da TRIDIUM pelo RESPONSÁVEL TÉCNICO.",
+            itens: [
+              "Parágrafo único — A atuação na intermediação e a responsabilidade técnica ficam condicionadas à regularidade cadastral e às autorizações exigidas pelo CRECI-SC. A assinatura deste instrumento não substitui os registros e atos próprios perante o Conselho.",
+            ],
+            simples:
+              "É o contrato que diz o que as duas casas vão fazer juntas: achar imóvel, indicar comprador, divulgar e acompanhar o negócio. E já avisa uma coisa importante: assinar este papel NÃO dá registro no CRECI. O registro é outro caminho, e tem de ser feito à parte.",
+          },
+          {
+            tipo: "clausula",
+            numero: "segunda",
+            titulo: "Da responsabilidade técnica",
+            texto:
+              "A responsabilidade técnica será exercida pessoalmente pelo RESPONSÁVEL TÉCNICO, após habilitação e vinculação regular perante o CRECI-SC, com apoio operacional da SINOS, sem transferência à SINOS das obrigações profissionais personalíssimas.",
+            itens: [
+              "§1º — A TRIDIUM deve manter sua regularidade para intermediação, incluindo adequação do objeto social e inscrição de pessoa jurídica no CRECI-SC.",
+              "§2º — A TRIDIUM garante ao RESPONSÁVEL TÉCNICO acesso tempestivo a sistemas, documentos, contratos, registros, equipe e informações necessários à fiscalização.",
+              "§3º — O RESPONSÁVEL TÉCNICO pode exigir correções, suspender sua aprovação e comunicar irregularidades aos órgãos competentes. Nenhuma disposição do contrato afasta responsabilidade legal inderrogável.",
+            ],
+            simples:
+              "Quem responde tecnicamente é uma PESSOA, não a empresa — e essa responsabilidade não se empurra para a Sinos. Em troca, o responsável técnico tem de conseguir ver tudo: sistema, contrato, documento, equipe. E ele pode travar operação que esteja errada. Se travou, não adianta procurar quem assine por cima: a lei não deixa.",
+          },
+          {
+            tipo: "clausula",
+            numero: "terceira",
+            titulo: "Do prazo e da substituição",
+            texto:
+              "A parceria comercial tem vigência de 5 (cinco) anos contados da assinatura, ressalvadas as obrigações que sobrevivam ao término e as hipóteses de rescisão previstas.",
+            itens: [
+              "§1º — O exercício da responsabilidade técnica tem prazo inicial até 31 de março de 2027, independentemente do prazo da parceria.",
+              "§2º — A substituição antecipada depende de habilitação de profissional indicado pela TRIDIUM e formalização perante o CRECI-SC, com comunicação escrita à SINOS.",
+              "§3º — A continuidade após 31 de março de 2027 depende de concordância expressa do profissional e de aditivo escrito.",
+              "§4º — A substituição ou o encerramento da responsabilidade técnica não extingue, por si só, a parceria comercial. O encerramento não dispensa a baixa ou substituição formal perante o CRECI-SC.",
+            ],
+            simples:
+              "São dois prazos diferentes, e confundi-los é o erro fácil aqui. A PARCERIA dura cinco anos. A RESPONSABILIDADE TÉCNICA do Francis vale até 31 de março de 2027 — e para continuar depois disso não basta ninguém reclamar: precisa de aditivo escrito e do aceite dele. Trocar o responsável técnico não derruba a parceria, e sair do cargo sem dar baixa no CRECI deixa o nome dele preso ao que a casa fizer depois.",
+          },
+          {
+            tipo: "clausula",
+            numero: "quarta",
+            titulo: "Da gratuidade e das despesas",
+            texto:
+              "Não há remuneração específica ao RESPONSÁVEL TÉCNICO nem à SINOS pelo exercício da responsabilidade técnica e pelo acompanhamento operacional, sem prejuízo das comissões comerciais previstas adiante.",
+            itens: [
+              "Parágrafo único — A TRIDIUM suporta as taxas e despesas do CRECI relacionadas à habilitação, vinculação e atuação do RESPONSÁVEL TÉCNICO no período, desde que previamente identificadas e comprovadas.",
+            ],
+            simples:
+              "Ninguém recebe salário por ser responsável técnico nem por acompanhar as operações. O que se ganha nesta parceria vem das comissões das cláusulas sexta e sétima. As taxas do CRECI para habilitar o responsável técnico são da Tridium — desde que mostradas e comprovadas antes, não apresentadas depois.",
+          },
+          {
+            tipo: "clausula",
+            numero: "quinta",
+            titulo: "Do controle das operações",
+            texto:
+              "Captações, vendas e locações conduzidas pela TRIDIUM devem ser submetidas previamente à análise documental da SINOS e à aprovação expressa, por escrito, do RESPONSÁVEL TÉCNICO, antes da formalização dos instrumentos.",
+            itens: [
+              "§1º — Nas captações: documentos do imóvel e do proprietário, autorização de intermediação, condições comerciais e material de divulgação.",
+              "§2º — Nas vendas: documentos das partes e do imóvel, condições negociadas, minutas contratuais e informações sobre ônus, pagamentos e prazos.",
+              "§3º — Nas locações: cadastro das partes, garantias, contrato, vistoria, aditivos, renovações e rescisões.",
+              "§4º — A TRIDIUM mantém registros organizados e não pode omitir informações relevantes. A análise e a aprovação não garantem resultado nem afastam os deveres legais de cada um.",
+            ],
+            simples:
+              "Nada é assinado antes de passar pela conferência: primeiro a Sinos olha os documentos, depois o responsável técnico aprova POR ESCRITO. Vale para captação, venda e locação. E atenção à última linha: a aprovação não é um escudo. Se você omitiu alguma coisa na hora de pedir, a aprovação não cobre.",
+          },
+          {
+            tipo: "clausula",
+            numero: "sexta",
+            titulo: "Da comissão por captação",
+            texto:
+              "Quando imóvel captado pelo RESPONSÁVEL TÉCNICO ou pela SINOS, identificado e cadastrado na plataforma da parceria, for vendido por corretor da TRIDIUM, a SINOS tem direito a comissão de 1% (um por cento) do valor efetivo da venda.",
+            itens: [
+              "§1º — Vale para imóveis em Santa Catarina ou em qualquer outra localidade, observadas as exigências de habilitação.",
+              "§2º — O percentual sai da comissão total de corretagem contratada, sem acréscimo ao preço nem cobrança adicional ao comprador ou vendedor. A captação e o vínculo com a operação têm de ser comprováveis por registros escritos.",
+            ],
+            simples:
+              "Imóvel que a Sinos achou e corretor da Tridium vendeu: 1% do valor da venda vai para a Sinos. Esse 1% sai de dentro da comissão que já existe — o cliente não paga um centavo a mais. E o imóvel precisa estar cadastrado na plataforma: captação que ninguém registrou não gera direito a nada.",
+          },
+          {
+            tipo: "clausula",
+            numero: "sétima",
+            titulo: "Da comissão por indicação de comprador",
+            texto:
+              "A SINOS pode usar materiais de imóveis da TRIDIUM para divulgação, inclusive em anúncios patrocinados no Rio Grande do Sul, respeitadas as autorizações de publicidade e as regras profissionais.",
+            itens: [
+              "§1º — O comprador identificado pela SINOS é encaminhado à TRIDIUM, responsável pelo atendimento, visitas e negociação.",
+              "§2º — Concluída a venda decorrente de indicação comprovada, a SINOS tem direito a 3% (três por cento) do valor efetivo da venda, retirados da comissão total de corretagem, sem cobrança adicional às partes.",
+              "§3º — Se a SINOS ou o RESPONSÁVEL TÉCNICO também tiver captado o imóvel, é devido apenas o percentual de 3%, vedada a cumulação com o de 1%.",
+              "§4º — Operação cuja comissão total não comporte essa participação deve ser ajustada previamente por escrito, sem impor cobrança não autorizada ao cliente.",
+            ],
+            simples:
+              "Cliente que a Sinos encontrou e mandou para cá: 3% da venda. É mais que o 1% da captação porque trazer comprador vale mais que achar imóvel. E os dois NÃO somam: se a Sinos achou o imóvel e trouxe o comprador, recebe 3%, não 4%. Quando a comissão do negócio for apertada demais para caber essa fatia, resolve-se antes e por escrito — nunca cobrando a diferença do cliente.",
+          },
+          {
+            tipo: "clausula",
+            numero: "oitava",
+            titulo: "Do cadastro e da proteção da indicação",
+            texto:
+              "A imobiliária indicadora deve registrar e encaminhar o cliente ANTES do atendimento pela receptora, informando nome, telefone, data, origem, corretor responsável e imóvel de interesse ou perfil da busca. O recebimento deve ser confirmado por escrito, inclusive por e-mail, WhatsApp ou plataforma com registro verificável.",
+            itens: [
+              "§1º — A indicação comprovada fica protegida por 12 (doze) meses a partir do encaminhamento registrado. Nesse período, cada compra feita pelo cliente por intermédio da TRIDIUM — inclusive de imóvel diferente do indicado — gera os 3% da cláusula sétima, desde que haja nexo com a indicação e participação efetiva na aproximação.",
+              "§2º — O fim do contrato não extingue o direito às comissões de indicações válidas feitas durante a vigência.",
+              "§3º — Havendo controvérsia sobre cliente já cadastrado ou atendido, as partes apresentam registros datados e buscam solução escrita antes de formalizar a operação.",
+            ],
+            simples:
+              "Esta é a cláusula que mais vira discussão, e a regra é simples: manda o cliente ANTES, por escrito, com nome, telefone, data e o que ele procura — e pede confirmação de recebimento. Feito isso, a indicação fica protegida por doze meses. Se o cliente voltar em agosto e comprar outro imóvel, a comissão continua devida. Sem esse registro, a palavra de um contra a do outro não decide nada.",
+          },
+          {
+            tipo: "clausula",
+            numero: "nona",
+            titulo: "Da titularidade das comissões",
+            texto:
+              "As comissões de 1% e 3% previstas no contrato pertencem exclusivamente à pessoa jurídica SINOS IMÓVEIS.",
+            simples:
+              "O dinheiro é da empresa, não do corretor que fez a indicação. Como a Sinos divide isso internamente é assunto dela — a Tridium paga para a pessoa jurídica.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima",
+            titulo: "Dos anúncios e materiais",
+            texto:
+              "Cada imobiliária arca integralmente com os anúncios, impulsionamentos e campanhas que contratar por sua iniciativa, sem direito a reembolso pela outra, salvo autorização expressa e prévia por escrito.",
+            itens: [
+              "Parágrafo único — O uso de imagens, descrições e marcas depende de autorização e deve respeitar direitos de terceiros, dados pessoais e informações atualizadas dos imóveis.",
+            ],
+            simples:
+              "Quem anuncia, paga. Não existe mandar a conta do tráfego pago para a outra casa depois, a menos que ela tenha autorizado por escrito ANTES. E usar foto, texto ou marca da outra pede autorização — o que o módulo de Divulgação já diz sobre imagem vale aqui também.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima primeira",
+            titulo: "Dos recebimentos e repasses",
+            texto:
+              "As partes podem receber diretamente suas parcelas da corretagem, desde que a divisão conste dos documentos da operação e seja aceita pelos respectivos pagadores, observadas as regras fiscais.",
+            itens: [
+              "§1º — Se uma parte receber valores pertencentes à outra, deve repassá-los em até 2 (dois) dias úteis após o crédito efetivo, com demonstrativo e comprovante.",
+              "§2º — Em comissão parcelada, cada repasse é proporcional ao percentual efetivamente recebido em relação à comissão total contratada.",
+              "§3º — Os pagamentos são feitos nas contas indicadas pelas partes.",
+              "§4º — O atraso sujeita a parte inadimplente a multa de 2% sobre o valor em atraso, juros de 1% ao mês pro rata die e correção pelo IPCA positivo, sem prejuízo de cobrança e perdas e danos comprovados.",
+            ],
+            simples:
+              "O melhor caminho é cada uma receber a sua parte direto na operação — para isso a divisão tem de estar escrita nos documentos do negócio. Quando não dá, quem recebeu repassa em dois dias úteis, com extrato e comprovante. Comissão parcelada se repassa na mesma proporção: recebeu metade, repassa metade. Atrasou, tem multa de 2% mais juros.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima segunda",
+            titulo: "Dos tributos",
+            texto:
+              "Cada imobiliária responde pelos tributos sobre a própria receita e pela emissão dos documentos fiscais exigidos, observadas eventuais retenções obrigatórias. A operacionalização do faturamento e dos pagamentos deve ser validada pelos respectivos responsáveis contábeis.",
+            simples:
+              "Cada uma paga o próprio imposto e emite a própria nota. Antes de montar como o dinheiro vai circular, a contabilidade das duas confirma — arranjo que parece prático às vezes cria problema fiscal.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima terceira",
+            titulo: "Da confidencialidade e proteção de dados",
+            texto:
+              "As partes mantêm sigilo sobre dados de clientes, condições negociais e informações não públicas recebidas em razão da parceria, usando-os apenas para as finalidades legítimas do contrato e observando a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018).",
+            itens: [
+              "Parágrafo único — Cada parte adota medidas razoáveis de segurança e comunica prontamente à outra os incidentes relevantes com os dados compartilhados.",
+            ],
+            simples:
+              "Dado de cliente que veio da parceria serve para a parceria, e só. Não vira lista de prospecção nem sai do sistema. E se houver vazamento, avisa-se a outra casa na hora — esconder incidente é o que transforma um problema em processo.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima quarta",
+            titulo: "Da autonomia das partes",
+            texto:
+              "A parceria não constitui sociedade, associação, franquia, representação exclusiva ou vínculo empregatício entre as partes, seus sócios ou colaboradores. Cada parte responde pelos próprios atos, profissionais e obrigações, sem prejuízo de responsabilidades impostas por lei.",
+            simples:
+              "Parceria não é sociedade nem emprego: ninguém virou sócio nem funcionário de ninguém. E não é exclusividade — as duas seguem trabalhando com quem quiserem. Cada uma responde pelos próprios corretores e pelos próprios erros.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima quinta",
+            titulo: "Da rescisão",
+            texto:
+              "O contrato pode ser rescindido por acordo escrito, por infração contratual relevante não sanada em até 10 (dez) dias úteis após notificação, ou imotivadamente mediante aviso escrito com antecedência mínima de 30 (trinta) dias, sem prejuízo das providências perante o CRECI-SC.",
+            itens: [
+              "§1º — Permanecem exigíveis as comissões de operações, captações e indicações comprovadas realizadas durante a vigência, respeitados os prazos de proteção.",
+              "§2º — A rescisão não prejudica confidencialidade, prestação de contas, obrigações tributárias e responsabilidades legais já constituídas.",
+            ],
+            simples:
+              "Dá para sair sem precisar de motivo: basta avisar por escrito trinta dias antes. Se foi por descumprimento, a outra tem dez dias úteis para consertar. O que já estava em andamento continua valendo — indicação registrada antes da saída segue protegida pelos doze meses dela. E sigilo e imposto não acabam junto com o contrato.",
+          },
+          {
+            tipo: "clausula",
+            numero: "décima sexta",
+            titulo: "Das comunicações e do foro",
+            texto:
+              "As notificações são encaminhadas aos e-mails ou contatos oficiais informados na qualificação ou atualizados por escrito, com comprovação de envio e recebimento. Fica eleito o foro da Comarca de Novo Hamburgo/RS, ressalvadas competências legais inderrogáveis.",
+            simples:
+              "Aviso que importa — rescisão, cobrança, notificação — só vale por escrito, no contato oficial, e com prova de que foi enviado E recebido. Mensagem perdida numa conversa não conta. Se der briga na Justiça, ela corre em Novo Hamburgo, no Rio Grande do Sul.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "O que este contrato cobra de você, corretor",
+            texto:
+              "De todas as dezesseis cláusulas, três chegam na sua mesa. Indicação de cliente se manda ANTES do atendimento, por escrito, com confirmação de recebimento (oitava). Captação só gera comissão se estiver cadastrada na plataforma (sexta). E nada se assina antes da aprovação escrita do responsável técnico (quinta). O resto é entre as empresas; estas três, se você não fizer, ninguém faz por você.",
+          },
+        ],
+        atencao:
+          "O contrato tem dois campos em branco: o CRECI do responsável técnico aparece como \"XXXX\" e o representante da Tridium como \"NOME, CPF E QUALIFICAÇÃO\". Assinado assim, dá margem a discussão sobre quem se obrigou. Conferir com o jurídico antes de usar esta versão como modelo.",
+      },
+      {
+        chave: "parceria-corretor",
+        titulo: "Imobiliária com corretor",
+        resumo:
+          "O contrato entre a casa e quem vende por ela. O modelo ainda não existe — aqui está o que ele precisa resolver.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Esta aula ainda não tem o contrato-modelo. O que está abaixo é a lista do que ele precisa resolver, levantada a partir do que o restante do treinamento já pressupõe — metas, carteira, repasse de comissão, uso de material da casa. Serve para orientar a redação, não substitui a redação.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que o contrato precisa dizer",
+            itens: [
+              "Natureza do vínculo: corretor autônomo, com CRECI próprio e nota fiscal própria.",
+              "Divisão da comissão: o percentual do corretor, o da casa, e quem fica com o quê quando um capta e outro vende.",
+              "Captação: a quem pertence o imóvel captado, e o que acontece com ele se o corretor sair.",
+              "Carteira de clientes: de quem é o cadastro, e o que o corretor pode levar embora.",
+              "Despesas: quem paga anúncio, impulsionamento, deslocamento e material.",
+              "Uso da marca: até onde o corretor pode anunciar em nome da casa.",
+              "Prazo, rescisão e aviso prévio.",
+              "Comissões pendentes na saída: negócio iniciado e fechado depois.",
+              "Dados de cliente na saída: o que volta para a casa, à luz da LGPD.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O ponto que precisa de advogado",
+            texto:
+              "Corretor autônomo que cumpre horário, bate meta definida pela casa, usa uniforme e atende em escala pode, numa discussão trabalhista, ser lido como empregado — e aí o contrato que diz \"não há vínculo\" vale pouco diante dos fatos. O treinamento da casa já prevê metas semanais e padrão de vestuário, então este não é um risco teórico aqui. A redação desta parte é trabalho de advogado, não de modelo pronto.",
+          },
+        ],
+        atencao:
+          "PENDENTE: o contrato-modelo entre imobiliária e corretor ainda não foi fornecido. Esta aula fica como roteiro até ele chegar.",
       },
     ],
   },

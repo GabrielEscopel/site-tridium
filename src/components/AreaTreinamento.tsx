@@ -1000,6 +1000,57 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
           );
         }
 
+        if (b.tipo === "clausula") {
+          return (
+            /* A clausula vem num cartao proprio, com fio a esquerda: numa
+               aula de doze ou dezesseis delas, paragrafo solto vira parede e
+               ninguem acha onde uma termina e a outra comeca.
+
+               A traducao fica DENTRO do mesmo cartao, nao numa caixa solta
+               embaixo. Separadas, viram dois blocos que o olho pode ler na
+               ordem errada; juntas, a ordem e obrigatoria — o tecnico
+               primeiro, porque e ele que vale, e a traducao logo abaixo,
+               porque e ela que faz o tecnico ser lido. */
+            <section
+              key={i}
+              className="rounded-xl border border-[color:var(--cart-card-linha)] border-l-[3px] border-l-[color:var(--cart-titulo)] bg-[color:var(--cart-card)] px-5 py-4"
+            >
+              <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--ink-faint)]">
+                Cláusula {b.numero}
+              </p>
+              <h4 className="mt-1 text-[0.9375rem] font-bold text-[color:var(--cart-titulo)]">
+                {b.titulo}
+              </h4>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--ink-muted)]">
+                {b.texto}
+              </p>
+              {b.itens && (
+                <ul className="mt-3 space-y-2">
+                  {b.itens.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm">
+                      <span
+                        aria-hidden="true"
+                        className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--cart-card-linha)]"
+                      />
+                      <span className="leading-relaxed text-[color:var(--ink-muted)]">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="mt-4 rounded-lg border-l-[3px] border-l-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)] px-4 py-3">
+                <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-acao-ink)]">
+                  Em bom português
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed text-[color:var(--ink)]">
+                  {b.simples}
+                </p>
+              </div>
+            </section>
+          );
+        }
+
         if (b.tipo === "linha") {
           return (
             <section key={i}>
