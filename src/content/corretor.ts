@@ -17,10 +17,17 @@
    roda em Node na Hostinger, então isso cabe — é trabalho de outra etapa.
    ============================================================================= */
 
-/* [TESTE] Trocar antes de qualquer uso real. Ver o aviso acima. */
+/* [TESTE] Trocar antes de qualquer uso real. Ver o aviso acima.
+ *
+ *  A senha deixou de ser "admin" porque a versao de demonstracao circula: o
+ *  palpite obvio agora nao abre nada. ISSO NAO E SEGURANCA — a conferencia
+ *  continua no navegador e a senha continua viajando dentro do arquivo que o
+ *  navegador baixa, longa ou curta. O que mudou e so a barreira contra quem
+ *  chega e tenta o obvio; contra quem abre as ferramentas de desenvolvedor,
+ *  nada mudou. O conserto de verdade esta descrito no aviso acima. */
 export const credencialTeste = {
   usuario: "admin",
-  senha: "admin",
+  senha: "TridiumSinos2026@",
 } as const;
 
 /* -----------------------------------------------------------------------------

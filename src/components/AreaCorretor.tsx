@@ -18,7 +18,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { credencialTeste, procedimentos, totalTopicos } from "@/content/corretor";
+import { procedimentos, totalTopicos } from "@/content/corretor";
 import { imoveis } from "@/content/imobiliaria";
 import { useSessaoCorretor } from "@/lib/sessaoCorretor";
 import { PainelCarteira } from "./PainelCarteira";
@@ -128,17 +128,33 @@ function TelaDeAcesso({
           </form>
 
           {/* O aviso fica NA TELA, não só no código. Enquanto a credencial for
-              de teste, quem entra precisa saber o que não pode colocar aqui. */}
+              de teste, quem entra precisa saber o que não pode colocar aqui.
+
+              A CREDENCIAL SAIU DAQUI. Enquanto a senha era "admin", imprimi-la
+              era honestidade: não escondia nada que o palpite óbvio não
+              abrisse, e avisava quem entrasse de que a porta era de papelão.
+              Com uma senha que não se adivinha, imprimir é outra coisa — anula
+              a única barreira que ela cria, a do visitante casual que digita o
+              óbvio e desiste.
+
+              Isso NÃO torna a área segura: a conferência continua no navegador
+              e a senha continua viajando dentro do arquivo que o navegador
+              baixa. Quem abre as ferramentas de desenvolvedor lê a senha em
+              segundos, e o conteúdo do treinamento é servido a quem pedir, com
+              ou sem login. O que muda é só o degrau mais baixo. O conserto de
+              verdade está descrito no cabeçalho de src/lib/sessaoCorretor.ts.
+
+              O aviso sobre o que NÃO colocar aqui fica: ele continua valendo, e
+              é o que importa para quem usa a tela. */}
           <div className="mt-6 rounded-xl border border-dashed border-[color:var(--cart-campo-linha)] px-5 py-4">
             <p className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-titulo)]">
               ◇ Acesso de teste
             </p>
             <p className="t-body mt-2 text-sm text-[color:var(--ink-muted)]">
-              Usuário <strong>{credencialTeste.usuario}</strong>, senha{" "}
-              <strong>{credencialTeste.senha}</strong>. A conferência acontece
-              no navegador, então a senha pode ser lida por quem abrir o código
-              da página. Até existir um login de verdade, não coloque aqui dado
-              de cliente, proposta, documento nem valor de comissão.
+              A conferência acontece no navegador, então a senha pode ser lida
+              por quem abrir o código da página. Até existir um login de
+              verdade, não coloque aqui dado de cliente, proposta, documento nem
+              valor de comissão.
             </p>
           </div>
         </div>
