@@ -914,6 +914,13 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Publicar um imóvel em todos os canais da casa com a informação certa em cada um — site, redes, portais, tráfego pago, placa e WhatsApp — sem repetir o mesmo texto e sem esquecer o que a lei exige na peça.",
     icone: "lancamento",
+    /* Mesmo padrao dos modulos anteriores: foto quadrada a esquerda, texto
+       a direita. Recorte do card de midias, no tamanho nativo. */
+    imagem: {
+      src: "/img/treinamento/divulgacao-midias.webp",
+      alt: "Celular filmando a sala de um imovel, segurado na horizontal",
+      descricao: "As midias do imovel",
+    },
     topicos: [
       {
         chave: "site",
