@@ -908,47 +908,276 @@ export const procedimentos: EtapaProcedimento[] = [
     chave: "divulgacao",
     numero: "04",
     titulo: "Divulgação",
+    tituloCurto: "Divulgação",
     resumo:
-      "Colocar o imóvel onde o comprador procura, com a informação que ele precisa para decidir visitar.",
+      "Colocar o imóvel onde o comprador procura. Cada canal pede um formato, e o mesmo anúncio em todos rende menos do que parece.",
     objetivo:
-      "Publicar um imóvel em todos os canais com texto honesto, ficha completa e o CRECI onde a lei exige — e cruzar a carteira interna antes de gastar com portal.",
+      "Publicar um imóvel em todos os canais da casa com a informação certa em cada um — site, redes, portais, tráfego pago, placa e WhatsApp — sem repetir o mesmo texto e sem esquecer o que a lei exige na peça.",
     icone: "lancamento",
     topicos: [
       {
-        chave: "ficha",
-        titulo: "Ficha e texto do anúncio",
+        chave: "site",
+        titulo: "Site",
         resumo:
-          "Texto honesto filtra visita perdida. Omitir defeito só adia a conversa difícil.",
-        passos: [
-          "Título no padrão do site: tipo, dormitórios, suítes e bairro ou empreendimento.",
-          "Descrever o que o comprador não vê na foto: posição solar, barulho, acesso, vizinhança.",
-          "Listar a ficha técnica completa: áreas, vagas, condomínio, IPTU.",
-          "Informar o que está incluso e o que sai com o proprietário.",
-          "Revisar antes de publicar: preço, metragem e bairro errados geram processo.",
+          "A vitrine própria. É o único canal em que a casa manda em tudo e não paga por contato.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "No portal, o imóvel aparece ao lado dos concorrentes e cada contato tem custo. No site da Tridium Imóveis ele aparece sozinho, do jeito que a casa quer, e quem chega ali já procurou a marca. Por isso o site é o primeiro lugar a publicar, não o último.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A ficha do imóvel",
+            itens: [
+              "Título no padrão: tipo, dormitórios, suítes e bairro ou empreendimento.",
+              "Código do imóvel — é por ele que a conversa começa no telefone.",
+              "Áreas, vagas, condomínio e IPTU, com os valores do mês.",
+              "O que está incluso e o que sai com o proprietário.",
+              "Laudo da engenharia, quando houver — é o que nenhum concorrente tem.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O texto do anúncio",
+            texto:
+              "Texto honesto filtra visita perdida. Omitir defeito só adia a conversa difícil para o dia em que o cliente estiver dentro do imóvel.",
+            itens: [
+              "Descrever o que a foto não mostra: posição solar, barulho, acesso, vizinhança.",
+              "Falar do bairro, não só do imóvel — quem procura escolhe o lugar primeiro.",
+              "Revisar preço, metragem e bairro antes de publicar: errado ali vira processo.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O site trabalha enquanto ninguém olha",
+            texto:
+              "Anúncio em portal expira e post em rede some do feed em horas. A página do imóvel no site fica, é encontrada pela busca do Google e pode ser mandada por link em qualquer conversa. É o único canal que acumula.",
+          },
         ],
         exigencia:
           "Toda peça publicitária precisa trazer o número de inscrição no CRECI (Lei 6.530/78, art. 4º; Resolução COFECI 492/2007). Vale para site, portal, placa, folder e post.",
+        atencao:
+          "PENDENTE: o número do CRECI da Tridium Imóveis ainda não aparece em nenhuma página do site.",
       },
       {
-        chave: "canais",
-        titulo: "Canais de divulgação",
+        chave: "redes-portais",
+        titulo: "Redes sociais e portais",
         resumo:
-          "Cada canal pede um formato. O mesmo texto em todos rende menos do que parece.",
-        passos: [
-          "Site da Tridium Imóveis, que é a vitrine própria.",
-          "Portais de anúncio contratados.",
-          "Instagram e WhatsApp: formatos verticais e um recorte diferente do site.",
-          "Placa no imóvel, quando autorizado pelo proprietário.",
-          "Carteira interna: cruzar com o perfil de busca de quem já procurou algo parecido.",
+          "Instagram, YouTube e Facebook buscam audiência; o portal vende contato. São trabalhos diferentes.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Rede social e portal costumam ser tratados como a mesma coisa, e não são. Na rede, o corretor constrói audiência ao longo do tempo e o contato vem de graça, mas devagar. No portal, o contato vem rápido e custa dinheiro. Os dois cabem — o erro é esperar da rede a velocidade do portal, ou do portal a lealdade da rede.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Instagram",
+            itens: [
+              "Perfil profissional com foto, cidade de atuação e CRECI na bio.",
+              "Feed: o imóvel bem fotografado, com o código na legenda.",
+              "Stories: bastidor, visita, o bairro — é onde a pessoa conhece o corretor.",
+              "Reels: tour curto, vertical, com a primeira cena no melhor ambiente.",
+              "Responder direct no mesmo prazo do WhatsApp.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "YouTube",
+            itens: [
+              "Tour completo do imóvel, na ordem em que se anda nele.",
+              "Vídeo de bairro: o que tem em volta, acesso, comércio, escola.",
+              "Título e descrição com bairro e cidade — o YouTube também é busca.",
+              "Link da página do imóvel no site, na descrição.",
+            ],
+            fonte:
+              "Vídeo longo não compete com Reels: ele atende quem já está decidindo e quer ver tudo antes de marcar visita. São momentos diferentes do mesmo cliente.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Facebook",
+            itens: [
+              "Página da imobiliária com os anúncios em dia.",
+              "Grupos de bairro e de compra e venda da região — ler as regras de cada um antes de publicar.",
+              "Marketplace, onde o público local ainda procura imóvel.",
+              "Público mais velho que o do Instagram, e isso muda o imóvel que faz sentido anunciar.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Portais — Viva Real e os demais",
+            itens: [
+              "A ficha completa, com todas as fotos: portal ranqueia anúncio incompleto para baixo.",
+              "Responder em minutos — o lead do portal está falando com mais três imobiliárias ao mesmo tempo.",
+              "Acompanhar quais anúncios geram contato e quais só geram visualização.",
+              "Tirar do ar o que vendeu, no mesmo dia.",
+            ],
+            fonte:
+              "Portal cobra por plano ou por destaque, então cada anúncio parado é dinheiro parado. É o canal que mais exige disciplina de manutenção.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Antes de pagar por lead, olhe para dentro",
+            texto:
+              "Cruzar a carteira de clientes com o imóvel novo costuma fechar antes do portal, e sem custo por contato. Quem já procurou algo parecido é o primeiro a saber — é o primeiro movimento, não o último.",
+          },
+        ],
+      },
+      {
+        chave: "trafego-pago",
+        titulo: "Tráfego pago",
+        resumo:
+          "Anúncio pago para acelerar o que o orgânico faria devagar — e para encontrar quem ainda não procurava.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "Onde anunciar",
+            itens: [
+              "Meta Ads: Instagram e Facebook, para alcance por interesse e região.",
+              "Google Ads: aparece para quem JÁ está procurando — intenção mais quente, clique mais caro.",
+              "Remarketing: voltar para quem já visitou a página do imóvel no site.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Antes de subir a campanha",
+            itens: [
+              "Definir o público: bairro, faixa de renda, momento de vida.",
+              "Definir o destino: página do imóvel no site ou conversa no WhatsApp.",
+              "Definir o orçamento e o prazo — campanha sem fim não se avalia.",
+              "Conferir que a peça traz o CRECI. Anúncio pago é peça publicitária como qualquer outra.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que medir",
+            itens: [
+              "Custo por contato, não custo por clique.",
+              "Quantos contatos viraram visita.",
+              "Quantas visitas viraram proposta.",
+              "Desligar o que não converte em duas semanas, em vez de esperar o mês fechar.",
+            ],
+            fonte:
+              "Alcance e curtida não pagam comissão. A única métrica que interessa é quanto custou cada cliente que sentou para conversar.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Tráfego pago não conserta anúncio ruim",
+            texto:
+              "Foto mal feita, preço fora do mercado e texto confuso ficam iguais depois de pagos — só que agora mais gente viu. O dinheiro acelera o que já funciona; ele não corrige o que está errado.",
+          },
+        ],
+        exigencia:
+          "Anúncio pago segue as mesmas regras da peça publicitária: número do CRECI visível e informação que não induza a erro (Lei 6.530/78; CDC, art. 37).",
+        cards: [
+          {
+            chave: "checklist-campanha",
+            titulo: "Checklist de campanha",
+            descricao:
+              "Público, destino, orçamento, prazo e as conferências obrigatórias antes de subir um anúncio pago.",
+            tipo: "modelo",
+          },
+        ],
+      },
+      {
+        chave: "placas",
+        titulo: "Placas",
+        resumo:
+          "O anúncio que fala com quem passa na rua — e com o vizinho, que é quem mais indica comprador.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "Antes de instalar",
+            itens: [
+              "Autorização escrita do proprietário.",
+              "Em condomínio, conferir a convenção: muitos proíbem placa na fachada e na sacada.",
+              "Conferir a regra da prefeitura sobre publicidade em via pública.",
+              "Escolher o ponto de maior visibilidade que seja permitido.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que a placa mostra",
+            itens: [
+              "Marca da imobiliária e o número do CRECI.",
+              "Telefone e WhatsApp em tamanho legível de dentro do carro.",
+              "Código do imóvel.",
+              "Nada de preço, salvo decisão do proprietário — preço na rua atrai curioso e afasta quem negociaria.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Depois",
+            itens: [
+              "Conferir o estado a cada visita: placa torta, suja ou desbotada fala da imobiliária, não do imóvel.",
+              "Retirar no dia em que o imóvel sai do ar.",
+              "Guardar para reaproveitar — placa é patrimônio da casa.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Quem liga para a placa mora perto",
+            texto:
+              "O contato que vem da placa quase sempre é do bairro: alguém que quer trazer um parente para perto, ou que já queria mudar de rua sem sair da região. É um lead diferente do portal, e costuma estar mais decidido.",
+          },
+        ],
+        exigencia:
+          "Placa é peça publicitária: o número do CRECI é obrigatório nela (Resolução COFECI 492/2007).",
+      },
+      {
+        chave: "whatsapp",
+        titulo: "WhatsApp",
+        resumo:
+          "Onde a conversa realmente acontece, e onde o negócio se perde por demora.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "A conta",
+            itens: [
+              "WhatsApp Business, com nome, endereço, horário e site preenchidos.",
+              "Catálogo com os imóveis em destaque.",
+              "Respostas rápidas para o que se repete: ficha, endereço, agendamento.",
+              "Mensagem de ausência fora do horário — melhor avisar que vai demorar do que deixar no vácuo.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Os grupos da casa",
+            texto:
+              "Os grupos de agenciamento seguem o padrão do módulo anterior: CAP - EP - Bairro, Cidade, um por bairro, com a foto de capa no padrão.",
+            itens: [
+              "Grupo é de trabalho: assunto do bairro, não conversa paralela.",
+              "Todo imóvel novo entra no grupo do bairro dele.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "No atendimento",
+            itens: [
+              "Responder em minutos — quem procura imóvel está falando com mais de uma imobiliária.",
+              "Mandar o link da página do imóvel, não um monte de foto solta.",
+              "Confirmar visita no dia anterior e no dia.",
+              "Registrar no cadastro o que foi combinado: conversa no WhatsApp não é sistema.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Lista de transmissão pede cuidado",
+            texto:
+              "Mandar imóvel para quem não pediu é o caminho mais curto para ser bloqueado — e dado de cliente guardado em grupo de WhatsApp não tem controle de acesso nenhum. A LGPD trata contato e preferência de compra como dado pessoal, e a responsabilidade é da imobiliária, inclusive por descuido de corretor.",
+          },
         ],
         atencao:
-          "O cruzamento com a carteira interna costuma fechar antes do portal, e sem custo por lead. É o primeiro movimento, não o último.",
+          "Documento de cliente — RG, CPF, comprovante de renda — não fica em grupo nem em conversa. Vai para o sistema, com acesso controlado.",
       },
     ],
   },
-
-  /* ------------------------------------------------------------------ 04 */
-  /* ------------------------------------------------------------------ 05 */
   {
     chave: "atendimento",
     numero: "05",
