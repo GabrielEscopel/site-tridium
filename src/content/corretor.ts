@@ -2478,6 +2478,28 @@ export const procedimentos: EtapaProcedimento[] = [
       },
     ],
   },
+  /* ---------------------------------------------------------------------
+     15 CARDS
+     Os cards desenhados que a casa usa — os mesmos que ja aparecem dentro das
+     aulas, reunidos num lugar so. Entra VAZIO de proposito: o cliente vai
+     informar a sequencia, card por card, e cada um vira uma aula.
+
+     Ate la o modulo abre, diz que as aulas estao sendo montadas e nao finge
+     ter conteudo. Modulo escondido ate ficar pronto some da trilha e some do
+     combinado; modulo vazio e visivel cobra para ser preenchido.
+     --------------------------------------------------------------------- */
+  {
+    chave: "cards",
+    numero: "15",
+    titulo: "Cards",
+    tituloCurto: "Cards",
+    resumo:
+      "As peças visuais da casa reunidas num lugar só — cada card com o que ele mostra e quando se usa.",
+    objetivo:
+      "Achar o card certo para a situação sem procurar em pasta de WhatsApp, e saber o que cada um diz antes de mandar para o cliente.",
+    icone: "lancamento",
+    topicos: [],
+  },
 ];
 
 /** Quantos tópicos existem no mapa inteiro. */

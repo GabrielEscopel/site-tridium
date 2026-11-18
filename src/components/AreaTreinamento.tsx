@@ -685,6 +685,15 @@ function Modulo({
       </div>
 
       {/* ---------- As aulas ---------- */}
+      {/* Modulo sem aula ainda diz isso com todas as letras. Sem este aviso
+          ele abriria no resumo e terminaria no nada, e quem clicasse acharia
+          que a pagina quebrou — o que e pior do que ver "em preparacao". */}
+      {modulo.topicos.length === 0 && (
+        <p className="mt-4 rounded-xl border border-dashed border-[color:var(--cart-campo-linha)] px-5 py-4 text-sm text-[color:var(--ink-muted)]">
+          As aulas deste módulo ainda estão sendo montadas.
+        </p>
+      )}
+
       <ol className="mt-4 space-y-3">
         {modulo.topicos.map((t, i) => (
           <Aula
