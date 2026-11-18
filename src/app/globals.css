@@ -382,6 +382,14 @@
   --cart-acao: #e0b411;
   --cart-acao-ink: #2a2100;
   --cart-titulo: #17602a;
+  /* O valor dos campos da ficha do corretor: CRECI, formacao, tempo de
+     mercado. Passou por --ink-muted (5,99:1) e por um cinza escuro
+     (7,79:1) antes de assentar na tinta cheia do site, 16,11:1. A ficha
+     e a credencial do corretor — o numero do CRECI, os cinco cursos, os
+     quinze anos —, e cinza nenhum dava a ela o peso que ela tem. Quem
+     abre distancia do valor agora e o rotulo: verde, caixa-alta e
+     pequeno, contra preto, caixa-baixa e maior. */
+  --cart-ficha: var(--ink);
   --cart-campo: #ffffff;
   --cart-campo-linha: #d8cdbb;
   --cart-card: #ffffff;

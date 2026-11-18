@@ -365,15 +365,26 @@ function Perfil({
           {perfil.formacao.every(pendente) ? (
             "A preencher"
           ) : (
-            <span className="block space-y-1.5">
+            /* A formacao e uma lista de verdade — cinco cursos, nao um
+               paragrafo quebrado —, e sem marcador as linhas liam como
+               texto corrido que alguem tinha enrolado. O ponto verde diz
+               onde cada item comeca e repete a cor do rotulo acima.
+
+               O ponto e decorativo: quem le com leitor de tela ja ouve a
+               estrutura da <ul>, e um bullet falado seria ruido. */
+            <ul className="space-y-1.5">
               {perfil.formacao
                 .filter((f) => !pendente(f))
                 .map((f) => (
-                  <span key={f} className="block leading-snug">
-                    {f}
-                  </span>
+                  <li key={f} className="flex gap-2 leading-snug">
+                    <span
+                      aria-hidden="true"
+                      className="mt-[0.4375rem] h-1 w-1 shrink-0 rounded-full bg-[color:var(--cart-titulo)]"
+                    />
+                    <span>{f}</span>
+                  </li>
                 ))}
-            </span>
+            </ul>
           )}
         </Campo>
 
@@ -563,18 +574,20 @@ function Campo({
       <dt className="t-label font-bold text-[color:var(--cart-titulo)]">
         {rotulo}
       </dt>
-      {/* O conteúdo vem mais leve que o resto do cartão e mais longe do
-          rótulo. Em tinta cheia, colado, rótulo e valor liam como um bloco
-          só e era preciso procurar onde um terminava. Com o verde forte em
-          cima e o cinza embaixo, a hierarquia se vê de relance.
+      {/* O valor vem em tinta cheia (--cart-ficha → --ink, 16,11:1 sobre o
+          branco do cartão) e bem afastado do rótulo. A ficha é a credencial
+          do corretor — o número do CRECI, os cinco cursos, os quinze anos de
+          mercado —, e nenhum cinza dava a ela o peso que ela tem.
 
-          --ink-muted dá 5,99:1 sobre o branco do cartão: mais leve que o
-          quase-preto de antes e ainda bem acima do mínimo AA. */}
+          O risco de pôr os dois em força máxima seria rótulo e valor lerem
+          como um bloco só. Quem resolve isso aqui não é a tinta: é o rótulo
+          ser verde, caixa-alta, pequeno e espaçado contra um valor preto,
+          caixa-baixa e maior, e o mt-2 que separa um do outro. */}
       <dd
         className={`mt-2 text-sm leading-relaxed ${
           pendente
             ? "italic text-[color:var(--ink-faint)]"
-            : "text-[color:var(--ink-muted)]"
+            : "text-[color:var(--cart-ficha)]"
         }`}
       >
         {children}
