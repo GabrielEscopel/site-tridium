@@ -603,7 +603,7 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 03 */
+  /* ------------------------------------------------------------------ 06 */
   {
     chave: "captacao",
     numero: "03",
@@ -1178,9 +1178,301 @@ export const procedimentos: EtapaProcedimento[] = [
       },
     ],
   },
+  /* ------------------------------------------------------------------ 05 */
+  {
+    chave: "financiamento",
+    numero: "05",
+    titulo: "Financiamento",
+    tituloCurto: "Financiamento",
+    resumo:
+      "A maior parte dos im\u00f3veis n\u00e3o se vende \u00e0 vista. Saber o que o banco aceita, e quanto, \u00e9 o que separa a visita \u00fatil da perdida.",
+    objetivo:
+      "Dizer a um cliente, antes da primeira visita, em que linha ele se enquadra, quanto pode financiar, se pode usar FGTS e que documentos v\u00e3o ser pedidos \u2014 de quem compra, de quem vende e do im\u00f3vel.",
+    icone: "apartamento",
+    topicos: [
+      {
+        chave: "sistemas",
+        titulo: "Os sistemas de financiamento",
+        resumo:
+          "MCMV, SFH e SFI. Onde o cliente se encaixa depende da renda dele e do valor do im\u00f3vel.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Todo financiamento habitacional cai em um de tr\u00eas regimes, e n\u00e3o \u00e9 o cliente quem escolhe: \u00e9 a renda dele e o valor do im\u00f3vel que definem. Saber isso de cabe\u00e7a muda a primeira conversa \u2014 em vez de perguntar quanto ele quer gastar, d\u00e1 para dizer quanto ele consegue financiar.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Minha Casa Minha Vida",
+            texto:
+              "O programa do governo, com juros subsidiados. At\u00e9 renda de R$ 13 mil e im\u00f3vel de at\u00e9 R$ 600 mil, conforme a faixa.",
+          },
+          {
+            tipo: "secao",
+            titulo: "SBPE \u2014 fora do MCMV",
+            texto:
+              "O que n\u00e3o cabe no programa vai para o SBPE, onde o financiamento m\u00e1ximo \u00e9 de 80% do valor do im\u00f3vel. Dentro dele h\u00e1 dois sistemas:",
+            itens: [
+              "SFH, Sistema Financeiro da Habita\u00e7\u00e3o \u2014 im\u00f3veis RESIDENCIAIS de at\u00e9 R$ 2.250.000, prazo m\u00e1ximo de 420 meses, e PERMITE o uso do FGTS.",
+              "SFI, Sistema Financeiro Imobili\u00e1rio \u2014 n\u00e3o permite FGTS. \u00c9 onde entram os im\u00f3veis acima do teto do SFH, os comerciais e os terrenos.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Dentro do SFI",
+            itens: [
+              "Residencial acima de R$ 2.250.000.",
+              "Comercial: financia at\u00e9 70% do valor, prazo m\u00e1ximo de 240 meses, e a opera\u00e7\u00e3o gera IOF de 3,17% sobre o valor financiado.",
+              "Terreno: financia at\u00e9 80% do valor, prazo m\u00e1ximo de 240 meses.",
+            ],
+            fonte:
+              "O IOF do comercial costuma pegar o cliente de surpresa no fechamento. Em um financiamento de R$ 500 mil s\u00e3o quase R$ 16 mil a mais \u2014 \u00e9 conta para fazer na primeira conversa, n\u00e3o na assinatura.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "A pergunta que economiza o dia",
+            texto:
+              "Antes de marcar visita, duas perguntas resolvem quase tudo: qual a renda familiar e se j\u00e1 tem im\u00f3vel ou financiamento ativo. Com isso d\u00e1 para dizer a linha, o teto e se o FGTS entra. Visita com quem n\u00e3o se enquadra gasta o dia do corretor e a paci\u00eancia do propriet\u00e1rio.",
+          },
+        ],
+        atencao:
+          "OS N\u00daMEROS DESTE M\u00d3DULO MUDAM. Faixas de renda, taxas e tetos do MCMV s\u00e3o revistos pelo governo, e o teto do SFH j\u00e1 subiu v\u00e1rias vezes. Antes de citar valor a cliente, conferir no site da Caixa ou com o correspondente banc\u00e1rio \u2014 n\u00famero desatualizado dito com seguran\u00e7a vale menos que \"vou confirmar e te retorno\".",
+      },
+      {
+        chave: "mcmv",
+        titulo: "Minha Casa Minha Vida",
+        resumo:
+          "As quatro faixas, com a taxa, o teto do im\u00f3vel e quanto d\u00e1 para financiar em cada uma.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "As faixas de renda",
+            itens: [
+              "Faixa 1 \u2014 at\u00e9 R$ 3.200.",
+              "Faixa 2 \u2014 de R$ 3.200,01 a R$ 5.000.",
+              "Faixa 3 \u2014 de R$ 5.000,01 a R$ 9.600.",
+              "Faixa 4 \u2014 de R$ 9.600,01 at\u00e9 R$ 13.000.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "As taxas de juros ao ano",
+            itens: [
+              "Faixa 1 \u2014 entre 4,00% e 5,00%.",
+              "Faixa 2 \u2014 entre 5,00% e 6,50%.",
+              "Faixa 3 \u2014 entre 7,66% e 8,46%.",
+              "Faixa 4 \u2014 10,50%.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O teto do im\u00f3vel",
+            itens: [
+              "Faixas 1 e 2 \u2014 at\u00e9 R$ 275.000.",
+              "Faixa 3 \u2014 at\u00e9 R$ 400.000.",
+              "Faixa 4 \u2014 at\u00e9 R$ 600.000.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Quanto se financia",
+            itens: [
+              "At\u00e9 a faixa 3 \u2014 no m\u00e1ximo 80%, em im\u00f3vel novo ou usado.",
+              "Faixa 4 \u2014 no m\u00e1ximo 80% em im\u00f3vel NOVO e 60% em USADO.",
+            ],
+            fonte:
+              "A diferen\u00e7a da faixa 4 pega muita gente: num usado de R$ 600 mil, o cliente precisa ter R$ 240 mil de entrada, n\u00e3o R$ 120 mil. Conferir isso antes de levar \u00e0 visita evita a proposta que n\u00e3o fecha.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "A faixa define tr\u00eas coisas ao mesmo tempo",
+            texto:
+              "Renda, teto do im\u00f3vel e taxa andam juntos. Um cliente de faixa 3 n\u00e3o compra im\u00f3vel de R$ 500 mil pelo programa, mesmo que a presta\u00e7\u00e3o caiba no bolso dele \u2014 ele sai do MCMV e vai para o SBPE, com juros de mercado. \u00c9 outra conta, e outro im\u00f3vel.",
+          },
+        ],
+        atencao:
+          "Faixas, taxas e tetos do MCMV mudam por decis\u00e3o do governo. Conferir antes de citar.",
+      },
+      {
+        chave: "fgts",
+        titulo: "Uso do FGTS",
+        resumo:
+          "Seis regras que decidem se o cliente pode usar o fundo \u2014 e basta uma falhar para n\u00e3o poder.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "As regras principais",
+            itens: [
+              "Valor m\u00e1ximo do im\u00f3vel: R$ 2.250.000.",
+              "Ter 3 anos de trabalho com v\u00ednculo ao FGTS \u2014 somados, n\u00e3o necessariamente seguidos.",
+              "N\u00e3o possuir outro im\u00f3vel residencial urbano na mesma regi\u00e3o metropolitana onde reside ou exerce a atividade principal.",
+              "N\u00e3o possuir financiamento habitacional ativo em qualquer parte do pa\u00eds.",
+              "Comprovar v\u00ednculo de trabalho na regi\u00e3o metropolitana onde pretende comprar, ou resid\u00eancia na regi\u00e3o h\u00e1 pelo menos um ano.",
+              "O im\u00f3vel n\u00e3o pode ter sido comprado pelo atual propriet\u00e1rio com uso do FGTS h\u00e1 menos de 3 anos.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A \u00faltima regra \u00e9 do IM\u00d3VEL, n\u00e3o do comprador",
+            texto:
+              "Um cliente pode cumprir tudo e ainda assim n\u00e3o usar o FGTS, porque quem vende comprou com fundo h\u00e1 menos de tr\u00eas anos. Isso se descobre na matr\u00edcula e na conversa com o propriet\u00e1rio \u2014 na capta\u00e7\u00e3o, n\u00e3o na an\u00e1lise do banco.",
+          },
+        ],
+        atencao:
+          "No SFI o FGTS N\u00c3O pode ser usado. Im\u00f3vel acima de R$ 2.250.000, comercial ou terreno ficam fora, por mais que o cliente tenha saldo.",
+      },
+      {
+        chave: "documentos-comprador",
+        titulo: "Documentos do comprador",
+        resumo:
+          "O que pedir ao cliente para abrir a an\u00e1lise de cr\u00e9dito.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "Pessoais",
+            itens: [
+              "Carteira de Identidade ou CNH \u2014 o documento mais recente \u2014 ou Identidade Profissional.",
+              "Prova de estado civil: certid\u00e3o de nascimento, certid\u00e3o de casamento com pacto antenupcial se houver, ou escritura p\u00fablica de uni\u00e3o est\u00e1vel.",
+              "Comprovante de endere\u00e7o atualizado: luz, \u00e1gua, telefone, cart\u00e3o de cr\u00e9dito.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Comprovantes de renda aceitos",
+            itens: [
+              "Os dois \u00faltimos contracheques.",
+              "Pr\u00f3-labore, no caso de empres\u00e1rio.",
+              "Extrato de benef\u00edcio previdenci\u00e1rio.",
+              "Extrato de aplica\u00e7\u00f5es financeiras.",
+              "Contrato de aluguel com comprovante de propriedade do im\u00f3vel \u2014 matr\u00edcula ou IPTU. Se o aluguel constar na declara\u00e7\u00e3o de imposto de renda, essa comprova\u00e7\u00e3o n\u00e3o \u00e9 necess\u00e1ria.",
+              "Declara\u00e7\u00e3o de Imposto de Renda completa, com o recibo de entrega.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Peça a documenta\u00e7\u00e3o na ordem certa",
+            texto:
+              "Documento de renda antes da visita assusta e parece invas\u00e3o; depois da proposta aceita, atrasa tudo. O meio-termo \u00e9 abrir a an\u00e1lise de cr\u00e9dito assim que o cliente demonstrar interesse real \u2014 o banco leva o tempo dele, e esse \u00e9 o prazo que ningu\u00e9m encurta.",
+          },
+        ],
+        atencao:
+          "Documento de cliente \u00e9 dado pessoal sens\u00edvel. Vai para o sistema com acesso controlado, n\u00e3o para grupo de WhatsApp nem pasta compartilhada (LGPD, Lei 13.709/18).",
+      },
+      {
+        chave: "documentos-vendedor",
+        titulo: "Documentos do vendedor e do im\u00f3vel",
+        resumo:
+          "O outro lado da an\u00e1lise. \u00c9 aqui que o processo trava quando ningu\u00e9m conferiu antes.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "Vendedor pessoa f\u00edsica",
+            itens: [
+              "Carteira de Identidade com menos de 10 anos de emiss\u00e3o, ou CNH.",
+              "Prova de estado civil: certid\u00e3o de nascimento ou de casamento, com pacto antenupcial se houver.",
+              "Comprovante de endere\u00e7o atualizado.",
+              "Telefone e e-mail.",
+              "Havendo procura\u00e7\u00e3o: a procura\u00e7\u00e3o, mais identidade com menos de 10 anos ou CNH e comprovante de endere\u00e7o do procurador.",
+              "Conta para cr\u00e9dito do valor financiado \u2014 precisa ser na Caixa.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Vendedor pessoa jur\u00eddica",
+            itens: [
+              "C\u00f3pia do cart\u00e3o CNPJ.",
+              "Contrato social e altera\u00e7\u00f5es registradas, no caso de Ltda; ou estatuto social e ata da elei\u00e7\u00e3o da \u00faltima diretoria publicados no Di\u00e1rio Oficial, no caso de S.A.",
+              "Documentos pessoais dos s\u00f3cios: RG, CPF e comprovante de endere\u00e7o.",
+              "Telefone e e-mail.",
+              "Certid\u00e3o simplificada da Junta Comercial.",
+              "Conta para cr\u00e9dito do valor financiado.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Im\u00f3vel usado",
+            itens: [
+              "Certid\u00e3o atualizada de inteiro teor da matr\u00edcula do Registro de Im\u00f3veis \u2014 apartamento e garagem \u2014 com negativa de \u00f4nus e reipersecut\u00f3ria.",
+              "Declara\u00e7\u00e3o de quita\u00e7\u00e3o do condom\u00ednio, quando houver.",
+              "Negativa de IPTU.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Im\u00f3vel novo",
+            texto: "Tudo o que o usado pede, mais:",
+            itens: [
+              "ARTs de projeto e de execu\u00e7\u00e3o.",
+              "Alvar\u00e1 de constru\u00e7\u00e3o.",
+              "C\u00f3pia do documento do CREA do respons\u00e1vel t\u00e9cnico.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A garagem tem matr\u00edcula pr\u00f3pria",
+            texto:
+              "\u00c9 o esquecimento mais comum da lista: pedir a matr\u00edcula do apartamento e descobrir, j\u00e1 na an\u00e1lise, que a vaga tem matr\u00edcula separada e ningu\u00e9m providenciou. Conferir isso na capta\u00e7\u00e3o custa cinco minutos.",
+          },
+        ],
+      },
+      {
+        chave: "terreno-construcao",
+        titulo: "Terreno e constru\u00e7\u00e3o",
+        resumo:
+          "Quando o cliente compra o lote e constr\u00f3i. Outro produto, outro limite, outra planilha.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "secao",
+            titulo: "Financiamento de terreno",
+            itens: [
+              "Entra no SFI: financia at\u00e9 80% do valor, com prazo m\u00e1ximo de 240 meses.",
+              "N\u00e3o permite uso do FGTS.",
+              "Conferir se o lote est\u00e1 individualizado na matr\u00edcula \u2014 fra\u00e7\u00e3o de gleba n\u00e3o financia.",
+              "Zoneamento e restri\u00e7\u00f5es ambientais pesam na an\u00e1lise, porque definem o que se pode construir.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Constru\u00e7\u00e3o individual",
+            texto:
+              "Quando o cliente j\u00e1 tem o terreno e financia a obra, a Caixa libera o dinheiro por etapa, conforme a medi\u00e7\u00e3o do que foi constru\u00eddo. O or\u00e7amento vai numa planilha pr\u00f3pria \u2014 a PCI, Planilha de Constru\u00e7\u00e3o Individual \u2014 assinada por respons\u00e1vel t\u00e9cnico.",
+            itens: [
+              "Projeto aprovado na prefeitura e alvar\u00e1 de constru\u00e7\u00e3o.",
+              "ART ou RRT do respons\u00e1vel t\u00e9cnico.",
+              "Or\u00e7amento e cronograma na planilha da Caixa.",
+              "Matr\u00edcula do terreno em nome do proponente, livre de \u00f4nus.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Aqui a engenharia do grupo entra como produto",
+            texto:
+              "Constru\u00e7\u00e3o individual exige projeto, respons\u00e1vel t\u00e9cnico, or\u00e7amento em planilha e medi\u00e7\u00e3o de obra \u2014 tudo o que a Tridium Engenharia j\u00e1 faz. Um cliente que compra terreno pela imobili\u00e1ria pode construir com o grupo, e o corretor que enxerga isso vende duas vezes.",
+          },
+        ],
+        cards: [
+          {
+            chave: "pci-planilha",
+            titulo: "PCI \u2014 Planilha de Constru\u00e7\u00e3o Individual",
+            descricao:
+              "A planilha da Caixa para or\u00e7amento e cronograma de constru\u00e7\u00e3o individual, preenchida pelo respons\u00e1vel t\u00e9cnico.",
+            tipo: "ferramenta",
+            href: "/materiais/pci-planilha-construcao-individual.xlsb",
+          },
+        ],
+      },
+    ],
+  },
+
   {
     chave: "atendimento",
-    numero: "05",
+    numero: "06",
     titulo: "Atendimento",
     resumo:
       "Do primeiro contato do interessado até a visita. É aqui que a maior parte dos negócios se perde, por demora.",
@@ -1241,10 +1533,10 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 04 */
+  /* ------------------------------------------------------------------ 08 */
   {
     chave: "negociacao",
-    numero: "06",
+    numero: "07",
     titulo: "Negociação",
     resumo:
       "Da proposta ao aceite. Tudo por escrito, inclusive o que foi recusado.",
@@ -1308,7 +1600,7 @@ export const procedimentos: EtapaProcedimento[] = [
 
   {
     chave: "contrato",
-    numero: "07",
+    numero: "08",
     titulo: "Documentação e contrato",
     tituloCurto: "Documentação",
     resumo:
@@ -1362,10 +1654,10 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 06 */
+  /* ------------------------------------------------------------------ 09 */
   {
     chave: "fechamento",
-    numero: "08",
+    numero: "09",
     titulo: "Fechamento",
     resumo:
       "Escritura, registro e chaves. Só existe transferência de propriedade com registro na matrícula.",
@@ -1403,10 +1695,10 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 07 */
+  /* ------------------------------------------------------------------ 10 */
   {
     chave: "locacao",
-    numero: "09",
+    numero: "10",
     titulo: "Rotina de locação",
     tituloCurto: "Locação",
     resumo:
@@ -1473,10 +1765,10 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 08 */
+  /* ------------------------------------------------------------------ 11 */
   {
     chave: "administrativo",
-    numero: "10",
+    numero: "11",
     titulo: "Administrativo e financeiro",
     tituloCurto: "Administrativo",
     resumo:
@@ -1514,10 +1806,10 @@ export const procedimentos: EtapaProcedimento[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 09 */
+  /* ------------------------------------------------------------------ 12 */
   {
     chave: "juridico",
-    numero: "11",
+    numero: "12",
     titulo: "Jurídico e conformidade",
     tituloCurto: "Jurídico",
     resumo:
