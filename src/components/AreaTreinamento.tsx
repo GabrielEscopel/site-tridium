@@ -1045,7 +1045,18 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
 
         if (b.tipo === "imagem") {
           return (
-            <figure key={i}>
+            /* 70% da largura da coluna, e não a largura inteira. Em cheio, a
+               imagem virava o centro da aula e o texto parecia legenda dela;
+               a 70% ela volta a ser apoio do que está escrito, no mesmo peso
+               visual dos quadros de seção e de fecho.
+
+               Só no desktop (`md:`). No celular a coluna já é estreita, e
+               encolher mais tornaria ilegível o texto dentro das peças —
+               o card do certo contra errado tem duas listas lá dentro.
+
+               `max-w`, e não `w`: a caixa continua acompanhando a coluna
+               quando ela é menor que isso, em vez de ter largura fixa. */
+            <figure key={i} className="md:max-w-[70%]">
               <div
                 className={`relative w-full overflow-hidden rounded-xl bg-[color:var(--cart-caixa)] ${
                   b.formato === "quadrada" ? "aspect-square" : "aspect-[16/9]"
@@ -1055,7 +1066,7 @@ function Materia({ blocos }: { blocos: BlocoAula[] }) {
                   src={b.src}
                   alt={b.alt}
                   fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  sizes="(min-width: 1024px) 35vw, 100vw"
                   className="object-cover"
                 />
               </div>
