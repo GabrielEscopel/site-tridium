@@ -392,15 +392,24 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Apresentar-se em trinta segundos de um jeito que dê vontade de continuar a conversa, chegar à visita dentro do padrão da casa — da camisa ao porta-malas — e manter um perfil público que ajude em vez de atrapalhar.",
     icone: "aluguel",
-    /* Mesma moldura do modulo 01: quadrada, ao lado do texto. Recorte do
-       proprio card da casa, no TAMANHO NATIVO — a versao anterior juntava
-       os corretores e o carro num quadrado so, esticando os dois para
-       caber, e saia borrada. Com um assunto so, o recorte cabe sem
-       deformar. O carro aparece inteiro na aula 03, onde e o tema. */
+    /* Mesma moldura do modulo 01: quadrada, ao lado do texto.
+
+       A capa anterior mostrava os corretores posados, de frente, sozinhos:
+       o uniforme sem o trabalho em volta. Esta mostra o momento que o
+       modulo descreve — o corretor recebendo os clientes na entrada do
+       condominio, de camisa oficial, cordao e cracha a vista, com o
+       aperto de mao acontecendo. Casa com o resumo do modulo, que fala
+       dos 100 milissegundos do primeiro encontro.
+
+       Recorte quadrado de 941px na altura nativa, a partir de x=365. Dos
+       quatro enquadramentos testados, e o unico que cabe os tres ao mesmo
+       tempo: a cliente sorrindo, o aperto de mao e o corretor inteiro com
+       a marca no peito. Mais a direita, a cliente vira uma lasca; mais a
+       esquerda, a marca do corretor fica cortada na borda. */
     imagem: {
-      src: "/img/treinamento/apresentacao-corretores.webp",
-      alt: "Corretor e corretora de camisa oficial da Tridium Imoveis, com cordao e cracha de identificacao",
-      descricao: "O padrao de apresentacao da casa",
+      src: "/img/treinamento/apresentacao-corretor-cliente.webp",
+      alt: "Corretor de camisa oficial da Tridium Imóveis, com cordão e crachá, cumprimentando clientes na entrada de um condomínio",
+      descricao: "O primeiro encontro, no padrão da casa",
     },
     topicos: [
       {
@@ -418,9 +427,10 @@ export const procedimentos: EtapaProcedimento[] = [
           },
           {
             tipo: "imagem",
-            src: "/img/treinamento/apresentacao-corretor.webp",
-            alt: "Corretor e corretora de camisa oficial da Tridium Imóveis, ao lado das listas de imagem profissional e vestuário",
-            legenda: "O padrão de apresentação da Tridium Imóveis.",
+            src: "/img/treinamento/apresentacao-certo-errado.webp",
+            alt: "Dois painéis lado a lado. Certo: corretor de uniforme da Tridium Imóveis, crachá visível, postura aberta, conversando com os clientes. Errado: o mesmo cenário com camiseta fora do padrão, sem crachá, postura desleixada e papéis soltos debaixo do braço",
+            legenda:
+              "O mesmo corretor, o mesmo cliente, o mesmo imóvel — e duas conversas diferentes.",
           },
           {
             tipo: "secao",
