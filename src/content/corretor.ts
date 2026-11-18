@@ -1200,6 +1200,18 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Dizer a um cliente, antes da primeira visita, em que linha ele se enquadra, quanto pode financiar, se pode usar FGTS e que documentos v\u00e3o ser pedidos \u2014 de quem compra, de quem vende e do im\u00f3vel.",
     icone: "apartamento",
+    /* Recorte quadrado do card de financiamento da casa, sem a moldura
+       verde nem as listas: so a fotografia. O enquadramento foi escolhido
+       para caber a historia inteira numa imagem — calculadora, maquete,
+       contrato com as chaves e a mao assinando. Cortes mais a esquerda
+       perdiam a assinatura; mais a direita, a calculadora.
+
+       Quadrada, 800x800, como as dos modulos 01 a 04. */
+    imagem: {
+      src: "/img/treinamento/financiamento-credito.webp",
+      alt: "Mesa com calculadora, maquete de casa, contrato e chaves, e uma mão assinando",
+      descricao: "Do cálculo à assinatura",
+    },
     topicos: [
       {
         chave: "sistemas",
