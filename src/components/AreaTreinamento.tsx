@@ -666,20 +666,18 @@ function Modulo({
             <h2 className="t-display-tight fs-bloco mt-2 text-[color:var(--ink)]">
               {modulo.titulo}
             </h2>
-            <p className="t-body mt-3 max-w-[62ch] text-[color:var(--ink-muted)]">
+            {/* 48ch, nao 62ch. A medida de 62 vinha de quando o resumo tinha
+                o cartao inteiro; ao lado da foto, numa coluna que ja e
+                estreita, a linha longa fazia o bloco parecer uma parede.
+
+                O painel do objetivo — "Ao fim deste modulo voce sabe" —
+                ficava aqui e saiu. `modulo.objetivo` CONTINUA nos dados, em
+                src/content/corretor.ts, escrito para os doze modulos: e o que
+                separa treinamento de manual, e nao se joga fora porque a
+                abertura ficou cheia. So nao aparece mais nesta tela. */}
+            <p className="t-body mt-3 max-w-[48ch] text-[color:var(--ink-muted)]">
               {modulo.resumo}
             </p>
-
-            {/* O objetivo e o que separa treinamento de manual: ele diz o que
-                a pessoa tem de SABER FAZER, nao o que vai ler. */}
-            <div className="mt-6 rounded-xl border-l-[3px] border-l-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)] px-5 py-4">
-              <p className="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-[color:var(--cart-acao-ink)]">
-                Ao fim deste módulo você sabe
-              </p>
-              <p className="mt-2 text-sm leading-snug text-[color:var(--ink)]">
-                {modulo.objetivo}
-              </p>
-            </div>
           </div>
         </div>
       </div>
