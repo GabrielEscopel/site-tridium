@@ -105,6 +105,7 @@ function TelaDeAcesso({
                 valor={senha}
                 aoMudar={setSenha}
                 autoComplete="current-password"
+                revelavel
               />
             </div>
 
@@ -170,6 +171,7 @@ function Campo({
   aoMudar,
   tipo = "text",
   autoComplete,
+  revelavel = false,
 }: {
   id: string;
   rotulo: string;
@@ -177,20 +179,69 @@ function Campo({
   aoMudar: (v: string) => void;
   tipo?: string;
   autoComplete?: string;
+  /** Mostra o olho que revela o que está sendo digitado. Só para senha. */
+  revelavel?: boolean;
 }) {
+  const [revelada, setRevelada] = useState(false);
+  const mostrando = revelavel && revelada;
+
   return (
-    <label htmlFor={id} className="block">
-      <span className="t-label text-[color:var(--ink-faint)]">{rotulo}</span>
-      <input
-        id={id}
-        type={tipo}
-        value={valor}
-        onChange={(e) => aoMudar(e.target.value)}
-        autoComplete={autoComplete}
-        required
-        className="mt-2 h-12 w-full rounded-xl border border-[color:var(--cart-campo-linha)] bg-white px-4 text-[0.9375rem] text-[color:var(--ink)] focus:border-[color:var(--cart-titulo)] focus:outline-none focus:ring-2 focus:ring-[color:var(--cart-acao)]"
-      />
-    </label>
+    /* O <label> envolvia o campo inteiro. Com o botão dentro, clicar no olho
+       acionaria o label também — e o clique chegaria duas vezes. Por isso o
+       rótulo agora aponta para o campo por `htmlFor` em vez de abraçá-lo. */
+    <div>
+      <label
+        htmlFor={id}
+        className="t-label block text-[color:var(--ink-faint)]"
+      >
+        {rotulo}
+      </label>
+      <div className="relative mt-2">
+        <input
+          id={id}
+          type={mostrando ? "text" : tipo}
+          value={valor}
+          onChange={(e) => aoMudar(e.target.value)}
+          autoComplete={autoComplete}
+          required
+          className={`h-12 w-full rounded-xl border border-[color:var(--cart-campo-linha)] bg-white pl-4 text-[0.9375rem] text-[color:var(--ink)] focus:border-[color:var(--cart-titulo)] focus:outline-none focus:ring-2 focus:ring-[color:var(--cart-acao)] ${
+            revelavel ? "pr-13" : "pr-4"
+          }`}
+        />
+        {revelavel && (
+          /* `type="button"`: sem isso o botão herda `submit` e tentar ver a
+             senha enviaria o formulário.
+
+             O ícone mostra a AÇÃO, não o estado: olho aberto quando a senha
+             está escondida (clique para ver), olho cortado quando está à
+             vista (clique para esconder). O `aria-label` diz a mesma ação, e
+             `aria-pressed` conta o estado a quem usa leitor de tela. */
+          <button
+            type="button"
+            onClick={() => setRevelada((v) => !v)}
+            aria-label={mostrando ? "Ocultar senha" : "Mostrar senha"}
+            aria-pressed={mostrando}
+            aria-controls={id}
+            className="absolute right-1 top-1 grid h-10 w-10 place-items-center rounded-lg text-[color:var(--ink-faint)] transition-colors duration-200 hover:bg-[color:var(--cart-caixa)] hover:text-[color:var(--cart-titulo)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cart-acao)]"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2.5 12S6 5.5 12 5.5s9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12Z" />
+              <circle cx="12" cy="12" r="3.25" />
+              {mostrando && <path d="M4 20 20 4" />}
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
   );
 }
 
