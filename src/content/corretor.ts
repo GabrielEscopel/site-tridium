@@ -106,6 +106,13 @@ export type BlocoAula =
       /** Proporcao do arquivo, para a moldura nao cortar o que importa.
           Cards desenhados com texto dentro nao podem ser cortados. */
       formato?: "deitada" | "quadrada";
+      /** `cheia` ocupa a coluna inteira, em vez dos 70% padrao.
+       *
+       *  Os 70% existem para a imagem nao virar o centro da aula quando ela e
+       *  apoio do texto. Num card denso — tres colunas de itens, passo a passo
+       *  numerado, exemplo de nome de grupo — e o contrario: o card E a aula, e
+       *  a 70% a letra dele fica pequena demais para ler na tela. */
+      largura?: "cheia";
     }
   /** Clausula de contrato, com a traducao embaixo.
    *
@@ -2498,7 +2505,260 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Achar o card certo para a situação sem procurar em pasta de WhatsApp, e saber o que cada um diz antes de mandar para o cliente.",
     icone: "lancamento",
-    topicos: [],
+    /* Uma aula por card, na ordem dos arquivos. A aula e SO o card: sem texto
+       antes, sem legenda depois. O card ja diz o que tem para dizer, e repetir
+       em texto ao lado foi justamente o que se tirou das aulas do modulo 02 e
+       do Carro por ser redundante.
+
+       `largura: "cheia"` em todos. Os 70% padrao existem para a imagem nao
+       virar o centro de uma aula de texto; aqui o card E a aula, e a 70% a
+       letra dele fica pequena demais.
+
+       O TEXTO ALTERNATIVO CARREGA O CONTEUDO DO CARD, item por item. Quem usa
+       leitor de tela nao enxerga nada do que esta desenhado la dentro: sem
+       isso, para essa pessoa o modulo inteiro seria dezesseis imagens mudas. */
+    topicos: [
+      {
+        chave: "card-apresentacao-pessoal",
+        titulo: "Apresentação pessoal do corretor",
+        resumo:
+          "O padrão de imagem e vestuário, num quadro só.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/01-apresentacao-pessoal.webp",
+            alt: "Card “Apresentação Pessoal do Corretor”. Foto de um corretor e uma corretora de camisa oficial verde da Tridium Imóveis, com cordão e crachá. Imagem profissional: cabelo cortado e bem cuidado; barba feita ou bem aparada; higiene pessoal em dia; unhas limpas e aparência organizada; uso moderado de perfumes. Vestuário e identificação: camisa oficial da imobiliária; crachá de identificação visível; roupas limpas, alinhadas e em bom estado; calçado social ou casual alinhado e limpo.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-veiculo",
+        titulo: "Veículo",
+        resumo:
+          "O carro como primeira sala de reunião.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/02-veiculo.webp",
+            alt: "Card “Veículo”. Foto de um SUV cinza com a marca da Tridium Imóveis aplicada na porta. Veículo limpo por dentro e por fora; organizado e sem objetos soltos; manutenção em dia, com revisões, pneus e segurança; transmite cuidado, credibilidade e profissionalismo.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-comportamento",
+        titulo: "Comportamento e relacionamento",
+        resumo:
+          "Como o corretor se conduz na conversa.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/03-comportamento.webp",
+            alt: "Card “Comportamento e Relacionamento Profissional”. Foto de um corretor de camisa da Tridium Imóveis conversando com um cliente à mesa. Trate todos com cordialidade e respeito; organize sua agenda com antecedência; comunique-se de forma clara e objetiva; ouça as necessidades do cliente.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-area-de-atuacao",
+        titulo: "Delimitação da área de atuação",
+        resumo:
+          "Onde a casa trabalha, e por quê.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/04-area-de-atuacao.webp",
+            alt: "Card “Delimitação da Área de Atuação”. Mapa aéreo de Florianópolis com a região de atuação marcada em verde e um alfinete sobre a cidade. Área central de Florianópolis; atuação regional estratégica; conhecimento de mercado; logística.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-perfil-empreendimento",
+        titulo: "Perfil do empreendimento",
+        resumo:
+          "O que se olha antes de agenciar um lançamento.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/05-perfil-empreendimento.webp",
+            alt: "Card “Perfil do Empreendimento”. Foto de um prédio em construção ao lado de capacete, planta e caneta sobre a mesa. Critérios de avaliação: empreendimentos de incorporadora; credibilidade da incorporadora; etapa da obra; documentação.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-prospeccao",
+        titulo: "Estratégias de prospecção",
+        resumo:
+          "Por onde o contato começa.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/06-prospeccao.webp",
+            alt: "Card “Estratégias de Prospecção”. Foto de um corretor da Tridium Imóveis ao celular, com ícones de WhatsApp, e-mail, grupo de pessoas e aperto de mão ao redor. Script de abordagem comercial por WhatsApp e e-mail; abordagem presencial estratégica.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-midias-agenciamento",
+        titulo: "Mídias do agenciamento",
+        resumo:
+          "O material que se produz do imóvel.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/07-midias-agenciamento.webp",
+            alt: "Card “Mídias do Agenciamento”. Foto de duas mãos segurando um celular na horizontal, filmando a sala de um apartamento. Fotos e vídeos do imóvel; pré-visita, com cuidados na apresentação do imóvel; ângulo dos registros; vídeos padronizados.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-ficha-agenciamento",
+        titulo: "Ficha de agenciamento",
+        resumo:
+          "O cadastro que fecha a captação.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/08-ficha-agenciamento.webp",
+            alt: "Card “Ficha de Agenciamento”. Ilustração de um notebook com a tela “Cadastro do Empreendimento” — campos de empreendimento, incorporadora e etapa da obra — ao lado de um celular criando um grupo novo de WhatsApp. Cadastro do empreendimento no site e no grupo de WhatsApp; modelo de ficha de agenciamento.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-perfil-metas-prospeccao",
+        titulo: "Perfil e metas de prospecção",
+        resumo:
+          "O exemplo de perfil de agente, com as metas do mês.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/09-prospeccao-isaac.webp",
+            alt: "Card “Perfil e Metas de Prospecção”. Retrato de Isaac, agente imobiliário, de camisa verde da Tridium. Perfil do agente: função de agente imobiliário; cidade Florianópolis, SC; bairros de atuação Agronômica, Trindade e Rio Vermelho. Metas de prospecção: 10 agenciamentos por mês, média de 2 a 3 por semana; vistoria no bairro a cada 15 dias, para ver novos imóveis à venda e conferir as placas; controle no guia de prospecção.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-grupos-whatsapp",
+        titulo: "Grupos de WhatsApp",
+        resumo:
+          "Os quatro grupos de captação e o que entra em cada um.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/10-grupos-whatsapp.webp",
+            alt: "Card “Agenciamento: Grupos de WhatsApp”. Estrutura dos grupos de captação, cada tipo de imóvel no seu grupo. 01 Empreendimentos de construtoras: lançamentos e imóveis na planta, contato direto com construtoras. 02 Apartamentos usados: imóveis de revenda, captação com proprietários. 03 Terrenos e casas: lotes, terrenos e casas à venda, oportunidades nos bairros. 04 Apartamentos por região específica: um grupo para cada bairro — Agronômica, Trindade e Rio Vermelho.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-captacao-construtoras",
+        titulo: "Captação de empreendimentos novos",
+        resumo:
+          "O passo a passo do agenciamento com construtora.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/11-captacao-construtoras.webp",
+            alt: "Card “Captação de Empreendimentos Novos de Construtoras”. À esquerda, o modelo do grupo de WhatsApp “CAP - EP - Trindade, Florianópolis” com o padrão da foto dos empreendimentos: foto da fachada, um pouco da calçada, bem iluminada, bom contraste; ajuste no ChatGPT para deixar a foto com iluminação solar e remover veículos, pessoas, cabos e qualquer coisa na frente do empreendimento. À direita, o passo a passo: 01 pesquisa nos portais, levantando empreendimentos na internet; 02 vistoria in loco, indo ao empreendimento e conferindo pessoalmente; 03 foto padrão da capa, fachada frontal; 04 identificar contatos — nome da construtora, WhatsApp e e-mail; 05 visita à construtora, se disponível, para pegar o material. Modelo do nome do grupo: CAP, hífen, EP, hífen, bairro, vírgula, cidade.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-empreendimento-prospectado",
+        titulo: "Empreendimento prospectado novo",
+        resumo:
+          "O que fazer depois que o empreendimento foi achado.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/12-empreendimento-prospectado.webp",
+            alt: "Card “Empreendimento Prospectado Novo”. À esquerda, o grupo de WhatsApp “EP - Residencial Monterrey - Rua Augusto Jung 345, Centro”, com a foto padrão do prédio. À direita, o passo a passo: 1 criar o grupo de WhatsApp; 2 colocar a foto padrão no grupo; 3 nomear o grupo seguindo o modelo; 4 contato com a incorporadora a cada 30 dias, como rotina. Modelo do nome do grupo: EP, hífen, nome do empreendimento, hífen, rua e número, vírgula, bairro. Observações: o modelo de nome facilita achar o grupo no WhatsApp; o corretor que fotografou e abriu o grupo é responsável por receber a tabela atualizada de valores da construtora e compartilhar no grupo, e também por atualizar os valores em todos os canais — site da imobiliária, anúncios do Instagram, YouTube e onde mais o imóvel estiver divulgado.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-captacao-apartamentos-usados",
+        titulo: "Captação de apartamentos usados",
+        resumo:
+          "O passo a passo do agenciamento de revenda.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/13-captacao-apartamentos-usados.webp",
+            alt: "Card “Captação de Apartamentos Usados”. À esquerda, o modelo do grupo “CAP - AP Usado - Trindade, Florianópolis”, com o padrão da foto dos prédios: foto da fachada, um pouco da calçada, bem iluminada, bom contraste; ajuste no ChatGPT para iluminação solar e remoção de veículos, pessoas e cabos na frente do prédio. À direita, o passo a passo: 01 vistoria in loco, indo ao prédio e conferindo pessoalmente; 02 foto padrão da capa, fachada frontal; 03 identificar contatos — nome do prédio, endereço e contato do síndico, se conseguir. Modelo do nome do grupo: CAP, hífen, AP Usado, hífen, bairro, vírgula, cidade.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-apartamento-usado-captado",
+        titulo: "Apartamento usado captado",
+        resumo:
+          "O que fazer depois que o prédio virou grupo.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/14-apartamento-usado-captado.webp",
+            alt: "Card “Apartamento Usado Captado”. À esquerda, o grupo “AP Usado - Residencial Monterrey - Rua Augusto Jung 345, Centro”, com a foto padrão do prédio, os links dos imóveis à venda ali — para entender o produto: quartos, sala, banheiro, garagem — e a comparação de valores, para perceber preços fora da média e boas oportunidades. À direita, o passo a passo: 1 criar o grupo de WhatsApp; 2 colocar a foto padrão; 3 nomear seguindo o modelo; 4 encontrar o contato do síndico; 5 pesquisar e postar no grupo os links dos imóveis à venda no prédio; 6 comparar os valores encontrados, buscando oportunidades. Observações: o corretor que fotografou e abriu o grupo é responsável pela tabela atualizada de valores e por atualizar os valores em todos os canais. Atenção: na vistoria do prédio, observar se algum morador está saindo e aproveitar para iniciar uma conversa, seguindo o card de abordagem.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-captacao-casas-terrenos",
+        titulo: "Captação de casas e terrenos",
+        resumo:
+          "O passo a passo do agenciamento de casa e lote.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/15-captacao-casas-terrenos.webp",
+            alt: "Card “Captação de Casas e Terrenos”. À esquerda, o modelo do grupo “CAP - Casas e Terrenos - Trindade, Florianópolis”, com o padrão da foto dos imóveis: foto da fachada, um pouco da calçada, bem iluminada, bom contraste; ajuste no ChatGPT para iluminação solar e remoção do que estiver na frente do imóvel. À direita, o passo a passo: 01 vistoria in loco, indo até a casa ou terreno; 02 foto padrão da capa, fachada frontal; 03 foto da placa da imobiliária que estiver no imóvel, para fazer as pesquisas; 04 identificar o endereço — rua, número e bairro; 05 identificar o contato do proprietário, conversando com vizinhos e pessoas próximas para chegar ao contato direto. Modelo do nome do grupo: CAP, hífen, Casas e Terrenos, hífen, bairro, vírgula, cidade.",
+            largura: "cheia",
+          },
+        ],
+      },
+      {
+        chave: "card-abordagem-padrao",
+        titulo: "Abordagem padrão",
+        resumo:
+          "O roteiro dos primeiros trinta segundos, com o texto pronto.",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "imagem",
+            src: "/img/treinamento/cards/16-abordagem-padrao.webp",
+            alt: "Card “Abordagem Padrão”. À esquerda, retrato de um corretor de camisa verde da Tridium, com o padrão de vestimenta: uniforme oficial, crachá visível, aparência alinhada. À direita, o roteiro de abordagem em três passos — apresentar-se, gerar credibilidade, deixar o contato — e o texto pronto: “Olá, tudo bem? Meu nome é [nome], sou corretor da Tridium Imóveis. Somos uma imobiliária nova, que nasceu de uma construtora com mais de 10 anos de atuação em Florianópolis. Já trabalhamos na construção e reforma do Floripa Shopping, de hospital da cidade e de diversos prédios da prefeitura. Posso deixar meu cartão com o(a) senhor(a)? Se pensar em vender ou alugar, é só me chamar.” Materiais e próximos passos: cartão de visita, para entregar ao possível proprietário; flyer, para divulgar a imobiliária nas caixas de correio da região; vídeo da empresa, cujo link se envia após pegar o contato.",
+            largura: "cheia",
+          },
+        ],
+      },
+    ],
   },
 ];
 

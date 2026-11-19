@@ -1309,7 +1309,10 @@ function Materia({ blocos, aula }: { blocos: BlocoAula[]; aula: string }) {
 
                `max-w`, e não `w`: a caixa continua acompanhando a coluna
                quando ela é menor que isso, em vez de ter largura fixa. */
-            <figure key={i} className="md:max-w-[70%]">
+            <figure
+              key={i}
+              className={b.largura === "cheia" ? "" : "md:max-w-[70%]"}
+            >
               <div
                 className={`relative w-full overflow-hidden rounded-xl bg-[color:var(--cart-caixa)] ${
                   b.formato === "quadrada" ? "aspect-square" : "aspect-[16/9]"
@@ -1319,7 +1322,17 @@ function Materia({ blocos, aula }: { blocos: BlocoAula[]; aula: string }) {
                   src={b.src}
                   alt={b.alt}
                   fill
-                  sizes="(min-width: 1024px) 35vw, 100vw"
+                  sizes={
+                    b.largura === "cheia"
+                      ? /* 70vw e MAIOR que a coluna real (~59vw em 1280px), de
+                           proposito. O `sizes` so escolhe qual arquivo baixar;
+                           subestimar faz o navegador pegar um arquivo menor que
+                           a caixa e esticar — e num card cheio de texto miudo
+                           isso aparece na hora. Arredondar para cima custa alguns
+                           kB e garante letra nitida. */
+                        "(min-width: 1024px) 70vw, 100vw"
+                      : "(min-width: 1024px) 35vw, 100vw"
+                  }
                   className="object-cover"
                 />
               </div>
