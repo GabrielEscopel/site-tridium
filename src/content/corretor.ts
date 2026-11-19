@@ -2210,6 +2210,17 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Ler o contrato de parceria da casa e saber, sem consultar ninguém, quando a outra imobiliária tem direito a comissão, quanto é, por quanto tempo uma indicação fica protegida e o que precisa estar registrado por escrito para o direito existir.",
     icone: "permuta",
+    /* Recorte quadrado ABAIXO DA BANDEIRA. A foto original traz uma bandeira
+       dos Estados Unidos desfocada no alto e um documento em ingles — e um
+       contrato de confidencialidade de emprego, nao de parceria imobiliaria.
+       Cortando a partir de y=900, a bandeira sai inteira, e o que fica e o
+       gesto: a mao com o marca-texto sobre o contrato. E justamente o que a
+       aula pede — ler clausula por clausula e marcar o que mudar. */
+    imagem: {
+      src: "/img/treinamento/contratos-parceria.webp",
+      alt: "Mão segurando um marca-texto amarelo sobre um contrato impresso, com trechos já marcados",
+      descricao: "Ler cláusula por cláusula, marcando o que muda",
+    },
     topicos: [
       {
         chave: "parceria-imobiliarias",
@@ -2505,6 +2516,21 @@ export const procedimentos: EtapaProcedimento[] = [
     objetivo:
       "Achar o card certo para a situação sem procurar em pasta de WhatsApp, e saber o que cada um diz antes de mandar para o cliente.",
     icone: "lancamento",
+    /* A capa e o PRIMEIRO CARD INTEIRO, nao um pedaco dele: a moldura do
+       modulo e quadrada e o card e 16:9, e recortar para preencher comeria
+       metade do que ele diz.
+
+       O card vai na LARGURA INTEIRA da moldura, e as faixas que sobram em
+       cima e embaixo sao preenchidas com o proprio card ampliado e desfocado.
+       A primeira tentativa deixou o card menor, centrado num fundo liso, e
+       ficou com mais vazio do que imagem — o card sumia dentro da moldura.
+       Com o fundo desfocado nao ha vazio, o card cabe maior, e o verde
+       borrado le como textura da marca em vez de sobra. */
+    imagem: {
+      src: "/img/treinamento/cards-capa-moldura.webp",
+      alt: "O card de apresentação pessoal do corretor, inteiro, sobre um fundo desfocado do próprio card",
+      descricao: "As peças da casa, reunidas",
+    },
     /* Uma aula por card, na ordem dos arquivos. A aula e SO o card: sem texto
        antes, sem legenda depois. O card ja diz o que tem para dizer, e repetir
        em texto ao lado foi justamente o que se tirou das aulas do modulo 02 e
