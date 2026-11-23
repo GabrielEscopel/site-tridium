@@ -1213,6 +1213,20 @@ function Materia({ blocos, aula }: { blocos: BlocoAula[]; aula: string }) {
                   ))}
                 </ul>
               )}
+              {/* A FONTE DA SEÇÃO, que estava nos dados e não aparecia.
+                  O campo existe no tipo desde o começo, dez seções dos
+                  módulos antigos já o preenchiam, e nenhuma delas chegava à
+                  tela — a citação da lei ficava só no arquivo.
+
+                  Entra discreta, abaixo do conteúdo e com um filete à
+                  esquerda: quem está estudando lê a seção, e quem precisa
+                  conferir de onde veio acha embaixo, sem que a citação
+                  dispute leitura com a matéria. */}
+              {b.fonte && (
+                <p className="mt-3 border-l-2 border-[color:var(--cart-campo-linha)] pl-3 text-xs leading-snug text-[color:var(--ink-faint)]">
+                  <span className="font-semibold">Fonte:</span> {b.fonte}
+                </p>
+              )}
             </section>
           );
         }
