@@ -2851,6 +2851,9 @@ export interface PerfilCorretor {
   foto?: string;
   /** Número de inscrição no CRECI, com a seccional. */
   creci: string;
+  /** Quando a inscrição vence, "AAAA-MM-DD". O registro vence, e o primeiro
+      a ser avisado tem de ser quem depende dele. */
+  creciVence?: string;
   /** Formação, curso técnico, CNAI — o que couber. */
   formacao: string[];
   /** Ano em que começou no mercado imobiliário. */
@@ -2943,3 +2946,157 @@ export function iniciaisDe(nome: string): string {
   const ultima = partes.length > 1 ? partes[partes.length - 1][0] : "";
   return (primeira + ultima).toUpperCase();
 }
+
+/* -----------------------------------------------------------------------------
+   ROTINA DA CASA
+   -----------------------------------------------------------------------------
+   O que a Tridium espera de qualquer corretor, dia a dia da semana. É IGUAL
+   PARA TODOS e mora aqui, no repositório, por dois motivos: é regra da casa,
+   não preferência de quem está logado, e versionada dá para saber quando
+   mudou e por quê.
+
+   É a metade "o que eu tenho que fazer" da gestão. A outra metade — visita,
+   reunião, vistoria — é compromisso próprio do corretor, que ele mesmo põe na
+   agenda; ver `lib/gestaoCorretor`.
+
+   `dia` é o número ISO: 1 é segunda, 6 é sábado. Domingo (7) não entra de
+   propósito — se a casa quiser rotina de domingo, basta acrescentar.
+
+   `quantidade` é quantos daquilo no dia. Sem ela, a tarefa é uma só coisa:
+   fez ou não fez.
+
+   ⚠ [EXEMPLO] A semana abaixo foi montada a partir do que o próprio
+   treinamento já ensina — prospecção nos portais, follow-up com prazo,
+   plantão, post com CRECI, fechamento na sexta. Serve para a tela ficar de
+   pé e para a conversa ter de onde partir. A rotina de verdade é a gestão
+   que define.
+   ----------------------------------------------------------------------------- */
+
+export interface TarefaDaRotina {
+  chave: string;
+  /** Dia ISO: 1 segunda … 6 sábado. */
+  dia: number;
+  titulo: string;
+  /** Quantos no dia. Sem isso, é uma só coisa: fez ou não fez. */
+  quantidade?: number;
+  /** O que conta como feito. Sem isso a tarefa vira discussão na sexta. */
+  observacao?: string;
+}
+
+export const rotinaDaCasa: TarefaDaRotina[] = [
+  {
+    chave: "prospeccao-portais",
+    dia: 1,
+    titulo: "Prospecção nos portais",
+    quantidade: 10,
+    observacao:
+      "Anúncio de proprietário direto. Conta o contato feito, não o número salvo.",
+  },
+  {
+    chave: "revisar-carteira",
+    dia: 1,
+    titulo: "Revisar a carteira: foto, preço e descrição",
+  },
+  {
+    chave: "follow-up",
+    dia: 2,
+    titulo: "Follow-up dos atendimentos da semana passada",
+    quantidade: 5,
+    observacao: "Quem visitou e não respondeu entra aqui antes de esfriar.",
+  },
+  {
+    chave: "visitas-agendadas",
+    dia: 2,
+    titulo: "Confirmar as visitas da semana",
+  },
+  { chave: "plantao-meio", dia: 3, titulo: "Plantão" },
+  {
+    chave: "post-instagram",
+    dia: 3,
+    titulo: "Post no Instagram",
+    quantidade: 1,
+    observacao: "Peça publicitária: o CRECI é obrigatório no post ou no perfil.",
+  },
+  {
+    chave: "visita-avaliacao",
+    dia: 4,
+    titulo: "Visita de avaliação para agenciamento",
+    quantidade: 1,
+  },
+  { chave: "atualizar-cadastro", dia: 4, titulo: "Atualizar os cadastros do dia" },
+  {
+    chave: "fechamento",
+    dia: 5,
+    titulo: "Fechamento da semana: mandar o resumo para a gestão",
+  },
+  {
+    chave: "confirmar-fim-de-semana",
+    dia: 5,
+    titulo: "Confirmar as visitas do fim de semana",
+  },
+  { chave: "plantao-sabado", dia: 6, titulo: "Plantão de vendas" },
+];
+
+/** As tarefas de um dia ISO, na ordem em que foram escritas. */
+export function rotinaDoDia(dia: number): TarefaDaRotina[] {
+  return rotinaDaCasa.filter((t) => t.dia === dia);
+}
+
+/* -----------------------------------------------------------------------------
+   PREMIAÇÕES
+   -----------------------------------------------------------------------------
+   Premiação é condição + período + recompensa. A condição é que decide se ela
+   funciona hoje ou não, e a diferença é grande:
+
+     `{ meta, alvo }`  — "bateu três agenciamentos na semana, ganha". Depende
+                         só do número de uma pessoa, e essa pessoa é quem está
+                         com a tela aberta. FUNCIONA AGORA.
+
+     `{ ranking }`     — "quem vender mais no mês". Precisa dos números de
+                         todos os corretores ao mesmo tempo, e isso é banco de
+                         dados. Aparece na tela como trancada, dizendo o que
+                         falta, em vez de sumir: a premiação está decidida, só
+                         não dá para apurar ainda.
+
+   ⚠ [EXEMPLO] As duas abaixo existem para os dois formatos ficarem de pé. As
+   recompensas estão como [A DEFINIR] porque a casa ainda não disse quais são.
+   ----------------------------------------------------------------------------- */
+
+export interface Premiacao {
+  chave: string;
+  titulo: string;
+  /** O que a pessoa ganha. */
+  recompensa: string;
+  periodo: "semana" | "mes" | "trimestre";
+  condicao:
+    | { tipo: "meta"; meta: string; alvo: number }
+    | { tipo: "ranking"; posicao: number };
+}
+
+export const premiacoesDaCasa: Premiacao[] = [
+  {
+    chave: "agenciador-da-semana",
+    titulo: "Três agenciamentos na semana",
+    recompensa: "[A DEFINIR]",
+    periodo: "semana",
+    condicao: { tipo: "meta", meta: "agenciamento", alvo: 3 },
+  },
+  {
+    chave: "destaque-do-mes",
+    titulo: "Destaque de vendas do mês",
+    recompensa: "[A DEFINIR]",
+    periodo: "mes",
+    condicao: { tipo: "ranking", posicao: 1 },
+  },
+];
+
+/** "Segunda", "Terça"… a partir do dia ISO. Domingo é 7. */
+export const nomeDoDia: Record<number, string> = {
+  1: "Segunda",
+  2: "Terça",
+  3: "Quarta",
+  4: "Quinta",
+  5: "Sexta",
+  6: "Sábado",
+  7: "Domingo",
+};

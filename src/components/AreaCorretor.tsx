@@ -298,18 +298,38 @@ function Painel({
           registre aqui dado de cliente, proposta, documento ou comissão.
         </p>
 
-        {/* ---------- As duas frentes ----------
-            Não são abas: a carteira vive aqui e o treinamento é uma área
-            própria, com cabeçalho e marca próprios. Por isso uma é um
-            cartão parado e a outra é um link, com a seta dizendo que leva
+        {/* ---------- As três frentes ----------
+            Não são abas: a carteira vive aqui, e gestão e treinamento são
+            áreas próprias, com cabeçalho próprio. Por isso a primeira é um
+            cartão parado e as outras são links, com a seta dizendo que levam
             para fora desta tela. */}
-        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:max-w-[42rem]">
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:max-w-[60rem]">
           <div className="rounded-xl border border-[color:var(--cart-pilula)] bg-[color:var(--cart-pilula)] px-5 py-4 text-[color:var(--cart-pilula-ink)]">
             <span className="block text-[0.9375rem] font-bold">Carteira</span>
             <span className="mt-0.5 block text-xs opacity-80">
               {imoveis.length} {imoveis.length === 1 ? "imóvel" : "imóveis"}
             </span>
           </div>
+
+          <Link
+            href="/imobiliaria/corretor/gestao"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] px-5 py-4 no-underline shadow-[var(--cart-sombra)] transition-[translate,box-shadow,border-color] duration-[220ms] ease-[var(--cart-curva)] hover:-translate-y-0.5 hover:border-[color:var(--cart-linha-ativa)] hover:shadow-[var(--cart-sombra-alta)] motion-reduce:hover:translate-y-0"
+          >
+            <span className="min-w-0">
+              <span className="block text-[0.9375rem] font-bold text-[color:var(--cart-preco)]">
+                Gestão
+              </span>
+              <span className="mt-0.5 block text-xs text-[color:var(--ink-faint)]">
+                Semana, metas e premiações
+              </span>
+            </span>
+            <span
+              aria-hidden="true"
+              className="shrink-0 text-[color:var(--cart-titulo)] transition-transform duration-300 ease-out group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </Link>
 
           <Link
             href="/imobiliaria/corretor/treinamento"
