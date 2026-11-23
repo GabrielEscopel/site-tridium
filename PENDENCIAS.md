@@ -18,7 +18,7 @@ escrita no arquivo que o navegador baixa. Não é segurança, e está assim de
 propósito até esta etapa ser feita — ver o cabeçalho de
 `src/lib/sessaoCorretor.ts`.
 
-Hoje, **cinco funcionalidades** dependem disso para sair do papel:
+Hoje, **seis funcionalidades** dependem disso para sair do papel:
 
 | arquivo | o que guarda | o que se perde hoje |
 |---|---|---|
@@ -26,6 +26,7 @@ Hoje, **cinco funcionalidades** dependem disso para sair do papel:
 | `metasCorretor.ts` | metas da semana | idem |
 | `favoritos.ts` | imóveis marcados | idem |
 | `anotacoesContrato.ts` | alterações anotadas nas cláusulas | idem — e esta é a pior: é a única em que a pessoa **escreve** algo que vai querer de volta |
+| `gestaoCorretor.ts` | agenda da semana e marcação da rotina | idem — e é a única que o **gestor** precisaria ver, e não vê |
 | ficha de agenciamento | ainda não existe | depende disto para existir |
 
 O que falta, nesta ordem:
@@ -50,6 +51,14 @@ Decisões que são do cliente, e que travam o começo:
 
 Antes disso: nada de valor real entra no painel — sem dado de cliente, sem
 proposta, sem documento.
+
+Duas coisas da tela de gestão já nascem trancadas por isto, e aparecem na tela
+dizendo o que falta em vez de sumir:
+
+- **Premiação por ranking** — comparar corretores exige os números de todos ao
+  mesmo tempo.
+- **Meta de mês** — a contagem zera na virada da semana, porque o registro é
+  semanal. Fechar o mês de verdade pede banco.
 
 ### CRECI da Tridium Imóveis
 
@@ -92,6 +101,11 @@ Outras pendências de conteúdo:
   se obrigou.
 - **`agenciamento-grupos.webp`** está sem uso desde a troca da imagem do
   módulo de Agenciamento.
+- **Rotina da casa e premiações** — `rotinaDaCasa` e `premiacoesDaCasa`, em
+  `content/corretor.ts`, estão marcadas como [EXEMPLO]. A rotina foi montada a
+  partir do que o próprio treinamento ensina (prospecção, follow-up, plantão,
+  post com CRECI, fechamento na sexta) e as recompensas estão como
+  [A DEFINIR]. São conteúdo, não código: a gestão dita e se troca em minutos.
 
 ### Materiais "a produzir"
 
@@ -194,3 +208,12 @@ Guardadas aqui porque custaram tempo para descobrir e não são óbvias.
   API, renderização no servidor e banco cabem.
 - **Push para `main` dispara o deploy automático.** Commitar não publica;
   enviar publica.
+- **Não rodar `next build` com o servidor de desenvolvimento ligado.** O build
+  de produção sobrescreve a pasta `.next`, e o `next dev` passa a servir
+  pedaços de página que não existem mais: tela preta, 404 em tudo e
+  `__webpack_modules__[moduleId] is not a function`. Não quebra o código, mas
+  parece que quebrou. Conserto: parar o servidor, apagar `.next`, subir de
+  novo.
+- **`truncate` em cima de `t-label` corta o acento.** A classe tem
+  `line-height: 1`, e o `overflow: hidden` do truncate come o que sobe acima
+  da maiúscula — "GESTÃO" virou "GESTAO". Rótulo curto não precisa de corte.
