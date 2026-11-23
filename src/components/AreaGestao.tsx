@@ -45,14 +45,21 @@ import {
   type Premiacao,
   type TarefaDaRotina,
 } from "@/content/corretor";
+import { formatarPreco, imoveis, type Imovel } from "@/content/imobiliaria";
 import { marcas } from "@/content/site";
 import { useMetasCorretor } from "@/lib/metasCorretor";
 import { useSessaoCorretor } from "@/lib/sessaoCorretor";
 import {
+  DIAS_ENTRE_REVISOES,
+  prazoDeRevisao,
+  rotuloDaCaptacao,
+  rotuloDoInvestidor,
   rotuloDoTipo,
   useGestaoCorretor,
   type Compromisso,
   type DiaDaSemana,
+  type StatusCaptacao,
+  type StatusInvestidor,
   type TipoCompromisso,
 } from "@/lib/gestaoCorretor";
 
@@ -156,20 +163,18 @@ export function AreaGestao() {
         {/* A semana manda na tela e fica na coluna larga; metas, premiações e
             ficha são consulta e descem para a lateral. Em tela estreita tudo
             empilha nessa mesma ordem. */}
-        <div className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8">
-          {/* A FICHA ABRE A COLUNA LARGA, e não fecha a lateral.
-              Ela é a credencial do corretor — CRECI, formação, tempo de
-              mercado — e estava no pé da coluna da direita, abaixo de metas
-              e premiações: para vê-la era preciso rolar a página inteira.
+        {/* ================= A FAIXA DE CIMA =================
+            A ficha à esquerda, estreita, e o monitoramento ao lado dela
+            ocupando o resto. São as duas coisas que o corretor abre a
+            página para ver: quem ele é perante o CRECI, e o que está
+            cobrando ação dele hoje. */}
+        <div className="mt-8 grid items-start gap-6 lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-8">
+          <Ficha perfil={perfil} />
+          <Monitor gestao={gestao} />
+        </div>
 
-              DEITADA, e não o cartão vertical que estava na lateral. Num
-              bloco com a largura da coluna principal, o cartão em pé
-              deixaria dois terços de vazio ao lado. Deitado, o retrato e o
-              nome abrem a faixa e os campos se distribuem embaixo. */}
-          <div className="space-y-6">
-            <Ficha perfil={perfil} />
-            <Semana perfil={perfil} metas={metas} gestao={gestao} />
-          </div>
+        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8">
+          <Semana perfil={perfil} metas={metas} gestao={gestao} />
 
           <div className="space-y-6">
             {perfil.metas && perfil.metas.length > 0 && (
@@ -206,6 +211,577 @@ function SemAcesso() {
 
 type MetasHook = ReturnType<typeof useMetasCorretor>;
 type GestaoHook = ReturnType<typeof useGestaoCorretor>;
+
+/* =============================================================================
+   MONITORAMENTO — publicados, captações e investidores
+   -----------------------------------------------------------------------------
+   Três controles no mesmo painel, em abas. Em três cartões empilhados a
+   página ficaria com o dobro da altura e o corretor rolaria para achar o que
+   quer; em abas, ele escolhe. A aba de publicados abre primeiro porque é a
+   única com prazo correndo — captação e investidor esperam, anúncio vencido
+   já está errado no ar.
+
+   ⚠ NADA AQUI ACEITA DADO DE CLIENTE enquanto o acesso for conferido no
+   navegador. O campo do investidor se chama "referência" e pede iniciais ou
+   codinome, não nome e telefone.
+   ============================================================================= */
+
+type AbaMonitor = "publicados" | "captacoes" | "investidores";
+
+function Monitor({ gestao }: { gestao: GestaoHook }) {
+  const [aba, setAba] = useState<AbaMonitor>("publicados");
+
+  /* O contador na aba é o que está PEDINDO AÇÃO, não o total. "Publicados 3"
+     com os três em dia seria um número sem recado; "3" em vermelho quando
+     três venceram faz a pessoa clicar. */
+  const vencidos = imoveis.filter(
+    (i) => prazoDeRevisao(gestao.revisao(i.chave)?.em).vencido
+  ).length;
+  const naFila = gestao.captacoes.filter((c) => c.status !== "pronta").length;
+  const abertos = gestao.investidores.filter(
+    (c) => c.status !== "encerrada"
+  ).length;
+
+  const abas: { chave: AbaMonitor; rotulo: string; conta: number }[] = [
+    { chave: "publicados", rotulo: "Publicados", conta: vencidos },
+    { chave: "captacoes", rotulo: "Captações", conta: naFila },
+    { chave: "investidores", rotulo: "Investidores", conta: abertos },
+  ];
+
+  return (
+    <section className="rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] p-5 shadow-[var(--cart-sombra)] md:p-6">
+      <div
+        role="tablist"
+        aria-label="Monitoramento"
+        className="flex flex-wrap gap-1 border-b border-[color:var(--cart-card-linha)]"
+      >
+        {abas.map((a) => {
+          const ativa = a.chave === aba;
+          return (
+            <button
+              key={a.chave}
+              type="button"
+              role="tab"
+              aria-selected={ativa}
+              onClick={() => setAba(a.chave)}
+              className={`-mb-px flex items-center gap-2 border-b-2 px-3 py-2.5 text-sm font-semibold transition-colors duration-200 ${
+                ativa
+                  ? "border-[color:var(--cart-titulo)] text-[color:var(--cart-titulo)]"
+                  : "border-transparent text-[color:var(--ink-muted)] hover:text-[color:var(--cart-preco)]"
+              }`}
+            >
+              {a.rotulo}
+              {a.conta > 0 && (
+                <span
+                  className={`grid h-5 min-w-5 place-items-center rounded-full px-1.5 font-mono text-[0.625rem] font-bold ${
+                    ativa
+                      ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+                      : "bg-[color:var(--cart-caixa)] text-[color:var(--cart-preco)]"
+                  }`}
+                >
+                  {a.conta}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-5">
+        {aba === "publicados" && <Publicados gestao={gestao} />}
+        {aba === "captacoes" && <Captacoes gestao={gestao} />}
+        {aba === "investidores" && <Investidores gestao={gestao} />}
+      </div>
+    </section>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   PUBLICADOS — o relógio dos 60 dias
+   -----------------------------------------------------------------------------
+   Anúncio no ar envelhece: preço que mudou, foto de outra estação, texto que
+   não bate mais. A casa revisa a cada 60 dias, e o que a tela precisa dizer é
+   só uma coisa — qual imóvel está pedindo revisão agora.
+
+   Vencido primeiro, e não ordem de código: a lista existe para ser trabalhada
+   de cima para baixo.
+   ----------------------------------------------------------------------------- */
+
+function Publicados({ gestao }: { gestao: GestaoHook }) {
+  const lista = [...imoveis].sort((a, b) => {
+    const pa = prazoDeRevisao(gestao.revisao(a.chave)?.em);
+    const pb = prazoDeRevisao(gestao.revisao(b.chave)?.em);
+    /* Nunca revisado encabeça, depois o mais atrasado. */
+    if (pa.nunca !== pb.nunca) return pa.nunca ? -1 : 1;
+    return pb.dias - pa.dias;
+  });
+
+  return (
+    <>
+      <p className="text-xs leading-snug text-[color:var(--ink-faint)]">
+        Cada anúncio no ar é revisto a cada {DIAS_ENTRE_REVISOES} dias: preço,
+        fotos e texto. Marque a revisão no dia em que fizer.
+      </p>
+
+      <ul className="mt-4 space-y-3">
+        {lista.map((imovel) => (
+          <LinhaPublicado
+            key={imovel.chave}
+            imovel={imovel}
+            gestao={gestao}
+          />
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function LinhaPublicado({
+  imovel,
+  gestao,
+}: {
+  imovel: Imovel;
+  gestao: GestaoHook;
+}) {
+  const registro = gestao.revisao(imovel.chave);
+  const prazo = prazoDeRevisao(registro?.em);
+  const [abrindo, setAbrindo] = useState(false);
+
+  const selo = prazo.nunca
+    ? { texto: "Nunca revisado", cor: "acao" as const }
+    : prazo.vencido
+      ? { texto: `${prazo.dias} dias`, cor: "acao" as const }
+      : prazo.perto
+        ? { texto: `${prazo.dias} dias`, cor: "aviso" as const }
+        : { texto: `${prazo.dias} dias`, cor: "ok" as const };
+
+  return (
+    <li
+      className={`rounded-xl border px-4 py-3 ${
+        prazo.vencido
+          ? "border-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)]"
+          : "border-[color:var(--cart-card-linha)]"
+      }`}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+        <div className="min-w-0">
+          <p className="flex flex-wrap items-baseline gap-x-2.5">
+            <span className="font-mono text-xs font-bold text-[color:var(--cart-titulo)]">
+              {imovel.codigo}
+            </span>
+            <span className="text-sm font-semibold text-[color:var(--ink)]">
+              {imovel.tipo} · {imovel.bairro}
+            </span>
+          </p>
+          <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
+            {formatarPreco(imovel.preco)}
+            {registro?.em ? ` · revisado em ${emDiaMes(registro.em)}` : ""}
+          </p>
+        </div>
+
+        <span
+          className={`shrink-0 rounded-full px-2.5 py-0.5 text-[0.6875rem] font-bold ${
+            selo.cor === "acao"
+              ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+              : selo.cor === "aviso"
+                ? "bg-[color:var(--cart-caixa)] text-[color:var(--cart-preco)]"
+                : "bg-[color:var(--cart-caixa)] text-[color:var(--ink-faint)]"
+          }`}
+        >
+          {selo.texto}
+        </span>
+      </div>
+
+      {registro?.nota && !abrindo && (
+        <p className="mt-2 border-l-2 border-[color:var(--cart-campo-linha)] pl-3 text-xs leading-snug text-[color:var(--cart-ficha)]">
+          {registro.nota}
+        </p>
+      )}
+
+      {abrindo ? (
+        <FormRevisao
+          notaAtual={registro?.nota ?? ""}
+          aoSalvar={(nota) => {
+            gestao.registrarRevisao(imovel.chave, nota);
+            setAbrindo(false);
+          }}
+          aoFechar={() => setAbrindo(false)}
+        />
+      ) : (
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1">
+          <button
+            type="button"
+            onClick={() => setAbrindo(true)}
+            className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+          >
+            {registro ? "Revisar de novo" : "Registrar revisão"}
+          </button>
+          <Link
+            href={`/imobiliaria/${imovel.chave}`}
+            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+          >
+            Ver o anúncio
+          </Link>
+          {registro && (
+            <button
+              type="button"
+              onClick={() => gestao.apagarRevisao(imovel.chave)}
+              className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            >
+              Desfazer
+            </button>
+          )}
+        </div>
+      )}
+    </li>
+  );
+}
+
+/* O que mudou na revisão, em texto livre. Campo fechado por padrão: na maior
+   parte das vezes a revisão é "olhei, está certo" e um clique basta. */
+function FormRevisao({
+  notaAtual,
+  aoSalvar,
+  aoFechar,
+}: {
+  notaAtual: string;
+  aoSalvar: (nota: string) => void;
+  aoFechar: () => void;
+}) {
+  const [nota, setNota] = useState(notaAtual);
+
+  return (
+    <div className="mt-3 rounded-xl border border-[color:var(--cart-campo-linha)] bg-white p-3">
+      <label
+        htmlFor="nota-revisao"
+        className="t-label font-bold text-[color:var(--cart-titulo)]"
+      >
+        O que mudou
+      </label>
+      <textarea
+        id="nota-revisao"
+        value={nota}
+        onChange={(e) => setNota(e.target.value)}
+        rows={2}
+        autoFocus
+        placeholder="Preço, fotos, texto — ou nada a mudar"
+        className="mt-2 w-full resize-y rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]"
+      />
+      <div className="mt-2 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => aoSalvar(nota)}
+          className="rounded-lg bg-[color:var(--cart-acao)] px-3.5 py-2 text-xs font-bold text-[color:var(--cart-acao-ink)] transition-opacity duration-200 hover:opacity-90"
+        >
+          Marcar revisado hoje
+        </button>
+        <button
+          type="button"
+          onClick={aoFechar}
+          className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   CAPTAÇÕES — a fila entre "visitei" e "está no ar"
+   ----------------------------------------------------------------------------- */
+
+const STATUS_CAPTACAO: StatusCaptacao[] = [
+  "visitada",
+  "autorizacao",
+  "documentos",
+  "fotos",
+  "pronta",
+];
+
+function Captacoes({ gestao }: { gestao: GestaoHook }) {
+  const [identificacao, setIdentificacao] = useState("");
+
+  const salvar = () => {
+    const t = identificacao.trim();
+    if (!t) return;
+    gestao.adicionarCaptacao({ identificacao: t, status: "visitada" });
+    setIdentificacao("");
+  };
+
+  return (
+    <>
+      <p className="text-xs leading-snug text-[color:var(--ink-faint)]">
+        O que você captou e ainda não subiu. Identifique por tipo e rua — nunca
+        pelo nome do proprietário.
+      </p>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          salvar();
+        }}
+        className="mt-4 flex flex-wrap gap-2"
+      >
+        <input
+          type="text"
+          value={identificacao}
+          onChange={(e) => setIdentificacao(e.target.value)}
+          placeholder="Apto 2 dorm., Rua das Flores"
+          aria-label="Identificação do imóvel captado"
+          className="min-w-0 flex-1 rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]"
+        />
+        <button
+          type="submit"
+          disabled={!identificacao.trim()}
+          className="shrink-0 rounded-lg bg-[color:var(--cart-pilula)] px-4 py-2 text-xs font-bold text-[color:var(--cart-pilula-ink)] transition-opacity duration-200 hover:opacity-90 disabled:opacity-40"
+        >
+          Acrescentar
+        </button>
+      </form>
+
+      {gestao.captacoes.length === 0 ? (
+        <Vazio texto="Nenhuma captação na fila." />
+      ) : (
+        <ul className="mt-4 space-y-3">
+          {gestao.captacoes.map((c) => (
+            <li
+              key={c.id}
+              className={`rounded-xl border px-4 py-3 ${
+                c.status === "pronta"
+                  ? "border-[color:var(--cart-titulo)] bg-[color:var(--cart-caixa)]"
+                  : "border-[color:var(--cart-card-linha)]"
+              }`}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold leading-snug text-[color:var(--ink)]">
+                    {c.identificacao}
+                  </p>
+                  <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
+                    Na fila desde {emDiaMes(c.em)}
+                  </p>
+                </div>
+
+                <select
+                  value={c.status}
+                  onChange={(e) =>
+                    gestao.mudarCaptacao(c.id, {
+                      status: e.target.value as StatusCaptacao,
+                    })
+                  }
+                  aria-label={`Status de ${c.identificacao}`}
+                  className="shrink-0 rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-2.5 py-1.5 text-xs font-semibold text-[color:var(--cart-preco)]"
+                >
+                  {STATUS_CAPTACAO.map((s) => (
+                    <option key={s} value={s}>
+                      {rotuloDaCaptacao[s]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <CampoNota
+                valor={c.nota ?? ""}
+                rotulo={`Observação de ${c.identificacao}`}
+                aoSalvar={(nota) => gestao.mudarCaptacao(c.id, { nota })}
+                aoRemover={() => gestao.removerCaptacao(c.id)}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   INVESTIDORES — a frente de relacionamento
+   ----------------------------------------------------------------------------- */
+
+const STATUS_INVESTIDOR: StatusInvestidor[] = [
+  "a-contatar",
+  "agendada",
+  "realizada",
+  "retorno",
+  "encerrada",
+];
+
+function Investidores({ gestao }: { gestao: GestaoHook }) {
+  const [referencia, setReferencia] = useState("");
+  const [interesse, setInteresse] = useState("");
+
+  const salvar = () => {
+    const r = referencia.trim();
+    if (!r) return;
+    gestao.adicionarInvestidor({
+      referencia: r,
+      interesse: interesse.trim() || undefined,
+      status: "a-contatar",
+    });
+    setReferencia("");
+    setInteresse("");
+  };
+
+  return (
+    <>
+      <p className="text-xs leading-snug text-[color:var(--ink-faint)]">
+        Empresários e investidores em contato. Use iniciais, codinome ou o
+        código do negócio — nome e telefone não entram aqui enquanto o acesso
+        não for de verdade.
+      </p>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          salvar();
+        }}
+        className="mt-4 flex flex-wrap gap-2"
+      >
+        <input
+          type="text"
+          value={referencia}
+          onChange={(e) => setReferencia(e.target.value)}
+          placeholder="Referência (ex.: J.M. / construtora)"
+          aria-label="Referência do investidor"
+          className="min-w-0 flex-1 rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]"
+        />
+        <input
+          type="text"
+          value={interesse}
+          onChange={(e) => setInteresse(e.target.value)}
+          placeholder="Interesse"
+          aria-label="Interesse do investidor"
+          className="min-w-0 flex-1 rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]"
+        />
+        <button
+          type="submit"
+          disabled={!referencia.trim()}
+          className="shrink-0 rounded-lg bg-[color:var(--cart-pilula)] px-4 py-2 text-xs font-bold text-[color:var(--cart-pilula-ink)] transition-opacity duration-200 hover:opacity-90 disabled:opacity-40"
+        >
+          Acrescentar
+        </button>
+      </form>
+
+      {gestao.investidores.length === 0 ? (
+        <Vazio texto="Nenhum contato registrado." />
+      ) : (
+        <ul className="mt-4 space-y-3">
+          {gestao.investidores.map((c) => (
+            <li
+              key={c.id}
+              className="rounded-xl border border-[color:var(--cart-card-linha)] px-4 py-3"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold leading-snug text-[color:var(--ink)]">
+                    {c.referencia}
+                  </p>
+                  {c.interesse && (
+                    <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
+                      {c.interesse}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                  <input
+                    type="date"
+                    value={c.data ?? ""}
+                    onChange={(e) =>
+                      gestao.mudarInvestidor(c.id, {
+                        data: e.target.value || undefined,
+                      })
+                    }
+                    aria-label={`Data da visita de ${c.referencia}`}
+                    className="rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-2 py-1.5 text-xs text-[color:var(--cart-preco)]"
+                  />
+                  <select
+                    value={c.status}
+                    onChange={(e) =>
+                      gestao.mudarInvestidor(c.id, {
+                        status: e.target.value as StatusInvestidor,
+                      })
+                    }
+                    aria-label={`Status de ${c.referencia}`}
+                    className="rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-2.5 py-1.5 text-xs font-semibold text-[color:var(--cart-preco)]"
+                  >
+                    {STATUS_INVESTIDOR.map((s) => (
+                      <option key={s} value={s}>
+                        {rotuloDoInvestidor[s]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <CampoNota
+                valor={c.nota ?? ""}
+                rotulo={`Observação de ${c.referencia}`}
+                aoSalvar={(nota) => gestao.mudarInvestidor(c.id, { nota })}
+                aoRemover={() => gestao.removerInvestidor(c.id)}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+/* Observação de uma linha, salva ao SAIR DO CAMPO e não a cada tecla.
+   Com o localStorage a diferença é invisível; quando a fonte virar servidor,
+   gravar por tecla seria uma requisição por letra digitada. */
+function CampoNota({
+  valor,
+  rotulo,
+  aoSalvar,
+  aoRemover,
+}: {
+  valor: string;
+  rotulo: string;
+  aoSalvar: (nota: string) => void;
+  aoRemover: () => void;
+}) {
+  const [texto, setTexto] = useState(valor);
+
+  return (
+    <div className="mt-2.5 flex flex-wrap items-center gap-2">
+      <input
+        type="text"
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onBlur={() => {
+          if (texto.trim() !== valor) aoSalvar(texto.trim());
+        }}
+        placeholder="Observação"
+        aria-label={rotulo}
+        className="min-w-0 flex-1 rounded-lg border border-transparent bg-[color:var(--cart-caixa)] px-3 py-1.5 text-xs text-[color:var(--cart-preco)] transition-colors duration-200 placeholder:text-[color:var(--ink-faint)] focus:border-[color:var(--cart-campo-linha)] focus:bg-white"
+      />
+      <button
+        type="button"
+        onClick={aoRemover}
+        className="shrink-0 text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+      >
+        Apagar
+      </button>
+    </div>
+  );
+}
+
+function Vazio({ texto }: { texto: string }) {
+  return (
+    <p className="mt-4 rounded-xl border border-dashed border-[color:var(--cart-campo-linha)] px-4 py-5 text-center text-sm text-[color:var(--ink-faint)]">
+      {texto}
+    </p>
+  );
+}
+
+/** "24/11", a partir de "2026-11-24". */
+function emDiaMes(data: string): string {
+  const [, mes, dia] = data.split("-");
+  return mes && dia ? `${dia}/${mes}` : data;
+}
 
 /* =============================================================================
    A SEMANA
@@ -1045,10 +1621,11 @@ function Ficha({ perfil }: { perfil: PerfilCorretor }) {
         </div>
       </div>
 
-      {/* OS CAMPOS CURTOS LADO A LADO. Empilhados, como estavam na coluna
-          estreita, esta faixa teria a altura do cartão antigo e nada do
-          ganho de movê-la para cima. */}
-      <dl className="mt-5 grid gap-x-8 gap-y-4 border-t border-[color:var(--cart-card-linha)] pt-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* DUAS COLUNAS, E NÃO TRÊS. A ficha dividia a faixa inteira com
+          ninguém e podia espalhar os campos; agora ela ocupa 22rem ao lado
+          do monitoramento, e em três colunas os rótulos — "VENCIMENTO DO
+          REGISTRO" em caixa-alta espaçada — não cabiam numa linha. */}
+      <dl className="mt-5 grid gap-x-6 gap-y-4 border-t border-[color:var(--cart-card-linha)] pt-4 sm:grid-cols-2">
         <Campo rotulo="CRECI" pendente={pendente(perfil.creci)}>
           {pendente(perfil.creci) ? "A preencher" : perfil.creci}
         </Campo>

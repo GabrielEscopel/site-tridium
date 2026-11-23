@@ -60,70 +60,133 @@ export interface Compromisso {
 export type MarcacoesDaRotina = Record<string, Record<string, number>>;
 
 /* -----------------------------------------------------------------------------
+   O MONITORAMENTO
+   -----------------------------------------------------------------------------
+   Três controles que o corretor mantém por fora do site público:
+
+     REVISÃO DOS PUBLICADOS  anúncio no ar envelhece. Preço que mudou, foto de
+                             estação errada e texto desatualizado derrubam a
+                             confiança de quem liga. A casa revisa a cada 60
+                             dias, e aqui fica o registro de quando foi.
+     CAPTAÇÕES               o que ainda não subiu. É a fila entre "visitei"
+                             e "está anunciado", e é onde imóvel se perde:
+                             sem lista, ninguém lembra do que falta.
+     INVESTIDORES            a frente de relacionamento com empresário e
+                             investidor, que tem meta própria.
+
+   ⚠ NENHUM DOS TRÊS ACEITA DADO DE CLIENTE enquanto o acesso for conferido no
+   navegador. Por isso o campo de investidor se chama `referencia` e não
+   `nome`: a tela pede iniciais, codinome ou o código do negócio. Guardar
+   "João da Silva, 48 99xxx" num localStorage que qualquer um lê abrindo o
+   navegador é o tipo de coisa que a LGPD cobra da empresa, não do corretor.
+   ----------------------------------------------------------------------------- */
+
+/** O dia da última revisão de cada imóvel publicado, pela chave do imóvel. */
+export type RevisoesDeImovel = Record<string, { em: string; nota?: string }>;
+
+/** De quantos em quantos dias um anúncio no ar precisa ser revisto. */
+export const DIAS_ENTRE_REVISOES = 60;
+
+export type StatusCaptacao =
+  | "visitada"
+  | "autorizacao"
+  | "documentos"
+  | "fotos"
+  | "pronta";
+
+export const rotuloDaCaptacao: Record<StatusCaptacao, string> = {
+  visitada: "Visitada",
+  autorizacao: "Autorização pendente",
+  documentos: "Documentos",
+  fotos: "Fotos",
+  pronta: "Pronta para publicar",
+};
+
+export interface Captacao {
+  id: string;
+  /** Como a casa chama o imóvel. Rua e tipo bastam — sem nome de dono. */
+  identificacao: string;
+  status: StatusCaptacao;
+  nota?: string;
+  /** "AAAA-MM-DD" em que entrou na lista. */
+  em: string;
+}
+
+export type StatusInvestidor =
+  | "a-contatar"
+  | "agendada"
+  | "realizada"
+  | "retorno"
+  | "encerrada";
+
+export const rotuloDoInvestidor: Record<StatusInvestidor, string> = {
+  "a-contatar": "A contatar",
+  agendada: "Visita agendada",
+  realizada: "Visita realizada",
+  retorno: "Aguardando retorno",
+  encerrada: "Encerrada",
+};
+
+export interface ContatoInvestidor {
+  id: string;
+  /** Iniciais, codinome ou código do negócio. NUNCA o nome e o telefone. */
+  referencia: string;
+  /** Ramo ou tipo de interesse: "incorporação", "renda", "terreno". */
+  interesse?: string;
+  status: StatusInvestidor;
+  /** "AAAA-MM-DD" da visita, quando houver. */
+  data?: string;
+  nota?: string;
+}
+
+/* -----------------------------------------------------------------------------
    A FONTE
    ----------------------------------------------------------------------------- */
 
+/* As caixas em que a gestão guarda coisa. Uma por assunto, porque cada uma
+   vira um recurso próprio quando houver API — e não um blobão só. */
+type Caixa = "agenda" | "rotina" | "revisoes" | "captacoes" | "investidores";
+
+const CHAVES: Record<Caixa, string> = {
+  agenda: "tridium:corretor:agenda",
+  rotina: "tridium:corretor:rotina",
+  revisoes: "tridium:corretor:revisoes",
+  captacoes: "tridium:corretor:captacoes",
+  investidores: "tridium:corretor:investidores",
+};
+
+/* A fonte é genérica de propósito. Com um par de métodos por caixa seriam
+   dez funções para reescrever no dia da API; assim são duas, e cada caixa
+   vira uma rota. O tipo volta pelo `vazio`, que também é o que se devolve
+   quando não há nada guardado ou quando o que está lá não presta. */
 interface FonteDaGestao {
-  lerCompromissos(): Promise<Compromisso[]>;
-  gravarCompromissos(lista: Compromisso[]): Promise<void>;
-  lerRotina(): Promise<MarcacoesDaRotina>;
-  gravarRotina(marcacoes: MarcacoesDaRotina): Promise<void>;
-}
-
-const CHAVE_AGENDA = "tridium:corretor:agenda";
-const CHAVE_ROTINA = "tridium:corretor:rotina";
-
-function lerLista(): Compromisso[] {
-  try {
-    const cru = window.localStorage.getItem(CHAVE_AGENDA);
-    if (!cru) return [];
-    const d: unknown = JSON.parse(cru);
-    return Array.isArray(d) ? (d as Compromisso[]) : [];
-  } catch {
-    /* Aba anônima, cota cheia ou registro corrompido por versão anterior:
-       começa vazio em vez de derrubar a página. */
-    return [];
-  }
-}
-
-function lerMapa(): MarcacoesDaRotina {
-  try {
-    const cru = window.localStorage.getItem(CHAVE_ROTINA);
-    if (!cru) return {};
-    const d: unknown = JSON.parse(cru);
-    return typeof d === "object" && d !== null && !Array.isArray(d)
-      ? (d as MarcacoesDaRotina)
-      : {};
-  } catch {
-    return {};
-  }
-}
-
-function gravarCru(chave: string, valor: unknown) {
-  try {
-    window.localStorage.setItem(chave, JSON.stringify(valor));
-  } catch {
-    /* Vale enquanto a aba viver. */
-  }
+  ler<T>(caixa: Caixa, vazio: T): Promise<T>;
+  gravar(caixa: Caixa, valor: unknown): Promise<void>;
 }
 
 const fonteLocal: FonteDaGestao = {
-  async lerCompromissos() {
-    return lerLista().filter(
-      (c) =>
-        typeof c?.id === "string" &&
-        typeof c?.data === "string" &&
-        typeof c?.titulo === "string"
-    );
+  async ler<T>(caixa: Caixa, vazio: T): Promise<T> {
+    try {
+      const cru = window.localStorage.getItem(CHAVES[caixa]);
+      if (!cru) return vazio;
+      const d: unknown = JSON.parse(cru);
+      /* O formato guardado tem de ser o mesmo do `vazio`: versão anterior
+         que gravou outra coisa não derruba a página, começa do zero. */
+      if (Array.isArray(vazio)) return Array.isArray(d) ? (d as T) : vazio;
+      return typeof d === "object" && d !== null && !Array.isArray(d)
+        ? (d as T)
+        : vazio;
+    } catch {
+      /* Aba anônima, armazenamento bloqueado ou registro corrompido. */
+      return vazio;
+    }
   },
-  async gravarCompromissos(lista) {
-    gravarCru(CHAVE_AGENDA, lista);
-  },
-  async lerRotina() {
-    return lerMapa();
-  },
-  async gravarRotina(marcacoes) {
-    gravarCru(CHAVE_ROTINA, marcacoes);
+  async gravar(caixa: Caixa, valor: unknown) {
+    try {
+      window.localStorage.setItem(CHAVES[caixa], JSON.stringify(valor));
+    } catch {
+      /* Vale enquanto a aba viver. */
+    }
   },
 };
 
@@ -182,6 +245,9 @@ export function diasDaSemana(referencia = new Date()): DiaDaSemana[] {
 export function useGestaoCorretor() {
   const [compromissos, setCompromissos] = useState<Compromisso[]>([]);
   const [rotina, setRotina] = useState<MarcacoesDaRotina>({});
+  const [revisoes, setRevisoes] = useState<RevisoesDeImovel>({});
+  const [captacoes, setCaptacoes] = useState<Captacao[]>([]);
+  const [investidores, setInvestidores] = useState<ContatoInvestidor[]>([]);
   /* Enquanto `pronto` for false não se sabe o que há guardado: o primeiro
      render acontece no servidor, onde não existe localStorage. */
   const [pronto, setPronto] = useState(false);
@@ -193,11 +259,18 @@ export function useGestaoCorretor() {
     let vivo = true;
 
     void (async () => {
-      const [agenda, marcacoes] = await Promise.all([
-        fonte.lerCompromissos(),
-        fonte.lerRotina(),
+      const [agenda, marcacoes, revisto, captado, investido] = await Promise.all([
+        fonte.ler<Compromisso[]>("agenda", []),
+        fonte.ler<MarcacoesDaRotina>("rotina", {}),
+        fonte.ler<RevisoesDeImovel>("revisoes", {}),
+        fonte.ler<Captacao[]>("captacoes", []),
+        fonte.ler<ContatoInvestidor[]>("investidores", []),
       ]);
       if (!vivo) return;
+
+      setRevisoes(revisto);
+      setCaptacoes(captado.filter((c) => typeof c?.id === "string"));
+      setInvestidores(investido.filter((c) => typeof c?.id === "string"));
 
       /* PODA. A agenda guarda os últimos sessenta dias e o que ainda vem; a
          rotina, as oito últimas semanas. Sem isso o registro cresce para
@@ -205,7 +278,14 @@ export function useGestaoCorretor() {
       const limite = new Date();
       limite.setDate(limite.getDate() - 60);
       const corte = emTexto(limite);
-      const agendaPodada = agenda.filter((c) => c.data >= corte);
+      const agendaPodada = agenda
+        .filter(
+          (c) =>
+            typeof c?.id === "string" &&
+            typeof c?.data === "string" &&
+            typeof c?.titulo === "string"
+        )
+        .filter((c) => c.data >= corte);
 
       const semanas = Object.keys(marcacoes).sort().slice(-8);
       const rotinaPodada: MarcacoesDaRotina = {};
@@ -216,10 +296,10 @@ export function useGestaoCorretor() {
       setPronto(true);
 
       if (agendaPodada.length !== agenda.length) {
-        void fonte.gravarCompromissos(agendaPodada);
+        void fonte.gravar("agenda", agendaPodada);
       }
       if (semanas.length !== Object.keys(marcacoes).length) {
-        void fonte.gravarRotina(rotinaPodada);
+        void fonte.gravar("rotina", rotinaPodada);
       }
     })();
 
@@ -234,14 +314,8 @@ export function useGestaoCorretor() {
 
   const adicionar = useCallback((novo: Omit<Compromisso, "id">) => {
     setCompromissos((atual) => {
-      const lista = [
-        ...atual,
-        {
-          ...novo,
-          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        },
-      ];
-      void fonte.gravarCompromissos(lista);
+      const lista = [...atual, { ...novo, id: novoId() }];
+      void fonte.gravar("agenda", lista);
       return lista;
     });
   }, []);
@@ -249,7 +323,105 @@ export function useGestaoCorretor() {
   const remover = useCallback((id: string) => {
     setCompromissos((atual) => {
       const lista = atual.filter((c) => c.id !== id);
-      void fonte.gravarCompromissos(lista);
+      void fonte.gravar("agenda", lista);
+      return lista;
+    });
+  }, []);
+
+  /* ---------- Revisão dos imóveis publicados ---------- */
+
+  const revisao = useCallback(
+    (imovel: string) => revisoes[imovel],
+    [revisoes]
+  );
+
+  const registrarRevisao = useCallback((imovel: string, nota?: string) => {
+    setRevisoes((atual) => {
+      const novo = {
+        ...atual,
+        [imovel]: { em: emTexto(new Date()), nota: nota?.trim() || undefined },
+      };
+      void fonte.gravar("revisoes", novo);
+      return novo;
+    });
+  }, []);
+
+  const apagarRevisao = useCallback((imovel: string) => {
+    setRevisoes((atual) => {
+      const novo = { ...atual };
+      delete novo[imovel];
+      void fonte.gravar("revisoes", novo);
+      return novo;
+    });
+  }, []);
+
+  /* ---------- Captações ---------- */
+
+  const adicionarCaptacao = useCallback(
+    (nova: Omit<Captacao, "id" | "em">) => {
+      setCaptacoes((atual) => {
+        const lista = [
+          ...atual,
+          { ...nova, id: novoId(), em: emTexto(new Date()) },
+        ];
+        void fonte.gravar("captacoes", lista);
+        return lista;
+      });
+    },
+    []
+  );
+
+  const mudarCaptacao = useCallback(
+    (id: string, mudanca: Partial<Omit<Captacao, "id">>) => {
+      setCaptacoes((atual) => {
+        const lista = atual.map((c) =>
+          c.id === id ? { ...c, ...mudanca } : c
+        );
+        void fonte.gravar("captacoes", lista);
+        return lista;
+      });
+    },
+    []
+  );
+
+  const removerCaptacao = useCallback((id: string) => {
+    setCaptacoes((atual) => {
+      const lista = atual.filter((c) => c.id !== id);
+      void fonte.gravar("captacoes", lista);
+      return lista;
+    });
+  }, []);
+
+  /* ---------- Investidores ---------- */
+
+  const adicionarInvestidor = useCallback(
+    (novo: Omit<ContatoInvestidor, "id">) => {
+      setInvestidores((atual) => {
+        const lista = [...atual, { ...novo, id: novoId() }];
+        void fonte.gravar("investidores", lista);
+        return lista;
+      });
+    },
+    []
+  );
+
+  const mudarInvestidor = useCallback(
+    (id: string, mudanca: Partial<Omit<ContatoInvestidor, "id">>) => {
+      setInvestidores((atual) => {
+        const lista = atual.map((c) =>
+          c.id === id ? { ...c, ...mudanca } : c
+        );
+        void fonte.gravar("investidores", lista);
+        return lista;
+      });
+    },
+    []
+  );
+
+  const removerInvestidor = useCallback((id: string) => {
+    setInvestidores((atual) => {
+      const lista = atual.filter((c) => c.id !== id);
+      void fonte.gravar("investidores", lista);
       return lista;
     });
   }, []);
@@ -276,7 +448,7 @@ export function useGestaoCorretor() {
         if (quantidade <= 0) delete daSemana[tarefa];
         else daSemana[tarefa] = quantidade;
         const novo = { ...atual, [semana]: daSemana };
-        void fonte.gravarRotina(novo);
+        void fonte.gravar("rotina", novo);
         return novo;
       });
     },
@@ -292,5 +464,66 @@ export function useGestaoCorretor() {
     remover,
     feitoNaRotina,
     marcarRotina,
+    revisao,
+    registrarRevisao,
+    apagarRevisao,
+    captacoes,
+    adicionarCaptacao,
+    mudarCaptacao,
+    removerCaptacao,
+    investidores,
+    adicionarInvestidor,
+    mudarInvestidor,
+    removerInvestidor,
+  };
+}
+
+/* Identificador de registro novo. Não precisa ser único no mundo — precisa
+   ser único nesta lista, neste navegador. Quando houver banco, quem dá o id
+   é ele. */
+function novoId(): string {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+/* -----------------------------------------------------------------------------
+   O RELÓGIO DOS 60 DIAS
+   -----------------------------------------------------------------------------
+   Sem data de publicação nos dados do imóvel, o único marco confiável é a
+   última revisão registrada pelo corretor. Imóvel sem revisão nenhuma não
+   recebe prazo inventado: aparece como "nunca revisado", que é verdade e já
+   é motivo para olhar.
+   ----------------------------------------------------------------------------- */
+
+export interface PrazoDeRevisao {
+  /** Nunca revisado: não há de quando contar. */
+  nunca: boolean;
+  /** Dias desde a última revisão. */
+  dias: number;
+  /** Já passou dos 60. */
+  vencido: boolean;
+  /** Falta menos de uma semana para vencer. */
+  perto: boolean;
+}
+
+export function prazoDeRevisao(em: string | undefined): PrazoDeRevisao {
+  if (!em) return { nunca: true, dias: 0, vencido: true, perto: false };
+
+  const quando = new Date(`${em}T12:00:00`);
+  if (Number.isNaN(quando.getTime())) {
+    return { nunca: true, dias: 0, vencido: true, perto: false };
+  }
+
+  const hoje = new Date();
+  hoje.setHours(12, 0, 0, 0);
+  const dias = Math.max(
+    0,
+    Math.round((hoje.getTime() - quando.getTime()) / 86400000)
+  );
+
+  return {
+    nunca: false,
+    dias,
+    vencido: dias >= DIAS_ENTRE_REVISOES,
+    perto: dias >= DIAS_ENTRE_REVISOES - 7 && dias < DIAS_ENTRE_REVISOES,
   };
 }
