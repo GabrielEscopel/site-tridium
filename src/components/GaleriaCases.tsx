@@ -13,6 +13,7 @@
    ============================================================================= */
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefereMovimentoReduzido } from "@/lib/motion";
@@ -41,6 +42,54 @@ export interface CaseItem {
      que ninguém consegue usar. */
   destaque?: boolean;
   descricaoFoto?: string;
+  /* A obra que ganhou página própria. Sem isto, o case vive só no card —
+     e é assim que deve ser enquanto não houver conteúdo real para uma
+     página inteira. Página criada por obrigação de simetria vira texto de
+     enchimento, e texto de enchimento prejudica as obras que têm o que
+     mostrar. Ver `PaginaObra`, logo abaixo. */
+  pagina?: PaginaObra;
+}
+
+/* -----------------------------------------------------------------------------
+   PÁGINA DE OBRA
+   -----------------------------------------------------------------------------
+   A página de um case existe por dois motivos ao mesmo tempo, e o desenho
+   atende aos dois:
+
+     PARA QUEM JÁ CONHECE a Tridium e quer ver o que ela fez — a obra, a
+     ficha, o registro fotográfico.
+     PARA QUEM PROCURA NO BUSCADOR por "reforma em shopping center" e nunca
+     ouviu falar da casa — o método, o que esse tipo de obra exige e as
+     perguntas que todo administrador de shopping faz antes de contratar.
+
+   Por isso `secoes` e `faq` convivem: as seções aprofundam o tema, e o FAQ
+   é o que o buscador lê como resposta direta.
+
+   ⚠ A LINHA QUE NÃO SE CRUZA: o que a página afirma sobre ESTA obra tem de
+   estar confirmado pelo cliente. O que é método — como se trabalha num
+   prédio em operação, o que a norma exige em altura — é verdadeiro em geral
+   e se escreve como método, nunca como "foi exatamente assim que fizemos
+   aqui". Misturar os dois é inventar currículo com o nome de um cliente
+   real em cima.
+   ----------------------------------------------------------------------------- */
+
+export interface PaginaObra {
+  /** A abertura da página. Mais longa que o resumo do card, que é uma linha. */
+  chamada: string;
+  /** Ficha técnica. Valor em `[A CONFIRMAR]` aparece como pendente, e não some. */
+  ficha: readonly { rotulo: string; valor: string }[];
+  /** O aprofundamento, na ordem de leitura. */
+  secoes: readonly { titulo: string; texto?: string; itens?: readonly string[] }[];
+  /** O que a casa faz neste tipo de obra. É a parte que responde "vocês
+      fazem isso também?" sem obrigar a pessoa a voltar para a home. */
+  servicos?: readonly { titulo: string; texto: string }[];
+  /** O título dessa lista — "O que a Tridium faz em shopping center".
+      É campo próprio porque deduzi-lo da categoria daria errado: toda obra
+      de reforma herdaria o assunto da primeira que teve página. */
+  tituloServicos?: string;
+  /** As perguntas que o cliente faz antes de contratar. Viram também o
+      schema FAQPage da página, que é o que o buscador mostra. */
+  faq?: readonly { pergunta: string; resposta: string }[];
 }
 
 export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
@@ -168,8 +217,32 @@ export function GaleriaCases({ cases }: { cases: readonly CaseItem[] }) {
                   <span className="t-label text-faint">{item.local}</span>
                 </div>
 
+                {/* O LINK FICA NO TÍTULO, E NÃO NO CARD INTEIRO.
+                    O card tem um carrossel de fotos dentro, com setas
+                    próprias: embrulhar tudo num <Link> engoliria os cliques
+                    das setas e deixaria o visitante sem como folhear as
+                    fotos. Título clicável mais a chamada embaixo dão o
+                    mesmo alcance sem tirar nada.
+
+                    Obra sem página continua como estava, em texto parado —
+                    link que leva a lugar nenhum é pior que link nenhum. */}
                 <h3 className="t-display-tight mt-4 fs-bloco text-ink">
-                  {item.nome}
+                  {item.pagina ? (
+                    <Link
+                      href={`/engenharia/${item.chave}`}
+                      className="group/link inline-flex items-start gap-3 text-ink no-underline transition-colors duration-200 hover:text-accent-texto"
+                    >
+                      {item.nome}
+                      <span
+                        aria-hidden="true"
+                        className="mt-[0.15em] shrink-0 text-accent-texto transition-transform duration-300 ease-out group-hover/link:translate-x-1"
+                      >
+                        →
+                      </span>
+                    </Link>
+                  ) : (
+                    item.nome
+                  )}
                 </h3>
 
                 <p className="t-body mt-4 max-w-[44ch] text-muted">

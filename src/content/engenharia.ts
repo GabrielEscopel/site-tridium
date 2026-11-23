@@ -172,17 +172,18 @@ export const cases: CaseItem[] = [
     chave: "floripa-shopping",
     nome: "Floripa Shopping",
     categoria: "Reforma",
-    tipo: "Praça de alimentação e cobertura",
+    tipo: "Retrofit geral, em operação",
     local: "Florianópolis, SC",
     destaque: true,
     resumo:
-      "Reforma da praça de alimentação e pintura da estrutura metálica da cobertura, num shopping em funcionamento.",
+      "Dez anos de obra no mesmo shopping em funcionamento: o retrofit geral da parte interna, feito de madrugada.",
     descricao:
-      "Duas frentes no mesmo contrato: a praça de alimentação, refeita do piso ao forro, e a estrutura metálica do vão livre acima dela, repintada em altura. Obra em prédio que recebe público todo dia — o canteiro convive com a operação.",
+      "Forro, piso, pilares, halls de elevador, praça de alimentação, seis mesaninos e a demolição das paredes que viraram a fachada de vidro. Tudo de madrugada, com o shopping abrindo no dia seguinte como se nada tivesse acontecido.",
     escopo: [
+      "Retrofit de shopping",
+      "Trabalho noturno",
+      "Alpinismo industrial",
       "Praça de alimentação",
-      "Pintura de estrutura metálica",
-      "Trabalho em altura",
       "Obra em prédio em operação",
     ],
     fotos: [
@@ -201,6 +202,210 @@ export const cases: CaseItem[] = [
         posicao: "center 40%",
       },
     ],
+    /* A PÁGINA PRÓPRIA, reescrita a partir do DESCRITIVO DO CLIENTE —
+       a transcrição de uma caminhada pelo shopping, contando obra por obra
+       o que a casa fez ali em dez anos.
+
+       ANTES DELE esta página descrevia MÉTODO: como se trabalha num prédio
+       em operação, o que a norma exige em altura. Era honesto e era pouco,
+       porque método qualquer concorrente também escreve. O que não se
+       inventa é o que está aqui agora: 2019, a demolição das paredes de
+       alvenaria à noite com alpinista e andaime, os seis mesaninos, as seis
+       claraboias serradas, o porcelanato de 2,70 m da praça, a placa com o
+       nome do shopping.
+
+       O QUE CONTINUA [A CONFIRMAR] são os nomes que a transcrição não deixa
+       claros — ela é fala gravada, com os erros de transcrição que isso
+       traz. O nome da faculdade saiu como "univante"/"unha van", e o órgão
+       público como "serra"/"cerco"/"cerpo". Metragem e atividade estão
+       ditas com clareza; o nome, não, e nome errado numa página pública é
+       pior do que nome nenhum.
+
+       ⚠ NOMES DE TERCEIROS. A página cita Voss Engenharia, Centauro,
+       Riachuelo, C&A e a unidade de passaportes da Polícia Federal porque
+       o cliente pediu e disse ter a documentação arquivada. Vale um aviso
+       à Voss antes de publicar: a obra foi tocada como parceira dela, e
+       quem administrou costuma querer saber que o nome vai ao ar. */
+    pagina: {
+      chamada:
+        "Dez anos de obra dentro do mesmo shopping em funcionamento: o retrofit geral da parte interna, feito de madrugada, entregue limpo antes de cada abertura — e sem um acidente em obra desse porte.",
+      ficha: [
+        { rotulo: "Tipo de obra", valor: "Retrofit e reforma geral" },
+        { rotulo: "Local", valor: "Florianópolis, SC" },
+        { rotulo: "Período", valor: "Dez anos de obras contínuas" },
+        { rotulo: "Regime", valor: "Trabalho noturno, shopping em operação" },
+        { rotulo: "Administração da obra", valor: "Voss Engenharia" },
+        { rotulo: "Execução e mão de obra", valor: "Tridium Engenharia" },
+        { rotulo: "Mesaninos construídos", valor: "Seis" },
+        { rotulo: "Histórico de acidentes", valor: "Nenhum em dez anos" },
+      ],
+      secoes: [
+        {
+          titulo: "Dez anos no mesmo shopping",
+          texto:
+            "A Tridium toca obras no Floripa Shopping há dez anos, como parceira da Voss Engenharia: a Voss administra, a Tridium executa e responde pela mão de obra. Nesse período a casa fez o retrofit geral da parte interna do shopping — e é desse tempo, e não de um contrato só, que vem a especialidade em obra de shopping center.",
+          itens: [
+            "Retrofit de todo o forro.",
+            "Troca do piso do shopping.",
+            "Preparo de todos os pilares para o revestimento.",
+            "Todos os halls de elevador.",
+            "Pintura e restauração de paredes e tetos.",
+            "Acabamentos, gesso, cantoneiras e frisos de junção.",
+          ],
+        },
+        {
+          titulo: "Trabalho noturno é a especialidade, não o detalhe",
+          texto:
+            "Shopping não fecha para reformar. Tudo o que está nesta página foi feito de madrugada, com a área isolada, o entulho retirado na mesma noite e o piso entregue limpo antes de o shopping abrir. É o que permite serrar concreto, demolir alvenaria e trocar piso num prédio que recebe público todos os dias.",
+          itens: [
+            "Demolição, corte e serra de concreto no período noturno.",
+            "Retirada de entulho na mesma noite, pelo caminho combinado.",
+            "Proteção de quem está embaixo durante serviço em altura.",
+            "Área liberada, limpa e conferida antes da abertura.",
+          ],
+        },
+        {
+          titulo: "2019: a fachada de vidro",
+          texto:
+            "O que hoje é vidro era parede de alvenaria com reboco e pilares. A Tridium demoliu essas paredes à noite, mantendo apenas o estrutural, para que a empresa especializada instalasse os vidros. A demolição foi feita com alpinistas e andaimes, sem danificar nada do shopping em operação.",
+          itens: [
+            "Demolição de alvenaria com preservação da estrutura.",
+            "Acesso por corda e andaime, conforme a frente.",
+            "Preparo dos pilares e instalação das cantoneiras para o envidraçamento.",
+            "A placa com o nome do Floripa Shopping, na frente do empreendimento, foi executada pela Tridium.",
+          ],
+        },
+        {
+          titulo: "Seis mesaninos, onde antes havia vão",
+          texto:
+            "Em seis pontos do shopping havia vãos abertos, com guarda-corpo, olhando para o piso de baixo. A Tridium removeu os guarda-corpos e construiu mesaninos para receber quiosques — ganhando área comercial sem ampliar o prédio.",
+          itens: [
+            "Remoção do guarda-corpo e execução da estrutura do mesanino.",
+            "Instalação do piso na laje nova.",
+            "Fechamento em gesso por baixo, escondendo as instalações.",
+            "Troca da iluminação e acabamento das duas faces.",
+          ],
+        },
+        {
+          titulo: "A praça de alimentação",
+          texto:
+            "A praça foi refeita por inteiro, e o piso é a parte que se olha de perto: placas de porcelanato de 2,70 m, com cantoneiras de acabamento, juntas de dilatação executadas à vista e frisos marcando a junção de um piso com o outro. O mobiliário inteiro — mesas e cadeiras — foi montado pela equipe da casa.",
+          itens: [
+            "Porcelanato de 2,70 m, assentado e rejuntado.",
+            "Juntas de dilatação e frisos de junção entre pisos.",
+            "Forro, iluminação e acabamentos.",
+            "Montagem de todas as mesas e cadeiras.",
+          ],
+        },
+        {
+          titulo: "As seis claraboias",
+          texto:
+            "A praça recebia luz natural por seis claraboias. A reforma previu a retirada das seis: elas foram serradas e cortadas à noite, com um profissional protegendo o shopping embaixo durante todo o serviço, e os vãos foram concretados para que o forro pudesse ser fechado no dia seguinte.",
+        },
+        {
+          titulo: "Lojas e espaços dentro do shopping",
+          texto:
+            "Além das áreas comuns, a Tridium executou obra em boa parte das lojas e dos espaços do empreendimento.",
+          itens: [
+            "Faculdade com 4.000 m² construída dentro do shopping. [A CONFIRMAR o nome]",
+            "Órgão público de fiscalização, com 2.000 m² de obra. [A CONFIRMAR o nome]",
+            "Unidade de emissão de passaportes da Polícia Federal — todo o interior, exceto o ACM e as letras da fachada.",
+            "Centauro, Riachuelo, C&A e outras lojas, em intervenções de reforma e acabamento.",
+            "Cafeteria, halls de elevador e corredores com retrofit completo.",
+          ],
+        },
+        {
+          titulo: "A decoração de Natal",
+          texto:
+            "A montagem da decoração natalina do shopping — guirlandas e os demais elementos — é feita pela Tridium, e se repete todo ano. É trabalho em altura, com prazo curto e sobre área de público, no período de maior movimento do calendário.",
+        },
+        {
+          titulo: "Dez anos sem um acidente",
+          texto:
+            "Obra em shopping é trabalho de alta periculosidade: gente em altura, sobre piso que horas depois recebe público. Em dez anos de obras desse porte no Floripa Shopping, a Tridium não registrou um acidente. É o número que uma administração de shopping pede antes de qualquer orçamento.",
+        },
+        {
+          titulo: "Tudo documentado",
+          texto:
+            "A casa mantém arquivados os orçamentos aprovados, as notas e os registros de tudo o que executou no shopping ao longo dos dez anos. Para quem administra um empreendimento e precisa checar referência antes de contratar, a comprovação existe e pode ser apresentada.",
+        },
+      ],
+      tituloServicos: "O que a Tridium faz em shopping center",
+      servicos: [
+        {
+          titulo: "Retrofit de shopping em operação",
+          texto:
+            "Forro, piso, pilares, halls e circulação, por etapas, sem fechar o empreendimento nem interditar loja no horário comercial.",
+        },
+        {
+          titulo: "Obra noturna com entrega diária",
+          texto:
+            "Demolição, corte de concreto e troca de piso de madrugada, com entulho retirado e área limpa antes da abertura.",
+        },
+        {
+          titulo: "Alpinismo industrial e trabalho em altura",
+          texto:
+            "Demolição, recuperação e pintura por acesso por corda, onde andaime não cabe ou atrapalharia a operação.",
+        },
+        {
+          titulo: "Mesaninos e ampliação de área comercial",
+          texto:
+            "Estrutura, piso, fechamento em gesso e iluminação para transformar vão ocioso em ponto de quiosque.",
+        },
+        {
+          titulo: "Praça de alimentação completa",
+          texto:
+            "Piso em porcelanato de grande formato, mármore, juntas de dilatação, forro, iluminação e montagem do mobiliário.",
+        },
+        {
+          titulo: "Decoração de Natal",
+          texto:
+            "Montagem e instalação da decoração natalina, em altura e com o prazo curto que a data impõe.",
+        },
+        {
+          titulo: "Reforma de loja e espaço corporativo",
+          texto:
+            "Da loja de rede à faculdade de 4.000 m² dentro do shopping, dentro das regras e dos horários do empreendimento.",
+        },
+      ],
+      faq: [
+        {
+          pergunta: "A obra precisa fechar o shopping?",
+          resposta:
+            "Não. Em dez anos de obra no Floripa Shopping, nada foi feito com o shopping fechado. O serviço pesado — demolição, corte de concreto, troca de piso — acontece de madrugada, e a área é entregue limpa e liberada antes da abertura.",
+        },
+        {
+          pergunta: "Dá para demolir parede e serrar concreto sem danificar o shopping?",
+          resposta:
+            "Dá, e foi o que aconteceu em 2019, quando as paredes de alvenaria que hoje são a fachada de vidro foram demolidas à noite com alpinistas e andaimes, mantendo apenas o estrutural, sem dano ao empreendimento. As seis claraboias da praça de alimentação foram serradas no mesmo regime, com proteção da área de baixo.",
+        },
+        {
+          pergunta: "Vocês fazem trabalho em altura sobre área de público?",
+          resposta:
+            "Sim, por acesso por corda ou andaime, conforme a frente. É trabalho de alta periculosidade e exige proteção da área abaixo, ancoragem definida com responsabilidade técnica e equipe treinada. Em dez anos de obra nesse porte, a Tridium não registrou acidente.",
+        },
+        {
+          pergunta: "Quem administrou a obra do Floripa Shopping?",
+          resposta:
+            "A administração foi da Voss Engenharia, que chamou a Tridium como parceira. A Voss administrou e a Tridium executou, respondendo pela mão de obra de todo o trabalho.",
+        },
+        {
+          pergunta: "Como comprovar o que foi feito?",
+          resposta:
+            "A Tridium mantém arquivados orçamentos aprovados, notas e registros de tudo o que executou no shopping ao longo dos dez anos. A comprovação pode ser apresentada a quem for contratar.",
+        },
+        {
+          pergunta: "Vocês atendem shopping fora de Florianópolis?",
+          resposta:
+            "A Tridium é de Florianópolis e atende Santa Catarina. Para retrofit em outra praça, o caminho é conversar sobre prazo, equipe e logística antes de qualquer orçamento.",
+        },
+        {
+          pergunta: "Quanto tempo leva uma reforma desse tipo?",
+          resposta:
+            "Depende da área, do escopo e principalmente de quantas horas por noite a administração libera. Numa obra em prédio em operação, é a janela de trabalho — e não o tamanho da obra — que costuma definir o prazo.",
+        },
+      ],
+    },
   },
   /* --- Hotel Porto da Ilha -------------------------------------------
      Segunda obra com registro real. Faz par com o Floripa Shopping: as duas
@@ -693,3 +898,22 @@ export const cases: CaseItem[] = [
     ],
   },
 ];
+
+
+/* -----------------------------------------------------------------------------
+   AS OBRAS QUE TÊM PÁGINA PRÓPRIA
+   -----------------------------------------------------------------------------
+   Nem toda obra do portfólio vira página, e isso é escolha e não atraso: só
+   entra aqui a que tem conteúdo real para uma página inteira. As demais vivem
+   no card da galeria, que é onde elas têm o que dizer.
+
+   Quem decide é a presença do campo `pagina` no case. Acrescentar uma página
+   nova é escrever esse campo — a rota, o corpo e o link do card já funcionam
+   para qualquer obra que o tenha.
+   ----------------------------------------------------------------------------- */
+
+export const casesComPagina = cases.filter((c) => c.pagina);
+
+export function buscarCase(chave: string): CaseItem | undefined {
+  return cases.find((c) => c.chave === chave && c.pagina);
+}
