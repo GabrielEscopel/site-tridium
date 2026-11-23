@@ -128,19 +128,19 @@ export function AreaGestao() {
       </header>
 
       <main className="wrap py-8 md:py-12">
-        <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-          <div>
-            <p className="t-label text-[color:var(--cart-titulo)]">
-              Minha semana
-            </p>
-            <h1 className="t-display-tight fs-bloco mt-2 text-[color:var(--ink)]">
-              {metas.intervalo}
-            </h1>
-          </div>
-          <p className="text-sm text-[color:var(--ink-muted)]">
-            {perfil.nome.startsWith("[") ? perfil.usuario : perfil.nome}
-            {perfil.creci.startsWith("[") ? "" : ` · CRECI ${perfil.creci}`}
+        {/* O nome e o CRECI saíram daqui. Eles ficavam à direita deste
+            cabeçalho porque a ficha estava enterrada no pé da coluna
+            lateral e nada dizia de quem era aquela semana. Agora a ficha
+            abre a página logo abaixo, em letra maior e com retrato: repetir
+            os dois a cem pixels de distância é a mesma redundância que já
+            foi desfeita duas vezes no treinamento. */}
+        <div>
+          <p className="t-label text-[color:var(--cart-titulo)]">
+            Minha semana
           </p>
+          <h1 className="t-display-tight fs-bloco mt-2 text-[color:var(--ink)]">
+            {metas.intervalo}
+          </h1>
         </div>
 
         {/* Não é um alerta a ser fechado: enquanto a tranca for de papelão,
@@ -157,14 +157,25 @@ export function AreaGestao() {
             ficha são consulta e descem para a lateral. Em tela estreita tudo
             empilha nessa mesma ordem. */}
         <div className="mt-8 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-8">
-          <Semana perfil={perfil} metas={metas} gestao={gestao} />
+          {/* A FICHA ABRE A COLUNA LARGA, e não fecha a lateral.
+              Ela é a credencial do corretor — CRECI, formação, tempo de
+              mercado — e estava no pé da coluna da direita, abaixo de metas
+              e premiações: para vê-la era preciso rolar a página inteira.
+
+              DEITADA, e não o cartão vertical que estava na lateral. Num
+              bloco com a largura da coluna principal, o cartão em pé
+              deixaria dois terços de vazio ao lado. Deitado, o retrato e o
+              nome abrem a faixa e os campos se distribuem embaixo. */}
+          <div className="space-y-6">
+            <Ficha perfil={perfil} />
+            <Semana perfil={perfil} metas={metas} gestao={gestao} />
+          </div>
 
           <div className="space-y-6">
             {perfil.metas && perfil.metas.length > 0 && (
               <Metas metas={perfil.metas} metasHook={metas} />
             )}
             <Premiacoes metas={perfil.metas ?? []} metasHook={metas} />
-            <Ficha perfil={perfil} />
           </div>
         </div>
       </main>
@@ -998,39 +1009,46 @@ function Ficha({ perfil }: { perfil: PerfilCorretor }) {
   const pendente = (v: string) => v.startsWith("[");
   const tempo = tempoDeMercado(perfil.atuaDesde);
   const semNome = pendente(perfil.nome);
+  const formacao = perfil.formacao.filter((f) => !pendente(f));
 
   return (
-    <section className="rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] p-5 shadow-[var(--cart-sombra)]">
-      <div className="flex items-center gap-3.5">
+    <section className="rounded-2xl border border-[color:var(--cart-card-linha)] bg-[color:var(--cart-card)] p-5 shadow-[var(--cart-sombra)] md:p-6">
+      {/* O retrato e o nome abrem a faixa. O avatar cresce em relação ao da
+          lateral: numa faixa larga o círculo pequeno virava um detalhe
+          perdido no canto. */}
+      <div className="flex items-center gap-4">
         {perfil.foto ? (
           <Image
             src={perfil.foto}
             alt={perfil.nome}
             width={160}
             height={160}
-            className="h-14 w-14 shrink-0 rounded-full object-cover"
+            className="h-16 w-16 shrink-0 rounded-full object-cover"
             style={{ objectPosition: "center 20%" }}
           />
         ) : (
-          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[color:var(--cart-pilula)] text-[1.125rem] font-bold text-[color:var(--cart-pilula-ink)]">
+          <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-[color:var(--cart-pilula)] text-[1.25rem] font-bold text-[color:var(--cart-pilula-ink)]">
             {iniciaisDe(semNome ? perfil.usuario : perfil.nome)}
           </span>
         )}
         <div className="min-w-0">
           <p
-            className={`text-[0.9375rem] font-bold leading-tight ${
+            className={`text-[1.0625rem] font-bold leading-tight ${
               semNome ? "text-[color:var(--ink-faint)]" : "text-[color:var(--ink)]"
             }`}
           >
             {semNome ? "Nome a preencher" : perfil.nome}
           </p>
-          <p className="mt-0.5 text-xs text-[color:var(--ink-muted)]">
+          <p className="mt-1 text-sm text-[color:var(--ink-muted)]">
             {perfil.cargo}
           </p>
         </div>
       </div>
 
-      <dl className="mt-5 space-y-4 border-t border-[color:var(--cart-card-linha)] pt-4">
+      {/* OS CAMPOS CURTOS LADO A LADO. Empilhados, como estavam na coluna
+          estreita, esta faixa teria a altura do cartão antigo e nada do
+          ganho de movê-la para cima. */}
+      <dl className="mt-5 grid gap-x-8 gap-y-4 border-t border-[color:var(--cart-card-linha)] pt-4 sm:grid-cols-2 lg:grid-cols-3">
         <Campo rotulo="CRECI" pendente={pendente(perfil.creci)}>
           {pendente(perfil.creci) ? "A preencher" : perfil.creci}
         </Campo>
@@ -1044,28 +1062,6 @@ function Ficha({ perfil }: { perfil: PerfilCorretor }) {
             : "A preencher"}
         </Campo>
 
-        <Campo rotulo="Formação" pendente={perfil.formacao.every(pendente)}>
-          {perfil.formacao.every(pendente) ? (
-            "A preencher"
-          ) : (
-            /* O ponto é decorativo: quem lê com leitor de tela já ouve a
-               estrutura da lista, e um bullet falado seria ruído. */
-            <ul className="space-y-1.5">
-              {perfil.formacao
-                .filter((f) => !pendente(f))
-                .map((f) => (
-                  <li key={f} className="flex gap-2 leading-snug">
-                    <span
-                      aria-hidden="true"
-                      className="mt-[0.4375rem] h-1 w-1 shrink-0 rounded-full bg-[color:var(--cart-titulo)]"
-                    />
-                    <span>{f}</span>
-                  </li>
-                ))}
-            </ul>
-          )}
-        </Campo>
-
         <Campo rotulo="No mercado" pendente={!tempo}>
           {tempo ? `Desde ${perfil.atuaDesde} · ${tempo}` : "A preencher"}
         </Campo>
@@ -1076,6 +1072,41 @@ function Ficha({ perfil }: { perfil: PerfilCorretor }) {
           </Campo>
         )}
       </dl>
+
+      {/* A FORMAÇÃO OCUPA A LINHA INTEIRA, e os cursos correm lado a lado
+          em vez de empilhar. São cinco títulos longos: numa das colunas
+          acima, eles sozinhos dariam à faixa o triplo da altura do resto.
+          O ponto verde passa a separar um curso do outro, que é o trabalho
+          que ele já fazia como marcador de lista. */}
+      <div className="mt-4 border-t border-[color:var(--cart-card-linha)] pt-4">
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Formação
+        </p>
+        {formacao.length === 0 ? (
+          <p className="mt-2 text-sm italic text-[color:var(--ink-faint)]">
+            A preencher
+          </p>
+        ) : (
+          <ul className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            {formacao.map((f, i) => (
+              <li
+                key={f}
+                className="flex items-center gap-3 text-sm leading-snug text-[color:var(--cart-ficha)]"
+              >
+                {/* O ponto é decorativo e separa os cursos; o primeiro não
+                    tem ponto antes porque não há nada para separar dele. */}
+                {i > 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="h-1 w-1 shrink-0 rounded-full bg-[color:var(--cart-titulo)]"
+                  />
+                )}
+                <span>{f}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </section>
   );
 }
