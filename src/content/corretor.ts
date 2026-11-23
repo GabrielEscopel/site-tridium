@@ -2786,6 +2786,1096 @@ export const procedimentos: EtapaProcedimento[] = [
       },
     ],
   },
+  /* ---------------------------------------------------------------- 16
+     GERENTE COMERCIAL — a regua, vista do lado de quem e medido.
+
+     O modulo nao e para o gerente: e para o corretor entender COMO e medido
+     e com base em que. Regua escondida vira surpresa no fim do mes; regua
+     escrita vira combinado.
+
+     [A CONFIRMAR PELA CASA] A pauta da reuniao, as taxas de conversao do
+     funil e o que acontece quando a meta nao vem sao processo interno, e a
+     Tridium ainda nao fixou nenhum dos tres. O que esta aqui foi montado do
+     que o proprio treinamento ja pressupoe — meta semanal, rotina, plantao,
+     carteira cadastrada — e serve para a gestao corrigir, nao para valer
+     como norma antes disso.
+     --------------------------------------------------------------------- */
+  {
+    chave: "gerencia",
+    numero: "16",
+    titulo: "Gerente comercial",
+    tituloCurto: "Gerência",
+    resumo:
+      "O que a gerência acompanha, quando acompanha e com base em quê. Corretor que conhece a régua para de ser surpreendido por ela.",
+    objetivo:
+      "Saber quais números a gerência olha, o que levar para a reunião da semana, como fechar a sexta-feira e o que acontece quando a meta não vem — antes de a conversa acontecer.",
+    icone: "comercial",
+    imagem: {
+      alt: "Reunião de equipe comercial numa imobiliária, com o gerente diante do quadro de metas da semana",
+      descricao: "A régua, combinada antes de ser cobrada",
+    },
+    topicos: [
+      {
+        chave: "gerencia-papel",
+        titulo: "O que o gerente comercial faz",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Gerente comercial não é o corretor que vendeu mais e ganhou uma sala. É uma função diferente da de vender: quem vende responde pela própria carteira, quem gerencia responde pelo resultado de um time que não controla diretamente. São dois trabalhos, e confundir os dois é o erro mais comum do cargo.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Quatro frentes, e só quatro",
+            itens: [
+              "DISTRIBUIR — quem atende qual cliente, quem fica no plantão, quem agencia em que região. Divisão malfeita é briga de comissão no mês seguinte.",
+              "ACOMPANHAR — olhar os números da semana antes que o mês acabe. Mês fechado é diagnóstico tardio.",
+              "DESTRAVAR — proposta parada, documento que não chega, proprietário que sumiu. O que o corretor não resolve sozinho sobe, e tem de voltar resolvido.",
+              "FORMAR — o treinamento é desta casa. Corretor novo que aprende sozinho aprende os vícios de quem está ao lado.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que não é função da gerência",
+            itens: [
+              "Fechar o negócio no lugar do corretor. Ajudar numa negociação difícil, sim; assumir a mesa, não — o cliente passa a tratar com o gerente e o corretor perde a relação.",
+              "Ser o funil de toda informação. Se tudo passa pela gerência, a gerência vira o gargalo.",
+              "Cobrar número sem ter combinado o critério antes. Meta sem critério escrito é discussão garantida.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Para o corretor, na prática",
+            texto:
+              "O que a gerência pode cobrar de você é o que foi combinado por escrito: a meta, o critério dela e a rotina da semana. Tudo isso está na sua tela de gestão. Se algo for cobrado e não estiver lá, o problema é do combinado, não seu — e é para ser resolvido na reunião, não no fim do mês.",
+          },
+        ],
+      },
+      {
+        chave: "gerencia-funil",
+        titulo: "O funil: por que a meta não é só venda",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Venda é o fim de uma fila, e a fila é longa. Entre o primeiro contato e a assinatura há quatro ou cinco etapas, cada uma com uma perda. Por isso a casa mede atividade — contatos, atendimentos, visitas — e não só o resultado: quando a venda não vem, o número da venda não diz onde quebrou.",
+          },
+          {
+            tipo: "secao",
+            titulo: "As etapas, na ordem",
+            itens: [
+              "CONTATO — alguém com quem você falou pela primeira vez, por qualquer canal.",
+              "ATENDIMENTO — contato que virou conversa com perfil de busca registrado. Sem perfil registrado, não é atendimento; é um número salvo.",
+              "VISITA — atendimento que foi ver imóvel.",
+              "PROPOSTA — visita que virou oferta por escrito.",
+              "FECHAMENTO — proposta aceita, contrato assinado.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Como se lê isso quando a venda não vem",
+            itens: [
+              "Muitos contatos e poucos atendimentos: o problema é a abordagem — o módulo 03 é o lugar.",
+              "Muitos atendimentos e poucas visitas: o problema é o filtro. Está oferecendo o que não cabe no perfil ou no bolso.",
+              "Muitas visitas e poucas propostas: o problema é o imóvel ou o preço — e às vezes é a captação, lá atrás, que entrou acima do mercado.",
+              "Muitas propostas e poucos fechamentos: o problema é a negociação ou a documentação travando.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A conta que importa",
+            texto:
+              "Se de cada dez atendimentos sai uma venda, então uma venda por mês exige dez atendimentos por mês — e os atendimentos exigem os contatos da rotina de segunda-feira. A meta de atividade não é controle: é a conta de trás para frente do resultado que você quer.",
+          },
+        ],
+        atencao:
+          "A Tridium ainda não mediu as próprias taxas de conversão: quantos contatos viram atendimento, quantos atendimentos viram visita. Enquanto não houver três meses de números registrados, a conta acima é um raciocínio, não a régua da casa.",
+      },
+      {
+        chave: "gerencia-reuniao",
+        titulo: "A reunião da semana e o fechamento da sexta",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Duas conversas por semana, em dois momentos diferentes e com finalidades opostas: a de segunda distribui e combina, a de sexta registra o que aconteceu. Sem a de sexta, a de segunda vira repetição de promessa.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Segunda — pauta fixa, trinta minutos",
+            itens: [
+              "O que entrou na carteira na semana passada, e o que saiu.",
+              "Quem atende o quê: plantão, visitas marcadas, agenciamentos em andamento.",
+              "O que está travado e precisa da gerência — com nome, imóvel e o que falta.",
+              "As metas da semana que começa.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Sexta — o fechamento, que é do corretor",
+            texto:
+              "No fim da semana, cada corretor manda o próprio resumo: metas, rotina cumprida e agenda. A tela de gestão monta esse texto pronto — o botão “Copiar resumo”, no fim da semana — e você só cola no grupo.",
+            itens: [
+              "É declaração, não auditoria: quem escreve é quem fez.",
+              "Semana fraca também se manda. O resumo que só aparece na semana boa deixa de ser informação e vira propaganda.",
+              "O que ficou para trás entra na pauta de segunda, e não numa cobrança isolada.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Por que isso é copiado e colado, e não automático",
+            texto:
+              "Enquanto o painel não tiver login de verdade e banco de dados, o que você marca na tela fica no seu navegador e a gerência não vê. O resumo colado é a ponte até lá. Quando houver banco, o mesmo texto se monta sozinho do outro lado — e aí o fechamento deixa de depender de alguém lembrar.",
+          },
+        ],
+      },
+      {
+        chave: "gerencia-meta-nao-veio",
+        titulo: "Quando a meta não vem",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Mês fechado abaixo da meta acontece com todo corretor, e a diferença entre um mês ruim e um problema é o que se faz na semana seguinte. A gerência olha para isso em três passos, e o corretor pode — e deve — fazer os mesmos três antes de ser chamado.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Primeiro: onde quebrou",
+            texto:
+              "Não se começa pela venda que faltou, mas pela etapa do funil que secou. Sem atendimento não há visita; sem visita não há proposta. Corretor que não bateu a meta de vendas mas fez a rotina inteira tem um problema diferente de quem não fez a rotina.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Segundo: o que é controlável",
+            itens: [
+              "Atividade é controlável: número de contatos, follow-up feito, visita confirmada.",
+              "Resultado não é: o cliente que desistiu, o financiamento negado, o proprietário que tirou o imóvel do mercado.",
+              "Cobrar resultado de quem fez a atividade inteira é desmoralizar a régua. Cobrar atividade é justo em qualquer mês.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Terceiro: o combinado da semana seguinte",
+            texto:
+              "A conversa termina com uma coisa escrita, específica e verificável em sete dias — “vinte contatos de prospecção até sexta”, não “melhorar o desempenho”. O que não dá para conferir na semana seguinte não é combinado, é desabafo.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "A regra que vale para os dois lados",
+            texto:
+              "O corretor chega na conversa com os próprios números na mão; a gerência chega com a régua que já estava combinada. Se qualquer um dos dois tiver de descobrir o número na hora, a conversa já começou errada.",
+          },
+        ],
+        atencao:
+          "O que acontece depois de meses seguidos abaixo da meta — advertência, mudança de carteira, desligamento — é política da casa e ainda não foi definida. Enquanto não for, não há consequência combinada, e cobrar uma que ninguém escreveu é o tipo de coisa que vira discussão trabalhista.",
+      },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- 17
+     CRECI — o conselho que autoriza, e que pode desautorizar.
+
+     Este modulo e o par do modulo 01: la esta de onde vem a profissao, aqui
+     esta o que mantem voce dentro dela. Tudo conferido no texto da lei e nas
+     resolucoes, com as fontes em cada aula.
+
+     NENHUM VALOR DE ANUIDADE OU DE TAXA ENTRA AQUI, de proposito. Eles mudam
+     todo ano, por resolucao do COFECI, e numero errado numa pagina de
+     treinamento e pior do que numero nenhum: o corretor planeja em cima
+     dele. O lugar de consultar e o site do regional, e e isso que a aula
+     manda fazer.
+     --------------------------------------------------------------------- */
+  {
+    chave: "creci",
+    numero: "17",
+    titulo: "CRECI",
+    tituloCurto: "CRECI",
+    resumo:
+      "O conselho que autoriza você a trabalhar — e que pode tirar essa autorização. O que ele exige, o que fiscaliza e o que leva a processo disciplinar.",
+    objetivo:
+      "Manter o próprio registro em dia, saber o que precisa constar em cada peça que você publica e reconhecer, antes de cometer, as condutas que levam a processo no conselho.",
+    icone: "aluguel",
+    imagem: {
+      alt: "Carteira profissional de corretor de imóveis emitida pelo CRECI, sobre uma mesa de trabalho",
+      descricao: "A credencial que autoriza o ofício",
+    },
+    topicos: [
+      {
+        chave: "creci-o-que-e",
+        titulo: "O conselho e o que ele pode fazer",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "O CRECI não é uma associação de classe nem um sindicato: é uma autarquia, com personalidade jurídica de direito público. Em português: é braço do Estado. O que ele decide num processo disciplinar tem força administrativa, e a multa que ele aplica se cobra como dívida.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Dois níveis",
+            itens: [
+              "COFECI — o conselho federal. Edita as resoluções que valem no país inteiro: código de ética, regras de publicidade, tabela de anuidade.",
+              "CRECI — o conselho regional, um por estado. É onde você se inscreve, para quem você paga e quem fiscaliza o seu dia a dia.",
+            ],
+            fonte: "Lei nº 6.530/1978, que regula a profissão, e Decreto nº 81.871/1978, que a regulamenta.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que o conselho pode fazer com você",
+            itens: [
+              "Fiscalizar — o fiscal entra em plantão, em stand de lançamento e em imobiliária, e pede a carteira.",
+              "Autuar quem exerce sem registro, inclusive a pessoa jurídica que emprega corretor não inscrito.",
+              "Instaurar processo disciplinar por infração ética, com direito a defesa.",
+              "Aplicar sanção, que vai de advertência a multa, suspensão e cancelamento da inscrição.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Por que isso importa para quem está começando",
+            texto:
+              "A intermediação imobiliária é das poucas atividades em que trabalhar sem a credencial não é só irregular: é exercício ilegal da profissão. E não existe “estou só ajudando um amigo a vender” — o que define a atividade é a intermediação habitual, não o contrato de trabalho.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Lei nº 6.530/1978 — regula a profissão de corretor de imóveis",
+            href: "https://www2.camara.leg.br/legin/fed/lei/1970-1979/lei-6530-12-maio-1978-365766-norma-pl.html",
+          },
+          {
+            rotulo: "Decreto nº 81.871/1978 — regulamenta a Lei 6.530",
+            href: "https://www.planalto.gov.br/ccivil_03/decreto/antigos/d81871.htm",
+          },
+        ],
+      },
+      {
+        chave: "creci-registro",
+        titulo: "Tirar e manter o registro",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "O registro não é um diploma que se emoldura: é uma inscrição que se mantém. Ela exige formação na entrada e permanece exigindo coisas depois — anuidade, cadastro atualizado e, se você atuar em outro estado, uma segunda inscrição.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Para entrar",
+            itens: [
+              "Formação: curso Técnico em Transações Imobiliárias (TTI) ou graduação em Gestão Imobiliária reconhecida pelo sistema COFECI/CRECI.",
+              "Estágio supervisionado, dentro do curso.",
+              "Inscrição no CRECI do estado onde você vai atuar, com os documentos que o regional pedir.",
+              "Pagamento das taxas e da anuidade do exercício.",
+            ],
+            fonte: "O Decreto nº 81.871/1978 limita o exercício a quem tem o título de Técnico em Transações Imobiliárias inscrito no CRECI da jurisdição.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Para manter",
+            itens: [
+              "Anuidade em dia. Inadimplência leva a cobrança e pode chegar a suspensão do exercício.",
+              "Cadastro atualizado: endereço, telefone e e-mail. Notificação de processo vai para o endereço cadastrado, e “não recebi” não suspende prazo.",
+              "Carteira dentro da validade — ela vence e se renova.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Atuar em outro estado: inscrição secundária",
+            texto:
+              "O CRECI é regional, e a inscrição vale na jurisdição em que foi concedida. Quem mora num estado e atende em outro precisa de inscrição secundária no regional do segundo estado. É o caso de quem atua entre Santa Catarina e Rio Grande do Sul, por exemplo.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "O que conferir hoje, na sua carteira",
+            texto:
+              "Número, seccional e data de validade. A seccional é a sigla do estado colada ao número — CRECI-SC, CRECI-RS — e ela faz parte do registro: o número sozinho não identifica inscrição nenhuma.",
+          },
+        ],
+        atencao:
+          "Os valores de taxa e de anuidade mudam todo ano, por resolução do COFECI, e variam entre regionais. Nenhum valor é citado aqui de propósito: consulte o site do CRECI do seu estado antes de planejar o gasto.",
+      },
+      {
+        chave: "creci-publicidade",
+        titulo: "O número na peça",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Toda peça que oferece imóvel é peça publicitária, e peça publicitária de corretor tem de trazer o número de inscrição. Vale para a placa no muro, para o anúncio no portal, para o post no Instagram, para o e-mail e para o site.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Onde o número precisa aparecer",
+            itens: [
+              "Placa de venda ou locação no imóvel.",
+              "Anúncio em portal, jornal e classificado.",
+              "Post que oferece imóvel — no post ou, no mínimo, no perfil que o publica.",
+              "Assinatura de e-mail profissional.",
+              "Site e material impresso da imobiliária.",
+            ],
+            fonte: "Lei nº 6.530/1978 e Resolução COFECI nº 492/2007, sobre publicidade na atividade de corretagem.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Erros que o fiscal enxerga de longe",
+            itens: [
+              "Número de outra pessoa na peça — o do titular da imobiliária, quando quem anuncia é o corretor, ou o contrário.",
+              "Número sem a seccional.",
+              "Anúncio de imóvel sem autorização do proprietário. A exigência da autorização é anterior à do número, e é a que mais gera reclamação.",
+              "Peça de pessoa jurídica sem a inscrição da própria imobiliária, que também é inscrita.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A coerência cobra de nós também",
+            texto:
+              "Este treinamento cobra o número do CRECI em cinco aulas diferentes. Vale olhar para as peças da própria casa com o mesmo rigor — placa, portal, post, e-mail e site — antes de cobrar de quem está começando.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Lei nº 6.530/1978",
+            href: "https://www2.camara.leg.br/legin/fed/lei/1970-1979/lei-6530-12-maio-1978-365766-norma-pl.html",
+          },
+        ],
+      },
+      {
+        chave: "creci-etica",
+        titulo: "Código de Ética e o que leva a processo",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "O Código de Ética Profissional dos Corretores de Imóveis é uma resolução do COFECI, e o descumprimento dele é infração disciplinar — não é recomendação de boas maneiras. A maior parte dos processos não nasce de má-fé: nasce de desorganização que virou prejuízo para alguém.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que mais aparece em reclamação",
+            itens: [
+              "Anunciar imóvel sem autorização do proprietário.",
+              "Receber valor do cliente — sinal, aluguel, taxa — fora do caixa da imobiliária, em conta pessoal.",
+              "Prometer o que não se pode cumprir: aprovação de financiamento, prazo de obra, rendimento de aluguel.",
+              "Omitir defeito ou ônus que você conhecia. Dívida de condomínio, penhora, área menor do que a anunciada.",
+              "Atropelar colega: atender cliente que já está em atendimento com outro corretor da casa, ou de outra, sem acordo.",
+              "Usar dado de cliente que veio de uma parceria para prospecção própria.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "As sanções, em ordem",
+            itens: [
+              "Advertência verbal.",
+              "Censura escrita.",
+              "Multa.",
+              "Suspensão da inscrição, de até noventa dias.",
+              "Cancelamento da inscrição, com apreensão da carteira.",
+            ],
+            fonte: "Resolução COFECI nº 326/1992 — Código de Ética Profissional dos Corretores de Imóveis.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "A regra prática",
+            texto:
+              "Quase tudo que vira processo seria evitado por três hábitos que o resto deste treinamento já pede: autorização assinada antes de anunciar, dinheiro de cliente só pelo caixa da casa, e tudo que foi prometido registrado por escrito. Não é ética abstrata — é rotina.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Código de Ética Profissional dos Corretores de Imóveis (Resolução COFECI 326/1992)",
+            href: "https://www.crecisp.gov.br/Files/notify/71f27005-77ce-47fb-8d10-3c2365681464_codigoeticaci.pdf",
+          },
+        ],
+      },
+      {
+        chave: "creci-cnai",
+        titulo: "Avaliar imóvel: o CNAI",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Opinar sobre preço para vender é uma coisa; emitir parecer técnico de avaliação é outra, e a segunda tem credencial própria. A confusão entre as duas é frequente e cara, porque parecer assinado por quem não pode assinar não serve para nada — e ainda expõe quem assinou.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A diferença",
+            itens: [
+              "OPINIÃO DE VALOR — a estimativa que o corretor faz para precificar a captação, com base em comparativos de mercado. Faz parte do trabalho de qualquer corretor inscrito.",
+              "PARECER TÉCNICO DE AVALIAÇÃO MERCADOLÓGICA (PTAM) — documento técnico, com metodologia, usado em inventário, partilha, processo judicial, garantia bancária. Exige o CNAI.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O CNAI",
+            texto:
+              "Cadastro Nacional de Avaliadores Imobiliários, mantido pelo sistema COFECI/CRECI. Obtém-se com curso e exame próprios, por cima da inscrição de corretor — não substitui o CRECI, soma-se a ele.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Quando mandar para quem tem",
+            texto:
+              "Pedido que venha de advogado, de juízo, de inventário ou de banco é avaliação técnica, não opinião de preço. Se você não tem o CNAI, encaminhe para quem tem — inclusive dentro da casa. Assinar o que não se pode assinar é das formas mais rápidas de virar processo no conselho.",
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- 18
+     METAS E PREMIACOES — a regua e o premio, por escrito.
+
+     Este modulo e o par da tela de gestao: o que la aparece como barra e
+     bolinha, aqui aparece como combinado. A aula explica COMO SE CONTA, que
+     e onde mora toda discussao de fim de mes.
+
+     [A DEFINIR PELA CASA] Os numeros das metas e as recompensas das
+     premiacoes. Eles vivem em `perfisCorretor` e em `premiacoesDaCasa`,
+     marcados como exemplo, e aparecem na tela como "a definir" em vez de
+     sumir: o que falta decidir fica a vista de quem decide.
+     --------------------------------------------------------------------- */
+  {
+    chave: "metas-premiacoes",
+    numero: "18",
+    titulo: "Metas e premiações",
+    tituloCurto: "Metas",
+    resumo:
+      "Quanto, em quanto tempo e o que conta como um. Meta sem critério escrito é desejo, e premiação sem apuração clara é promessa.",
+    objetivo:
+      "Saber exatamente o que precisa acontecer para uma meta contar, acompanhar a própria semana sem depender de ninguém e entender como cada premiação é apurada.",
+    icone: "cobertura",
+    imagem: {
+      alt: "Quadro de metas da equipe comercial, com os números da semana preenchidos à mão",
+      descricao: "O combinado, à vista dos dois lados",
+    },
+    topicos: [
+      {
+        chave: "metas-criterio",
+        titulo: "O que conta como um",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Toda discussão de fim de mês é a mesma: duas pessoas contando a mesma coisa de jeitos diferentes. O corretor conta a visita de avaliação que fez; a casa conta o imóvel que entrou na carteira. Os dois estão de boa-fé, e o problema não é o número — é o critério, que ninguém escreveu antes.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Um critério serve se responde a três perguntas",
+            itens: [
+              "O que precisa existir para contar? Documento, assinatura, cadastro — algo verificável depois.",
+              "Quando conta? Na data da assinatura, na do cadastro, na do pagamento?",
+              "Quem confere? Se a resposta for “ninguém”, o critério não existe.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Os critérios da casa, hoje",
+            itens: [
+              "AGENCIAMENTO — conta imóvel com autorização assinada e cadastrado na carteira. Visita de avaliação sem assinatura não conta.",
+              "VENDA — [A DEFINIR] se conta na proposta aceita, na assinatura do contrato ou no registro. São três datas diferentes, e podem cair em meses diferentes.",
+              "LOCAÇÃO — [A DEFINIR] se entra na mesma meta de vendas ou em meta própria.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Por que o critério protege você",
+            texto:
+              "Critério escrito não é desconfiança: é o que impede que a sua conta seja revista depois do fato. Enquanto um estiver como “a definir” na sua tela, ele está em aberto para os dois lados — e é melhor fechá-lo numa reunião de segunda do que num fim de mês.",
+          },
+        ],
+      },
+      {
+        chave: "metas-semana",
+        titulo: "A semana: rotina, meta e fechamento",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "A sua tela de gestão tem três coisas, e elas respondem a perguntas diferentes. A rotina responde “o que a casa espera de mim hoje”. A meta responde “como estou indo”. O fechamento responde “o que eu entrego na sexta”.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A semana é de segunda a domingo",
+            texto:
+              "É a semana ISO, a mesma que o mercado usa. A virada acontece na madrugada de domingo para segunda, e a contagem zera sozinha ali. Isso é proposital: sem zerar, o número de uma semana boa fica inflando o da seguinte e a régua perde o sentido.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Rotina da casa e compromisso próprio",
+            itens: [
+              "ROTINA DA CASA — igual para todos, definida pela gestão. Prospecção, follow-up, plantão, post, fechamento.",
+              "COMPROMISSO PRÓPRIO — visita, vistoria, reunião. Você põe na agenda do dia.",
+              "Não escreva nome, telefone ou dado de cliente na agenda enquanto o painel não tiver login de verdade.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Sexta: o fechamento",
+            texto:
+              "O botão “Copiar resumo”, no fim da tela da semana, monta o texto com metas, rotina marcada e agenda, e copia. Você cola no grupo da gestão. Semana fraca também se manda: resumo que só aparece na semana boa deixa de ser informação.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Onde isso fica guardado",
+            texto:
+              "No seu navegador, e só nele. Trocar de computador começa do zero, e a gerência não vê nada do que você marcou. É por isso que o fechamento é copiado e colado à mão. Quando houver login de verdade e banco de dados, isso passa a ser seu em qualquer máquina — e chega sozinho do outro lado.",
+          },
+        ],
+      },
+      {
+        chave: "metas-premiacoes-casa",
+        titulo: "As premiações",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Uma premiação tem três partes, e falta de qualquer uma transforma o prêmio em mal-entendido: a condição (o que precisa acontecer), o período (em quanto tempo) e a recompensa (o que se ganha). Prêmio anunciado sem as três vira cobrança sem contrapartida.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Dois tipos, e eles funcionam diferente",
+            itens: [
+              "POR META PRÓPRIA — “bateu três agenciamentos na semana, ganha”. Depende só do seu número. Você acompanha sozinho e sabe na hora se bateu.",
+              "POR RANKING — “quem vender mais no mês”. Depende do número de todo mundo ao mesmo tempo, e só a casa consegue apurar.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que a casa precisa deixar escrito antes de anunciar",
+            itens: [
+              "O critério da condição — o mesmo da meta, para não haver duas contagens.",
+              "O desempate, nas premiações por ranking. Dois corretores com três vendas cada: ganha quem vendeu mais caro, quem fechou primeiro, os dois?",
+              "O que acontece com quem entrou no meio do período.",
+              "Quando e como se paga ou se entrega.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Na sua tela",
+            texto:
+              "As premiações aparecem na coluna da direita da gestão. A que depende só do seu número mostra o andamento — “2/3 agenciamentos” — e ganha o selo quando fecha. A que depende de ranking aparece com um cadeado, dizendo o que falta para ser apurada.",
+          },
+        ],
+        atencao:
+          "As recompensas das duas premiações da casa estão como [A DEFINIR]. Elas aparecem na tela assim, em vez de sumir, para ficarem à vista de quem decide — mas enquanto estiverem nesse estado, não são prêmio prometido a ninguém.",
+      },
+      {
+        chave: "metas-apuracao",
+        titulo: "Como se apura, e o que ainda não dá para apurar",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Vale saber o que o sistema de hoje consegue e o que não consegue, porque isso muda o que você pode cobrar dele. Nada aqui é limitação permanente: é o estado atual, e o conserto já está mapeado.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que funciona hoje",
+            itens: [
+              "Meta semanal com alvo definido: você marca, a barra anda, zera na virada da semana.",
+              "Premiação por meta própria dentro da semana: apura sozinha, na sua tela.",
+              "Fechamento da semana em texto, para mandar à gestão.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que não funciona, e por quê",
+            itens: [
+              "META DE MÊS — o registro é semanal e zera toda segunda. Fechar o mês exige guardar as semanas num lugar que não é o navegador.",
+              "PREMIAÇÃO POR RANKING — comparar corretores exige os números de todos ao mesmo tempo.",
+              "A GERÊNCIA VER SEM PEDIR — hoje ela só vê o que você colou no grupo.",
+              "TROCAR DE COMPUTADOR — o que está marcado fica na máquina em que foi marcado.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que destrava os quatro de uma vez",
+            texto:
+              "Os quatro são o mesmo problema: não há banco de dados nem login de verdade. Com eles, a marcação deixa de ser do navegador e passa a ser do corretor — em qualquer máquina, visível para a gestão, somável por mês e comparável entre a equipe.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Enquanto isso",
+            texto:
+              "A contagem da semana é honra pessoal, e é assim que deve ser tratada. Marcar o que não foi feito não engana sistema nenhum: engana só a conversa de segunda-feira, que é onde o seu mês ainda dava para ser corrigido.",
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- 19
+     CARTORIO — qual deles faz o que, e o que trava em cada um.
+
+     A confusao que este modulo desfaz e a mais cara do mercado: tabelionato
+     de notas e registro de imoveis sao cartorios DIFERENTES, com funcoes
+     diferentes, e cliente mandado ao errado volta uma semana depois sem
+     nada resolvido.
+
+     Conferido no texto da lei. O art. 108 do Codigo Civil tem uma
+     controversia real sobre QUAL valor conta para os trinta salarios
+     minimos — o das partes ou o venal —, e a aula diz que a controversia
+     existe em vez de escolher um lado.
+     --------------------------------------------------------------------- */
+  {
+    chave: "cartorio",
+    numero: "19",
+    titulo: "Cartório",
+    tituloCurto: "Cartório",
+    resumo:
+      "Qual cartório faz o quê, quando a escritura é obrigatória e o que trava uma lavratura. Cliente mandado ao cartório errado volta uma semana depois sem nada resolvido.",
+    objetivo:
+      "Dizer ao cliente a qual cartório ir e por quê, saber quando a lei exige escritura pública e chegar ao tabelionato com a lista de documentos completa.",
+    icone: "condominio",
+    imagem: {
+      alt: "Balcão de tabelionato de notas, com escritura sendo conferida antes da assinatura",
+      descricao: "Onde o negócio vira documento público",
+    },
+    topicos: [
+      {
+        chave: "cartorio-qual",
+        titulo: "Qual cartório faz o quê",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "“Vai no cartório” é uma instrução incompleta, e o custo dela é uma semana do cliente. São serventias distintas, com atribuições distintas, e quase sempre em endereços distintos.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Os três que aparecem no nosso trabalho",
+            itens: [
+              "TABELIONATO DE NOTAS — lavra escritura, faz procuração pública, reconhece firma, autentica cópia, lavra ata notarial. É onde o negócio vira documento público.",
+              "REGISTRO DE IMÓVEIS — guarda a matrícula do imóvel e faz registro e averbação. É onde a propriedade efetivamente muda de dono. Cada imóvel pertence a uma circunscrição, e só ela pode registrar.",
+              "REGISTRO DE TÍTULOS E DOCUMENTOS (RTD) — registra contratos particulares para dar data certa e publicidade. Não transfere imóvel.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "A ordem das coisas numa compra e venda",
+            itens: [
+              "1. Tabelionato de notas: lavra-se a escritura, com o ITBI já pago.",
+              "2. Registro de imóveis: leva-se a escritura para registro na matrícula.",
+              "Só no passo 2 o comprador vira proprietário. Escritura assinada e não registrada não transfere nada.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A frase que evita a viagem perdida",
+            texto:
+              "Tabelionato de notas é qualquer um, à escolha das partes. Registro de imóveis é obrigatoriamente o da circunscrição onde fica o imóvel — não se escolhe, e não adianta ser mais perto.",
+          },
+        ],
+      },
+      {
+        chave: "cartorio-escritura",
+        titulo: "A escritura pública",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "A regra geral está no art. 108 do Código Civil: negócio que transmite direito real sobre imóvel de valor superior a trinta salários mínimos exige escritura pública, salvo disposição legal em contrário. Abaixo disso, instrumento particular basta.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A controvérsia que você precisa conhecer",
+            texto:
+              "Qual valor conta para os trinta salários mínimos? O Enunciado 289 da Jornada de Direito Civil diz que é o atribuído pelas partes, não o fiscal. Mas há decisões — inclusive em dúvida registral — que tomam o valor da avaliação do Fisco. A consequência prática é direta: um imóvel vendido por pouco, mas com valor venal alto, pode ter o contrato particular recusado no registro.",
+            fonte: "Código Civil, art. 108; Enunciado 289 da Jornada de Direito Civil; decisões do Conselho Superior da Magistratura de São Paulo em dúvida registral.",
+          },
+          {
+            tipo: "secao",
+            titulo: "As exceções que mais aparecem",
+            itens: [
+              "Financiamento imobiliário com alienação fiduciária: o contrato do banco tem, por lei, força de escritura pública e vai direto a registro.",
+              "Operações do Sistema Financeiro da Habitação, pela mesma lógica.",
+              "Compromisso de compra e venda não é exceção: é contrato preliminar, registrável, mas não transmite a propriedade.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "O que dizer ao cliente",
+            texto:
+              "Não prometa que o instrumento particular resolve sem confirmar duas coisas: o valor de referência que o registro da circunscrição adota e se a operação tem financiamento com garantia. Na dúvida, escritura pública — ela nunca é recusada por excesso de formalidade.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Código Civil (Lei nº 10.406/2002), art. 108",
+            href: "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm",
+          },
+        ],
+      },
+      {
+        chave: "cartorio-procuracao",
+        titulo: "Procuração",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Vendedor que não pode comparecer manda um procurador — e é aí que negócio bom desanda. A procuração tem forma, poderes e validade, e qualquer um dos três errado derruba a escritura na hora da lavratura.",
+          },
+          {
+            tipo: "secao",
+            titulo: "As três coisas que se confere",
+            itens: [
+              "FORMA — para vender imóvel, a procuração tem de ser pública, lavrada em tabelionato. Instrumento particular com firma reconhecida não serve quando o negócio exige escritura pública.",
+              "PODERES — tem de dizer expressamente que o procurador pode vender aquele imóvel, receber o preço e dar quitação. Poderes genéricos de “administrar bens” não autorizam venda.",
+              "VALIDADE — procuração com prazo vencido não vale, e procuração sem prazo pode ter sido revogada. O tabelionato confere a certidão de que ela continua em vigor.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Os sinais de alerta",
+            itens: [
+              "Procuração antiga, de anos atrás, para vender um imóvel específico.",
+              "Outorgante idoso ou doente, sem contato possível. Se não dá para confirmar que a pessoa está viva e lúcida, não se fecha.",
+              "Procurador que também é o comprador — conflito de interesse, que exige autorização expressa.",
+              "Procuração feita no exterior sem apostilamento.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A regra da casa",
+            texto:
+              "Procuração entra na pasta do negócio como documento a conferir, junto com as certidões — e não como detalhe de última hora. Conferir na véspera da assinatura é tarde: refazer uma procuração pública leva dias, e às vezes o outorgante está em outra cidade.",
+          },
+        ],
+      },
+      {
+        chave: "cartorio-documentos",
+        titulo: "O que levar, e o que trava",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "O tabelionato só lavra com a documentação completa, e a conferência é feita na hora. Chegar faltando uma certidão não adia a assinatura em uma hora: adia em dias, porque remarcar depende da agenda de três ou quatro pessoas.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Das pessoas",
+            itens: [
+              "Documento de identidade e CPF de todos os que assinam.",
+              "Certidão de casamento atualizada, quando casados — o regime de bens define quem precisa assinar.",
+              "Pacto antenupcial registrado, se houver.",
+              "Comprovante de endereço e profissão.",
+              "Anuência do cônjuge, quando o regime exigir. Falta dela é das causas mais comuns de escritura adiada.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Do imóvel",
+            itens: [
+              "Certidão de matrícula atualizada, do registro de imóveis da circunscrição.",
+              "Certidão negativa de débitos de IPTU.",
+              "Declaração de quitação de condomínio, quando for o caso.",
+              "Comprovante de pagamento do ITBI, calculado pela prefeitura.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que trava",
+            itens: [
+              "Matrícula desatualizada — a certidão tem prazo curto de validade para esse uso.",
+              "Nome que não bate: casamento, divórcio ou nome social sem averbação na matrícula.",
+              "Imóvel com construção não averbada, quando a operação envolve financiamento.",
+              "ITBI calculado sobre valor diferente do declarado na escritura.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "Quem monta essa pasta é o corretor",
+            texto:
+              "Nenhum desses documentos aparece sozinho. O corretor que pede todos na semana da proposta chega à assinatura sem susto; o que pede na véspera descobre o problema quando não há mais tempo de resolver.",
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ---------------------------------------------------------------- 20
+     REGISTRO DE IMOVEIS — onde a propriedade realmente muda de dono.
+
+     O PRAZO DA PRENOTACAO FOI CONFERIDO, e ainda bem: eram 30 dias e PASSARAM
+     A SER 20, pela Lei 14.382/2022, que mudou o art. 205 da Lei 6.015/73. A
+     mesma lei mandou contar os prazos de prenotacao em dias uteis (art. 9º,
+     §1º). Escrever "trinta dias" de memoria teria posto um prazo errado numa
+     pagina que o corretor usa para orientar cliente.
+     --------------------------------------------------------------------- */
+  {
+    chave: "registro-imoveis",
+    numero: "20",
+    titulo: "Registro de Imóveis",
+    tituloCurto: "Registro",
+    resumo:
+      "A matrícula, o que entra nela e o que derruba um título na porta. É aqui que a propriedade muda de dono — escritura assinada e não registrada não transfere nada.",
+    objetivo:
+      "Ler uma certidão de matrícula e dizer quem é o dono, o que pesa sobre o imóvel e o que falta para o negócio poder ser registrado.",
+    icone: "terreno",
+    imagem: {
+      alt: "Certidão de matrícula de imóvel aberta sobre a mesa, com os registros e averbações numerados em sequência",
+      descricao: "A vida inteira do imóvel, numa folha",
+    },
+    topicos: [
+      {
+        chave: "registro-matricula",
+        titulo: "A matrícula",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Cada imóvel tem uma matrícula, e só uma: um número no cartório da circunscrição onde ele está. Ela abre com a descrição do imóvel e, dali em diante, recebe em ordem tudo o que acontece com ele — venda, hipoteca, penhora, divórcio do dono, construção, mudança de nome de rua.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que a matrícula diz",
+            itens: [
+              "A descrição do imóvel: medidas, confrontações, área, localização.",
+              "Quem é o proprietário atual, e como ele se tornou proprietário.",
+              "Tudo o que pesa sobre o imóvel: hipoteca, alienação fiduciária, penhora, usufruto, indisponibilidade.",
+              "A cadeia inteira de donos anteriores, cada um num ato numerado.",
+            ],
+            fonte: "Lei nº 6.015/1973 — Lei de Registros Públicos.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Por que o corretor pede a certidão logo no agenciamento",
+            itens: [
+              "Para confirmar que quem está vendendo é quem consta como dono.",
+              "Para descobrir ônus antes de anunciar — penhora na matrícula inviabiliza financiamento.",
+              "Para conferir a área real contra a que o proprietário informou.",
+              "Para ver se a construção está averbada. Casa “no papel” como terreno não passa em financiamento.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A frase para o cliente",
+            texto:
+              "O que vale é o que está na matrícula. Contrato, recibo, escritura na gaveta e palavra de vizinho não transferem propriedade: enquanto o registro não for feito, o dono é quem a matrícula diz que é.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Lei nº 6.015/1973 — Lei de Registros Públicos (texto consolidado)",
+            href: "https://www.planalto.gov.br/ccivil_03/leis/l6015consolidado.htm",
+          },
+        ],
+      },
+      {
+        chave: "registro-averbacao",
+        titulo: "Registro e averbação: a diferença que muda tudo",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "As duas palavras parecem sinônimos e não são. A lei separa os atos em duas listas, no art. 167: no inciso I, os que se REGISTRAM; no inciso II, os que se AVERBAM. A diferença não é burocrática — ela define se um direito nasceu ou se apenas uma informação foi atualizada.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Registro",
+            texto:
+              "É o ato que cria, transfere ou extingue direito real. Compra e venda, doação, hipoteca, alienação fiduciária, incorporação. Antes do registro, o direito não existe perante terceiros.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Averbação",
+            texto:
+              "É a anotação que altera ou acrescenta informação a algo já registrado, sem criar direito novo. Construção concluída, demolição, mudança de nome por casamento ou divórcio, alteração de numeração da rua, cancelamento de hipoteca já paga.",
+          },
+          {
+            tipo: "secao",
+            titulo: "As três que mais atrasam negócio",
+            itens: [
+              "AVERBAÇÃO DE CONSTRUÇÃO — imóvel construído e não averbado consta como terreno. Banco não financia o que não existe na matrícula.",
+              "BAIXA DE HIPOTECA — financiamento quitado não some sozinho. Sem a averbação do cancelamento, o ônus continua lá.",
+              "MUDANÇA DE ESTADO CIVIL — nome que não bate entre o documento e a matrícula trava a lavratura no tabelionato.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A pergunta certa no agenciamento",
+            texto:
+              "Não é “está tudo certo com o imóvel?”. É: a construção está averbada, o financiamento anterior foi baixado e o nome na matrícula é o nome do documento de hoje? As três se conferem numa certidão e evitam semanas de atraso na reta final.",
+          },
+        ],
+      },
+      {
+        chave: "registro-principios",
+        titulo: "Os princípios que derrubam um título",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "O oficial do registro não carimba o que chega: ele qualifica o título, e pode recusá-lo. As recusas quase sempre caem num punhado de princípios, e conhecê-los permite ao corretor antever o problema enquanto ainda há tempo.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Continuidade",
+            texto:
+              "A cadeia de titularidades não pode ter buraco. Quem transmite tem de ser quem consta como dono. Se o imóvel passou de A para B por contrato nunca registrado, B não pode vender para C: falta um elo, e o registro recusa.",
+            fonte: "Lei nº 6.015/1973, art. 195.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Especialidade",
+            texto:
+              "O imóvel e as pessoas têm de estar individualizados sem margem a dúvida — medidas e confrontações de um lado, qualificação completa das partes do outro, inclusive estado civil e regime de bens. Imóvel rural exige georreferenciamento.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Prioridade",
+            texto:
+              "Quem chega primeiro ao protocolo tem preferência. Dois títulos sobre o mesmo imóvel não se resolvem por data de assinatura, e sim por ordem de apresentação no cartório.",
+            fonte: "Lei nº 6.015/1973, art. 186.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Territorialidade",
+            texto:
+              "O registro é feito na serventia da circunscrição onde o imóvel está. Cartório errado não é demora: é ato nulo.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "O que isso significa na prática",
+            texto:
+              "A recusa mais comum que o corretor encontra é de continuidade, e ela nasce de um negócio antigo que ninguém registrou. Quando a matrícula mostra um dono diferente do vendedor, o problema não é do seu negócio — é de um anterior, e precisa ser resolvido antes.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Lei nº 6.015/1973 — Lei de Registros Públicos (texto consolidado)",
+            href: "https://www.planalto.gov.br/ccivil_03/leis/l6015consolidado.htm",
+          },
+        ],
+      },
+      {
+        chave: "registro-prenotacao",
+        titulo: "Prenotação: o relógio que começa a correr",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Quando o título entra no cartório, ele é lançado no protocolo e ganha um número de ordem. Isso é a prenotação, e ela faz duas coisas: garante a sua posição na fila de prioridade e abre um prazo para o registro sair.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O prazo, que mudou",
+            texto:
+              "Os efeitos da prenotação cessam automaticamente se, decorridos vinte dias do lançamento no protocolo, o título não tiver sido registrado por omissão do interessado em atender às exigências. Eram trinta dias até 2022 — a Lei 14.382 reduziu para vinte. A mesma lei determinou que os prazos de vigência da prenotação se contam em dias úteis.",
+            fonte: "Lei nº 6.015/1973, art. 205, com a redação dada pela Lei nº 14.382/2022; e art. 9º, §1º, da mesma lei.",
+          },
+          {
+            tipo: "secao",
+            titulo: "O que acontece quando o prazo cai",
+            itens: [
+              "A prioridade se perde. Título apresentado depois do seu, enquanto você resolvia a exigência, pode passar à frente.",
+              "O título tem de ser reapresentado, com novos emolumentos.",
+              "Se nesse intervalo entrou penhora ou indisponibilidade, o negócio pode simplesmente não registrar mais.",
+            ],
+          },
+          {
+            tipo: "fecho",
+            titulo: "A rotina que evita o problema",
+            texto:
+              "Exigência do cartório não espera a semana seguinte. No dia em que a nota de exigência sai, alguém da casa precisa saber o que falta, quem vai buscar e até quando — o relógio já está correndo, e corre em dias úteis.",
+          },
+        ],
+        fontes: [
+          {
+            rotulo: "Lei nº 14.382/2022 — alterou a Lei de Registros Públicos",
+            href: "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2022/lei/l14382.htm",
+          },
+        ],
+      },
+      {
+        chave: "registro-certidao",
+        titulo: "Ler uma certidão de ônus",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "A certidão de matrícula com ônus reais é o documento mais informativo de um negócio imobiliário, e o menos lido. Ela se lê de cima para baixo, em ordem cronológica, e cada ato numerado é um acontecimento na vida do imóvel.",
+          },
+          {
+            tipo: "secao",
+            titulo: "A ordem de leitura",
+            itens: [
+              "1. O cabeçalho: número da matrícula, cartório e descrição do imóvel. Confira a área contra o que foi anunciado.",
+              "2. O último ato de registro: é ele que diz quem é o dono hoje.",
+              "3. De trás para frente, os ônus: algum deles continua ativo?",
+              "4. As averbações: construção, mudança de nome, cancelamentos.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que acende alerta",
+            itens: [
+              "PENHORA ou ARRESTO — o imóvel responde por dívida judicial de alguém.",
+              "INDISPONIBILIDADE — bloqueio determinado por juízo ou autoridade. Nada se registra enquanto durar.",
+              "HIPOTECA ou ALIENAÇÃO FIDUCIÁRIA ativa — há credor, e ele precisa participar do negócio.",
+              "USUFRUTO — alguém tem direito de usar o imóvel, mesmo não sendo dono. Vender com usufruto vigente vende um imóvel ocupado.",
+              "AÇÃO judicial averbada — litígio em curso sobre o bem.",
+              "CLÁUSULAS de inalienabilidade, impenhorabilidade ou incomunicabilidade, comuns em imóvel recebido por doação ou herança.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Ônus cancelado continua aparecendo",
+            texto:
+              "Ato cancelado não é apagado da matrícula: ele fica, com uma averbação de cancelamento ao lado. Hipoteca quitada e baixada continua visível. Ler o ônus sem ler o cancelamento derruba negócio bom por engano — e deixar de ler o cancelamento que não existe aprova negócio ruim.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "Quando pedir, e de quando",
+            texto:
+              "No agenciamento e de novo antes da assinatura. A matrícula muda: entre a proposta e a escritura podem entrar penhora e indisponibilidade. Certidão de três meses atrás não diz como o imóvel está hoje.",
+          },
+        ],
+        atencao:
+          "Certidão de matrícula se pede ao registro de imóveis da circunscrição do imóvel, e hoje a maior parte dos estados emite pela internet. Certidão de inteiro teor mostra tudo; a simplificada pode omitir atos antigos — para negócio, peça o inteiro teor.",
+      },
+    ],
+  },
+
 ];
 
 /** Quantos tópicos existem no mapa inteiro. */
