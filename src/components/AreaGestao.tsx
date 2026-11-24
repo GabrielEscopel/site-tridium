@@ -520,8 +520,9 @@ function Captacoes({ gestao }: { gestao: GestaoHook }) {
   return (
     <>
       <p className="text-xs leading-snug text-[color:var(--ink-faint)]">
-        O que você captou e ainda não subiu. Identifique por tipo e rua — nunca
-        pelo nome do proprietário.
+        O que você captou e ainda não subiu. Comece pela identificação — tipo e
+        rua, nunca o nome do proprietário. A ficha completa do imóvel abre
+        depois, na própria linha.
       </p>
 
       <form
@@ -549,7 +550,23 @@ function Captacoes({ gestao }: { gestao: GestaoHook }) {
       </form>
 
       {gestao.captacoes.length === 0 ? (
-        <Vazio texto="Nenhuma captação na fila." />
+        /* O ESTADO VAZIO DIZ O QUE VEM DEPOIS, e não só que está vazio.
+           A ficha completa do imóvel — código, metragem, preço, textos,
+           fotos — só existe dentro de uma linha, e com a lista vazia não há
+           linha para abrir. Sem esta frase, a tela parece ser apenas um
+           campo de anotação, e foi exatamente o que aconteceu: a função
+           inteira ficou escondida atrás de um registro que ainda não
+           existia. */
+        <div className="mt-4 rounded-xl border border-dashed border-[color:var(--cart-campo-linha)] px-5 py-6 text-center">
+          <p className="text-sm font-semibold text-[color:var(--ink)]">
+            Nenhuma captação na fila.
+          </p>
+          <p className="mx-auto mt-2 max-w-[46ch] text-xs leading-relaxed text-[color:var(--ink-faint)]">
+            Acrescente a primeira acima. Cada captação abre uma ficha com os
+            mesmos campos do site — código, tipo, bairro, metragem, preço,
+            textos do anúncio e até {MAXIMO_DE_FOTOS} fotos.
+          </p>
+        </div>
       ) : (
         <ul className="mt-4 space-y-3">
           {gestao.captacoes.map((c) => (
@@ -628,7 +645,13 @@ function LinhaCaptacao({
           aria-expanded={aberta}
           className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
         >
-          {aberta ? "Fechar a ficha" : "Abrir a ficha"}
+          {/* "Completar" enquanto faltar campo, "Abrir" depois: o verbo diz
+              o que há para fazer ali, em vez de só descrever o botão. */}
+          {aberta
+            ? "Fechar a ficha"
+            : faltando > 0
+              ? "Completar a ficha"
+              : "Abrir a ficha"}
         </button>
         <button
           type="button"
