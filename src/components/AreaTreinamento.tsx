@@ -20,7 +20,7 @@
    duas versões a manter: módulo, aula ou card novo entra lá e aparece aqui.
    ============================================================================= */
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -41,10 +41,52 @@ import { useAnotacoesContrato } from "@/lib/anotacoesContrato";
 import { useDitado } from "@/lib/ditado";
 import { iconeDaCategoria } from "./IconesImovel";
 
+/* -----------------------------------------------------------------------------
+   LINK DIRETO PARA UMA AULA
+   -----------------------------------------------------------------------------
+   `#aula=captacao/revisao-de-preco` abre o módulo e a aula, e rola até ela.
+   Serve para o resto do painel apontar para o treinamento: a gestão manda o
+   corretor direto na mensagem padrão de revisão de preço, em vez de dizer
+   "procure no módulo 4".
+
+   HASH, E NÃO `?parâmetro`: `useSearchParams` obriga a embrulhar a página
+   num Suspense para continuar estática, e o hash não vai ao servidor —
+   combina com uma área que já é inteira do navegador.
+   ----------------------------------------------------------------------------- */
+
+function lerAlvoDoEndereco(): { modulo: string; aula: string } | null {
+  if (typeof window === "undefined") return null;
+  const bruto = window.location.hash.replace(/^#/, "");
+  if (!bruto.startsWith("aula=")) return null;
+  const [modulo, aula] = decodeURIComponent(bruto.slice(5)).split("/");
+  return modulo && aula ? { modulo, aula } : null;
+}
+
 export function AreaTreinamento() {
   const { sessao, pronto: sessaoPronta, sair } = useSessaoCorretor();
   const progresso = useProgressoTreinamento();
   const [moduloAberto, setModuloAberto] = useState(procedimentos[0].chave);
+  /* O endereço só existe no navegador: o primeiro render acontece no
+     servidor, e ler `window` lá derrubaria a página. */
+  const [alvo, setAlvo] = useState<{ modulo: string; aula: string } | null>(
+    null
+  );
+
+  useEffect(() => {
+    const aplicar = () => {
+      const a = lerAlvoDoEndereco();
+      if (!a) return;
+      if (procedimentos.some((m) => m.chave === a.modulo)) {
+        setModuloAberto(a.modulo);
+        setAlvo(a);
+      }
+    };
+    aplicar();
+    /* Link apontando para a mesma página só troca o hash e não recarrega
+       nada; sem escutar isto, o segundo clique não faria efeito. */
+    window.addEventListener("hashchange", aplicar);
+    return () => window.removeEventListener("hashchange", aplicar);
+  }, []);
 
   if (!sessaoPronta) return <div className="min-h-[70svh]" aria-hidden="true" />;
 
@@ -55,6 +97,9 @@ export function AreaTreinamento() {
 
   const modulo =
     procedimentos.find((m) => m.chave === moduloAberto) ?? procedimentos[0];
+  /* A aula destacada so vale enquanto o modulo dela estiver aberto: trocar
+     de modulo pela trilha nao pode arrastar o destaque junto. */
+  const aulaAlvo = alvo?.modulo === modulo.chave ? alvo.aula : null;
 
   return (
     <div className="carteira min-h-screen">
@@ -190,6 +235,7 @@ export function AreaTreinamento() {
           <Modulo
             modulo={modulo}
             progresso={progresso}
+            aulaAlvo={aulaAlvo}
             aoAvancar={() => {
               const i = procedimentos.findIndex((m) => m.chave === modulo.chave);
               const prox = procedimentos[i + 1];
@@ -602,10 +648,13 @@ function Modulo({
   modulo,
   progresso,
   aoAvancar,
+  aulaAlvo,
 }: {
   modulo: (typeof procedimentos)[number];
   progresso: Progresso;
   aoAvancar: () => void;
+  /** Aula apontada pelo endereco: abre sozinha e se traz para a vista. */
+  aulaAlvo?: string | null;
 }) {
   const p = progresso.resumo.porModulo[modulo.chave] ?? { feitas: 0, total: 0 };
   const completo = p.total > 0 && p.feitas === p.total;
@@ -700,6 +749,7 @@ function Modulo({
             key={t.chave}
             numero={i + 1}
             topico={t}
+            apontada={t.chave === aulaAlvo}
             concluida={progresso.concluida(modulo.chave, t.chave)}
             aoConcluir={() =>
               progresso.alternar(`${modulo.chave}/${t.chave}`)
@@ -745,20 +795,35 @@ function Aula({
   topico,
   concluida,
   aoConcluir,
+  apontada = false,
 }: {
   numero: number;
   topico: (typeof procedimentos)[number]["topicos"][number];
   concluida: boolean;
   aoConcluir: () => void;
+  /** Aula para a qual o endereco aponta: nasce aberta e se traz para a
+      vista. Sem o segundo, a aula abriria fora da tela e a pessoa cairia
+      no topo do modulo sem entender para onde o link a levou. */
+  apontada?: boolean;
 }) {
-  const [aberta, setAberta] = useState(false);
+  const [aberta, setAberta] = useState(apontada);
+  const caixa = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    if (!apontada) return;
+    setAberta(true);
+    caixa.current?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [apontada]);
 
   return (
     <li
+      ref={caixa}
       className={`overflow-hidden rounded-2xl border bg-[color:var(--cart-card)] shadow-[var(--cart-sombra)] ${
-        concluida
-          ? "border-[color:var(--cart-acao)]"
-          : "border-[color:var(--cart-card-linha)]"
+        apontada
+          ? "border-[color:var(--cart-titulo)] ring-2 ring-[color:var(--cart-titulo)]/25"
+          : concluida
+            ? "border-[color:var(--cart-acao)]"
+            : "border-[color:var(--cart-card-linha)]"
       }`}
     >
       {/* `items-center`, e não `items-start`. Com o resumo embaixo, a linha

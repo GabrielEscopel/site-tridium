@@ -85,6 +85,30 @@ export type MarcacoesDaRotina = Record<string, Record<string, number>>;
 /** O dia da última revisão de cada imóvel publicado, pela chave do imóvel. */
 export type RevisoesDeImovel = Record<string, { em: string; nota?: string }>;
 
+/* A FICHA DE AGENCIAMENTO de um imóvel que já está no ar: com quem falar
+   sobre ele e o que o corretor precisa lembrar.
+
+   ⚠ AQUI ENTRA NOME, TELEFONE E E-MAIL DE PESSOA, e é a única parte do
+   painel que guarda isso. Foi pedido assim: sem o contato do proprietário à
+   mão, a tela não serve para a conversa que ela existe para apoiar — pedir
+   revisão de preço. Mas o dado é de terceiro, fica num armazenamento que
+   qualquer um com acesso ao navegador lê, e some se a máquina for trocada.
+   Em computador compartilhado do escritório, isso é exposição real.
+
+   Enquanto não houver login de verdade e banco, a tela avisa isso em cima
+   do campo. Quando houver, este é o primeiro registro que tem de migrar. */
+export interface FichaAgenciamento {
+  /** Nome do proprietário ou de quem decide sobre o imóvel. */
+  contatoNome?: string;
+  contatoTelefone?: string;
+  contatoEmail?: string;
+  /** O que o corretor precisa lembrar: prazo, histórico, combinados. */
+  observacao?: string;
+}
+
+/** Pela chave do imóvel. */
+export type FichasDeAgenciamento = Record<string, FichaAgenciamento>;
+
 /** De quantos em quantos dias um anúncio no ar precisa ser revisto. */
 export const DIAS_ENTRE_REVISOES = 60;
 
@@ -187,12 +211,19 @@ export interface ContatoInvestidor {
 
 /* As caixas em que a gestão guarda coisa. Uma por assunto, porque cada uma
    vira um recurso próprio quando houver API — e não um blobão só. */
-type Caixa = "agenda" | "rotina" | "revisoes" | "captacoes" | "investidores";
+type Caixa =
+  | "agenda"
+  | "rotina"
+  | "revisoes"
+  | "fichas"
+  | "captacoes"
+  | "investidores";
 
 const CHAVES: Record<Caixa, string> = {
   agenda: "tridium:corretor:agenda",
   rotina: "tridium:corretor:rotina",
   revisoes: "tridium:corretor:revisoes",
+  fichas: "tridium:corretor:fichas-agenciamento",
   captacoes: "tridium:corretor:captacoes",
   investidores: "tridium:corretor:investidores",
 };
@@ -288,6 +319,7 @@ export function useGestaoCorretor() {
   const [compromissos, setCompromissos] = useState<Compromisso[]>([]);
   const [rotina, setRotina] = useState<MarcacoesDaRotina>({});
   const [revisoes, setRevisoes] = useState<RevisoesDeImovel>({});
+  const [fichas, setFichas] = useState<FichasDeAgenciamento>({});
   const [captacoes, setCaptacoes] = useState<Captacao[]>([]);
   const [investidores, setInvestidores] = useState<ContatoInvestidor[]>([]);
   /* Enquanto `pronto` for false não se sabe o que há guardado: o primeiro
@@ -301,16 +333,19 @@ export function useGestaoCorretor() {
     let vivo = true;
 
     void (async () => {
-      const [agenda, marcacoes, revisto, captado, investido] = await Promise.all([
+      const [agenda, marcacoes, revisto, fichado, captado, investido] =
+        await Promise.all([
         fonte.ler<Compromisso[]>("agenda", []),
         fonte.ler<MarcacoesDaRotina>("rotina", {}),
         fonte.ler<RevisoesDeImovel>("revisoes", {}),
+        fonte.ler<FichasDeAgenciamento>("fichas", {}),
         fonte.ler<Captacao[]>("captacoes", []),
         fonte.ler<ContatoInvestidor[]>("investidores", []),
       ]);
       if (!vivo) return;
 
       setRevisoes(revisto);
+      setFichas(fichado);
       setCaptacoes(captado.filter((c) => typeof c?.id === "string"));
       setInvestidores(investido.filter((c) => typeof c?.id === "string"));
 
@@ -396,6 +431,32 @@ export function useGestaoCorretor() {
       return novo;
     });
   }, []);
+
+  /* ---------- Ficha de agenciamento ---------- */
+
+  const ficha = useCallback(
+    (imovel: string): FichaAgenciamento => fichas[imovel] ?? {},
+    [fichas]
+  );
+
+  const mudarFicha = useCallback(
+    (imovel: string, mudanca: Partial<FichaAgenciamento>) => {
+      setFichas((atual) => {
+        const juntas = { ...(atual[imovel] ?? {}), ...mudanca };
+        /* Campo apagado sai do registro, e ficha que ficou sem nenhum campo
+           sai inteira: registro vazio ocupa espaço e não diz nada. */
+        for (const chave of Object.keys(juntas) as (keyof FichaAgenciamento)[]) {
+          if (!juntas[chave]) delete juntas[chave];
+        }
+        const novo = { ...atual };
+        if (Object.keys(juntas).length === 0) delete novo[imovel];
+        else novo[imovel] = juntas;
+        void fonte.gravar("fichas", novo);
+        return novo;
+      });
+    },
+    []
+  );
 
   /* ---------- Captações ---------- */
 
@@ -515,6 +576,8 @@ export function useGestaoCorretor() {
     revisao,
     registrarRevisao,
     apagarRevisao,
+    ficha,
+    mudarFicha,
     captacoes,
     adicionarCaptacao,
     mudarCaptacao,

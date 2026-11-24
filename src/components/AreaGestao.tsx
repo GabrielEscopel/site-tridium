@@ -61,6 +61,7 @@ import {
   type StatusCaptacao,
   type StatusInvestidor,
   type Captacao,
+  type FichaAgenciamento,
   type TipoCompromisso,
 } from "@/lib/gestaoCorretor";
 import {
@@ -221,11 +222,11 @@ type MetasHook = ReturnType<typeof useMetasCorretor>;
 type GestaoHook = ReturnType<typeof useGestaoCorretor>;
 
 /* =============================================================================
-   MONITORAMENTO — publicados, captações e investidores
+   MONITORAMENTO — agenciamentos, captações e investidores
    -----------------------------------------------------------------------------
    Três controles no mesmo painel, em abas. Em três cartões empilhados a
    página ficaria com o dobro da altura e o corretor rolaria para achar o que
-   quer; em abas, ele escolhe. A aba de publicados abre primeiro porque é a
+   quer; em abas, ele escolhe. A aba de agenciamentos abre primeiro porque é a
    única com prazo correndo — captação e investidor esperam, anúncio vencido
    já está errado no ar.
 
@@ -234,12 +235,12 @@ type GestaoHook = ReturnType<typeof useGestaoCorretor>;
    codinome, não nome e telefone.
    ============================================================================= */
 
-type AbaMonitor = "publicados" | "captacoes" | "investidores";
+type AbaMonitor = "agenciamentos" | "captacoes" | "investidores";
 
 function Monitor({ gestao }: { gestao: GestaoHook }) {
-  const [aba, setAba] = useState<AbaMonitor>("publicados");
+  const [aba, setAba] = useState<AbaMonitor>("agenciamentos");
 
-  /* O contador na aba é o que está PEDINDO AÇÃO, não o total. "Publicados 3"
+  /* O contador na aba é o que está PEDINDO AÇÃO, não o total. "Agenciamentos 3"
      com os três em dia seria um número sem recado; "3" em vermelho quando
      três venceram faz a pessoa clicar. */
   const vencidos = imoveis.filter(
@@ -251,7 +252,7 @@ function Monitor({ gestao }: { gestao: GestaoHook }) {
   ).length;
 
   const abas: { chave: AbaMonitor; rotulo: string; conta: number }[] = [
-    { chave: "publicados", rotulo: "Publicados", conta: vencidos },
+    { chave: "agenciamentos", rotulo: "Agenciamentos", conta: vencidos },
     { chave: "captacoes", rotulo: "Captações", conta: naFila },
     { chave: "investidores", rotulo: "Investidores", conta: abertos },
   ];
@@ -296,7 +297,7 @@ function Monitor({ gestao }: { gestao: GestaoHook }) {
       </div>
 
       <div className="mt-5">
-        {aba === "publicados" && <Publicados gestao={gestao} />}
+        {aba === "agenciamentos" && <Agenciamentos gestao={gestao} />}
         {aba === "captacoes" && <Captacoes gestao={gestao} />}
         {aba === "investidores" && <Investidores gestao={gestao} />}
       </div>
@@ -305,7 +306,7 @@ function Monitor({ gestao }: { gestao: GestaoHook }) {
 }
 
 /* -----------------------------------------------------------------------------
-   PUBLICADOS — o relógio dos 60 dias
+   AGENCIAMENTOS — o relógio dos 60 dias
    -----------------------------------------------------------------------------
    Anúncio no ar envelhece: preço que mudou, foto de outra estação, texto que
    não bate mais. A casa revisa a cada 60 dias, e o que a tela precisa dizer é
@@ -315,7 +316,7 @@ function Monitor({ gestao }: { gestao: GestaoHook }) {
    de cima para baixo.
    ----------------------------------------------------------------------------- */
 
-function Publicados({ gestao }: { gestao: GestaoHook }) {
+function Agenciamentos({ gestao }: { gestao: GestaoHook }) {
   const lista = [...imoveis].sort((a, b) => {
     const pa = prazoDeRevisao(gestao.revisao(a.chave)?.em);
     const pb = prazoDeRevisao(gestao.revisao(b.chave)?.em);
@@ -333,7 +334,7 @@ function Publicados({ gestao }: { gestao: GestaoHook }) {
 
       <ul className="mt-4 space-y-3">
         {lista.map((imovel) => (
-          <LinhaPublicado
+          <LinhaAgenciamento
             key={imovel.chave}
             imovel={imovel}
             gestao={gestao}
@@ -344,7 +345,7 @@ function Publicados({ gestao }: { gestao: GestaoHook }) {
   );
 }
 
-function LinhaPublicado({
+function LinhaAgenciamento({
   imovel,
   gestao,
 }: {
@@ -354,6 +355,7 @@ function LinhaPublicado({
   const registro = gestao.revisao(imovel.chave);
   const prazo = prazoDeRevisao(registro?.em);
   const [abrindo, setAbrindo] = useState(false);
+  const [contatoAberto, setContatoAberto] = useState(false);
 
   const selo = prazo.nunca
     ? { texto: "Nunca revisado", cor: "acao" as const }
@@ -363,87 +365,269 @@ function LinhaPublicado({
         ? { texto: `${prazo.dias} dias`, cor: "aviso" as const }
         : { texto: `${prazo.dias} dias`, cor: "ok" as const };
 
+  const ficha = gestao.ficha(imovel.chave);
+  const capa = imovel.fotos[0];
+
   return (
     <li
-      className={`rounded-xl border px-4 py-3 ${
+      className={`overflow-hidden rounded-xl border ${
         prazo.vencido
           ? "border-[color:var(--cart-acao)] bg-[color:var(--cart-caixa)]"
           : "border-[color:var(--cart-card-linha)]"
       }`}
     >
-      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-        <div className="min-w-0">
-          <p className="flex flex-wrap items-baseline gap-x-2.5">
-            <span className="font-mono text-xs font-bold text-[color:var(--cart-titulo)]">
-              {imovel.codigo}
-            </span>
-            <span className="text-sm font-semibold text-[color:var(--ink)]">
-              {imovel.tipo} · {imovel.bairro}
-            </span>
-          </p>
-          <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
-            {formatarPreco(imovel.preco)}
-            {registro?.em ? ` · revisado em ${emDiaMes(registro.em)}` : ""}
-          </p>
-        </div>
-
-        <span
-          className={`shrink-0 rounded-full px-2.5 py-0.5 text-[0.6875rem] font-bold ${
-            selo.cor === "acao"
-              ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
-              : selo.cor === "aviso"
-                ? "bg-[color:var(--cart-caixa)] text-[color:var(--cart-preco)]"
-                : "bg-[color:var(--cart-caixa)] text-[color:var(--ink-faint)]"
-          }`}
-        >
-          {selo.texto}
-        </span>
-      </div>
-
-      {registro?.nota && !abrindo && (
-        <p className="mt-2 border-l-2 border-[color:var(--cart-campo-linha)] pl-3 text-xs leading-snug text-[color:var(--cart-ficha)]">
-          {registro.nota}
-        </p>
-      )}
-
-      {abrindo ? (
-        <FormRevisao
-          notaAtual={registro?.nota ?? ""}
-          aoSalvar={(nota) => {
-            gestao.registrarRevisao(imovel.chave, nota);
-            setAbrindo(false);
-          }}
-          aoFechar={() => setAbrindo(false)}
-        />
-      ) : (
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1">
-          <button
-            type="button"
-            onClick={() => setAbrindo(true)}
-            className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-          >
-            {registro ? "Revisar de novo" : "Registrar revisão"}
-          </button>
+      {/* A FOTO ENTRA, como no card do site. O corretor reconhece o imóvel
+          pela imagem antes de ler o código — e numa lista de carteira
+          inteira, ler três linhas de texto para achar um apartamento é o
+          que faz a pessoa abrir o site num outra aba. */}
+      <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
+        {capa ? (
           <Link
             href={`/imobiliaria/${imovel.chave}`}
-            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-lg bg-[color:var(--cart-caixa)] sm:w-32"
           >
-            Ver o anúncio
+            <Image
+              src={capa.src}
+              alt={capa.alt}
+              fill
+              sizes="(min-width: 640px) 8rem, 6rem"
+              className="object-cover"
+            />
+            {/* O mesmo selo do site: foto de banco no lugar da real não
+                passa por real em lugar nenhum, nem aqui dentro. */}
+            {capa.provisoria && (
+              <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-[0.5rem] font-bold uppercase tracking-wide text-white">
+                Provisória
+              </span>
+            )}
           </Link>
-          {registro && (
-            <button
-              type="button"
-              onClick={() => gestao.apagarRevisao(imovel.chave)}
-              className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+        ) : (
+          <span className="grid aspect-[4/3] w-24 shrink-0 place-items-center rounded-lg bg-[color:var(--cart-caixa)] text-[0.625rem] uppercase tracking-wide text-[color:var(--ink-faint)] sm:w-32">
+            Sem foto
+          </span>
+        )}
+
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
+            <p className="flex flex-wrap items-baseline gap-x-2.5">
+              <span className="font-mono text-xs font-bold text-[color:var(--cart-titulo)]">
+                {imovel.codigo}
+              </span>
+              <span className="text-sm font-semibold text-[color:var(--ink)]">
+                {imovel.tipo} · {imovel.bairro}
+              </span>
+            </p>
+
+            <span
+              className={`shrink-0 rounded-full px-2.5 py-0.5 text-[0.6875rem] font-bold ${
+                selo.cor === "acao"
+                  ? "bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+                  : selo.cor === "aviso"
+                    ? "bg-[color:var(--cart-caixa)] text-[color:var(--cart-preco)]"
+                    : "bg-[color:var(--cart-caixa)] text-[color:var(--ink-faint)]"
+              }`}
             >
-              Desfazer
-            </button>
+              {selo.texto}
+            </span>
+          </div>
+
+          {/* A ficha curta do site: o que o corretor repete ao telefone. */}
+          <p className="mt-1 text-sm font-bold text-[color:var(--cart-preco)]">
+            {formatarPreco(imovel.preco)}
+          </p>
+          <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
+            {[
+              imovel.dormitorios > 0 && `${imovel.dormitorios} dorm.`,
+              imovel.suites ? `${imovel.suites} suíte${imovel.suites > 1 ? "s" : ""}` : null,
+              imovel.vagas > 0 && `${imovel.vagas} vaga${imovel.vagas > 1 ? "s" : ""}`,
+              imovel.area > 0 && `${imovel.area} m²`,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
+            {registro?.em ? ` · revisado em ${emDiaMes(registro.em)}` : ""}
+          </p>
+
+          {registro?.nota && !abrindo && (
+            <p className="mt-2 border-l-2 border-[color:var(--cart-campo-linha)] pl-3 text-xs leading-snug text-[color:var(--cart-ficha)]">
+              {registro.nota}
+            </p>
+          )}
+
+          {abrindo ? (
+            <FormRevisao
+              notaAtual={registro?.nota ?? ""}
+              aoSalvar={(nota) => {
+                gestao.registrarRevisao(imovel.chave, nota);
+                setAbrindo(false);
+              }}
+              aoFechar={() => setAbrindo(false)}
+            />
+          ) : (
+            <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1">
+              <button
+                type="button"
+                onClick={() => setAbrindo(true)}
+                className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+              >
+                {registro ? "Revisar de novo" : "Registrar revisão"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setContatoAberto((v) => !v)}
+                aria-expanded={contatoAberto}
+                className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+              >
+                {contatoAberto ? "Fechar o contato" : "Contato do proprietário"}
+              </button>
+              <Link
+                href={`/imobiliaria/${imovel.chave}`}
+                className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+              >
+                Ver o anúncio
+              </Link>
+              {registro && (
+                <button
+                  type="button"
+                  onClick={() => gestao.apagarRevisao(imovel.chave)}
+                  className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+                >
+                  Desfazer
+                </button>
+              )}
+            </div>
           )}
         </div>
+      </div>
+
+      {contatoAberto && (
+        <ContatoDoProprietario
+          ficha={ficha}
+          aoMudar={(m) => gestao.mudarFicha(imovel.chave, m)}
+        />
       )}
     </li>
   );
 }
+
+/* -----------------------------------------------------------------------------
+   CONTATO DO PROPRIETÁRIO
+   -----------------------------------------------------------------------------
+   A única parte do painel que guarda nome, telefone e e-mail de uma pessoa.
+   Existe porque a tela apoia uma conversa — pedir revisão de preço — e sem o
+   contato à mão ela não serve para isso.
+
+   O AVISO FICA EM CIMA DO CAMPO, não num rodapé: é ali que a pessoa decide
+   se digita. E o telefone vira link de WhatsApp e de ligação, porque é
+   disso que o campo serve — se for só para olhar, a agenda do celular já
+   fazia melhor.
+   ----------------------------------------------------------------------------- */
+
+/** Só os dígitos, com o 55 na frente, como o wa.me exige. */
+function paraWhatsapp(telefone: string): string | null {
+  const digitos = telefone.replace(/\D/g, "");
+  if (digitos.length < 10) return null;
+  return digitos.startsWith("55") ? digitos : `55${digitos}`;
+}
+
+function ContatoDoProprietario({
+  ficha,
+  aoMudar,
+}: {
+  ficha: FichaAgenciamento;
+  aoMudar: (m: Partial<FichaAgenciamento>) => void;
+}) {
+  const zap = ficha.contatoTelefone
+    ? paraWhatsapp(ficha.contatoTelefone)
+    : null;
+
+  return (
+    <div className="border-t border-[color:var(--cart-card-linha)] bg-white px-4 py-4">
+      <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+        Contato do proprietário
+      </p>
+      <p className="mt-1.5 text-xs leading-snug text-[color:var(--ink-muted)]">
+        <strong className="text-[color:var(--cart-preco)]">Atenção:</strong>{" "}
+        isto fica guardado neste navegador, sem senha de verdade. Em
+        computador compartilhado, qualquer pessoa que abrir esta página lê o
+        que você escrever aqui.
+      </p>
+
+      <div className="mt-3 grid gap-x-4 gap-y-3 sm:grid-cols-3">
+        <Entrada
+          rotulo="Nome"
+          valor={ficha.contatoNome ?? ""}
+          aoSalvar={(v) => aoMudar({ contatoNome: v || undefined })}
+        />
+        <Entrada
+          rotulo="Telefone"
+          valor={ficha.contatoTelefone ?? ""}
+          dica="(48) 9 9999-9999"
+          aoSalvar={(v) => aoMudar({ contatoTelefone: v || undefined })}
+        />
+        <Entrada
+          rotulo="E-mail"
+          valor={ficha.contatoEmail ?? ""}
+          aoSalvar={(v) => aoMudar({ contatoEmail: v || undefined })}
+        />
+      </div>
+
+      <div className="mt-3">
+        <Longo
+          rotulo="Observações"
+          valor={ficha.observacao ?? ""}
+          dica="Prazo combinado, histórico da conversa, o que já foi tentado"
+          linhas={2}
+          aoSalvar={(v) => aoMudar({ observacao: v || undefined })}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+        {zap && (
+          <a
+            href={`https://wa.me/${zap}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-[color:var(--cart-pilula)] px-3.5 py-2 text-xs font-bold text-[color:var(--cart-pilula-ink)] no-underline transition-opacity duration-200 hover:opacity-90"
+          >
+            Abrir no WhatsApp
+          </a>
+        )}
+        {ficha.contatoTelefone && (
+          <a
+            href={`tel:${ficha.contatoTelefone.replace(/\D/g, "")}`}
+            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+          >
+            Ligar
+          </a>
+        )}
+        {ficha.contatoEmail && (
+          <a
+            href={`mailto:${ficha.contatoEmail}`}
+            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+          >
+            Mandar e-mail
+          </a>
+        )}
+
+        {/* O LINK PARA A AULA, que é o motivo de a maior parte destas
+            conversas acontecer. Vai direto na mensagem padrão de revisão de
+            preço, e não na porta do treinamento: "procure no módulo 4" é o
+            mesmo que não ter link. */}
+        <Link
+          href={AULA_REVISAO_DE_PRECO}
+          className="ml-auto text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+        >
+          Mensagem padrão para pedir revisão de preço →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/** A aula do módulo de Agenciamento que traz o texto pronto. O endereço é
+    lido por AreaTreinamento, que abre o módulo, abre a aula e rola até ela. */
+const AULA_REVISAO_DE_PRECO =
+  "/imobiliaria/corretor/treinamento#aula=captacao/revisao-de-preco";
 
 /* O que mudou na revisão, em texto livre. Campo fechado por padrão: na maior
    parte das vezes a revisão é "olhei, está certo" e um clique basta. */

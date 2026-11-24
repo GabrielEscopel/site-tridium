@@ -1217,6 +1217,76 @@ export const procedimentos: EtapaProcedimento[] = [
           },
         ],
       },
+      {
+        chave: "revisao-de-preco",
+        titulo: "Pedir revisão de preço ao proprietário",
+        resumo: "",
+        passos: [],
+        conteudo: [
+          {
+            tipo: "texto",
+            texto:
+              "Imóvel parado quase nunca é imóvel sem comprador: é imóvel acima do que o mercado está pagando naquele momento. Quem precisa dizer isso ao proprietário é o corretor, e é a conversa mais desconfortável do agenciamento — porque parece que se está admitindo que não conseguiu vender.",
+          },
+          {
+            tipo: "secao",
+            titulo: "Quando pedir",
+            itens: [
+              "Sessenta dias no ar sem nenhuma proposta.",
+              "Muitas visitas e nenhuma oferta — o imóvel atrai, mas o preço derruba na hora da conta.",
+              "Pouquíssimas visitas — nem chega a atrair, e aí o filtro de preço do portal está escondendo o anúncio.",
+              "Imóveis semelhantes na mesma região anunciados abaixo, ou vendidos abaixo.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "O que levar para a conversa",
+            texto:
+              "Pedido sem número é opinião, e opinião o proprietário recusa. Pedido com número é informação, e informação ele consegue conferir sozinho.",
+            itens: [
+              "Quantas visitas o imóvel recebeu e em quanto tempo.",
+              "O que as pessoas disseram depois de visitar — o retorno real, não o educado.",
+              "Três a cinco anúncios comparáveis na região, com endereço, metragem e valor pedido.",
+              "Propostas recebidas e recusadas, se houver.",
+              "A faixa em que o comprador daquele perfil está pesquisando no portal.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "Como não fazer",
+            itens: [
+              "Dizer “seu imóvel está caro”. O proprietário ouve “você errou” e fecha.",
+              "Mandar áudio longo. Pedido de redução se lê, se reler e se pensa — áudio obriga a responder na hora, e a resposta imediata é não.",
+              "Dar ultimato ou prazo. Quem dá prazo ao dono do imóvel perde a autorização, não ganha o desconto.",
+              "Pedir um número redondo sem explicar de onde saiu.",
+              "Falar em nome do comprador que ainda não existe: “tenho um cliente que pagaria X” só vale se o cliente existir mesmo.",
+            ],
+          },
+          {
+            tipo: "secao",
+            titulo: "A mensagem padrão",
+            texto:
+              "Por escrito, no WhatsApp, em texto — nunca áudio. Troque o que está entre colchetes pelos números reais do imóvel. A última frase é uma pergunta de propósito: ela devolve a decisão a quem é dono dela.",
+          },
+          {
+            tipo: "fecho",
+            titulo: "O texto, pronto para copiar",
+            texto:
+              "Olá, [nome]. Aqui é [corretor], da Tridium Imóveis. Trouxe um retorno sobre o [imóvel]. Desde que anunciamos, foram [N] visitas e [N] contatos. O retorno é parecido em quase todos: as pessoas gostam do imóvel, mas comparam com outras [N] opções semelhantes na região, anunciadas entre R$ [valor] e R$ [valor]. Hoje estamos pedindo R$ [valor]. Minha sugestão é ajustarmos para R$ [valor] — isso coloca o imóvel dentro da faixa em que o comprador está pesquisando, e costuma mudar o volume de visitas já na primeira semana. A decisão é sua, e eu sigo trabalhando o imóvel de qualquer forma. Posso te mandar o comparativo com os anúncios que usei nessa conta. O senhor prefere conversar hoje à tarde ou amanhã de manhã?",
+          },
+          {
+            tipo: "secao",
+            titulo: "Depois do pedido",
+            itens: [
+              "Aceito: atualize o anúncio no mesmo dia, em todos os portais, e avise quem já visitou — preço novo é motivo legítimo para reabrir conversa.",
+              "Recusado: registre a recusa na ficha do imóvel, com a data. Em sessenta dias, o mesmo número conta outra história.",
+              "Sem resposta: não insista na mesma semana. Volte com um fato novo, não com o mesmo pedido.",
+            ],
+          },
+        ],
+        atencao:
+          "O valor sugerido sai do comparativo, não do seu cansaço com o imóvel. Corretor que pede redução sem base perde autoridade para pedir de novo quando ela for mesmo necessária.",
+      },
     ],
   },
   {
