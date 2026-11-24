@@ -399,16 +399,18 @@ export function useGestaoCorretor() {
 
   /* ---------- Captações ---------- */
 
+  /* Devolve o id da captação criada. Quem chama precisa dele para abrir a
+     ficha dela na hora — criar a linha e deixar o corretor procurar onde
+     continuar é o que fazia a ficha inteira parecer não existir. */
   const adicionarCaptacao = useCallback(
-    (nova: Omit<Captacao, "id" | "em">) => {
+    (nova: Omit<Captacao, "id" | "em">): string => {
+      const id = novoId();
       setCaptacoes((atual) => {
-        const lista = [
-          ...atual,
-          { ...nova, id: novoId(), em: emTexto(new Date()) },
-        ];
+        const lista = [...atual, { ...nova, id, em: emTexto(new Date()) }];
         void fonte.gravar("captacoes", lista);
         return lista;
       });
+      return id;
     },
     []
   );

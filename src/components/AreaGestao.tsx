@@ -509,11 +509,20 @@ const STATUS_CAPTACAO: StatusCaptacao[] = [
 
 function Captacoes({ gestao }: { gestao: GestaoHook }) {
   const [identificacao, setIdentificacao] = useState("");
+  /* A ficha da captação recém-criada abre sozinha. Antes, "Acrescentar"
+     deixava uma linha fechada na tela e o corretor tinha de descobrir que
+     havia um botão para o cadastro completo — o que, na prática, fez a
+     ficha inteira parecer não existir. */
+  const [recemCriada, setRecemCriada] = useState<string | null>(null);
 
   const salvar = () => {
     const t = identificacao.trim();
     if (!t) return;
-    gestao.adicionarCaptacao({ identificacao: t, status: "visitada" });
+    const id = gestao.adicionarCaptacao({
+      identificacao: t,
+      status: "visitada",
+    });
+    setRecemCriada(id);
     setIdentificacao("");
   };
 
@@ -570,7 +579,12 @@ function Captacoes({ gestao }: { gestao: GestaoHook }) {
       ) : (
         <ul className="mt-4 space-y-3">
           {gestao.captacoes.map((c) => (
-            <LinhaCaptacao key={c.id} captacao={c} gestao={gestao} />
+            <LinhaCaptacao
+              key={c.id}
+              captacao={c}
+              gestao={gestao}
+              abrirDeInicio={c.id === recemCriada}
+            />
           ))}
         </ul>
       )}
@@ -587,11 +601,14 @@ function Captacoes({ gestao }: { gestao: GestaoHook }) {
 function LinhaCaptacao({
   captacao: c,
   gestao,
+  abrirDeInicio = false,
 }: {
   captacao: Captacao;
   gestao: GestaoHook;
+  /** Captação recém-criada: a ficha dela já nasce aberta. */
+  abrirDeInicio?: boolean;
 }) {
-  const [aberta, setAberta] = useState(false);
+  const [aberta, setAberta] = useState(abrirDeInicio);
   const faltando = camposQueFaltam(c);
 
   return (
