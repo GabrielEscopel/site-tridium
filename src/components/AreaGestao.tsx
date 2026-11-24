@@ -30,7 +30,7 @@
    que fosse marcado num não apareceria no outro até recarregar a página.
    ============================================================================= */
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -60,8 +60,16 @@ import {
   type DiaDaSemana,
   type StatusCaptacao,
   type StatusInvestidor,
+  type Captacao,
   type TipoCompromisso,
 } from "@/lib/gestaoCorretor";
+import {
+  apagarFoto,
+  guardarFotos,
+  lerFotos,
+  MAXIMO_DE_FOTOS,
+  type FotoGuardada,
+} from "@/lib/fotosCaptacao";
 
 export function AreaGestao() {
   const { sessao, pronto: sessaoPronta, sair } = useSessaoCorretor();
@@ -545,53 +553,609 @@ function Captacoes({ gestao }: { gestao: GestaoHook }) {
       ) : (
         <ul className="mt-4 space-y-3">
           {gestao.captacoes.map((c) => (
-            <li
-              key={c.id}
-              className={`rounded-xl border px-4 py-3 ${
-                c.status === "pronta"
-                  ? "border-[color:var(--cart-titulo)] bg-[color:var(--cart-caixa)]"
-                  : "border-[color:var(--cart-card-linha)]"
-              }`}
-            >
-              <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold leading-snug text-[color:var(--ink)]">
-                    {c.identificacao}
-                  </p>
-                  <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
-                    Na fila desde {emDiaMes(c.em)}
-                  </p>
-                </div>
-
-                <select
-                  value={c.status}
-                  onChange={(e) =>
-                    gestao.mudarCaptacao(c.id, {
-                      status: e.target.value as StatusCaptacao,
-                    })
-                  }
-                  aria-label={`Status de ${c.identificacao}`}
-                  className="shrink-0 rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-2.5 py-1.5 text-xs font-semibold text-[color:var(--cart-preco)]"
-                >
-                  {STATUS_CAPTACAO.map((s) => (
-                    <option key={s} value={s}>
-                      {rotuloDaCaptacao[s]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <CampoNota
-                valor={c.nota ?? ""}
-                rotulo={`Observação de ${c.identificacao}`}
-                aoSalvar={(nota) => gestao.mudarCaptacao(c.id, { nota })}
-                aoRemover={() => gestao.removerCaptacao(c.id)}
-              />
-            </li>
+            <LinhaCaptacao key={c.id} captacao={c} gestao={gestao} />
           ))}
         </ul>
       )}
     </>
+  );
+}
+
+/* Uma captação, fechada como linha e aberta como ficha.
+
+   FECHADA POR PADRÃO porque a fila se lê de relance — o que está em cada
+   etapa — e a ficha inteira em cada linha viraria uma parede de formulários.
+   Aberta, ela é a mesma ficha do site, campo por campo: o que falta aqui é
+   exatamente o que impede o anúncio de subir. */
+function LinhaCaptacao({
+  captacao: c,
+  gestao,
+}: {
+  captacao: Captacao;
+  gestao: GestaoHook;
+}) {
+  const [aberta, setAberta] = useState(false);
+  const faltando = camposQueFaltam(c);
+
+  return (
+    <li
+      className={`rounded-xl border px-4 py-3 ${
+        c.status === "pronta"
+          ? "border-[color:var(--cart-titulo)] bg-[color:var(--cart-caixa)]"
+          : "border-[color:var(--cart-card-linha)]"
+      }`}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+        <div className="min-w-0">
+          <p className="flex flex-wrap items-baseline gap-x-2.5">
+            {c.codigo && (
+              <span className="font-mono text-xs font-bold text-[color:var(--cart-titulo)]">
+                {c.codigo}
+              </span>
+            )}
+            <span className="text-sm font-semibold leading-snug text-[color:var(--ink)]">
+              {c.identificacao}
+            </span>
+          </p>
+          <p className="mt-0.5 text-xs text-[color:var(--ink-faint)]">
+            Na fila desde {emDiaMes(c.em)}
+            {faltando > 0 && ` · faltam ${faltando} campos da ficha`}
+          </p>
+        </div>
+
+        <select
+          value={c.status}
+          onChange={(e) =>
+            gestao.mudarCaptacao(c.id, {
+              status: e.target.value as StatusCaptacao,
+            })
+          }
+          aria-label={`Status de ${c.identificacao}`}
+          className="shrink-0 rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-2.5 py-1.5 text-xs font-semibold text-[color:var(--cart-preco)]"
+        >
+          {STATUS_CAPTACAO.map((s) => (
+            <option key={s} value={s}>
+              {rotuloDaCaptacao[s]}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <button
+          type="button"
+          onClick={() => setAberta((v) => !v)}
+          aria-expanded={aberta}
+          className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+        >
+          {aberta ? "Fechar a ficha" : "Abrir a ficha"}
+        </button>
+        <button
+          type="button"
+          onClick={() => gestao.removerCaptacao(c.id)}
+          className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+        >
+          Apagar
+        </button>
+      </div>
+
+      {aberta && <FichaCaptacao captacao={c} gestao={gestao} />}
+    </li>
+  );
+}
+
+/** Quantos campos da ficha ainda estão em branco. É o que diz, de relance,
+    o quanto falta para o imóvel poder ser publicado. */
+function camposQueFaltam(c: Captacao): number {
+  const obrigatorios: unknown[] = [
+    c.tipo,
+    c.finalidade,
+    c.bairro,
+    c.cidade,
+    c.endereco,
+    c.area,
+    c.preco,
+    c.resumo,
+    c.descricao,
+  ];
+  return obrigatorios.filter(
+    (v) => v === undefined || v === "" || v === null
+  ).length;
+}
+
+const TIPOS_IMOVEL = [
+  "Apartamento",
+  "Casa",
+  "Terreno",
+  "Cobertura",
+  "Sala comercial",
+  "Galpão",
+  "Sítio",
+];
+
+function FichaCaptacao({
+  captacao: c,
+  gestao,
+}: {
+  captacao: Captacao;
+  gestao: GestaoHook;
+}) {
+  const mudar = (mudanca: Partial<Omit<Captacao, "id">>) =>
+    gestao.mudarCaptacao(c.id, mudanca);
+
+  return (
+    <div className="mt-3 space-y-5 rounded-xl border border-[color:var(--cart-campo-linha)] bg-white p-4">
+      {/* ---------- Identificação ---------- */}
+      <Grupo titulo="Identificação">
+        <Entrada
+          rotulo="Código"
+          valor={c.codigo ?? ""}
+          dica="TRI1004"
+          aoSalvar={(v) => mudar({ codigo: v || undefined })}
+        />
+        <Escolha
+          rotulo="Tipo"
+          valor={c.tipo ?? ""}
+          opcoes={TIPOS_IMOVEL}
+          aoSalvar={(v) => mudar({ tipo: v || undefined })}
+        />
+        <Escolha
+          rotulo="Finalidade"
+          valor={c.finalidade ?? ""}
+          opcoes={["venda", "aluguel"]}
+          aoSalvar={(v) =>
+            mudar({ finalidade: (v as "venda" | "aluguel") || undefined })
+          }
+        />
+        <Entrada
+          rotulo="Empreendimento"
+          valor={c.empreendimento ?? ""}
+          dica="Residencial Alta Cittá"
+          aoSalvar={(v) => mudar({ empreendimento: v || undefined })}
+        />
+      </Grupo>
+
+      {/* ---------- Onde fica ---------- */}
+      <Grupo titulo="Onde fica">
+        <Entrada
+          rotulo="Bairro"
+          valor={c.bairro ?? ""}
+          aoSalvar={(v) => mudar({ bairro: v || undefined })}
+        />
+        <Entrada
+          rotulo="Cidade"
+          valor={c.cidade ?? ""}
+          dica="Florianópolis"
+          aoSalvar={(v) => mudar({ cidade: v || undefined })}
+        />
+        <Entrada
+          rotulo="Endereço"
+          valor={c.endereco ?? ""}
+          dica="Rua e número, para o mapa"
+          largo
+          aoSalvar={(v) => mudar({ endereco: v || undefined })}
+        />
+      </Grupo>
+
+      {/* ---------- A ficha ---------- */}
+      <Grupo titulo="A ficha">
+        <Numero
+          rotulo="Dormitórios"
+          valor={c.dormitorios}
+          aoSalvar={(v) => mudar({ dormitorios: v })}
+        />
+        <Numero
+          rotulo="Suítes"
+          valor={c.suites}
+          aoSalvar={(v) => mudar({ suites: v })}
+        />
+        <Numero
+          rotulo="Vagas"
+          valor={c.vagas}
+          aoSalvar={(v) => mudar({ vagas: v })}
+        />
+        <Numero
+          rotulo="Área privativa (m²)"
+          valor={c.area}
+          aoSalvar={(v) => mudar({ area: v })}
+        />
+        <Numero
+          rotulo="Área do terreno (m²)"
+          valor={c.areaTerreno}
+          aoSalvar={(v) => mudar({ areaTerreno: v })}
+        />
+      </Grupo>
+
+      {/* ---------- Valores ---------- */}
+      <Grupo titulo="Valores">
+        <Numero
+          rotulo="Preço (R$)"
+          valor={c.preco}
+          aoSalvar={(v) => mudar({ preco: v })}
+        />
+        <Numero
+          rotulo="Condomínio (R$)"
+          valor={c.condominio}
+          aoSalvar={(v) => mudar({ condominio: v })}
+        />
+        <Numero
+          rotulo="IPTU (R$)"
+          valor={c.iptu}
+          aoSalvar={(v) => mudar({ iptu: v })}
+        />
+      </Grupo>
+
+      {/* ---------- Textos ---------- */}
+      <Grupo titulo="Textos do anúncio">
+        <Entrada
+          rotulo="Título"
+          valor={c.titulo ?? ""}
+          dica="A manchete, se houver uma escrita à mão"
+          largo
+          aoSalvar={(v) => mudar({ titulo: v || undefined })}
+        />
+        <Longo
+          rotulo="Resumo"
+          valor={c.resumo ?? ""}
+          dica="Uma frase: o que o imóvel tem de melhor"
+          linhas={2}
+          aoSalvar={(v) => mudar({ resumo: v || undefined })}
+        />
+        <Longo
+          rotulo="Descrição"
+          valor={c.descricao ?? ""}
+          dica="Um parágrafo por linha"
+          linhas={4}
+          aoSalvar={(v) => mudar({ descricao: v || undefined })}
+        />
+        <Longo
+          rotulo="Diferenciais"
+          valor={c.diferenciais ?? ""}
+          dica="Um por linha: churrasqueira, vista para o mar…"
+          linhas={3}
+          aoSalvar={(v) => mudar({ diferenciais: v || undefined })}
+        />
+        <Entrada
+          rotulo="Selos"
+          valor={(c.selos ?? []).join(", ")}
+          dica="Mobiliado, Aceita permuta — separados por vírgula"
+          largo
+          aoSalvar={(v) =>
+            mudar({
+              selos: v
+                ? v
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean)
+                : undefined,
+            })
+          }
+        />
+      </Grupo>
+
+      {/* ---------- Fotos ---------- */}
+      <FotosDaCaptacao captacao={c.id} />
+
+      {/* ---------- Observação ---------- */}
+      <div>
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Observação
+        </p>
+        <CampoLivre
+          valor={c.nota ?? ""}
+          rotulo="Observação da captação"
+          dica="O que falta, com quem está, prazo"
+          aoSalvar={(nota) => mudar({ nota: nota || undefined })}
+        />
+      </div>
+    </div>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   FOTOS
+   ----------------------------------------------------------------------------- */
+
+function FotosDaCaptacao({ captacao }: { captacao: string }) {
+  const [fotos, setFotos] = useState<FotoGuardada[]>([]);
+  const [carregando, setCarregando] = useState(false);
+  const [recusadas, setRecusadas] = useState<string[]>([]);
+
+  /* As URLs de objeto precisam ser revogadas quando a lista muda, senão o
+     navegador segura cada blob na memória até a aba fechar. */
+  const urls = useMemo(
+    () => fotos.map((f) => ({ id: f.id, url: URL.createObjectURL(f.blob) })),
+    [fotos]
+  );
+  useEffect(() => {
+    return () => urls.forEach((u) => URL.revokeObjectURL(u.url));
+  }, [urls]);
+
+  const recarregar = useCallback(async () => {
+    setFotos(await lerFotos(captacao));
+  }, [captacao]);
+
+  useEffect(() => {
+    void recarregar();
+  }, [recarregar]);
+
+  const aoEscolher = async (lista: FileList | null) => {
+    if (!lista || lista.length === 0) return;
+    setCarregando(true);
+    setRecusadas([]);
+    const r = await guardarFotos(captacao, Array.from(lista), fotos.length);
+    if (r.recusadas.length > 0) setRecusadas(r.recusadas);
+    await recarregar();
+    setCarregando(false);
+  };
+
+  return (
+    <div>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Fotos
+        </p>
+        <p className="text-xs text-[color:var(--ink-faint)]">
+          {fotos.length} de {MAXIMO_DE_FOTOS}
+        </p>
+      </div>
+
+      {fotos.length > 0 && (
+        <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5">
+          {urls.map((u, i) => (
+            <li key={u.id} className="group relative">
+              {/* `img` cru, e não `next/image`: a origem é um blob: do
+                  navegador, que o otimizador do Next não consegue buscar. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={u.url}
+                alt={`Foto ${i + 1}${i === 0 ? ", capa" : ""}`}
+                className="aspect-[4/3] w-full rounded-lg object-cover"
+              />
+              {i === 0 && (
+                <span className="absolute left-1 top-1 rounded bg-[color:var(--cart-acao)] px-1.5 py-0.5 text-[0.5625rem] font-bold uppercase text-[color:var(--cart-acao-ink)]">
+                  Capa
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={async () => {
+                  await apagarFoto(u.id);
+                  await recarregar();
+                }}
+                aria-label={`Apagar a foto ${i + 1}`}
+                className="absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/60 text-xs font-bold text-white opacity-0 transition-opacity duration-200 focus:opacity-100 group-hover:opacity-100"
+              >
+                ×
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="mt-3">
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-[color:var(--cart-campo-linha)] px-3.5 py-2 text-xs font-semibold text-[color:var(--cart-preco)] transition-colors duration-200 hover:border-[color:var(--cart-titulo)] hover:bg-[color:var(--cart-caixa)]">
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            className="sr-only"
+            disabled={carregando || fotos.length >= MAXIMO_DE_FOTOS}
+            onChange={(e) => {
+              void aoEscolher(e.target.files);
+              /* Limpa o input: sem isto, escolher o mesmo arquivo duas
+                 vezes seguidas não dispara o evento. */
+              e.target.value = "";
+            }}
+          />
+          {carregando
+            ? "Reduzindo…"
+            : fotos.length >= MAXIMO_DE_FOTOS
+              ? "Limite de fotos atingido"
+              : "Escolher fotos"}
+        </label>
+      </div>
+
+      {recusadas.length > 0 && (
+        <p className="mt-2 text-xs leading-snug text-[color:var(--ink-muted)]">
+          Não entraram: {recusadas.join(", ")}.
+        </p>
+      )}
+
+      <p className="mt-2 text-xs leading-snug text-[color:var(--ink-faint)]">
+        As fotos são reduzidas e ficam <strong>neste navegador</strong>. Não
+        chegam à imobiliária nem ao site, e somem se você trocar de aparelho ou
+        limpar os dados. Servem para montar a ficha.
+      </p>
+    </div>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   OS CAMPOS DA FICHA
+   -----------------------------------------------------------------------------
+   Todos salvam AO SAIR DO CAMPO. Gravar por tecla, com o localStorage, é
+   invisível; com servidor seria uma requisição por letra digitada.
+   ----------------------------------------------------------------------------- */
+
+function Grupo({
+  titulo,
+  children,
+}: {
+  titulo: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+        {titulo}
+      </p>
+      <div className="mt-2.5 grid gap-x-4 gap-y-3 sm:grid-cols-2">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+const CLASSE_CAMPO =
+  "mt-1 w-full rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]";
+
+function Entrada({
+  rotulo,
+  valor,
+  dica,
+  largo,
+  aoSalvar,
+}: {
+  rotulo: string;
+  valor: string;
+  dica?: string;
+  largo?: boolean;
+  aoSalvar: (v: string) => void;
+}) {
+  const [texto, setTexto] = useState(valor);
+  return (
+    <label className={largo ? "sm:col-span-2" : undefined}>
+      <span className="text-xs font-semibold text-[color:var(--ink-muted)]">
+        {rotulo}
+      </span>
+      <input
+        type="text"
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onBlur={() => {
+          if (texto.trim() !== valor) aoSalvar(texto.trim());
+        }}
+        placeholder={dica}
+        className={CLASSE_CAMPO}
+      />
+    </label>
+  );
+}
+
+function Numero({
+  rotulo,
+  valor,
+  aoSalvar,
+}: {
+  rotulo: string;
+  valor: number | undefined;
+  aoSalvar: (v: number | undefined) => void;
+}) {
+  const [texto, setTexto] = useState(valor === undefined ? "" : String(valor));
+  return (
+    <label>
+      <span className="text-xs font-semibold text-[color:var(--ink-muted)]">
+        {rotulo}
+      </span>
+      <input
+        type="number"
+        inputMode="numeric"
+        min={0}
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onBlur={() => {
+          const n = texto.trim() === "" ? undefined : Number(texto);
+          /* Campo vazio apaga o valor; texto que não é número não grava
+             nada, em vez de gravar NaN e quebrar a conta depois. */
+          if (n !== undefined && Number.isNaN(n)) return;
+          if (n !== valor) aoSalvar(n);
+        }}
+        className={CLASSE_CAMPO}
+      />
+    </label>
+  );
+}
+
+function Escolha({
+  rotulo,
+  valor,
+  opcoes,
+  aoSalvar,
+}: {
+  rotulo: string;
+  valor: string;
+  opcoes: string[];
+  aoSalvar: (v: string) => void;
+}) {
+  return (
+    <label>
+      <span className="text-xs font-semibold text-[color:var(--ink-muted)]">
+        {rotulo}
+      </span>
+      <select
+        value={valor}
+        onChange={(e) => aoSalvar(e.target.value)}
+        className={CLASSE_CAMPO}
+      >
+        <option value="">—</option>
+        {opcoes.map((o) => (
+          <option key={o} value={o}>
+            {o.charAt(0).toUpperCase() + o.slice(1)}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function Longo({
+  rotulo,
+  valor,
+  dica,
+  linhas,
+  aoSalvar,
+}: {
+  rotulo: string;
+  valor: string;
+  dica?: string;
+  linhas: number;
+  aoSalvar: (v: string) => void;
+}) {
+  const [texto, setTexto] = useState(valor);
+  return (
+    <label className="sm:col-span-2">
+      <span className="text-xs font-semibold text-[color:var(--ink-muted)]">
+        {rotulo}
+      </span>
+      <textarea
+        value={texto}
+        onChange={(e) => setTexto(e.target.value)}
+        onBlur={() => {
+          if (texto.trim() !== valor) aoSalvar(texto.trim());
+        }}
+        rows={linhas}
+        placeholder={dica}
+        className={`${CLASSE_CAMPO} resize-y`}
+      />
+    </label>
+  );
+}
+
+function CampoLivre({
+  valor,
+  rotulo,
+  dica,
+  aoSalvar,
+}: {
+  valor: string;
+  rotulo: string;
+  dica?: string;
+  aoSalvar: (v: string) => void;
+}) {
+  const [texto, setTexto] = useState(valor);
+  return (
+    <input
+      type="text"
+      value={texto}
+      onChange={(e) => setTexto(e.target.value)}
+      onBlur={() => {
+        if (texto.trim() !== valor) aoSalvar(texto.trim());
+      }}
+      placeholder={dica}
+      aria-label={rotulo}
+      className={CLASSE_CAMPO}
+    />
   );
 }
 

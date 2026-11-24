@@ -25,6 +25,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { semanaAtual } from "./metasCorretor";
+import { apagarFotosDe } from "./fotosCaptacao";
 
 export type TipoCompromisso =
   | "visita"
@@ -102,6 +103,13 @@ export const rotuloDaCaptacao: Record<StatusCaptacao, string> = {
   pronta: "Pronta para publicar",
 };
 
+/* A FICHA DA CAPTAÇÃO ESPELHA A DO SITE, campo por campo, e isso é o ponto:
+   o que o corretor preenche aqui é exatamente o que falta para o imóvel ser
+   publicado. Ficha incompleta aqui é anúncio que não sobe lá.
+
+   Tudo opcional menos `identificacao`: captação nasce com uma linha anotada
+   no plantão e vai sendo completada. Exigir a ficha inteira na entrada faria
+   o corretor não registrar nada. */
 export interface Captacao {
   id: string;
   /** Como a casa chama o imóvel. Rua e tipo bastam — sem nome de dono. */
@@ -110,6 +118,40 @@ export interface Captacao {
   nota?: string;
   /** "AAAA-MM-DD" em que entrou na lista. */
   em: string;
+
+  /* ----- A ficha, nos mesmos campos de `content/imobiliaria.ts` ----- */
+
+  /** Código do anúncio, quando a casa já tiver atribuído um. */
+  codigo?: string;
+  tipo?: string;
+  finalidade?: "venda" | "aluguel";
+  /** Nome do condomínio ou empreendimento. */
+  empreendimento?: string;
+  bairro?: string;
+  cidade?: string;
+  /** Rua e número, para o mapa. */
+  endereco?: string;
+  dormitorios?: number;
+  suites?: number;
+  vagas?: number;
+  /** Área privativa em m². */
+  area?: number;
+  /** Área do terreno em m². */
+  areaTerreno?: number;
+  /** Em reais. */
+  preco?: number;
+  condominio?: number;
+  iptu?: number;
+  /** Mobiliado, aceita permuta, frente mar — o que vira selo no card. */
+  selos?: string[];
+  /** A manchete do anúncio, quando escrita à mão. */
+  titulo?: string;
+  /** O parágrafo de abertura do anúncio. */
+  resumo?: string;
+  /** O texto longo, um parágrafo por linha. */
+  descricao?: string;
+  /** Um diferencial por linha. */
+  diferenciais?: string;
 }
 
 export type StatusInvestidor =
@@ -390,6 +432,10 @@ export function useGestaoCorretor() {
       void fonte.gravar("captacoes", lista);
       return lista;
     });
+    /* As fotos vivem noutro depósito, o IndexedDB, e não saem junto com a
+       linha. Sem isto elas ficariam órfãs lá, ocupando espaço para sempre
+       e sem nenhuma tela por onde apagá-las. */
+    void apagarFotosDe(id);
   }, []);
 
   /* ---------- Investidores ---------- */
