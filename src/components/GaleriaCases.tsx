@@ -73,9 +73,44 @@ export interface CaseItem {
    real em cima.
    ----------------------------------------------------------------------------- */
 
+/* -----------------------------------------------------------------------------
+   FRENTE DE OBRA
+   -----------------------------------------------------------------------------
+   Uma frente é um serviço inteiro dentro da mesma obra: a fachada, a praça de
+   alimentação, os mesaninos. É o que torna a página ESCANEÁVEL — quem abre vê
+   o que foi feito antes de ler uma linha, e é assim que ela precisa funcionar
+   quando o link for mandado à administração de um shopping.
+
+   FOTO OU PAINEL DE PENDENTE, nunca imagem de banco. Frente sem registro
+   fotográfico mostra o painel dizendo QUAL foto falta — que serve ao leitor
+   como aviso honesto e à casa como lista de produção.
+
+   `antes` e `depois` existem porque o próprio descritivo do cliente pede: num
+   retrofit, o par é o argumento. Quando houver os dois, eles substituem a
+   foto única.
+   ----------------------------------------------------------------------------- */
+
+export interface FrenteDeObra {
+  titulo: string;
+  texto: string;
+  /** Marco no tempo, quando a frente tiver um: "2019". */
+  quando?: string;
+  foto?: FotoCard;
+  /** O que precisa ser fotografado, enquanto não houver foto. */
+  fotoPendente?: string;
+  antes?: FotoCard;
+  depois?: FotoCard;
+}
+
 export interface PaginaObra {
   /** A abertura da página. Mais longa que o resumo do card, que é uma linha. */
   chamada: string;
+  /** Os números que resumem a obra, em faixa, logo abaixo da descrição.
+      É o que a administração de um shopping lê primeiro — e o que enche o
+      espaço que sobrava ao lado de um texto curto. */
+  numeros?: readonly { valor: string; rotulo: string }[];
+  /** As frentes de trabalho, em grade visual. */
+  frentes?: readonly FrenteDeObra[];
   /** Ficha técnica. Valor em `[A CONFIRMAR]` aparece como pendente, e não some. */
   ficha: readonly { rotulo: string; valor: string }[];
   /** O aprofundamento, na ordem de leitura. */

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CarrosselCapa } from "@/components/CarrosselCapa";
-import { CarrosselFotos } from "@/components/CarrosselFotos";
+import type { FotoCard } from "@/components/CarrosselFotos";
+import { FotoPendente } from "@/components/FotoPendente";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { Botao, Pendente, Rotulo } from "@/components/ui";
+import type { FrenteDeObra } from "@/components/GaleriaCases";
 import { buscarCase, cases, casesComPagina } from "@/content/engenharia";
 import {
   contato,
@@ -167,6 +170,28 @@ export default async function ObraPage({
                   </li>
                 ))}
               </ul>
+
+              {/* OS NÚMEROS, logo abaixo da descrição. São o que a
+                  administração de um shopping lê primeiro — e são também o
+                  que preenche o vazio que sobrava: a descrição é curta e a
+                  ficha, estreita, deixavam metade da largura em branco. */}
+              {pagina.numeros && pagina.numeros.length > 0 && (
+                <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-line pt-8 sm:grid-cols-4">
+                  {pagina.numeros.map((n) => (
+                    <div key={n.rotulo}>
+                      <dt className="sr-only">{n.rotulo}</dt>
+                      <dd>
+                        <span className="t-display-tight block fs-bloco text-accent-texto">
+                          {n.valor}
+                        </span>
+                        <span className="mt-1.5 block max-w-[18ch] text-xs leading-snug text-muted">
+                          {n.rotulo}
+                        </span>
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </div>
 
             <dl className="shrink-0 space-y-5 border-t border-line pt-6 lg:w-[19rem] lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
@@ -185,6 +210,23 @@ export default async function ObraPage({
             </dl>
           </div>
         </Bloco>
+
+        {/* ================= AS FRENTES =================
+            A parte visual da página, e a razão de ela existir: quem abre o
+            link vê o que foi feito antes de ler. Em grade, porque uma obra
+            de dez anos não é uma história linear — são serviços diferentes
+            que se reconhecem pela imagem. */}
+        {pagina.frentes && pagina.frentes.length > 0 && (
+          <Bloco titulo="O que foi feito">
+            <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {pagina.frentes.map((f) => (
+                <li key={f.titulo}>
+                  <Frente frente={f} />
+                </li>
+              ))}
+            </ul>
+          </Bloco>
+        )}
 
         {/* ================= O APROFUNDAMENTO ================= */}
         {pagina.secoes.map((secao) => (
@@ -210,20 +252,10 @@ export default async function ObraPage({
           </Bloco>
         ))}
 
-        {/* ================= REGISTRO =================
-            As fotos de novo, agora grandes e folheáveis. Na capa elas passam
-            atrás do texto e são atmosfera; aqui são o documento da obra. */}
-        {obra.fotos.length > 0 && (
-          <Bloco titulo="Registro da obra">
-            <div className="relative aspect-[16/10] overflow-hidden bg-inset md:aspect-[16/8]">
-              <CarrosselFotos
-                fotos={obra.fotos}
-                tamanhos="(min-width: 80rem) 72rem, 100vw"
-                className="h-full w-full"
-              />
-            </div>
-          </Bloco>
-        )}
+        {/* O CARROSSEL DE REGISTRO SAIU DAQUI. Ele repetia as mesmas três
+            fotos que já abrem a página na capa e que agora aparecem, uma a
+            uma e com legenda própria, nas frentes de obra — e ficava solto
+            no meio da leitura, uma foto grande sem dizer de quê. */}
 
         {/* ================= O QUE A CASA FAZ ================= */}
         {pagina.servicos && pagina.servicos.length > 0 && (
@@ -316,6 +348,84 @@ export default async function ObraPage({
         </div>
       </section>
     </div>
+  );
+}
+
+/* -----------------------------------------------------------------------------
+   UMA FRENTE DE OBRA
+   -----------------------------------------------------------------------------
+   Foto em cima, título e texto embaixo. Três estados, nesta ordem de
+   preferência:
+
+     ANTES E DEPOIS  o par lado a lado, rotulado. Num retrofit é o argumento
+                     mais forte que existe, e o descritivo do cliente pede.
+     FOTO            a imagem da frente, sozinha.
+     PENDENTE        o painel que diz QUAL foto falta. Nunca foto de banco:
+                     uma imagem genérica de obra sob a legenda "praça de
+                     alimentação do Floripa Shopping" passa por real, e esta
+                     página vai para administração de shopping.
+   ----------------------------------------------------------------------------- */
+
+function Frente({ frente }: { frente: FrenteDeObra }) {
+  const par = frente.antes && frente.depois;
+
+  return (
+    <article>
+      {par ? (
+        <div className="grid grid-cols-2 gap-1.5">
+          <Lado foto={frente.antes!} rotulo="Antes" />
+          <Lado foto={frente.depois!} rotulo="Depois" />
+        </div>
+      ) : frente.foto ? (
+        <div className="relative aspect-[4/3] overflow-hidden bg-inset">
+          <Image
+            src={frente.foto.src}
+            alt={frente.foto.alt ?? frente.titulo}
+            fill
+            sizes="(min-width: 1024px) 23rem, (min-width: 640px) 45vw, 100vw"
+            className="object-cover"
+            style={
+              frente.foto.posicao
+                ? { objectPosition: frente.foto.posicao }
+                : undefined
+            }
+          />
+        </div>
+      ) : (
+        <FotoPendente
+          className="aspect-[4/3]"
+          descricao={frente.fotoPendente ?? frente.titulo}
+        />
+      )}
+
+      <div className="mt-5 flex items-baseline gap-3">
+        {frente.quando && (
+          <span className="shrink-0 font-mono text-xs font-bold text-accent-texto">
+            {frente.quando}
+          </span>
+        )}
+        <h3 className="t-display-tight fs-card text-ink">{frente.titulo}</h3>
+      </div>
+      <p className="t-body mt-3 text-muted">{frente.texto}</p>
+    </article>
+  );
+}
+
+function Lado({ foto, rotulo }: { foto: FotoCard; rotulo: string }) {
+  return (
+    <figure className="relative aspect-[3/4] overflow-hidden bg-inset">
+      <Image
+        src={foto.src}
+        alt={`${rotulo}: ${foto.alt ?? ""}`}
+        fill
+        sizes="(min-width: 1024px) 11rem, 22vw"
+        className="object-cover"
+        style={foto.posicao ? { objectPosition: foto.posicao } : undefined}
+      />
+      <figcaption className="absolute left-1.5 top-1.5 bg-black/60 px-2 py-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-white">
+        {rotulo}
+      </figcaption>
+    </figure>
   );
 }
 

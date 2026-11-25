@@ -239,90 +239,136 @@ export const cases: CaseItem[] = [
         { rotulo: "Mesaninos construídos", valor: "Seis" },
         { rotulo: "Histórico de acidentes", valor: "Nenhum em dez anos" },
       ],
+      numeros: [
+        { valor: "10", rotulo: "anos de obras no mesmo shopping" },
+        { valor: "6", rotulo: "mesaninos construídos" },
+        { valor: "6", rotulo: "claraboias retiradas" },
+        { valor: "0", rotulo: "acidentes em dez anos" },
+      ],
+      /* AS FRENTES, em grade visual. Três têm foto real; as demais mostram o
+         painel de pendente, que diz exatamente o que falta fotografar. É
+         texto honesto para quem lê e lista de produção para a casa — e, como
+         o link vai para administração de shopping, vazio marcado é melhor do
+         que foto de banco fingindo ser obra nossa. */
+      frentes: [
+        {
+          titulo: "Fachada de vidro",
+          quando: "2019",
+          texto:
+            "O que hoje é vidro era parede de alvenaria com reboco e pilares. A Tridium demoliu à noite, mantendo apenas o estrutural, e preparou os pilares e as cantoneiras para a empresa especializada instalar os vidros. Sem danificar nada do shopping em operação.",
+          foto: {
+            src: "/img/engenharia/obra-floripa-shopping.webp",
+            alt: "Fachada envidraçada do Floripa Shopping vista do alto",
+          },
+        },
+        {
+          titulo: "Praça de alimentação",
+          texto:
+            "Refeita por inteiro. Porcelanato de 2,70 m, cantoneiras de acabamento, juntas de dilatação executadas à vista e frisos marcando a junção entre pisos. Todas as mesas e cadeiras montadas pela equipe da casa.",
+          foto: {
+            src: "/img/engenharia/obra-floripa-shopping-02.webp",
+            alt: "Praça de alimentação reformada: piso claro, mobiliário novo e iluminação linear no forro",
+            posicao: "center 62%",
+          },
+        },
+        {
+          titulo: "Cobertura e estrutura metálica",
+          texto:
+            "Tratamento e pintura da estrutura metálica do vão livre, em altura, sobre a área que horas depois recebe público. Pintura em aço é proteção, não acabamento: é ela que separa a estrutura da umidade.",
+          foto: {
+            src: "/img/engenharia/obra-floripa-shopping-03.webp",
+            alt: "Estrutura metálica da cobertura repintada, vista de baixo",
+            posicao: "center 40%",
+          },
+        },
+        {
+          titulo: "Seis mesaninos",
+          texto:
+            "Em seis pontos havia vãos abertos com guarda-corpo, olhando para o piso de baixo. Guarda-corpo removido, estrutura e piso executados em cima, fechamento em gesso por baixo e iluminação trocada — área comercial nova sem ampliar o prédio.",
+          fotoPendente:
+            "Um dos mesaninos construídos, com os quiosques instalados em cima",
+        },
+        {
+          titulo: "Seis claraboias",
+          texto:
+            "A praça recebia luz natural por seis claraboias. As seis foram serradas e cortadas à noite, com profissional protegendo o shopping embaixo durante todo o serviço, e os vãos concretados para o forro fechar no dia seguinte.",
+          fotoPendente:
+            "O teto da praça depois do fechamento, onde ficavam as claraboias",
+        },
+        {
+          titulo: "Forro, piso e pilares",
+          texto:
+            "O retrofit geral da parte interna: troca do piso do shopping, retrofit de todo o forro e preparo de todos os pilares para o revestimento, incluindo as cantoneiras do envidraçamento.",
+          fotoPendente:
+            "Corredor com o piso e o forro novos — de preferência com o antes",
+        },
+        {
+          titulo: "Halls de elevador",
+          texto:
+            "Todos os halls de elevador do shopping foram executados pela casa, do porcelanato das paredes ao forro e à iluminação.",
+          fotoPendente: "Um hall de elevador pronto, mostrando o porcelanato",
+        },
+        {
+          titulo: "Pintura e restauração",
+          texto:
+            "Não é só pintura: é restauração de parede e de teto antes dela. Todas as pinturas desta reforma foram feitas pela equipe da casa.",
+          fotoPendente: "Parede ou teto restaurado, com o antes ao lado",
+        },
+        {
+          titulo: "Trabalho em altura",
+          texto:
+            "Demolição, recuperação e pintura por acesso por corda e andaime, sobre área de público, no regime que a NR-35 exige — ancoragem definida com responsabilidade técnica, proteção da área abaixo e plano de resgate anterior ao início.",
+          fotoPendente:
+            "Operador em rapel ou em andaime dentro do shopping, com a área isolada",
+        },
+        {
+          titulo: "Decoração de Natal",
+          texto:
+            "A montagem da decoração natalina do shopping é feita pela Tridium e se repete todo ano. Trabalho em altura, com prazo curto e sobre área de público, no período de maior movimento do calendário.",
+          fotoPendente:
+            "A decoração de Natal montada — guirlandas e os elementos do centro",
+        },
+        {
+          titulo: "Faculdade dentro do shopping",
+          texto:
+            "Quatro mil metros quadrados construídos dentro do empreendimento, do zero, no mesmo regime das demais obras. [A CONFIRMAR o nome da instituição]",
+          fotoPendente: "A faculdade pronta: recepção, corredor ou sala",
+        },
+        {
+          titulo: "Lojas e espaços",
+          texto:
+            "A unidade de emissão de passaportes da Polícia Federal — todo o interior, exceto o ACM e as letras —, uma cafeteria, um órgão público de fiscalização com 2.000 m² e intervenções em boa parte das lojas, entre elas Centauro, Riachuelo e C&A.",
+          fotoPendente: "Uma das lojas entregues, com o acabamento pronto",
+        },
+        {
+          titulo: "A placa do shopping",
+          texto:
+            "A placa com o nome do Floripa Shopping, na frente do empreendimento, foi executada pela Tridium.",
+          fotoPendente: "A placa com o nome do shopping, vista da rua",
+        },
+      ],
       secoes: [
         {
           titulo: "Dez anos no mesmo shopping",
           texto:
             "A Tridium toca obras no Floripa Shopping há dez anos, como parceira da Voss Engenharia: a Voss administra, a Tridium executa e responde pela mão de obra. Nesse período a casa fez o retrofit geral da parte interna do shopping — e é desse tempo, e não de um contrato só, que vem a especialidade em obra de shopping center.",
+        },
+        {
+          titulo: "Obra em shopping não para o shopping",
+          texto:
+            "É a diferença que define esse tipo de contrato. Num canteiro aberto, a obra manda no espaço; num shopping em operação, a operação manda na obra. Tudo o que está nesta página foi feito de madrugada, com a área entregue limpa antes da abertura.",
           itens: [
-            "Retrofit de todo o forro.",
-            "Troca do piso do shopping.",
-            "Preparo de todos os pilares para o revestimento.",
-            "Todos os halls de elevador.",
-            "Pintura e restauração de paredes e tetos.",
-            "Acabamentos, gesso, cantoneiras e frisos de junção.",
+            "JANELA DE TRABALHO — demolição, corte de concreto e troca de piso fora do horário de funcionamento.",
+            "ISOLAMENTO — a frente de serviço fechada e sinalizada, com barreira que separa de fato.",
+            "ROTAS DE FUGA — nenhuma intervenção reduz saída de emergência. É onde a administração é mais rígida, e com razão.",
+            "LOGÍSTICA — carga, descarga e entulho com horário e caminho definidos, sem cruzar circulação de público.",
+            "ENTREGA DIÁRIA — área limpa e conferida antes de o shopping abrir.",
           ],
-        },
-        {
-          titulo: "Trabalho noturno é a especialidade, não o detalhe",
-          texto:
-            "Shopping não fecha para reformar. Tudo o que está nesta página foi feito de madrugada, com a área isolada, o entulho retirado na mesma noite e o piso entregue limpo antes de o shopping abrir. É o que permite serrar concreto, demolir alvenaria e trocar piso num prédio que recebe público todos os dias.",
-          itens: [
-            "Demolição, corte e serra de concreto no período noturno.",
-            "Retirada de entulho na mesma noite, pelo caminho combinado.",
-            "Proteção de quem está embaixo durante serviço em altura.",
-            "Área liberada, limpa e conferida antes da abertura.",
-          ],
-        },
-        {
-          titulo: "2019: a fachada de vidro",
-          texto:
-            "O que hoje é vidro era parede de alvenaria com reboco e pilares. A Tridium demoliu essas paredes à noite, mantendo apenas o estrutural, para que a empresa especializada instalasse os vidros. A demolição foi feita com alpinistas e andaimes, sem danificar nada do shopping em operação.",
-          itens: [
-            "Demolição de alvenaria com preservação da estrutura.",
-            "Acesso por corda e andaime, conforme a frente.",
-            "Preparo dos pilares e instalação das cantoneiras para o envidraçamento.",
-            "A placa com o nome do Floripa Shopping, na frente do empreendimento, foi executada pela Tridium.",
-          ],
-        },
-        {
-          titulo: "Seis mesaninos, onde antes havia vão",
-          texto:
-            "Em seis pontos do shopping havia vãos abertos, com guarda-corpo, olhando para o piso de baixo. A Tridium removeu os guarda-corpos e construiu mesaninos para receber quiosques — ganhando área comercial sem ampliar o prédio.",
-          itens: [
-            "Remoção do guarda-corpo e execução da estrutura do mesanino.",
-            "Instalação do piso na laje nova.",
-            "Fechamento em gesso por baixo, escondendo as instalações.",
-            "Troca da iluminação e acabamento das duas faces.",
-          ],
-        },
-        {
-          titulo: "A praça de alimentação",
-          texto:
-            "A praça foi refeita por inteiro, e o piso é a parte que se olha de perto: placas de porcelanato de 2,70 m, com cantoneiras de acabamento, juntas de dilatação executadas à vista e frisos marcando a junção de um piso com o outro. O mobiliário inteiro — mesas e cadeiras — foi montado pela equipe da casa.",
-          itens: [
-            "Porcelanato de 2,70 m, assentado e rejuntado.",
-            "Juntas de dilatação e frisos de junção entre pisos.",
-            "Forro, iluminação e acabamentos.",
-            "Montagem de todas as mesas e cadeiras.",
-          ],
-        },
-        {
-          titulo: "As seis claraboias",
-          texto:
-            "A praça recebia luz natural por seis claraboias. A reforma previu a retirada das seis: elas foram serradas e cortadas à noite, com um profissional protegendo o shopping embaixo durante todo o serviço, e os vãos foram concretados para que o forro pudesse ser fechado no dia seguinte.",
-        },
-        {
-          titulo: "Lojas e espaços dentro do shopping",
-          texto:
-            "Além das áreas comuns, a Tridium executou obra em boa parte das lojas e dos espaços do empreendimento.",
-          itens: [
-            "Faculdade com 4.000 m² construída dentro do shopping. [A CONFIRMAR o nome]",
-            "Órgão público de fiscalização, com 2.000 m² de obra. [A CONFIRMAR o nome]",
-            "Unidade de emissão de passaportes da Polícia Federal — todo o interior, exceto o ACM e as letras da fachada.",
-            "Centauro, Riachuelo, C&A e outras lojas, em intervenções de reforma e acabamento.",
-            "Cafeteria, halls de elevador e corredores com retrofit completo.",
-          ],
-        },
-        {
-          titulo: "A decoração de Natal",
-          texto:
-            "A montagem da decoração natalina do shopping — guirlandas e os demais elementos — é feita pela Tridium, e se repete todo ano. É trabalho em altura, com prazo curto e sobre área de público, no período de maior movimento do calendário.",
         },
         {
           titulo: "Dez anos sem um acidente",
           texto:
-            "Obra em shopping é trabalho de alta periculosidade: gente em altura, sobre piso que horas depois recebe público. Em dez anos de obras desse porte no Floripa Shopping, a Tridium não registrou um acidente. É o número que uma administração de shopping pede antes de qualquer orçamento.",
+            "Obra em shopping é trabalho de alta periculosidade: gente em altura, sobre piso que horas depois recebe público. Em dez anos de obras desse porte no Floripa Shopping, a Tridium não registrou um acidente. É o número que uma administração pede antes de qualquer orçamento.",
         },
         {
           titulo: "Tudo documentado",
