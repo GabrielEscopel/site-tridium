@@ -355,7 +355,6 @@ function LinhaAgenciamento({
   const registro = gestao.revisao(imovel.chave);
   const prazo = prazoDeRevisao(registro?.em);
   const [abrindo, setAbrindo] = useState(false);
-  const [contatoAberto, setContatoAberto] = useState(false);
 
   const selo = prazo.nunca
     ? { texto: "Nunca revisado", cor: "acao" as const }
@@ -453,74 +452,340 @@ function LinhaAgenciamento({
             </p>
           )}
 
-          {abrindo ? (
-            <FormRevisao
-              notaAtual={registro?.nota ?? ""}
-              aoSalvar={(nota) => {
-                gestao.registrarRevisao(imovel.chave, nota);
-                setAbrindo(false);
-              }}
-              aoFechar={() => setAbrindo(false)}
-            />
-          ) : (
-            <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1">
-              <button
-                type="button"
-                onClick={() => setAbrindo(true)}
-                className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-              >
-                {registro ? "Revisar de novo" : "Registrar revisão"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setContatoAberto((v) => !v)}
-                aria-expanded={contatoAberto}
-                className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-              >
-                {contatoAberto ? "Fechar o contato" : "Contato do proprietário"}
-              </button>
-              <Link
-                href={`/imobiliaria/${imovel.chave}`}
-                className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-              >
-                Ver o anúncio
-              </Link>
-              {registro && (
-                <button
-                  type="button"
-                  onClick={() => gestao.apagarRevisao(imovel.chave)}
-                  className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-                >
-                  Desfazer
-                </button>
-              )}
-            </div>
-          )}
+          {/* UM LINK SÓ: "Revisão". Eram dois — registrar revisão e contato
+              do proprietário —, e eram a mesma coisa: ninguém liga para o
+              dono sem ser para revisar, e ninguém revisa sem precisar do
+              telefone dele. Dois botões para uma tarefa obrigam a escolher
+              antes de saber o que há do outro lado. */}
+          <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <button
+              type="button"
+              onClick={() => setAbrindo((v) => !v)}
+              aria-expanded={abrindo}
+              className="text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            >
+              {abrindo ? "Fechar a revisão" : "Revisão"}
+            </button>
+            <Link
+              href={`/imobiliaria/${imovel.chave}`}
+              className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            >
+              Ver o anúncio
+            </Link>
+          </div>
         </div>
       </div>
 
-      {contatoAberto && (
-        <ContatoDoProprietario
+      {abrindo && (
+        <PainelDeRevisao
+          imovel={imovel}
           ficha={ficha}
+          registro={registro}
           aoMudar={(m) => gestao.mudarFicha(imovel.chave, m)}
+          aoRegistrar={(nota) => gestao.registrarRevisao(imovel.chave, nota)}
+          aoDesfazer={() => gestao.apagarRevisao(imovel.chave)}
+          aoFechar={() => setAbrindo(false)}
         />
       )}
     </li>
   );
 }
 
-/* -----------------------------------------------------------------------------
-   CONTATO DO PROPRIETÁRIO
+/* =============================================================================
+   PAINEL DE REVISÃO
    -----------------------------------------------------------------------------
-   A única parte do painel que guarda nome, telefone e e-mail de uma pessoa.
-   Existe porque a tela apoia uma conversa — pedir revisão de preço — e sem o
-   contato à mão ela não serve para isso.
+   Tudo o que a revisão de um anúncio precisa, num lugar só: a situação do
+   imóvel, o valor apurado, o contato de quem decide e o registro do que
+   mudou.
 
-   O AVISO FICA EM CIMA DO CAMPO, não num rodapé: é ali que a pessoa decide
-   se digita. E o telefone vira link de WhatsApp e de ligação, porque é
-   disso que o campo serve — se for só para olhar, a agenda do celular já
-   fazia melhor.
-   ----------------------------------------------------------------------------- */
+   ERAM DOIS PAINÉIS — "registrar revisão" e "contato do proprietário" — e
+   eram a mesma tarefa: ninguém liga para o dono a não ser para revisar, e
+   ninguém revisa sem o telefone dele à mão. Separados, obrigavam a escolher
+   um antes de saber o que havia no outro.
+
+   A ORDEM É A DA CONVERSA: primeiro se confere se o imóvel ainda está à
+   venda, porque se não estiver o resto não importa; depois o valor, que é o
+   motivo da ligação; depois com quem falar; e por último o registro do que
+   ficou combinado.
+   ============================================================================= */
+
+const MOTIVOS_DE_SAIDA = [
+  "Vendido por outra imobiliária",
+  "Vendido pelo proprietário",
+  "Alugado",
+  "Proprietário desistiu de vender",
+  "Retirado para reforma",
+  "Autorização vencida",
+  "Outro",
+];
+
+function PainelDeRevisao({
+  imovel,
+  ficha,
+  registro,
+  aoMudar,
+  aoRegistrar,
+  aoDesfazer,
+  aoFechar,
+}: {
+  imovel: Imovel;
+  ficha: FichaAgenciamento;
+  registro: { em: string; nota?: string } | undefined;
+  aoMudar: (m: Partial<FichaAgenciamento>) => void;
+  aoRegistrar: (nota: string) => void;
+  aoDesfazer: () => void;
+  aoFechar: () => void;
+}) {
+  const [nota, setNota] = useState(registro?.nota ?? "");
+  /* `disponivel` em branco conta como disponível: imóvel que está no ar
+     está à venda até alguém dizer o contrário. */
+  const fora = ficha.disponivel === false;
+  const zap = ficha.contatoTelefone
+    ? paraWhatsapp(ficha.contatoTelefone)
+    : null;
+
+  return (
+    <div className="space-y-6 border-t border-[color:var(--cart-card-linha)] bg-white px-4 py-5">
+      {/* ---------- 1. Situação ---------- */}
+      <div>
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Continua à venda?
+        </p>
+        <div className="mt-2.5 flex flex-wrap gap-2">
+          <Pastilha
+            rotulo="Sim, está no ar"
+            ativa={!fora}
+            aoClicar={() =>
+              aoMudar({ disponivel: true, motivoSaida: undefined })
+            }
+          />
+          <Pastilha
+            rotulo="Saiu da venda"
+            ativa={fora}
+            perigo
+            aoClicar={() => aoMudar({ disponivel: false })}
+          />
+        </div>
+
+        {/* O MOTIVO SÓ APARECE QUANDO HÁ SAÍDA, e aparece sempre que há:
+            imóvel que sumiu sem explicação volta a ser oferecido por engano
+            três semanas depois, para um cliente que vai visitar. */}
+        {fora && (
+          <div className="mt-3">
+            <Escolha
+              rotulo="Por que saiu"
+              valor={ficha.motivoSaida ?? ""}
+              opcoes={MOTIVOS_DE_SAIDA}
+              aoSalvar={(v) => aoMudar({ motivoSaida: v || undefined })}
+            />
+            {!ficha.motivoSaida && (
+              <p className="mt-1.5 text-xs text-[color:var(--cart-preco)]">
+                Diga o motivo — é o que impede o imóvel de ser oferecido de
+                novo por engano.
+              </p>
+            )}
+            <p className="mt-2 text-xs leading-snug text-[color:var(--ink-faint)]">
+              Isto não tira o anúncio do site. Avise a imobiliária para
+              retirá-lo.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* ---------- 2. Valor ---------- */}
+      <div className="border-t border-[color:var(--cart-card-linha)] pt-5">
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Valor
+        </p>
+        <div className="mt-2.5 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+          <div>
+            <span className="text-xs font-semibold text-[color:var(--ink-muted)]">
+              No anúncio hoje
+            </span>
+            <p className="mt-1 py-2 text-sm font-bold text-[color:var(--cart-preco)]">
+              {formatarPreco(imovel.preco)}
+            </p>
+          </div>
+          <Numero
+            rotulo="Valor apurado nesta revisão (R$)"
+            valor={ficha.precoNovo}
+            aoSalvar={(v) => aoMudar({ precoNovo: v })}
+          />
+        </div>
+
+        {/* O CAMPO NÃO MUDA O SITE, e dizer isso evita o pior mal-entendido
+            possível: o corretor anotar o valor novo aqui, achar que baixou o
+            preço e o anúncio seguir no ar pelo valor velho. */}
+        {ficha.precoNovo !== undefined && ficha.precoNovo !== imovel.preco && (
+          <p className="mt-2.5 rounded-lg bg-[color:var(--cart-caixa)] px-3 py-2 text-xs leading-snug text-[color:var(--cart-ficha)]">
+            <strong className="text-[color:var(--cart-preco)]">
+              O anúncio continua em {formatarPreco(imovel.preco)}.
+            </strong>{" "}
+            Este valor fica registrado aqui para a imobiliária atualizar o site
+            e os portais.
+          </p>
+        )}
+      </div>
+
+      {/* ---------- 3. Com quem falar ---------- */}
+      <div className="border-t border-[color:var(--cart-card-linha)] pt-5">
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          Contato do proprietário
+        </p>
+        <p className="mt-1.5 text-xs leading-snug text-[color:var(--ink-muted)]">
+          <strong className="text-[color:var(--cart-preco)]">Atenção:</strong>{" "}
+          isto fica guardado neste navegador, sem senha de verdade. Em
+          computador compartilhado, qualquer pessoa que abrir esta página lê o
+          que você escrever aqui.
+        </p>
+
+        <div className="mt-3 grid gap-x-4 gap-y-3 sm:grid-cols-3">
+          <Entrada
+            rotulo="Nome"
+            valor={ficha.contatoNome ?? ""}
+            aoSalvar={(v) => aoMudar({ contatoNome: v || undefined })}
+          />
+          <Entrada
+            rotulo="WhatsApp"
+            valor={ficha.contatoTelefone ?? ""}
+            dica="(48) 9 9999-9999"
+            aoSalvar={(v) => aoMudar({ contatoTelefone: v || undefined })}
+          />
+          <Entrada
+            rotulo="E-mail"
+            valor={ficha.contatoEmail ?? ""}
+            aoSalvar={(v) => aoMudar({ contatoEmail: v || undefined })}
+          />
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+          {/* `wa.me` E NÃO `web.whatsapp.com`: no computador ele abre o
+              WhatsApp Web do mesmo jeito, e no celular abre o aplicativo.
+              O endereço do Web, fixo, abriria uma página inútil no telefone,
+              que é onde o corretor está quando fala com o proprietário. */}
+          {zap && (
+            <a
+              href={`https://wa.me/${zap}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-[color:var(--cart-pilula)] px-3.5 py-2 text-xs font-bold text-[color:var(--cart-pilula-ink)] no-underline transition-opacity duration-200 hover:opacity-90"
+            >
+              Abrir conversa no WhatsApp
+            </a>
+          )}
+          {ficha.contatoTelefone && (
+            <a
+              href={`tel:${ficha.contatoTelefone.replace(/\D/g, "")}`}
+              className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            >
+              Ligar
+            </a>
+          )}
+          {ficha.contatoEmail && (
+            <a
+              href={`mailto:${ficha.contatoEmail}`}
+              className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            >
+              Mandar e-mail
+            </a>
+          )}
+          <Link
+            href={AULA_REVISAO_DE_PRECO}
+            className="ml-auto text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+          >
+            Mensagem padrão para pedir revisão de preço →
+          </Link>
+        </div>
+      </div>
+
+      {/* ---------- 4. O registro ---------- */}
+      <div className="border-t border-[color:var(--cart-card-linha)] pt-5">
+        <p className="t-label font-bold text-[color:var(--cart-titulo)]">
+          O que mudou
+        </p>
+        <textarea
+          value={nota}
+          onChange={(e) => setNota(e.target.value)}
+          rows={2}
+          placeholder="Preço, fotos, texto, conversa com o proprietário — ou nada a mudar"
+          aria-label="O que mudou nesta revisão"
+          className="mt-2 w-full resize-y rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]"
+        />
+
+        <div className="mt-2.5">
+          <Longo
+            rotulo="Observações permanentes"
+            valor={ficha.observacao ?? ""}
+            dica="Prazo combinado, histórico, o que já foi tentado"
+            linhas={2}
+            aoSalvar={(v) => aoMudar({ observacao: v || undefined })}
+          />
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <button
+            type="button"
+            onClick={() => {
+              aoRegistrar(nota);
+              aoFechar();
+            }}
+            className="rounded-lg bg-[color:var(--cart-acao)] px-3.5 py-2 text-xs font-bold text-[color:var(--cart-acao-ink)] transition-opacity duration-200 hover:opacity-90"
+          >
+            Marcar revisado hoje
+          </button>
+          {registro && (
+            <button
+              type="button"
+              onClick={aoDesfazer}
+              className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+            >
+              Desfazer a última revisão
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={aoFechar}
+            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Botão de escolha única, em pastilha. Os dois estados visíveis ao mesmo
+    tempo dizem mais que um seletor fechado: aqui a resposta importa de
+    relance, e é a primeira coisa que se olha na linha. */
+function Pastilha({
+  rotulo,
+  ativa,
+  perigo = false,
+  aoClicar,
+}: {
+  rotulo: string;
+  ativa: boolean;
+  perigo?: boolean;
+  aoClicar: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={aoClicar}
+      aria-pressed={ativa}
+      className={`rounded-lg border px-3.5 py-2 text-xs font-semibold transition-colors duration-200 ${
+        ativa
+          ? perigo
+            ? "border-[color:var(--cart-acao)] bg-[color:var(--cart-acao)] text-[color:var(--cart-acao-ink)]"
+            : "border-[color:var(--cart-titulo)] bg-[color:var(--cart-titulo)] text-white"
+          : "border-[color:var(--cart-campo-linha)] text-[color:var(--ink-muted)] hover:border-[color:var(--cart-titulo)]"
+      }`}
+    >
+      {rotulo}
+    </button>
+  );
+}
 
 /** Só os dígitos, com o 55 na frente, como o wa.me exige. */
 function paraWhatsapp(telefone: string): string | null {
@@ -529,155 +794,12 @@ function paraWhatsapp(telefone: string): string | null {
   return digitos.startsWith("55") ? digitos : `55${digitos}`;
 }
 
-function ContatoDoProprietario({
-  ficha,
-  aoMudar,
-}: {
-  ficha: FichaAgenciamento;
-  aoMudar: (m: Partial<FichaAgenciamento>) => void;
-}) {
-  const zap = ficha.contatoTelefone
-    ? paraWhatsapp(ficha.contatoTelefone)
-    : null;
-
-  return (
-    <div className="border-t border-[color:var(--cart-card-linha)] bg-white px-4 py-4">
-      <p className="t-label font-bold text-[color:var(--cart-titulo)]">
-        Contato do proprietário
-      </p>
-      <p className="mt-1.5 text-xs leading-snug text-[color:var(--ink-muted)]">
-        <strong className="text-[color:var(--cart-preco)]">Atenção:</strong>{" "}
-        isto fica guardado neste navegador, sem senha de verdade. Em
-        computador compartilhado, qualquer pessoa que abrir esta página lê o
-        que você escrever aqui.
-      </p>
-
-      <div className="mt-3 grid gap-x-4 gap-y-3 sm:grid-cols-3">
-        <Entrada
-          rotulo="Nome"
-          valor={ficha.contatoNome ?? ""}
-          aoSalvar={(v) => aoMudar({ contatoNome: v || undefined })}
-        />
-        <Entrada
-          rotulo="Telefone"
-          valor={ficha.contatoTelefone ?? ""}
-          dica="(48) 9 9999-9999"
-          aoSalvar={(v) => aoMudar({ contatoTelefone: v || undefined })}
-        />
-        <Entrada
-          rotulo="E-mail"
-          valor={ficha.contatoEmail ?? ""}
-          aoSalvar={(v) => aoMudar({ contatoEmail: v || undefined })}
-        />
-      </div>
-
-      <div className="mt-3">
-        <Longo
-          rotulo="Observações"
-          valor={ficha.observacao ?? ""}
-          dica="Prazo combinado, histórico da conversa, o que já foi tentado"
-          linhas={2}
-          aoSalvar={(v) => aoMudar({ observacao: v || undefined })}
-        />
-      </div>
-
-      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-        {zap && (
-          <a
-            href={`https://wa.me/${zap}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-[color:var(--cart-pilula)] px-3.5 py-2 text-xs font-bold text-[color:var(--cart-pilula-ink)] no-underline transition-opacity duration-200 hover:opacity-90"
-          >
-            Abrir no WhatsApp
-          </a>
-        )}
-        {ficha.contatoTelefone && (
-          <a
-            href={`tel:${ficha.contatoTelefone.replace(/\D/g, "")}`}
-            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-          >
-            Ligar
-          </a>
-        )}
-        {ficha.contatoEmail && (
-          <a
-            href={`mailto:${ficha.contatoEmail}`}
-            className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-          >
-            Mandar e-mail
-          </a>
-        )}
-
-        {/* O LINK PARA A AULA, que é o motivo de a maior parte destas
-            conversas acontecer. Vai direto na mensagem padrão de revisão de
-            preço, e não na porta do treinamento: "procure no módulo 4" é o
-            mesmo que não ter link. */}
-        <Link
-          href={AULA_REVISAO_DE_PRECO}
-          className="ml-auto text-xs font-semibold text-[color:var(--cart-titulo)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-        >
-          Mensagem padrão para pedir revisão de preço →
-        </Link>
-      </div>
-    </div>
-  );
-}
-
 /** A aula do módulo de Agenciamento que traz o texto pronto. O endereço é
     lido por AreaTreinamento, que abre o módulo, abre a aula e rola até ela. */
 const AULA_REVISAO_DE_PRECO =
   "/imobiliaria/corretor/treinamento#aula=captacao/revisao-de-preco";
 
-/* O que mudou na revisão, em texto livre. Campo fechado por padrão: na maior
-   parte das vezes a revisão é "olhei, está certo" e um clique basta. */
-function FormRevisao({
-  notaAtual,
-  aoSalvar,
-  aoFechar,
-}: {
-  notaAtual: string;
-  aoSalvar: (nota: string) => void;
-  aoFechar: () => void;
-}) {
-  const [nota, setNota] = useState(notaAtual);
 
-  return (
-    <div className="mt-3 rounded-xl border border-[color:var(--cart-campo-linha)] bg-white p-3">
-      <label
-        htmlFor="nota-revisao"
-        className="t-label font-bold text-[color:var(--cart-titulo)]"
-      >
-        O que mudou
-      </label>
-      <textarea
-        id="nota-revisao"
-        value={nota}
-        onChange={(e) => setNota(e.target.value)}
-        rows={2}
-        autoFocus
-        placeholder="Preço, fotos, texto — ou nada a mudar"
-        className="mt-2 w-full resize-y rounded-lg border border-[color:var(--cart-campo-linha)] bg-[color:var(--cart-campo)] px-3 py-2 text-sm text-[color:var(--cart-preco)] placeholder:text-[color:var(--ink-faint)]"
-      />
-      <div className="mt-2 flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => aoSalvar(nota)}
-          className="rounded-lg bg-[color:var(--cart-acao)] px-3.5 py-2 text-xs font-bold text-[color:var(--cart-acao-ink)] transition-opacity duration-200 hover:opacity-90"
-        >
-          Marcar revisado hoje
-        </button>
-        <button
-          type="button"
-          onClick={aoFechar}
-          className="text-xs text-[color:var(--ink-faint)] underline underline-offset-4 transition-colors duration-200 hover:text-[color:var(--cart-preco)]"
-        >
-          Cancelar
-        </button>
-      </div>
-    </div>
-  );
-}
 
 /* -----------------------------------------------------------------------------
    CAPTAÇÕES — a fila entre "visitei" e "está no ar"

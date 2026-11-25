@@ -104,6 +104,20 @@ export interface FichaAgenciamento {
   contatoEmail?: string;
   /** O que o corretor precisa lembrar: prazo, histórico, combinados. */
   observacao?: string;
+
+  /* ----- O que a revisão apura ----- */
+
+  /** O valor combinado na última revisão, quando mudou. O preço do anúncio
+      continua vindo de `content/imobiliaria.ts`: este campo é o que o
+      corretor apurou e ainda precisa ser levado para o site. */
+  precoNovo?: number;
+  /** O imóvel continua à venda. `false` é saída, e aí o motivo é
+      obrigatório na tela — imóvel que sumiu sem explicação volta a ser
+      oferecido por engano três semanas depois. */
+  disponivel?: boolean;
+  /** Por que saiu: vendido por outro, proprietário desistiu, alugado,
+      retirado para reforma. */
+  motivoSaida?: string;
 }
 
 /** Pela chave do imóvel. */
@@ -444,9 +458,15 @@ export function useGestaoCorretor() {
       setFichas((atual) => {
         const juntas = { ...(atual[imovel] ?? {}), ...mudanca };
         /* Campo apagado sai do registro, e ficha que ficou sem nenhum campo
-           sai inteira: registro vazio ocupa espaço e não diz nada. */
+           sai inteira: registro vazio ocupa espaço e não diz nada.
+
+           ⚠ VAZIO NÃO É O MESMO QUE FALSO. `disponivel: false` — o imóvel
+           saiu da venda — é a informação mais importante da ficha, e uma
+           checagem por valor falso a apagaria toda vez. Só saem `undefined`
+           e texto em branco. */
         for (const chave of Object.keys(juntas) as (keyof FichaAgenciamento)[]) {
-          if (!juntas[chave]) delete juntas[chave];
+          const v = juntas[chave];
+          if (v === undefined || v === "") delete juntas[chave];
         }
         const novo = { ...atual };
         if (Object.keys(juntas).length === 0) delete novo[imovel];
